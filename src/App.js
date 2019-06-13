@@ -1,17 +1,40 @@
+import './headMenu.css';
+import './App.css';
+import 'react-app-polyfill/ie11';
+import 'react-app-polyfill/stable';
+
 import React, { Component, PropTypes } from 'react';
-//import 'react-dates/initialize';
-//import 'react-dates/lib/css/_datepicker.css';
 import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
 
-import './headMenu.css';
+import MainWindow from './MainWindow.jsx';
+import W_LEVEL from './W_LEVEL.jsx';
+import W_AZK from './W_AZK.jsx';
+import W_TRK from './w_TRK.jsx';
 
 const _Debuge = true;
 
 class Main extends Component {
   render() {
-    return <center><h2>Main</h2></center>;
+    /*return (<MainWindow />);*/
+    return (<W_LEVEL w_Height={this.props.w_Height} w_Width={this.props.w_Width} />);
   }
 }
+class LEVEL_Main extends Component {
+  render() {
+    return (<W_LEVEL w_Height={this.props.w_Height} w_Width={this.props.w_Width} />);
+  }
+}
+class TRK_Main extends Component {
+  render() {
+    return (<W_TRK w_Height={this.props.w_Height} w_Width={this.props.w_Width} />);
+  }
+}
+class AZK_Main extends Component {
+  render() {
+    return (<W_AZK w_Height={this.props.w_Height} w_Width={this.props.w_Width} />);
+  }
+}
+
 class Help extends Component {
   render() {
     return <center><h2>Помощь</h2></center>;
@@ -73,6 +96,10 @@ class Nav extends Component {
                 </li>
               }
               <li><Link to="/" >Главная</Link></li>
+              <li><Link to="/LEVEL_Main" >Уровнемер</Link></li>
+              <li><Link to="/AZK_Main" >АЗК</Link></li>
+              <li><Link to="/TRK_Main" >ТРК</Link></li>
+
               <li><Link to="/settings">Настройки</Link></li>
               <li><Link to="/help">Помощь</Link></li>
             </ul>
@@ -88,13 +115,37 @@ function refreshPage() {
 }
 
 export default class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      W_Width: window.innerWidth,
+      W_Height: window.innerHeight,
+    }
+  }
+
+  handleResize(WindowSize, event) {
+    this.setState({ W_Width: window.innerWidth, W_Height: window.innerHeight })
+  }
+
   render() {
     return (
       <Router>
         <Nav />
         <div className="content">
           <Switch>
-            <Route exact path="/" render={() => <Main />} />
+            <Route exact path="/" render={() => <Main
+              w_Height={this.state.W_Height} w_Width={this.state.W_Width}
+            />} />
+            
+            <Route exact path="/LEVEL_Main" render={() => <LEVEL_Main
+              w_Height={this.state.W_Height} w_Width={this.state.W_Width}
+            />} />
+            <Route exact path="/TRK_Main" render={() => <TRK_Main
+              w_Height={this.state.W_Height} w_Width={this.state.W_Width}
+            />} />
+            <Route exact path="/AZK_Main" render={() => <AZK_Main
+              w_Height={this.state.W_Height} w_Width={this.state.W_Width}
+            />} />
             <Route exact path="/settings" component={Settings} />
             <Route exact path="/help" component={Help} />
             <Route exact component={NotFound} />

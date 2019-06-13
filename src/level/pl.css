@@ -1,0 +1,299 @@
+ .tb_PL {
+     /**/
+     width: 130px;
+     border: 0.1px solid rgb(0, 141, 141);
+     padding-top: 20px;
+     vertical-align: text-top;
+ }
+
+ .Def_button {
+     padding: 1px;
+     text-align: center;
+     text-decoration: none;
+     display: inline-block;
+     font-size: 12px;
+     font-weight: 600;
+     width: 90%;
+     height: 27px;
+     /*Скругленные углы*/
+     -webkit-border-radius: 9px;
+     -moz-border-radius: 9px;
+     border-radius: 9px;
+     background: linear-gradient( rgb(4, 231, 231), rgb(1, 107, 107)) rgb(126, 255, 255);
+     transition: 0.2s;
+     color: white;
+ }
+
+ .te_Mess {
+     font-size: 12px;
+     font-weight: 600;
+     height: 100%;
+     width: 100%;
+ }
+
+ .te_Mess_Level {
+     min-height: 170px;
+     font-size: 12px;
+     font-weight: 600;
+     height: 100%;
+     width: 100%;
+     text-align: center;
+     color: black;
+ }
+
+ ul.hr li {
+     display: inline-block;
+     /* Отображать как строчный элемент */
+     margin-right: 0.15px;
+     /* Отступ слева */
+     /*border: 1px solid #000;*/
+     /* Рамка вокруг текста */
+     padding: 1.3px;
+     /* Поля вокруг текста */
+     color: rgb(163, 226, 245);
+     vertical-align: text-top;
+ }
+
+ /******************************/
+
+ .th_AZS {
+     /* Шапка таблици*/
+     text-align: center;
+     /* Выравнивание по левому краю */
+     background: rgb(0, 141, 141);
+     /* Цвет фона ячеек */
+     padding: 5px;
+     /* Поля вокруг содержимого ячеек */
+     border: 0px solid black;
+     /* Граница вокруг ячеек */
+     color: white;
+ }
+
+ .th_AZS_Choose {
+     /* Шапка таблици*/
+     text-align: center;
+     /* Выравнивание по левому краю */
+     background: rgb(4, 15, 15);
+     /* Цвет фона ячеек */
+     padding: 5px;
+     /* Поля вокруг содержимого ячеек */
+     border: 0px solid black;
+     /* Граница вокруг ячеек */
+     color: white;
+ }
+
+ .td_Stage {
+     align-items: center;
+     border: 0px solid black;
+     text-align: center;
+     vertical-align: text-top;
+ }
+
+ .td_Data {
+     align-items: center;
+     border: 0px solid black;
+     text-align: right;
+     vertical-align: text-top;
+ }
+
+ /*
+        let PL = get_PL();
+
+        let Available_volume = PL.Available_volume;// 1358.64;
+        let CURENT_VOLUME = PL.CURENT_VOLUME;//4510.2;
+        let TOTAL_WATER = PL.TOTAL_WATER;//231.16;
+
+        let TOTAL_VOLUME = Available_volume + CURENT_VOLUME + TOTAL_WATER;
+
+        ********* координаты для отрисовки********************* *
+        //MAX _height 
+        let _water = 10;//уровень воды.
+        let _fuel = 110;//уровень топлива.
+
+        let _width = 50;
+        let _height = 200;
+
+        let _level_water = _height - _water;
+        let _level_fuel = _height - _fuel - _water;
+
+        ********* координаты для отрисовки********************* *
+
+
+        //let _delenie = TOTAL_VOLUME / _height;
+        let _delenie1 = _height / TOTAL_VOLUME;
+
+        let Level_Total = _delenie1 * TOTAL_VOLUME;
+        let Level_Water = _delenie1 * TOTAL_WATER;
+        let Level_Fuel = _delenie1 * CURENT_VOLUME;
+
+
+        _level_water = _height - Level_Water;
+        _level_fuel = _height - Level_Fuel - Level_Water;
+
+       
+                        return (
+            <div>
+                    <ul className="hr">
+                        <center className='TBL' ><h4>Танки</h4></center>
+                        <hr /><hr />
+                    </ul>
+                    <table className="tb_PL">
+                        <tbody>
+                            <tr>
+                                <th height='12' colSpan='2'><h4>{PL.nm}</h4></th>
+                            </tr>
+                            <tr>
+                                <th height='12' colSpan='2'><h4>{PL.fuel}</h4></th>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <Stage width={200} height={250} x={10} y={0} >
+                                        <Layer key='1'>
+
+                                            <Rect className="rec_air"
+                                                width={_width}
+                                                height={_height}
+                                                x={0}
+                                                y={0}
+                                                fill='rgb(240, 209, 173)'
+                                                stroke='black'
+                                                strokeWidth={0}
+                                                valign="top"
+                                            />
+
+                                            <Rect className="rec_fuel"
+                                                width={_width}
+                                                height={_height - _level_fuel}
+                                                x={0}
+                                                y={_level_fuel}
+                                                fill='rgb(194, 125, 46)'
+                                                stroke='black'
+                                                strokeWidth={0}
+                                                valign="top"
+                                            />
+
+                                            <Rect className="rec_water"
+                                                width={_width}
+                                                height={_height - _level_water}
+                                                x={0}
+                                                y={_level_water}
+                                                fill='rgb(163, 226, 245)'
+                                                stroke='black'
+                                                strokeWidth={0}
+                                                valign="top"
+                                            />
+                                            <Text fontSize={12} fill='black' Text={Available_volume} x={2} y={+ 5} />
+
+                                            <Text fontSize={12} fill='white' Text={CURENT_VOLUME} x={2} y={_level_fuel + 5} />
+
+                                            <Text fontSize={12} fill='red' Text={TOTAL_WATER} x={2} y={_level_water + 2} />
+
+
+                                        </Layer>
+                                    </Stage>
+                                </td>
+
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                );
+            }
+        }
+        
+        
+        
+        
+        
+        
+                                        <Rect className="rec_water"
+                    width={_width}
+                    height={200}
+                    x={0}
+                    y={200}
+                    fill='rgb(163, 226, 245)'
+                    stroke='black'
+                    strokeWidth={2}
+                    valign="top"
+                />
+
+                <Rect className="rec_air"
+                    width={_width}
+                    height={200}
+                    x={0}
+                    y={0}
+                    fill='rgb(240, 209, 173)'
+                    stroke='black'
+                    strokeWidth={2}
+                    valign="top"
+                />
+
+
+
+
+                <td>
+                    <Stage width={200} height={250} x={10} y={0} >
+                        <Layer key='1'>
+
+                            <Rect className="rec_air"
+                                width={_width}
+                                height={_height}
+                                x={0}
+                                y={0}
+                                fill='rgb(240, 209, 173)'
+                                stroke='black'
+                                strokeWidth={1}
+                                valign="top"
+                            />
+
+                            <Rect className="rec_fuel"
+                                width={_width}
+                                height={_height - 90}
+                                x={0}
+                                y={90}
+                                fill='rgb(194, 125, 46)'
+                                stroke='black'
+                                strokeWidth={1}
+                                valign="top"
+                            />
+
+                            <Rect className="rec_water"
+                                width={_width}
+                                height={_height - _level_water}
+                                x={0}
+                                y={_level_water}
+                                fill='rgb(163, 226, 245)'
+                                stroke='black'
+                                strokeWidth={2}
+                                valign="top"
+                            />
+
+                        </Layer>
+                    </Stage>
+                </td>
+
+                */
+
+ /*
+            
+ <Stage width={100} height={60} x={0} y={0}>
+                        <Layer key='1' background='red' >
+                            <Rect
+                                width={100}
+                                height={60}
+                                x={0}
+                                y={0}
+                                fill={_color2}
+                                stroke='black'
+                                strokeWidth={0}
+                                valign="top"
+                            />
+                            <Text fontSize={12} fill='white'
+                                Text={_text2}
+                                x={_dX} y={+ 5} />
+                        </Layer>
+                    </Stage>
+
+
+                    */

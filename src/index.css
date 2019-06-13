@@ -5,7 +5,12 @@
  h3{
     color: white;
  }
- 
+ .TBL{
+  /* background: rgb(0, 141, 141);
+   color: white;*/
+   color: black;
+}
+
  html, body {
     margin-left: 2px;
     margin-right: 5px;
@@ -17,8 +22,11 @@
     flex: 70 10 auto;
     min-height: 99%;
     margin-top: 35px;
+    margin-left: 2px;    
  }
- 
+ .WinNotTree{
+   margin-left: 245px;
+}
  /*****footer****/
  
  footer {

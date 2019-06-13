@@ -1,0 +1,68 @@
+ .tb_AZS {
+    min-width: 240px;
+    border: 0.1px solid rgb(0, 141, 141);
+ }
+
+ .Def_button {
+    padding: 1px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 600;
+    width: 90%;
+    height: 27px;
+    /*Скругленные углы*/
+    -webkit-border-radius: 9px;
+    -moz-border-radius: 9px;
+    border-radius: 9px;
+    background: linear-gradient( rgb(4, 231, 231), rgb(1, 107, 107)) rgb(126, 255, 255);
+    transition: 0.2s;
+    color: white;
+ }
+ 
+ .te_Mess {
+    font-size: 12px;
+    font-weight: 600;
+    height: 100%;
+    width: 100%;
+ }
+
+ ul.hr li {
+    display: inline-block;
+    /* Отображать как строчный элемент */
+    margin-right: 0.15px;
+    /* Отступ слева */
+    /*border: 1px solid #000;*/
+    /* Рамка вокруг текста */
+    padding: 1.3px;
+    /* Поля вокруг текста */
+ }
+
+ /******************************/
+
+ .th_AZS {
+    /* Шапка таблици*/
+    text-align: center;
+    /* Выравнивание по левому краю */
+    background: rgb(0, 141, 141);
+    /* Цвет фона ячеек */
+    padding: 5px;
+    /* Поля вокруг содержимого ячеек */
+    border: 0px solid black;
+    /* Граница вокруг ячеек */
+    color: white;
+ }
+ .th_AZS_Choose{
+    /* Шапка таблици*/
+    text-align: center;
+    /* Выравнивание по левому краю */
+    background: rgb(4, 15, 15);
+    /* Цвет фона ячеек */
+    padding: 5px;
+    /* Поля вокруг содержимого ячеек */
+    border: 0px solid black;
+    /* Граница вокруг ячеек */
+    color: white;
+ }
+ 

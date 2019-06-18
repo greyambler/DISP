@@ -4,9 +4,8 @@ import { Stage, Layer, Rect, Text, Circle, Shape, Image } from 'react-konva';
 
 import Pl from './pl.jsx'
 
-import { get_PL } from '../core/core_Function.jsx';
 
-import './pl.css';
+
 
 const _Debuge = false;
 
@@ -46,7 +45,7 @@ function get_ZeroColumn(_pl_first) {
         "date": "Дата",
         "time": "Время",
         "status": "Статус",
-        "state": "Соостояние",
+        "state": "Состояние",
         "fuel": "Вид НП"
     };
     return col;
@@ -57,43 +56,43 @@ export default class list_pl extends Component {
         super(props);
     }
     render() {
-        let _PL = get_PL();
-        S = 0;
-        if (_PL.pl.length > 0) {
-            let _PL_0 = get_ZeroColumn();
-            _PL.pl.splice(0, 1, _PL_0);
-        }
-        return (
-            <ul className="hr">
-                <center className='TBL' ><h4>Объекты</h4></center>
-                <hr /><hr />
-                <center>
-                    {
-                        _PL.pl.map(el => (
-                            <li key={'li ' + S + el.id}>
-                                <Pl PL={el}
-                                    key={'PL ' + S + el.id}
-                                    id={el.id + S}
-                                    S={S++}
-                                />
-                            </li>
-                        ))
-                    }
-                </center>
-            </ul>
-        );
-    }
-    /*
-        render() {
-            let _PL = get_PL();
+        if (this.props.pls != null) {
+            if (this.props.pls.length > 0 && this.props.pls[0].id != 0) {
+                let _PL_0 = get_ZeroColumn();
+                this.props.pls.splice(0, -1, _PL_0);
+            }
+
+            let Li_Level = {
+                width: this.props.pls.length * 140 + 'px',
+                //color: 'black',
+                //background: 'burlywood',
+            }
+
             return (
-                <div>
-                    <ul className="hr">
-                        <center className='TBL' ><h4>Танки</h4></center>
-                        <hr /><hr />
-                        <Pl PL={_PL} />
-                    </ul>
+                <div className='prokrutka'>
+                    <center>
+                        <ul className="hr" style={Li_Level}>
+                            <center className='TBL' ><h4>Резервуары</h4></center>
+                            <hr /><hr />
+                            <center>
+                                {
+                                    this.props.pls.map(el => (
+                                        <li key={'li ' + el.id}>
+                                            <Pl PL={el}
+                                                key={'PL '+ el.id}
+                                                id={el.id}
+                                            />
+                                        </li>
+                                    ))
+                                }
+                            </center>
+                        </ul>
+                    </center>
                 </div>
             );
-        }*/
+        } else {
+            return <br />;
+        }
+
+    }
 }

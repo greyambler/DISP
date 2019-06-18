@@ -109,7 +109,7 @@ export default class w_main_azk extends React.Component {
                         <div className="WinNotTree">
 
                             <TreeDevice objects={_Objects} />
-
+                            <Header objects={_Objects}/>
                             <List_azs objects={_Objects} List={_Objects.obList} on_Click={this.get_Id_AZS} />
 
                             {this.state.dvcs != null &&

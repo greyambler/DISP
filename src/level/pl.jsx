@@ -13,11 +13,8 @@ const _Debuge = false;
 function get_Color_NET(Int) {
     var col = 'while';
     switch (Int) {
-        case 0:
-        case 1:
-        case 2:
-        case 5: col = 'green'; break;
-
+        case 0:col = 'red'; break;
+        case 1: col = 'green'; break;
         default: col = 'red'; break;
     }
     return col;
@@ -25,10 +22,8 @@ function get_Color_NET(Int) {
 function get_Text_NET(Int) {
     var col = 'Нет данных';
     switch (Int) {
-        case 0:
-        case 1:
-        case 2:
-        case 5: col = 'В сети'; break;
+        case 0:col = 'Нет связи'; break;
+        case 1: col = 'В сети'; break;
         default: col = 'Нет связи'; break;
     }
     return col;
@@ -37,6 +32,7 @@ function get_Text_NET(Int) {
 function get_Color_NET_2(Int) {
     var col = 'while';
     switch (Int) {
+        case 0: col = 'green'; break;
         case 1: col = 'green'; break;
         case 2: col = 'yellow'; break;
         case 3: col = 'red'; break;
@@ -48,18 +44,17 @@ function get_Text_NET_2(Int) {
     var col = ' - ';
     switch (Int) {
         case 0: col = 'Превышие по параметру подтоварная вода'; break;
-        case 1: col = 'Превышие по параметру подтоварная вода'; break;
-        case 2: col = 'Превышие по параметру минимальный объём'; break;
-        case 3: col = 'Требуется поставка НП '; break;
-        case 4: col = 'Отсутсвует информация в  период 1ч 15м'; break;
-        case 5: col = 'По данным ручного ввода в период 1ч 15м'; break;
+        case 1: col = 'Превышие по параметру минимальный объём'; break;
+        case 2: col = 'Требуется поставка НП '; break;
+        case 3: col = 'Отсутсвует информация в  период 1ч 15м'; break;
+        case 4: col = 'По данным ручного ввода в период 1ч 15м'; break;
         default: col = ' - '; break;
     }
     return col;
 }
 
 
-export default class list_pl extends Component {
+export default class pl extends Component {
     constructor(props) {
         super(props);
 
@@ -86,9 +81,7 @@ export default class list_pl extends Component {
     }
     componentDidUpdate(prevProps) {
         if (this.props.PL != prevProps.PL) {
-            this.setState({
-                PL: this.props.PL,
-            });
+            this.setState({ PL: this.props.PL });
         }
     }
     render() {
@@ -126,12 +119,22 @@ export default class list_pl extends Component {
 
                 /********* сигнализация для отрисовки********************* */
 
-                let _color1 = get_Color_NET(this.props.S);
-                let _text1 = get_Text_NET(this.props.S);
+                let _color1 = get_Color_NET(this.props.PL.status);
+                let _text1 = get_Text_NET(this.props.PL.status);
 
-                let _color2 = get_Color_NET_2(this.props.S);
-                let _text2 = get_Text_NET_2(this.props.S);
+                let _color2 = get_Color_NET_2(this.props.PL.state);
+                let _text2 = get_Text_NET_2(this.props.PL.state);
 
+                let te_Mess_Level = {
+                    minHeight: '50px',
+                    fontSize: '12px',
+                    fontWeight: '600',
+                    height: '100%',
+                    width: '100%',
+                    textAlign: 'center',
+                    color: 'black',
+                    background: 'red',
+                }
 
                 /********* сигнализация для отрисовки********************* */
 
@@ -151,7 +154,18 @@ export default class list_pl extends Component {
                     _text2 = this.state.PL.state;
                     _color1 = 'rgb(255, 255, 255)';
                     _color2 = 'rgb(255, 255, 255)';
+                    te_Mess_Level = {
+                        minHeight: '50px',
+                        fontSize: '12px',
+                        fontWeight: '600',
+                        height: '100%',
+                        width: '100%',
+                        textAlign: 'center',
+                        color: 'black',
+                        background: 'white',
+                    }
                 }
+                let ShowAll = false;
                 return (
                     <div>
                         <table className="tb_PL" >
@@ -235,12 +249,35 @@ export default class list_pl extends Component {
                                 </tr>
 
                                 <tr>
-                                    <td colSpan='2' className='te_Mess'>
-                                        <textarea className="te_Mess_Level" readOnly="readOnly"
-                                            defaultValue={_text2} color={_color2} />
-
+                                    <td colSpan='2'>
+                                        <Stage width={130} height={50} x={0} y={0}>
+                                            <Layer key='1'>
+                                                <Rect
+                                                    width={130}
+                                                    height={50}
+                                                    x={0}
+                                                    y={0}
+                                                    fill={_color2}
+                                                    stroke='black'
+                                                    strokeWidth={0}
+                                                    valign="top"
+                                                />
+                                                <Text fontSize={12} fill='black'
+                                                    Text={_text2} align='center'
+                                                    x={0} y={+ 5} width={130} height={50} />
+                                            </Layer>
+                                        </Stage>
                                     </td>
                                 </tr>
+                                {ShowAll &&
+                                    <tr>
+                                        <td colSpan='2' className='te_Mess'>
+                                            <textarea style={te_Mess_Level} readOnly="readOnly"
+                                                defaultValue={_text2} color={_color2} />
+
+                                        </td>
+                                    </tr>
+                                }
                                 <tr>
                                     <td colSpan='2'>
                                         <hr />

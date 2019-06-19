@@ -30,12 +30,14 @@
      font-weight: 600;
      height: 100%;
      width: 100%;
+
+     
  }
 
  .prokrutka {
      width: 100%;
      /* ширина нашего блока */
-     height: 650px;
+     height: 770px;
      /* высота нашего блока 
      background: #fff;*/
      /* цвет фона, белый 
@@ -114,6 +116,16 @@
      
  }
 
+ .td_Data_Max {
+    align-items: center;
+    border: 0px solid black;
+    text-align: right;
+    vertical-align: text-top;
+    font-size: 14px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: 700;
+    color: red;
+}
 
 
 

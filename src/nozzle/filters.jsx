@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { get_FUEL, get_Objs, get_Status, get_State } from '../core/core_Function.jsx';
+import { get_FUEL, get_Objs, get_Status, get_State, get_StateGun } from '../core/core_Function.jsx';
 
 //import W_CheckBox from '../control/viewListCheckBox.jsx';
 import W_CheckBox from './w_List_ChBox.jsx';
@@ -18,6 +18,8 @@ export default class list_pl extends Component {
         this.Get_AZS = this.Get_AZS.bind(this);
         this.state = {
             //PL: this.props._PL,
+
+            stategun: null,
             azs: null,
             ai: null,
             status: null,
@@ -30,6 +32,7 @@ export default class list_pl extends Component {
 
     Get_AZS(data) {
         if (!_Debuge) {
+            let _SGun = new Array();
             let _AZS = new Array();
             let _AI = new Array();
             let _TUS = new Array();
@@ -42,6 +45,15 @@ export default class list_pl extends Component {
                 _AZS[t] = { value: iterator.name, label: iterator.name };
                 t++;
             }
+
+            t = 0;
+            let _StateGun = get_StateGun();
+            for (let iterator of _StateGun.stategun) {
+                _SGun[t] = { value: iterator.name, label: iterator.name, code: iterator.code };
+                t++;
+            }
+
+
             t = 0;
             let _Fuels = get_FUEL();
             for (let iterator of _Fuels.fuel) {
@@ -62,7 +74,7 @@ export default class list_pl extends Component {
                 t++;
             }
 
-            this.setState({ azs: _AZS, ai: _AI, status: _TUS, state: _TE });
+            this.setState({ stategun: _SGun, azs: _AZS, ai: _AI, status: _TUS, state: _TE });
         } else {
             if (data != null) {
                 let _azs = new Array();
@@ -140,6 +152,8 @@ export default class list_pl extends Component {
                 <table >
                     <tbody>
                         <tr>
+                            <td style={r1}>Состояние пистолета</td>
+                            <td style={r2}><W_CheckBox list={this.state.stategun} update_Stategun={this.props.update_Stategun} type='stategun' /></td>
 
                             <td style={r1}>АЗК</td>
                             <td style={r2}><W_CheckBox list={this.state.azs} update_Azs={this.props.update_Azs} type='azs' /></td>
@@ -147,8 +161,6 @@ export default class list_pl extends Component {
                             <td style={r2}><W_CheckBox list={this.state.ai} update_Fuels={this.props.update_Fuels} type='fuel' /></td>
                             <td style={r1}>Статус</td>
                             <td style={r2}><W_CheckBox list={this.state.status} update_Status={this.props.update_Status} type='status' /></td>
-                            <td style={r1}>Состояние</td>
-                            <td style={r2}><W_CheckBox list={this.state.state} update_State={this.props.update_State} type='state' /></td>
 
                         </tr>
                     </tbody>
@@ -157,3 +169,13 @@ export default class list_pl extends Component {
         );
     }
 }
+
+
+/*
+
+                                <td style={r1}>Состояние</td>
+                                <td style={r2}><W_CheckBox list={this.state.state} update_State={this.props.update_State} type='state'/></td>
+
+
+
+*/

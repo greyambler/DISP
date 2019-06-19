@@ -82,7 +82,7 @@ export default class w_main_azk extends React.Component {
         this.state = {
 
             _Pls: null,
-            
+
             _Fuels: null,
             _Status: null,
             _State: null,

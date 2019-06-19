@@ -38,13 +38,15 @@ export default class list_azs extends Component {
         if (el != null) {
             switch (el.typ) {
                 case 'pl': return <Device_PL el={el} RSS={RSS} ListFuels={this.props.ListFuels} />;
-                //case 'pump': return <Device_PUMP el={el} RSS={this.state.RSS} WS={this.state.WS} ListFuels={this.props.ListFuels}/>;
-                /*case 'pump': return <Device_PUMP_Guns
+                /*
+                case 'pump': return <Device_PUMP el={el} RSS={this.state.RSS} WS={this.state.WS} ListFuels={this.props.ListFuels} />;
+                */
+                case 'pump': return <Device_PUMP_Guns
                     el={el}
                     RSS={RSS}
                     WS={WS}
                     ListFuels={this.props.ListFuels} />;
-                case 'tso': return <Device_TSO el={el} RSS={RSS} />;*/
+                case 'tso': return <Device_TSO el={el} RSS={RSS} />;
                 default: return null;
             }
         }

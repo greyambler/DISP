@@ -26,6 +26,23 @@ export default class w_List_ChBox extends Component {
         }
         t = 0;
         mas = new Array();
+        if (this.props.type == 'stategun') {
+            for (const iterator of this.props.list) {
+                if (selectedOption.indexOf(iterator) == -1) {
+                    mas[t] = iterator.code;
+                    t++;
+                }
+            }
+            if (mas.length == 0) {
+                this.props.update_Stategun(null);
+            } else {
+                this.props.update_Stategun(mas);
+            }
+        }
+
+
+        t = 0;
+        mas = new Array();
         if (this.props.type == 'fuel') {
             for (const iterator of this.props.list) {
                 if (selectedOption.indexOf(iterator) == -1) {

@@ -31,7 +31,6 @@ function get_Text_NET(Int) {
     }
     return col;
 }
-
 function get_Color_NET_2(Int) {
     var col = 'while';
     switch (Int) {
@@ -48,6 +47,28 @@ function get_Text_NET_2(Int) {
         case 0: col = ''; break;
         case 1: col = 'Превышие по параметру снят пистолет в период'; break;
         case 2: col = 'Отсутсвует информация в период '; break;
+        default: col = ' - '; break;
+    }
+    return col;
+}
+function get_Color_NET_3(Int) {
+    var col = 'while';
+    switch (Int) {
+        case 0: col = 'green'; break;
+        case 1: col = 'yellow'; break;
+        case 2: col = 'coral'; break;
+        case 3: col = 'red'; break;
+        default: col = 'grey'; break;
+    }
+    return col;
+}
+function get_Text_NET_3(Int) {
+    var col = ' - ';
+    switch (Int) {
+        case 0: col = 'Готов'; break;
+        case 1: col = 'Снят'; break;
+        case 2: col = 'Налив'; break;
+        case 3: col = 'Не работает'; break;
         default: col = ' - '; break;
     }
     return col;
@@ -74,14 +95,10 @@ export default class nozzle extends Component {
             let _W = _H_Image + 8; //130
             let _H = _H_Image + 28;
 
-
-
             let _X_s = 0;
             let _Y_s = 0;
             let _X_1 = _X_s + _W_Image;
             let _Y_1 = _Y_s + 1;
-
-            //let _dX = 5;
 
             /********* координаты для отрисовки********************* */
             /********* сигнализация для отрисовки********************* */
@@ -92,41 +109,18 @@ export default class nozzle extends Component {
             let _color2 = get_Color_NET_2(this.props.NOZZLE.state);
             let _text2 = get_Text_NET_2(this.props.NOZZLE.state);
 
+            let _color3 = get_Color_NET_3(this.props.NOZZLE.stategun);
+            let _text3 = get_Text_NET_3(this.props.NOZZLE.stategun);
+
+
             /********* сигнализация для отрисовки********************* */
-
-
-
             if (this.state.NOZZLE.id == 0) {
-                /*            _delenie1 = 1;
-                            Level_Total = 200;
-                            Level_Water = 10;
-                            Level_Fuel = 100;
-                
-                            _level_water = _height - Level_Water;
-                            _level_fuel = _height - Level_Fuel - Level_Water;*/
                 _text1 = this.state.NOZZLE.status;
                 _text2 = this.state.NOZZLE.state;
                 _color1 = 'rgb(255, 255, 255)';
                 _color2 = 'rgb(255, 255, 255)';
-                /*
-                te_Mess_Level = {
-                    minHeight: '50px',
-                    fontSize: '12px',
-                    fontWeight: '600',
-                    height: '100%',
-                    width: '100%',
-                    textAlign: 'center',
-                    color: 'black',
-                    background: 'white',
-                }
-               */
-
             }
-
-
-            let ShowAll = this.state.NOZZLE.id != 0;
             /*<Text Text={this.state.NOZZLE.fuel} x={_X_1} y={_Y_1 + 20} />*/
-
             return (
                 <div>
                     <table className="tb_NOZZ" >
@@ -137,11 +131,15 @@ export default class nozzle extends Component {
                                         ? (
                                             <Stage className="t_Stage" width={_W} height={_H} x={_X_s} y={_Y_s} >
                                                 <Layer>
-                                                    <Field _W={_W} _H={_H} obj_color={_color1} _X={_X_s} _Y={_Y_s} s_Width={0} />
+                                                    <Field _W={_W} _H={_H} obj_color={_color3} _X={_X_s} _Y={_Y_s} s_Width={0} />
                                                     <AZS_Image Image='/images/trk0.png' _W={_W_Image} _H={_H_Image} _X={_X_s + 4} _Y={_Y_1 + 4} />
 
                                                     <Text Text={this.state.NOZZLE.name} x={_X_s + 15} y={_Y_s + 32} fill='white'
                                                         fontSize='30' fontFamily='Calibri' />
+
+                                                    <Text Text={_text3} x={_X_s+4} y={_Y_s+75} width={_W} fill='black'
+                                                        fontSize='14' fontFamily='Calibri' />
+
 
                                                 </Layer>
                                             </Stage>
@@ -216,7 +214,7 @@ export default class nozzle extends Component {
                                 </td>
                             </tr>
                             <tr>
-                                <td className='td_Data'>
+                                <td className='td_Data_Max'>
                                     {this.state.NOZZLE.counter}
                                 </td>
                             </tr>
@@ -241,7 +239,6 @@ export default class nozzle extends Component {
                                 </td>
                             </tr>
                             <tr>
-
                                 <td className='td_Data'>
                                     {this.state.NOZZLE.state}
                                 </td>

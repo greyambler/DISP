@@ -2,14 +2,14 @@ import React, { Component } from 'react';
 import OL_List from '../core/OL_List.jsx'
 import { Stage, Layer, Rect, Text, Circle, Shape, Image } from 'react-konva';
 
+
+
+
 import Pl from './pl.jsx'
-
-
-
 
 const _Debuge = false;
 
-let S = 0;
+//let S = 0;
 
 function get_Color(Int) {
     var col = 'while';

@@ -1,19 +1,16 @@
 import React, { Component } from 'react';
 import OL_List from '../core/OL_List.jsx'
-import { Stage, Layer, Rect, Text, Circle, Shape, Image } from 'react-konva';
+import { Stage, Layer, Rect, Text, Circle, Shape, Image, Ellipse } from 'react-konva';
 import { get_PL } from '../core/core_Function.jsx';
-import './pl.css';
 
 import moment from 'moment';
 
 const _Debuge = false;
 
-
-
 function get_Color_NET(Int) {
     var col = 'while';
     switch (Int) {
-        case 0:col = 'red'; break;
+        case 0: col = 'red'; break;
         case 1: col = 'green'; break;
         default: col = 'red'; break;
     }
@@ -22,7 +19,7 @@ function get_Color_NET(Int) {
 function get_Text_NET(Int) {
     var col = 'Нет данных';
     switch (Int) {
-        case 0:col = 'Нет связи'; break;
+        case 0: col = 'Нет связи'; break;
         case 1: col = 'В сети'; break;
         default: col = 'Нет связи'; break;
     }
@@ -139,8 +136,10 @@ export default class pl extends Component {
                 /********* сигнализация для отрисовки********************* */
 
                 let fill_1 = 'rgb(240, 209, 173)';
-                let fill_2 = 'rgb(194, 125, 46)';
-                let fill_3 = 'rgb(163, 226, 245)';
+                let fill_2 = 'rgb(163, 226, 245)';//'rgb(194, 125, 46)';
+                let fill_3 = 'blue';//'rgb(163, 226, 245)';
+
+                //'linear-gradient( rgb(4, 231, 231), rgb(1, 107, 107)) rgb(126, 255, 255)';
 
                 if (this.state.PL.id == 0) {
                     _delenie1 = 1;
@@ -166,6 +165,7 @@ export default class pl extends Component {
                     }
                 }
                 let ShowAll = false;
+
                 return (
                     <div>
                         <table className="tb_PL" >
@@ -175,47 +175,109 @@ export default class pl extends Component {
                                 </tr>
                                 <tr>
                                     <td colSpan='2'>
-                                        <Stage width={_width + _dX} height={_height + 20} x={_dX} y={0}>
+                                        <Stage width={_width + _dX +0.4} height={_height + 20} x={_dX} y={0}>
                                             <Layer key='1' background='red' >
 
                                                 <Rect className="rec_air"
-                                                    width={_width}
-                                                    height={_height}
+                                                    width={_width - 0.5}
+                                                    height={_height - 12}
                                                     x={0}
-                                                    y={0}
+                                                    y={12}
                                                     fill={fill_1}
                                                     stroke='black'
-                                                    strokeWidth={0}
+                                                    strokeWidth={1}
                                                     valign="top"
+                                                />
+                                                <Ellipse
+                                                    width={50}
+                                                    height={20}
+                                                    x={25}
+                                                    y={10}
+                                                    draggable
+                                                    radius={50}
+                                                    fill={fill_1}
+                                                    stroke='black'
+                                                    strokeWidth={1}
                                                 />
 
                                                 <Rect className="rec_fuel"
-                                                    width={_width}
+                                                    width={_width - 0.5}
                                                     height={_height - _level_fuel}
                                                     x={0}
                                                     y={_level_fuel}
                                                     fill={fill_2}
                                                     stroke='black'
-                                                    strokeWidth={0}
+                                                    strokeWidth={1}
                                                     valign="top"
                                                 />
 
+                                                <Ellipse
+                                                    width={50}
+                                                    height={20}
+                                                    x={25}
+                                                    y={_level_fuel}
+                                                    draggable
+                                                    radius={50}
+                                                    fill={fill_2}
+                                                    stroke='black'
+                                                    strokeWidth={1}
+                                                />
+
+
+
+                                                <Ellipse
+                                                    width={50}
+                                                    height={20}
+                                                    x={25}
+                                                    y={_level_water + _height - _level_water}
+                                                    draggable
+                                                    radius={50}
+                                                    fill={fill_3}
+                                                    stroke='black'
+                                                    strokeWidth={1}
+                                                />
+
                                                 <Rect className="rec_water"
-                                                    width={_width}
+                                                    width={_width - 0.5}
                                                     height={_height - _level_water}
                                                     x={0}
                                                     y={_level_water}
                                                     fill={fill_3}
                                                     stroke='black'
-                                                    strokeWidth={0}
+                                                    strokeWidth={1}
                                                     valign="top"
                                                 />
+                                                <Ellipse
+                                                    width={49}
+                                                    height={19}
+                                                    x={25}
+                                                    y={_level_water + _height - _level_water}
+                                                    draggable
+                                                    radius={49}
+                                                    fill={fill_3}
+                                                    stroke='black'
+                                                    strokeWidth={0}
+                                                />
 
-                                                <Text fontSize={12} fill='black' Text={this.state.PL.Available_volume} x={2} y={+ 5} />
 
-                                                <Text fontSize={12} fill='white' Text={this.state.PL.CURENT_VOLUME} x={2} y={_level_fuel + 5} />
+                                                <Ellipse
+                                                    width={50}
+                                                    height={20}
+                                                    x={25}
+                                                    y={_level_water}
+                                                    draggable
+                                                    radius={50}
+                                                    fill={fill_2}
+                                                    border={1}
+                                                    stroke='black'
+                                                    strokeWidth={1}
+                                                />
 
-                                                <Text fontSize={12} fill='blue' Text={this.state.PL.TOTAL_WATER} x={2} y={_level_water + 2} />
+                                                <Text fontSize={12} fill='black' Text={this.state.PL.Available_volume} x={4} y={5} />
+
+                                                <Text fontSize={12} fill='black' Text={this.state.PL.CURENT_VOLUME} x={4} y={_level_fuel - 5} />
+
+                                                <Text fontSize={12} fill='black' Text={this.state.PL.TOTAL_WATER} x={4} y={_level_water - 5} />
                                             </Layer>
                                         </Stage>
                                     </td>

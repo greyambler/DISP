@@ -5,6 +5,8 @@ import { get_NOZZLE } from '../core/core_Function.jsx';
 import List_nozzle from './list_nozzle.jsx';
 import FILTER from './filters.jsx'
 
+import './nozzle.css';
+
 const _Debuge = false;
 
 
@@ -83,6 +85,21 @@ function Delete_Stategun(data, dataF) {
     }
     return indices;
 }
+function Delete_Pump(data, dataF) {
+    var indices = [];
+    if (data != null && dataF != null) {
+        var indices = [];
+        let t = 0;
+        for (let index = 0; index < data.length; index++) {
+
+            if (dataF.indexOf(data[index].pump.toUpperCase()) == -1) {
+                indices[t] = data[index];
+                t++;
+            }
+        }
+    }
+    return indices;
+}
 
 
 export default class w_main_nozzle extends React.Component {
@@ -112,6 +129,9 @@ export default class w_main_nozzle extends React.Component {
 
         if (this.state._Stategun != null) {
             _noz = Delete_Stategun(_noz, this.state._Stategun);
+        }
+        if (this.state._Pump != null) {
+            _noz = Delete_Pump(_noz, this.state._Pump);
         }
         if (this.state._Azs != null) {
             _noz = Delete_Azs(_noz, this.state._Azs);
@@ -145,6 +165,10 @@ export default class w_main_nozzle extends React.Component {
     update_State = (State) => {
         this.setState({ _State: State }, this.SetFilters);
     }
+    update_Pump = (Pump) => {
+        this.setState({ _Pump: Pump }, this.SetFilters);
+    }
+
 
     render() {
         return (
@@ -157,6 +181,7 @@ export default class w_main_nozzle extends React.Component {
                     update_Azs={this.update_Azs}
                     update_State={this.update_State}
                     update_Stategun={this.update_Stategun}
+                    update_Pump={this.update_Pump}
                 />
                 <hr /><hr />
                 <List_nozzle nozzles={this.state._NOZZLE} />

@@ -2,9 +2,6 @@ import React, { Component } from 'react';
 import OL_List from '../core/OL_List.jsx'
 import { Stage, Layer, Rect, Text, Circle, Shape, Image } from 'react-konva';
 
-
-
-
 import Pl from './pl.jsx'
 
 const _Debuge = false;
@@ -69,7 +66,7 @@ export default class list_pl extends Component {
             }
 
             return (
-                <div className='prokrutka'>
+                <div className='prokrutka_pl'>
                     <center>
                         <ul className="hr" style={Li_Level}>
                             <center className='TBL' ><h4>Резервуары</h4></center>

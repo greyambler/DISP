@@ -6,8 +6,10 @@ import { get_PL } from '../core/core_Function.jsx';
 import Field from '../control/Field.jsx'
 import AZS_Image from '../control/AZS_Image.jsx'
 
+
+
 import moment from 'moment';
-import './nozzle.css';
+
 
 const _Debuge = false;
 
@@ -73,6 +75,17 @@ function get_Text_NET_3(Int) {
     }
     return col;
 }
+function get_ICON_NET_3(Int) {
+    var col = ' - ';
+    switch (Int) {
+        case 0: col = '/images/trk0.png'; break;
+        case 1: col = '/images/trk1.png'; break;
+        case 2: col = '/images/trk1.png'; break;
+        case 3: col = '/images/trk0.png'; break;
+        default: col = ' - '; break;
+    }
+    return col;
+}
 
 export default class nozzle extends Component {
     constructor(props) {
@@ -88,7 +101,7 @@ export default class nozzle extends Component {
     }
     render() {
         if (this.state.NOZZLE != null) {
-            /********* координаты для отрисовки********************* */
+            /********* координаты для отрисовки*********************** */
             let _W_Image = 65;
             let _H_Image = 65;
 
@@ -100,7 +113,8 @@ export default class nozzle extends Component {
             let _X_1 = _X_s + _W_Image;
             let _Y_1 = _Y_s + 1;
 
-            /********* координаты для отрисовки********************* */
+            /********* координаты для отрисовки*********************** */
+
             /********* сигнализация для отрисовки********************* */
 
             let _color1 = get_Color_NET(this.props.NOZZLE.status);
@@ -111,6 +125,7 @@ export default class nozzle extends Component {
 
             let _color3 = get_Color_NET_3(this.props.NOZZLE.stategun);
             let _text3 = get_Text_NET_3(this.props.NOZZLE.stategun);
+            let _icon3 = get_ICON_NET_3(this.props.NOZZLE.stategun);
 
 
             /********* сигнализация для отрисовки********************* */
@@ -132,12 +147,12 @@ export default class nozzle extends Component {
                                             <Stage className="t_Stage" width={_W} height={_H} x={_X_s} y={_Y_s} >
                                                 <Layer>
                                                     <Field _W={_W} _H={_H} obj_color={_color3} _X={_X_s} _Y={_Y_s} s_Width={0} />
-                                                    <AZS_Image Image='/images/trk0.png' _W={_W_Image} _H={_H_Image} _X={_X_s + 4} _Y={_Y_1 + 4} />
+                                                    <AZS_Image Image={_icon3} _W={_W_Image} _H={_H_Image} _X={_X_s + 4} _Y={_Y_1 + 4} />
 
                                                     <Text Text={this.state.NOZZLE.name} x={_X_s + 15} y={_Y_s + 32} fill='white'
                                                         fontSize='30' fontFamily='Calibri' />
 
-                                                    <Text Text={_text3} x={_X_s+4} y={_Y_s+75} width={_W} fill='black'
+                                                    <Text Text={_text3} x={_X_s + 4} y={_Y_s + 75} width={_W} fill='black'
                                                         fontSize='14' fontFamily='Calibri' />
 
 
@@ -214,13 +229,13 @@ export default class nozzle extends Component {
                                 </td>
                             </tr>
                             <tr>
-                                <td className='td_Data_Max'>
-                                    {this.state.NOZZLE.counter}
+                                <td className='td_Data_MaxHead'>
+                                    {this.state.NOZZLE.fuel}
                                 </td>
                             </tr>
                             <tr>
-                                <td className='td_Data'>
-                                    {this.state.NOZZLE.fuel}
+                                <td className='td_Data_Max'>
+                                    {this.state.NOZZLE.counter}
                                 </td>
                             </tr>
                             <tr>

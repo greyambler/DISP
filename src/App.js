@@ -1,5 +1,7 @@
 import './headMenu.css';
 import './App.css';
+import './pl_noz.css';
+
 import 'react-app-polyfill/ie11';
 import 'react-app-polyfill/stable';
 
@@ -17,6 +19,7 @@ class Main extends Component {
   render() {
     return (<W_LEVEL w_Height={this.props.w_Height} w_Width={this.props.w_Width} />);
     /*return (<MainWindow />);
+    return (<W_AZK w_Height={this.props.w_Height} w_Width={this.props.w_Width} />);
     return (<W_LEVEL w_Height={this.props.w_Height} w_Width={this.props.w_Width} />);
     return (<W_NOZZLE w_Height={this.props.w_Height} w_Width={this.props.w_Width} />);*/
   }

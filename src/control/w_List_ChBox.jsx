@@ -26,6 +26,23 @@ export default class w_List_ChBox extends Component {
         }
         t = 0;
         mas = new Array();
+        if (this.props.type == 'stategun') {
+            for (const iterator of this.props.list) {
+                if (selectedOption.indexOf(iterator) == -1) {
+                    mas[t] = iterator.code;
+                    t++;
+                }
+            }
+            if (mas.length == 0) {
+                this.props.update_Stategun(null);
+            } else {
+                this.props.update_Stategun(mas);
+            }
+        }
+
+
+        t = 0;
+        mas = new Array();
         if (this.props.type == 'fuel') {
             for (const iterator of this.props.list) {
                 if (selectedOption.indexOf(iterator) == -1) {
@@ -54,6 +71,24 @@ export default class w_List_ChBox extends Component {
                 this.props.update_Azs(mas);
             }
         }
+
+        t = 0;
+        mas = new Array();
+        if (this.props.type == 'pump') {
+            for (const iterator of this.props.list) {
+                if (selectedOption.indexOf(iterator) == -1) {
+                    mas[t] = iterator.value.toUpperCase();
+                    t++;
+                }
+            }
+            if (mas.length == 0) {
+                this.props.update_Pump(null);
+            } else {
+                this.props.update_Pump(mas);
+            }
+        }
+
+
         t = 0;
         mas = new Array();
         if (this.props.type == 'state') {

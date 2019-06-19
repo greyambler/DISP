@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import { get_FUEL, get_Objs, get_Status, get_State, get_StateGun } from '../core/core_Function.jsx';
+import { get_FUEL, get_Objs, get_Status, get_State, get_StateGun,get_Pump } from '../core/core_Function.jsx';
 
 //import W_CheckBox from '../control/viewListCheckBox.jsx';
-import W_CheckBox from './w_List_ChBox.jsx';
+import W_CheckBox from '../control/w_List_ChBox.jsx';
 
 //import moment from 'moment';
 //import { Array } from 'core-js';
@@ -20,6 +20,7 @@ export default class list_pl extends Component {
             //PL: this.props._PL,
 
             stategun: null,
+            pump: null,
             azs: null,
             ai: null,
             status: null,
@@ -33,6 +34,7 @@ export default class list_pl extends Component {
     Get_AZS(data) {
         if (!_Debuge) {
             let _SGun = new Array();
+            let _Pump = new Array();
             let _AZS = new Array();
             let _AI = new Array();
             let _TUS = new Array();
@@ -73,8 +75,15 @@ export default class list_pl extends Component {
                 _TE[t] = { value: iterator.code, label: iterator.name };
                 t++;
             }
+            t = 0;
+            let _Pamps = get_Pump();
+            for (let iterator of _Pamps.pump) {
+                _Pump[t] = { value: iterator.name, label: iterator.name };
+                t++;
+            }
 
-            this.setState({ stategun: _SGun, azs: _AZS, ai: _AI, status: _TUS, state: _TE });
+
+            this.setState({ stategun: _SGun, azs: _AZS,  pump: _Pump, ai: _AI, status: _TUS, state: _TE });
         } else {
             if (data != null) {
                 let _azs = new Array();
@@ -157,6 +166,10 @@ export default class list_pl extends Component {
 
                             <td style={r1}>АЗК</td>
                             <td style={r2}><W_CheckBox list={this.state.azs} update_Azs={this.props.update_Azs} type='azs' /></td>
+                            
+                            <td style={r1}>ТРК</td>
+                            <td style={r2}><W_CheckBox list={this.state.pump} update_Pump={this.props.update_Pump} type='pump' /></td>
+
                             <td style={r1}>Вид НП</td>
                             <td style={r2}><W_CheckBox list={this.state.ai} update_Fuels={this.props.update_Fuels} type='fuel' /></td>
                             <td style={r1}>Статус</td>

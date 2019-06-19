@@ -34,10 +34,10 @@
      
  }
 
- .prokrutka {
+ .prokrutka_noz {
      width: 100%;
      /* ширина нашего блока */
-     height: 770px;
+     height: 400px;
      /* высота нашего блока 
      background: #fff;*/
      /* цвет фона, белый 
@@ -125,6 +125,16 @@
     font-family: Arial, Helvetica, sans-serif;
     font-weight: 700;
     color: red;
+}
+.td_Data_MaxHead {
+    align-items: center;
+    border: 0px solid black;
+    text-align: right;
+    vertical-align: text-top;
+    font-size: 14px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: 700;
+    color: blue;
 }
 
 

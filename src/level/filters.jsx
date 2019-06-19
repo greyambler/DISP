@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { get_FUEL, get_Objs, get_Status, get_State } from '../core/core_Function.jsx';
 
 //import W_CheckBox from '../control/viewListCheckBox.jsx';
-import W_CheckBox from './w_List_ChBox.jsx';
+import W_CheckBox from '../control/w_List_ChBox.jsx';
 
 //import moment from 'moment';
 //import { Array } from 'core-js';

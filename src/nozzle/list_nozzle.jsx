@@ -4,7 +4,6 @@ import { Stage, Layer, Rect, Text, Circle, Shape, Image } from 'react-konva';
 
 import { get_Trk, get_Azs, get_Azs_Trk } from '../core/core_Function.jsx';
 
-//import './pl.css';
 import Nozzle from './nozzle.jsx'
 
 const _Debuge = false;
@@ -45,7 +44,7 @@ export default class list_nozzle extends Component {
             }
 
             return (
-                <div className='prokrutka'>
+                <div className='prokrutka_noz'>
                     <center>
                         <ul className="hr" style={Li_Style}>
                             <center className='TBL' ><h4>Счетчики</h4></center>

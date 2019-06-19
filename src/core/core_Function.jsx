@@ -350,6 +350,14 @@ export function get_Objs() {
   );
 }
 
+export function get_Pump() {
+  return JSON.parse(
+    '{"pump":[' +
+    '{"name":"ТРК А"},' +
+    '{"name":"ТРК B"}]}'
+  );
+}
+
 
 export function get_Status() {
   return JSON.parse(
@@ -405,7 +413,7 @@ export function get_NOZZLE() {
     '"azs":"MJ043",' +
     '"stategun":0,' +
     '"pump":"ТРК А",' +
-    '"counter":128000,' +
+    '"counter":125000,' +
     '"date":"03.06.2019",' +
     '"time":"21:19:00",' +
     '"status":1,' +
@@ -417,7 +425,7 @@ export function get_NOZZLE() {
     '"azs":"MJ043",' +
     '"stategun":1,' +
     '"pump":"ТРК А",' +
-    '"counter":250000,' +
+    '"counter":250300,' +
     '"date":"03.06.2019",' +
     '"time":"21:19:00",' +
     '"status":1,' +
@@ -441,7 +449,7 @@ export function get_NOZZLE() {
     '"azs":"MJ043",' +
     '"stategun":3,' +
     '"pump":"ТРК А",' +    
-    '"counter":70000,' +
+    '"counter":75000,' +
     '"date":"03.06.2019",' +
     '"time":"21:19:00",' +
     '"status":1,' +
@@ -454,7 +462,7 @@ export function get_NOZZLE() {
     '"azs":"MJ043",' +
     '"stategun":0,' +
     '"pump":"ТРК B",' +    
-    '"counter":128000,' +
+    '"counter":122000,' +
     '"date":"03.06.2019",' +
     '"time":"21:19:00",' +
     '"status":1,' +
@@ -466,7 +474,7 @@ export function get_NOZZLE() {
     '"azs":"MJ043",' +
     '"stategun":1,' +
     '"pump":"ТРК B",' +
-    '"counter":250000,' +
+    '"counter":352000,' +
     '"date":"03.06.2019",' +
     '"time":"21:19:00",' +
     '"status":1,' +
@@ -478,7 +486,7 @@ export function get_NOZZLE() {
     '"azs":"MJ043",' +
     '"stategun":0,' +
     '"pump":"ТРК B",' +
-    '"counter":70000,' +
+    '"counter":80400,' +
     '"date":"03.06.2019",' +
     '"time":"21:19:00",' +
     '"status":0,' +
@@ -490,7 +498,7 @@ export function get_NOZZLE() {
     '"azs":"MJ043",' +
     '"stategun":3,' +
     '"pump":"ТРК B",' +
-    '"counter":70000,' +
+    '"counter":70200,' +
     '"date":"03.06.2019",' +
     '"time":"21:19:00",' +
     '"status":1,' +
@@ -504,7 +512,7 @@ export function get_NOZZLE() {
     '"azs":"MJ048",' +
     '"stategun":0,' +
     '"pump":"ТРК А",' +
-    '"counter":128000,' +
+    '"counter":128040,' +
     '"date":"03.06.2019",' +
     '"time":"21:19:00",' +
     '"status":1,' +
@@ -516,7 +524,7 @@ export function get_NOZZLE() {
     '"azs":"MJ048",' +
     '"stategun":3,' +
     '"pump":"ТРК А",' +
-    '"counter":250000,' +
+    '"counter":250700,' +
     '"date":"03.06.2019",' +
     '"time":"21:19:00",' +
     '"status":1,' +
@@ -528,7 +536,7 @@ export function get_NOZZLE() {
     '"azs":"MJ048",' +
     '"stategun":1,' +
     '"pump":"ТРК А",' +
-    '"counter":70000,' +
+    '"counter":170600,' +
     '"date":"03.06.2019",' +
     '"time":"21:19:00",' +
     '"status":1,' +
@@ -540,7 +548,7 @@ export function get_NOZZLE() {
     '"azs":"MJ048",' +
     '"stategun":0,' +
     '"pump":"ТРК А",' +
-    '"counter":70000,' +
+    '"counter":70300,' +
     '"date":"03.06.2019",' +
     '"time":"21:19:00",' +
     '"status":1,' +
@@ -565,7 +573,7 @@ export function get_NOZZLE() {
     '"azs":"MJ048",' +
     '"stategun":0,' +
     '"pump":"ТРК B",' +
-    '"counter":250000,' +
+    '"counter":1250000,' +
     '"date":"03.06.2019",' +
     '"time":"21:19:00",' +
     '"status":1,' +
@@ -577,7 +585,7 @@ export function get_NOZZLE() {
     '"azs":"MJ048",' +
     '"stategun":1,' +
     '"pump":"ТРК B",' +
-    '"counter":70000,' +
+    '"counter":175000,' +
     '"date":"03.06.2019",' +
     '"time":"21:19:00",' +
     '"status":0,' +
@@ -589,7 +597,7 @@ export function get_NOZZLE() {
     '"azs":"MJ048",' +
     '"stategun":3,' +
     '"pump":"ТРК B",' +
-    '"counter":70000,' +
+    '"counter":72000,' +
     '"date":"03.06.2019",' +
     '"time":"21:19:00",' +
     '"status":1,' +

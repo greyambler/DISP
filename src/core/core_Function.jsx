@@ -185,8 +185,6 @@ export function get_Rss_ID(ID) {
         '{"id":"d0c35750-d15b-4922-bd45-6617400c2a9e","typ":"tso","nm":"ТСО на АЗС0","prop":[]}' +
         ']}');
       break;
-
-
   }
 }
 */

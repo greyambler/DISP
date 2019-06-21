@@ -195,10 +195,10 @@ export default class pl extends Component {
                         <table className="tb_PL" >
                             <tbody>
                                 <tr>
-                                    <td colSpan='2' className='td_Stage'>{this.state.PL.fuel}</td>
+                                    <td colSpan='1' className='td_Stage'>{this.state.PL.fuel}</td>
                                 </tr>
                                 <tr>
-                                    <td colSpan='2'>
+                                    <td colSpan='1'>
                                         <Stage width={_width + _dX + 0.4} height={_height + 20} x={_dX} y={0}>
                                             <Layer key='1' background='red' >
 
@@ -278,7 +278,8 @@ export default class pl extends Component {
                                                     strokeWidth={1}
                                                 />
 
-                                                <Text fontSize={12} fill='black' Text={this.state.PL.TOTAL_WATER} x={4} y={_level_water - 5} />
+                                                <Text fontSize={12} fill='black' Text={this.state.PL.TOTAL_WATER} x={3} y={_level_water - 5} />
+                                                
                                                 <Ellipse
                                                     width={50}
                                                     height={20}
@@ -290,9 +291,9 @@ export default class pl extends Component {
                                                     strokeWidth={1}
                                                 />
 
-                                                <Text fontSize={12} fill='black' Text={this.state.PL.Available_volume} x={4} y={5} />
+                                                <Text fontSize={12} fill='black' Text={this.state.PL.Available_volume} x={3} y={5} />
 
-                                                <Text fontSize={12} fill='black' Text={this.state.PL.CURENT_VOLUME} x={4} y={_level_fuel - 5} />
+                                                <Text fontSize={12} fill='black' Text={this.state.PL.CURENT_VOLUME} x={3} y={_level_fuel - 5} />
 
                                             </Layer>
                                         </Stage>
@@ -306,9 +307,7 @@ export default class pl extends Component {
                                             max={_max}
                                             optimum={_optimum}
                                             value={_value}
-
                                         />
-
                                     </td>
                                 </tr>
                                 <tr>
@@ -331,7 +330,7 @@ export default class pl extends Component {
                                                     strokeWidth={0}
                                                     valign="top"
                                                 />
-                                                <Text fontSize={12} fill='black'
+                                                <Text fontSize={13} fill='black'
                                                     Text={_text1}
                                                     x={_dX} y={+ 5} />
                                             </Layer>
@@ -353,7 +352,7 @@ export default class pl extends Component {
                                                     strokeWidth={0}
                                                     valign="top"
                                                 />
-                                                <Text fontSize={12} fill='black'
+                                                <Text fontSize={13} fill='black'
                                                     Text={_text2} align='center'
                                                     x={0} y={+ 5} width={130} height={50} />
                                             </Layer>

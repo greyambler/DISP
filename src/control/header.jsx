@@ -21,7 +21,9 @@ export default class header extends Component {
          <div>
             <table>
                <tbody>
-                  <tr  className='TBL'> <th colSpan='3'><h3>Справочники</h3></th></tr>
+                  <tr  className='TBL'> 
+                  <th colSpan='3'><h3>Справочники</h3></th>
+                  </tr>
                   <tr>
                      <th className='TBL'>АЗС (obList)</th>
                      <th className='TBL'>Топливо (Fuel)</th>

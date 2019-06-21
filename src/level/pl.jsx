@@ -10,9 +10,12 @@ const _Debuge = false;
 function get_Color_NET(Int) {
     var col = 'while';
     switch (Int) {
-        case 0: col = 'red'; break;
-        case 1: col = 'green'; break;
-        default: col = 'red'; break;
+        case 0: col = 'rgba(255, 0, 0, 0.6)';//'red'; 
+            break;
+        case 1: col = 'rgba(0, 128, 0, 0.7)';//'green'; 
+            break;
+        default: col = 'rgba(255, 0, 0, 0.6)';//'red'; 
+            break;
     }
     return col;
 }
@@ -29,10 +32,13 @@ function get_Text_NET(Int) {
 function get_Color_NET_2(Int) {
     var col = 'while';
     switch (Int) {
-        case 0: col = 'green'; break;
-        case 1: col = 'green'; break;
+        case 0: col = 'rgba(0, 128, 0, 0.7)';//'green';
+            break;
+        case 1: col = 'rgba(0, 128, 0, 0.7)';//'green'; 
+            break;
         case 2: col = 'yellow'; break;
-        case 3: col = 'red'; break;
+        case 3: col = 'rgba(255, 0, 0, 0.6)';//'red';
+            break;
         default: col = 'grey'; break;
     }
     return col;
@@ -165,6 +171,24 @@ export default class pl extends Component {
                     }
                 }
                 let ShowAll = false;
+                let s_meter = {
+                    textAlign: 'center',
+                };
+
+                let _max = TOTAL_VOLUME;
+                let _high = TOTAL_VOLUME * 49 / 100;     //49%
+                let _low = TOTAL_VOLUME * 19 / 100;      //21%
+                let _optimum = TOTAL_VOLUME * 70 / 100;  //70%
+                let _value = this.state.PL.CURENT_VOLUME + this.state.PL.TOTAL_WATER * 100 / TOTAL_VOLUME;
+                /*
+                                _min = 0;
+                                _max = 100;
+                                _high = 30;
+                                _low = 15;
+                                _optimum = 70;
+                                _value = 37;
+                <meter max="10" high="6" low="3" value="2"  optimum="7"></meter>
+                */
 
                 return (
                     <div>
@@ -175,7 +199,7 @@ export default class pl extends Component {
                                 </tr>
                                 <tr>
                                     <td colSpan='2'>
-                                        <Stage width={_width + _dX +0.4} height={_height + 20} x={_dX} y={0}>
+                                        <Stage width={_width + _dX + 0.4} height={_height + 20} x={_dX} y={0}>
                                             <Layer key='1' background='red' >
 
                                                 <Rect className="rec_air"
@@ -193,7 +217,6 @@ export default class pl extends Component {
                                                     height={20}
                                                     x={25}
                                                     y={10}
-                                                    draggable
                                                     radius={50}
                                                     fill={fill_1}
                                                     stroke='black'
@@ -215,22 +238,7 @@ export default class pl extends Component {
                                                     width={50}
                                                     height={20}
                                                     x={25}
-                                                    y={_level_fuel}
-                                                    draggable
-                                                    radius={50}
-                                                    fill={fill_2}
-                                                    stroke='black'
-                                                    strokeWidth={1}
-                                                />
-
-
-
-                                                <Ellipse
-                                                    width={50}
-                                                    height={20}
-                                                    x={25}
                                                     y={_level_water + _height - _level_water}
-                                                    draggable
                                                     radius={50}
                                                     fill={fill_3}
                                                     stroke='black'
@@ -252,23 +260,32 @@ export default class pl extends Component {
                                                     height={19}
                                                     x={25}
                                                     y={_level_water + _height - _level_water}
-                                                    draggable
                                                     radius={49}
                                                     fill={fill_3}
                                                     stroke='black'
                                                     strokeWidth={0}
                                                 />
-
-
                                                 <Ellipse
                                                     width={50}
                                                     height={20}
                                                     x={25}
                                                     y={_level_water}
-                                                    draggable
+
                                                     radius={50}
                                                     fill={fill_2}
                                                     border={1}
+                                                    stroke='black'
+                                                    strokeWidth={1}
+                                                />
+
+                                                <Text fontSize={12} fill='black' Text={this.state.PL.TOTAL_WATER} x={4} y={_level_water - 5} />
+                                                <Ellipse
+                                                    width={50}
+                                                    height={20}
+                                                    x={25}
+                                                    y={_level_fuel}
+                                                    radius={50}
+                                                    fill={fill_2}
                                                     stroke='black'
                                                     strokeWidth={1}
                                                 />
@@ -277,9 +294,21 @@ export default class pl extends Component {
 
                                                 <Text fontSize={12} fill='black' Text={this.state.PL.CURENT_VOLUME} x={4} y={_level_fuel - 5} />
 
-                                                <Text fontSize={12} fill='black' Text={this.state.PL.TOTAL_WATER} x={4} y={_level_water - 5} />
                                             </Layer>
                                         </Stage>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style={s_meter}>
+                                        <meter id={this.state.PL.id}
+                                            low={_low}
+                                            high={_high}
+                                            max={_max}
+                                            optimum={_optimum}
+                                            value={_value}
+
+                                        />
+
                                     </td>
                                 </tr>
                                 <tr>
@@ -336,7 +365,6 @@ export default class pl extends Component {
                                         <td colSpan='2' className='te_Mess'>
                                             <textarea style={te_Mess_Level} readOnly="readOnly"
                                                 defaultValue={_text2} color={_color2} />
-
                                         </td>
                                     </tr>
                                 }
@@ -406,7 +434,6 @@ export default class pl extends Component {
                                     </td>
                                 </tr>
                                 <tr>
-
                                     <td className='td_Data'>
                                         {this.state.PL.state}
                                     </td>

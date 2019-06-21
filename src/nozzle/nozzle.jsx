@@ -18,9 +18,12 @@ const _Debuge = false;
 function get_Color_NET(Int) {
     var col = 'while';
     switch (Int) {
-        case 0: col = 'red'; break;
-        case 1: col = 'green'; break;
-        default: col = 'red'; break;
+        case 0: col = 'rgba(255, 0, 0, 0.6)';//'red'; 
+            break;
+        case 1: col = 'rgba(0, 128, 0, 0.7)';//'green'; 
+            break;
+        default: col = 'rgba(255, 0, 0, 0.6)';//'red'; 
+            break;
     }
     return col;
 }
@@ -36,9 +39,12 @@ function get_Text_NET(Int) {
 function get_Color_NET_2(Int) {
     var col = 'while';
     switch (Int) {
-        case 0: col = 'green'; break;
-        case 1: col = 'red'; break;
-        case 2: col = 'red'; break;
+        case 0: col = 'rgba(0, 128, 0, 0.7)';//'green';
+            break;
+        case 1: col = 'rgba(255, 0, 0, 0.6)';//'red'; 
+            break;
+        case 2: col = 'rgba(255, 0, 0, 0.6)';//'red';
+            break;
         default: col = 'grey'; break;
     }
     return col;
@@ -56,10 +62,13 @@ function get_Text_NET_2(Int) {
 function get_Color_NET_3(Int) {
     var col = 'while';
     switch (Int) {
-        case 0: col = 'green'; break;
+        case 0: col = 'rgba(0, 128, 0, 0.7)';//'green'; 
+            break;
         case 1: col = 'yellow'; break;
-        case 2: col = 'coral'; break;
-        case 3: col = 'red'; break;
+        case 2: col = 'rgba(255, 127, 80, 0.5)';//'coral'; 
+        break;
+        case 3: col = 'rgba(255, 0, 0, 0.6)';//'red'; 
+            break;
         default: col = 'grey'; break;
     }
     return col;

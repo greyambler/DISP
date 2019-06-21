@@ -7,6 +7,9 @@ export function Get_RSS(Rss, startDate, endDate) {
   var rss = Rss;
   return rss;
 }
+
+
+/*
 export function get_DateRSS() {
 
   let debugeList = get_Rss_DevList();
@@ -15,15 +18,32 @@ export function get_DateRSS() {
   return ListDev;
 }
 
+
 export function get_Full_TreeBar(_objects) {
   let J_Rss = _objects;//JSON.parse(_Json);
+  let IsOnlyAZS = false;
+  let D_Tree = null;
+
+  if (!IsOnlyAZS) {
+    let Fuels = new d_tree_TreeBar('Топливо', get_ListChildTreeBar(J_Rss.fuel, 'fuel'), 'fuel', false);
+    let TpList = new d_tree_TreeBar('Оборудование', get_ListChildTreeBar(J_Rss.tpList, 'tpList'), 'tpList', false);
+    let ObLists = new d_tree_TreeBar('АЗК', get_ListChildTreeBar(J_Rss.obList, 'obList'), 'obList', false);
+
+    D_Tree = new d_tree_TreeBar('Справочники', [Fuels, ObLists, TpList], 'root', true);
+
+  } else {
+    let ObLists = new d_tree_TreeBar('АЗК', get_ListChildTreeBar(J_Rss.obList, 'obList'), 'obList', false);
+    D_Tree = new d_tree_TreeBar('Справочники', [ObLists], 'root', true);
+  }
+
+  
   //let Fuels = new d_tree_TreeBar('Топливо', get_ListChildTreeBar(J_Rss.fuel, 'fuel'), 'fuel', false);
   //let TpList = new d_tree_TreeBar('Оборудование', get_ListChildTreeBar(J_Rss.tpList, 'tpList'), 'tpList', false);
-  let ObLists = new d_tree_TreeBar('АЗК', get_ListChildTreeBar(J_Rss.obList, 'obList'), 'obList', false);
+  //let ObLists = new d_tree_TreeBar('АЗК', get_ListChildTreeBar(J_Rss.obList, 'obList'), 'obList', false);
 
   //let D_Tree = new d_tree_TreeBar('Справочники', [Fuels, ObLists, TpList], 'root', true);
-  let D_Tree = new d_tree_TreeBar('Справочники', [ObLists], 'root', true);
-
+  //let D_Tree = new d_tree_TreeBar('Справочники', [ObLists], 'root', true);
+  
 
   return D_Tree;
 }
@@ -49,14 +69,15 @@ export function get_ListChildTreeBar(list, _type) {
   let children = Array();
   let t = 0;
   for (const item of list) {
-    children[t] = { id: item.id, name: item.nm, fu: item.fu, type: _type, children: get_ListsChildTreeBar(item.id) };
+    children[t] = { id: item.id, name: item.nm, fu: item.fu, type: _type, children: get_ListsChildTreeBar(item.id) ,key: item.id};
     //{id:item.id, name:item.nm, fu:item.fu,type:_type,children:null};//get_ListsChildTreeBar(item.id) };
     //new d_Child_TreeBar(item.nm, item.id, item.fu, _type);
     t++;
   }
   return children;
 }
-/*
+
+
 class d_Child_TreeBar {
   constructor(_name, _id, _fu, _type) {
     this.id = _id;
@@ -66,7 +87,7 @@ class d_Child_TreeBar {
     this.children = get_ListsChildTreeBar(_id);
   }
 }
-*/
+
 
 
 export function get_Rss_DevList() {
@@ -168,7 +189,7 @@ export function get_Rss_ID(ID) {
 
   }
 }
-
+*/
 
 export function makeCounter() {
   var currentCount = 1;
@@ -204,9 +225,9 @@ export function get_PL() {
 
   return JSON.parse('{"id":"f09de2cd-56e9-4f0e-a822-232e9a7c4d0c","pl":[' +
     '{"id":"17c00a08-4bb3-4038-8173-921dfb58c689",' +
-    '"Available_volume":3531.28,' +
-    '"CURENT_VOLUME":2150.20,' +
-    '"TOTAL_WATER":318.52,' +
+    '"Available_volume":3700,' +
+    '"CURENT_VOLUME":2400,' +
+    '"TOTAL_WATER":100,' +
     '"azs":"MJ043",' +
     '"storage_space":1,' +
     '"temperature":17,' +
@@ -221,9 +242,9 @@ export function get_PL() {
     '"fuel":"АИ-92"},' +
 
     '{"id":"27c00a08-4bb3-4038-8173-921dfb58c689",' +
-    '"Available_volume":2821.17,' +
-    '"CURENT_VOLUME":3010.20,' +
-    '"TOTAL_WATER":168.63,' +
+    '"Available_volume":4900,' +
+    '"CURENT_VOLUME":1100,' +
+    '"TOTAL_WATER":100,' +
     '"azs":"MJ043",' +
     '"storage_space":2,' +
     '"temperature":18,' +
@@ -238,9 +259,9 @@ export function get_PL() {
     '"fuel":"АИ-95"},' +
 
     '{"id":"37c00a08-4bb3-4038-8173-921dfb58c689",' +
-    '"Available_volume":4218.95,' +
-    '"CURENT_VOLUME":1500,' +
-    '"TOTAL_WATER":218.05,' +
+    '"Available_volume":5000,' +
+    '"CURENT_VOLUME":4900,' +
+    '"TOTAL_WATER":100,' +
     '"azs":"MJ043",' +
     '"storage_space":3,' +
     '"temperature":19,' +
@@ -409,7 +430,7 @@ export function get_NOZZLE() {
   return JSON.parse('{"id":"f0000000-0000-0000-0000-000000000000","nozzle":[' +
     '{"id":"10000000-0000-0000-0000-000000000000",' +
     '"name":"1",' +
-    '"fuel":"АИ-92",' +    
+    '"fuel":"АИ-92",' +
     '"azs":"MJ043",' +
     '"stategun":0,' +
     '"pump":"ТРК А",' +
@@ -448,7 +469,7 @@ export function get_NOZZLE() {
     '"fuel":"ДТ",' +
     '"azs":"MJ043",' +
     '"stategun":3,' +
-    '"pump":"ТРК А",' +    
+    '"pump":"ТРК А",' +
     '"counter":75000,' +
     '"date":"03.06.2019",' +
     '"time":"21:19:00",' +
@@ -458,10 +479,10 @@ export function get_NOZZLE() {
 
     '{"id":"50000000-0000-0000-0000-000000000000",' +
     '"name":"1",' +
-    '"fuel":"АИ-92",' +    
+    '"fuel":"АИ-92",' +
     '"azs":"MJ043",' +
     '"stategun":0,' +
-    '"pump":"ТРК B",' +    
+    '"pump":"ТРК B",' +
     '"counter":122000,' +
     '"date":"03.06.2019",' +
     '"time":"21:19:00",' +
@@ -508,7 +529,7 @@ export function get_NOZZLE() {
 
     '{"id":"11000000-0000-0000-0000-000000000000",' +
     '"name":"1",' +
-    '"fuel":"АИ-92",' +    
+    '"fuel":"АИ-92",' +
     '"azs":"MJ048",' +
     '"stategun":0,' +
     '"pump":"ТРК А",' +
@@ -557,7 +578,7 @@ export function get_NOZZLE() {
 
     '{"id":"51000000-0000-0000-0000-000000000000",' +
     '"name":"1",' +
-    '"fuel":"АИ-92",' +    
+    '"fuel":"АИ-92",' +
     '"azs":"MJ048",' +
     '"stategun":2,' +
     '"pump":"ТРК B",' +

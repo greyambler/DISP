@@ -10,7 +10,8 @@ import List_device from './list_device.jsx';
 
 
 
-const _Debuge = true;
+const _Debuge = false;
+
 
 export default class w_main_azk extends React.Component {
     constructor(props) {
@@ -19,6 +20,7 @@ export default class w_main_azk extends React.Component {
         this.get_Id_AZS = this.get_Id_AZS.bind(this);
         this.state = {
             Object: null,
+
             dvcs: null,
             nameAZS: null,
             Rss: this.props.Rss,
@@ -35,7 +37,7 @@ export default class w_main_azk extends React.Component {
     }
     async get_Id_AZS(e) {
         //this.setState({ dvcs: null, nameAZS: null });
-        if (!_Debuge) {
+        //if (!_Debuge) {
             if (e != null) {
                 const Id = e.currentTarget.id;
                 const name = e.currentTarget.name;
@@ -57,14 +59,14 @@ export default class w_main_azk extends React.Component {
                     console.log(error);
                 }
             }
-        } else {
+        /*} else {
 
             this.setState({ dvcs: get_Rss_ID(e.currentTarget.id), nameAZS: e.currentTarget.name });
 
-        }
+        }*/
     }
     async tick() {
-        if (!_Debuge) {
+        //if (!_Debuge) {
 
             let rss = this.state.Rss;
             var myRequest = new Request(rss);
@@ -91,11 +93,11 @@ export default class w_main_azk extends React.Component {
                 this.setState({ isExistError: true })
                 console.log(error);
             }
-        } else {
+        /*} else {
 
             this.setState({ Object: get_DateRSS() });
 
-        }
+        }*/
     }
 
     render() {
@@ -108,7 +110,7 @@ export default class w_main_azk extends React.Component {
                     ? (
                         <div className="WinNotTree">
 
-                            <TreeDevice objects={_Objects} />
+                            <TreeDevice objects={_Objects} Rss={this.state.Rss}/>
                             <Header objects={_Objects}/>
                             <List_azs objects={_Objects} List={_Objects.obList} on_Click={this.get_Id_AZS} />
 
@@ -123,7 +125,7 @@ export default class w_main_azk extends React.Component {
                             }
                         </div>
                     ) : (
-                        <h1>Нет связи с сервером!!</h1>
+                        <h1><center>Нет связи с сервером!!</center></h1>
                     )
 
                 }

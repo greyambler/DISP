@@ -76,26 +76,21 @@ export default class treeDevice extends PureComponent {
         //this.tick();
         //this.timerID = setInterval(() => this.tick(), 30000);
     }
-    /**    componentDidUpdate(prevProps) {
-          if (this.props.MASS_DVC != prevProps.MASS_DVC) {
-              this.setState({ MASS_DVC: this.props.MASS_DVC });
-          }
-      }
-  
-     */
+
     get_Full_TreeBar() {
         let J_Rss = this.state.Objects;//JSON.parse(_Json);
         let IsOnlyAZS = true;
         let D_Tree = null;
 
         if (!IsOnlyAZS) {
-            /*
-            let Fuels = new d_tree_TreeBar('Топливо', get_ListChildTreeBar(J_Rss.fuel, 'fuel'), 'fuel', false);
-            let TpList = new d_tree_TreeBar('Оборудование', get_ListChildTreeBar(J_Rss.tpList, 'tpList'), 'tpList', false);
-            let ObLists = new d_tree_TreeBar('АЗК', get_ListChildTreeBar(J_Rss.obList, 'obList'), 'obList', false);
-    
-            D_Tree = new d_tree_TreeBar('Справочники', [Fuels, ObLists, TpList], 'root', true);
-            */
+            let Fuels = { 'name': 'Топливо', "key": "Tree_ObLists", "children": this.get_Child(J_Rss.fuel), 'toggled': true };
+            //new d_tree_TreeBar('Топливо', get_ListChildTreeBar(J_Rss.fuel, 'fuel'), 'fuel', false);
+            let TpList = { 'name': 'Оборудование', "key": "Tree_ObLists", "children": this.get_Child(J_Rss.tpList), 'toggled': true };
+            //new d_tree_TreeBar('Оборудование', get_ListChildTreeBar(J_Rss.tpList, 'tpList'), 'tpList', false);
+            let ObLists = { 'name': 'АЗК', "key": "Tree_ObLists", "children": this.get_Child(J_Rss.obList), 'toggled': true };
+            //new d_tree_TreeBar('АЗК', get_ListChildTreeBar(J_Rss.obList, 'obList'), 'obList', false);
+            D_Tree = { 'name': 'Справочники', "key": "Tree_root", "children": [Fuels, ObLists, TpList], 'toggled': true };
+            //new d_tree_TreeBar('Справочники', [Fuels, ObLists, TpList], 'root', true);
 
         } else {
             let ObLists = { 'name': 'АЗК', "key": "Tree_ObLists", "children": this.get_Child(J_Rss.obList), 'toggled': true };
@@ -131,16 +126,7 @@ export default class treeDevice extends PureComponent {
         for (const iterator of data) {
             if (iterator.id == ID) {
                 children = this.get_Child(iterator.dvc)
-                /*
-                            children = new Array();
-                            let t = 0;
-                            for (const item of iterator.dvc) {
-                                children[t] = { id: item.id, key: item.id, name: item.nm, type: item.typ, children: null };
-                                t++;
-                            }
-            */
             }
-
         }
         return children;
     }

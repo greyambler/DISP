@@ -48,7 +48,19 @@ function Get_Children_ID(data, ID) {
     }
     return children;
 }
+
+const dec ={
+    Container: (props) => {
+        return (
+            <div onClick={props.onClick}>
+                <img src='./images/oil_1.png' width="18" height="25"/>
+                {props.node.name}
+            </div>
+        );
+    }
+}
 */
+
 export default class treeDevice extends PureComponent {
     constructor(props) {
         super(props);
@@ -71,6 +83,7 @@ export default class treeDevice extends PureComponent {
             MASS_DVC: new Array(),
         };
     }
+    
     componentDidMount() {
         this.get_Full_TreeBar();
         //this.tick();
@@ -79,7 +92,7 @@ export default class treeDevice extends PureComponent {
 
     get_Full_TreeBar() {
         let J_Rss = this.state.Objects;//JSON.parse(_Json);
-        let IsOnlyAZS = true;
+        let IsOnlyAZS = false;
         let D_Tree = null;
 
         if (!IsOnlyAZS) {
@@ -164,10 +177,6 @@ export default class treeDevice extends PureComponent {
             console.log(error);
         }
     }
-
-    /** */
-
-
 
     notActiv_Node() {
         if (this.state.cursor != null) {
@@ -286,6 +295,7 @@ export default class treeDevice extends PureComponent {
                                 }
                             }
                         }}
+
 
                     />
 

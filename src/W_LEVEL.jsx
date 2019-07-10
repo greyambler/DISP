@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { Get_RSS,RSS } from './core/core_Function.jsx';
+import { RSS_Tanks, Get_RSS, RSS } from './core/core_Function.jsx';
 import W_main_level from './level/w_main_level.jsx';
 
 const _Debuge = false;
@@ -19,7 +19,7 @@ export default class w_LEVEL extends React.Component {
          <W_main_level
             header={this.state.header} w_Width={this.props.w_Width}
             startDate={this.props.dateStart} endDate={this.props.dateStop}
-            Rss={RSS}
+            Rss={RSS_Tanks}
          />
       );
    }

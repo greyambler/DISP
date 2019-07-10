@@ -90,12 +90,14 @@ export default class pl extends Component {
     render() {
         if (this.state.PL != null) {
             let TOTAL_VOLUME = 0;
-            TOTAL_VOLUME = this.state.PL.Available_volume +
+            let Available_volume = this.state.PL.Available_volume;
+            if (Available_volume == 0) {
+                Available_volume = 1000 + this.state.PL.CURENT_VOLUME;
+            }
+            TOTAL_VOLUME = Available_volume +
                 this.state.PL.CURENT_VOLUME + this.state.PL.TOTAL_WATER;
 
-
             if (TOTAL_VOLUME != 0) {
-
 
                 /******* координаты для отрисовки********************* *
                 //MAX _height 
@@ -176,9 +178,17 @@ export default class pl extends Component {
                 };
 
                 let _max = TOTAL_VOLUME;
+                if (_max == null)
+                    _max = 0;
                 let _high = TOTAL_VOLUME * 49 / 100;     //49%
+                if (isNaN(_high))
+                    _high = 0;
                 let _low = TOTAL_VOLUME * 19 / 100;      //21%
+                if (isNaN(_low))
+                    _low = 0;
                 let _optimum = TOTAL_VOLUME * 70 / 100;  //70%
+                if (isNaN(_optimum))
+                    _optimum = 0;
                 let _value = this.state.PL.CURENT_VOLUME + this.state.PL.TOTAL_WATER * 100 / TOTAL_VOLUME;
                 /*
                                 _min = 0;
@@ -189,7 +199,14 @@ export default class pl extends Component {
                                 _value = 37;
                 <meter max="10" high="6" low="3" value="2"  optimum="7"></meter>
                 */
-
+                /*
+                
+                                                <tr>
+                                                    <td className='td_Stage'>
+                                                        {this.state.PL.azs}
+                                                    </td>
+                                                </tr>
+                */
                 return (
                     <div>
                         <table className="tb_PL" >
@@ -279,7 +296,7 @@ export default class pl extends Component {
                                                 />
 
                                                 <Text fontSize={12} fill='black' Text={this.state.PL.TOTAL_WATER} x={3} y={_level_water - 5} />
-                                                
+
                                                 <Ellipse
                                                     width={50}
                                                     height={20}
@@ -338,6 +355,8 @@ export default class pl extends Component {
                                     </td>
                                 </tr>
 
+                                <tr><td colSpan='2'><hr /></td></tr>
+
                                 <tr>
                                     <td colSpan='2'>
                                         <Stage width={130} height={50} x={0} y={0}>
@@ -372,66 +391,85 @@ export default class pl extends Component {
                                         <hr />
                                     </td>
                                 </tr>
-                                <tr>
-                                    <td className='td_Stage'>
-                                        {this.state.PL.azs}
-                                    </td>
-                                </tr>
+
+
                                 <tr>
                                     <td colSpan='2'>
-                                        <hr />
+                                        <Stage width={130} height={30} x={0} y={0}>
+                                            <Layer key='1'>
+                                                <Text fontSize={13} fill='black'
+                                                    Text={this.state.PL.azs} align='center'
+                                                    x={0} y={+ 1} width={130} height={30} />
+                                            </Layer>
+                                        </Stage>
                                     </td>
                                 </tr>
+
+
+                                <tr><td colSpan='2'><hr /></td></tr>
+
                                 <tr>
                                     <td className='td_Data'>
                                         {this.state.PL.storage_space}
                                     </td>
                                 </tr>
+
+                                <tr><td colSpan='2'><hr /></td></tr>
+
                                 <tr>
                                     <td className='td_Data'>
                                         {this.state.PL.fuel}
                                     </td>
                                 </tr>
+                                <tr><td colSpan='2'><hr /></td></tr>
                                 <tr>
                                     <td className='td_Data'>
                                         {this.state.PL.Available_volume}
                                     </td>
                                 </tr>
+                                <tr><td colSpan='2'><hr /></td></tr>
                                 <tr>
                                     <td className='td_Data'>
                                         {this.state.PL.CURENT_VOLUME}
                                     </td>
                                 </tr>
+                                <tr><td colSpan='2'><hr /></td></tr>
                                 <tr>
                                     <td className='td_Data'>
                                         {this.state.PL.TOTAL_WATER}
                                     </td>
                                 </tr>
+                                <tr><td colSpan='2'><hr /></td></tr>
                                 <tr>
                                     <td className='td_Data'>
                                         {this.state.PL.temperature}
                                     </td>
                                 </tr>
+                                <tr><td colSpan='2'><hr /></td></tr>
                                 <tr>
                                     <td className='td_Data'>
                                         {this.state.PL.density}
                                     </td>
                                 </tr>
+                                <tr><td colSpan='2'><hr /></td></tr>
                                 <tr>
                                     <td className='td_Data'>
-                                        {this.state.PL.date}
+                                        {this.state.PL.date == "" ? ('-') : (this.state.PL.date)}
                                     </td>
                                 </tr>
+                                <tr><td colSpan='2'><hr /></td></tr>
                                 <tr>
                                     <td className='td_Data'>
-                                        {this.state.PL.time}
+                                        {this.state.PL.time == "" ? ('-') : (this.state.PL.time)}
                                     </td>
                                 </tr>
+                                <tr><td colSpan='2'><hr /></td></tr>
                                 <tr>
                                     <td className='td_Data'>
                                         {this.state.PL.status}
                                     </td>
                                 </tr>
+                                <tr><td colSpan='2'><hr /></td></tr>
                                 <tr>
                                     <td className='td_Data'>
                                         {this.state.PL.state}

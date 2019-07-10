@@ -1,6 +1,19 @@
 export const RSS = "http://172.23.16.18:8080/dprest-1.0-SNAPSHOT/webresources/ru.expertek.dp.dpfacade.dvc/";
 export const MARK = "http://172.23.16.18:8080/dpmark-1.0-SNAPSHOT/webresources/ru.expertek.dp.dpinside.mark";
-export const WS = "ws://172.23.16.18:8080/dpsock-1.0-SNAPSHOT/alws";
+export const WS = "ws://172.23.16.18:8080/dpsock-1.0-SNAPSHOT/alwsc";
+
+//export const WS = "ws://172.23.16.18:8080/dpsock-1.0-SNAPSHOT/alws";
+
+
+export const RSS_Tanks ="http://172.23.16.18:8080/dpmark-1.0-SNAPSHOT/webresources/ru.expertek.dp.dpinside.tank";
+
+//- обращение напрямую к WildFly
+//http://172.23.16.18:8020/dpmark-1.0-SNAPSHOT/webresources/ru.expertek.dp.dpinside.tank
+
+//- обращение через nginx
+//http://172.23.16.18:8080/dpmark-1.0-SNAPSHOT/webresources/ru.expertek.dp.dpinside.tank
+
+
 
 
 export function Get_RSS(Rss, startDate, endDate) {

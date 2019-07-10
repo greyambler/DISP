@@ -13,6 +13,8 @@
      padding-top: 20px;
      vertical-align: text-top;
      font-size: 12px;
+
+     
  }
 
  .Def_button {
@@ -43,7 +45,7 @@
  .prokrutka_pl {
      width: 100%;
      /* ширина нашего блока */
-     height: 660px;
+     height: 710px;
      /* высота нашего блока 
      background: #fff;*/
      /* цвет фона, белый 

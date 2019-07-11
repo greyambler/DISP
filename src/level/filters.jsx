@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { get_FUEL, get_Objs, get_Status, get_State } from '../core/core_Function.jsx';
+import { get_FUEL, get_Objs, get_Status, get_State, get_Text_Status_PL } from '../core/core_Function.jsx';
 
 //import W_CheckBox from '../control/viewListCheckBox.jsx';
 import W_CheckBox from '../control/w_List_ChBox.jsx';
@@ -9,6 +9,7 @@ import W_CheckBox from '../control/w_List_ChBox.jsx';
 
 
 const _Debuge = false;
+
 
 
 export default class list_pl extends Component {
@@ -25,11 +26,11 @@ export default class list_pl extends Component {
         }
     }
     componentDidMount() {
-        this.Get_AZS();
+        this.Get_AZS(this.props.pls);
     }
 
     Get_AZS(data) {
-        if (!_Debuge) {
+        if (_Debuge) {
             let _AZS = new Array();
             let _AI = new Array();
             let _TUS = new Array();
@@ -86,19 +87,19 @@ export default class list_pl extends Component {
                     if (iterator.azs != 'АЗС') {
                         if (_azs.indexOf(iterator.azs) == -1) {
                             _azs[t] = iterator.azs;
-                            _AZS[t] = { value: iterator.id, label: iterator.azs };
+                            _AZS[t] = { value: iterator.azs, label: iterator.azs, code: iterator.id };
                             t++;
                         }
 
                         if (_ai.indexOf(iterator.fuel) == -1) {
                             _ai[i] = iterator.fuel;
-                            _AI[i] = { value: iterator.id, label: iterator.fuel };
+                            _AI[i] = { value: iterator.fuel, label: iterator.fuel, code: iterator.id };
                             i++;
                         }
 
                         if (_tus.indexOf(iterator.status) == -1) {
                             _tus[r] = iterator.status;
-                            _TUS[r] = { value: iterator.id, label: iterator.status };
+                            _TUS[r] = { value: iterator.id, label: get_Text_Status_PL(iterator.status), code: iterator.status };
                             r++;
                         }
 

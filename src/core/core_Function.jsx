@@ -5,7 +5,7 @@ export const WS = "ws://172.23.16.18:8080/dpsock-1.0-SNAPSHOT/alwsc";
 //export const WS = "ws://172.23.16.18:8080/dpsock-1.0-SNAPSHOT/alws";
 
 
-export const RSS_Tanks ="http://172.23.16.18:8080/dpmark-1.0-SNAPSHOT/webresources/ru.expertek.dp.dpinside.tank";
+export const RSS_Tanks = "http://172.23.16.18:8080/dpmark-1.0-SNAPSHOT/webresources/ru.expertek.dp.dpinside.tank";
 
 //- обращение напрямую к WildFly
 //http://172.23.16.18:8020/dpmark-1.0-SNAPSHOT/webresources/ru.expertek.dp.dpinside.tank
@@ -398,6 +398,7 @@ export function get_Status() {
   );
 }
 
+
 export function get_State() {
   return JSON.parse('{"state":[{"name":"Превышие по параметру подтоварная вода","code": 0},' +
     '{"name":"Превышие по параметру минимальный объём","code": 1},' +
@@ -638,3 +639,41 @@ export function get_NOZZLE() {
     ']}'
   );
 }
+/******** Баки ************************* */
+export function get_Text_Status_PL(Int) {
+  var col = 'Нет данных';
+  switch (Int) {
+    case 0: col = 'Нет связи'; break;
+    case 1: col = 'В сети'; break;
+    case 2: col = 'Сбой'; break;
+    default: col = 'Нет связи'; break;
+  }
+  return col;
+}
+export function get_Color_Status_PL(Int) {
+  var col = 'while';
+  switch (Int) {
+    case 2:
+    case 0: col = 'rgba(255, 0, 0, 0.6)';//'red'; 
+      break;
+    case 1: col = 'rgba(0, 128, 0, 0.7)';//'green'; 
+      break;
+    default: col = 'rgba(255, 0, 0, 0.6)';//'red'; 
+      break;
+  }
+  return col;
+}
+/*
+function get_Text_NET(Int) {
+    var col = 'Нет данных';
+    switch (Int) {
+        case 0: col = 'Нет связи'; break;
+        case 1: col = 'В сети'; break;
+        default: col = 'Сбой'; break;
+    }
+    return col;
+}
+*/
+/******** Баки ************************* */
+
+

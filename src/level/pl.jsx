@@ -1,33 +1,12 @@
 import React, { Component } from 'react';
 import OL_List from '../core/OL_List.jsx'
 import { Stage, Layer, Rect, Text, Circle, Shape, Image, Ellipse } from 'react-konva';
-import { get_PL } from '../core/core_Function.jsx';
+import { get_PL, get_Text_Status_PL, get_Color_Status_PL } from '../core/core_Function.jsx';
 
 import moment from 'moment';
 
 const _Debuge = false;
 
-function get_Color_NET(Int) {
-    var col = 'while';
-    switch (Int) {
-        case 0: col = 'rgba(255, 0, 0, 0.6)';//'red'; 
-            break;
-        case 1: col = 'rgba(0, 128, 0, 0.7)';//'green'; 
-            break;
-        default: col = 'rgba(255, 0, 0, 0.6)';//'red'; 
-            break;
-    }
-    return col;
-}
-function get_Text_NET(Int) {
-    var col = 'Нет данных';
-    switch (Int) {
-        case 0: col = 'Нет связи'; break;
-        case 1: col = 'В сети'; break;
-        default: col = 'Нет связи'; break;
-    }
-    return col;
-}
 
 function get_Color_NET_2(Int) {
     var col = 'while';
@@ -124,8 +103,8 @@ export default class pl extends Component {
 
                 /********* сигнализация для отрисовки********************* */
 
-                let _color1 = get_Color_NET(this.props.PL.status);
-                let _text1 = get_Text_NET(this.props.PL.status);
+                let _color1 = get_Color_Status_PL(this.props.PL.status);
+                let _text1 = get_Text_Status_PL(this.props.PL.status);
 
                 let _color2 = get_Color_NET_2(this.props.PL.state);
                 let _text2 = get_Text_NET_2(this.props.PL.state);

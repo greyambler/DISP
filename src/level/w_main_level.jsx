@@ -237,22 +237,29 @@ export default class w_main_azk extends React.Component {
     }
 
     render() {
-        return (
-            <div>
-                <center><h4>{this.props.header}</h4></center>
-                <hr /><hr />
-                <FILTER
-                    update_Fuels={this.update_Fuels}
-                    update_Status={this.update_Status}
-                    update_Azs={this.update_Azs}
-                    update_State={this.update_State}
-                />
-                <hr /><hr />
-                {this.state._Pls != null &&
-                    <List_pl pls={this.state._Pls.sort(compare_storage_space)} update_Pls={this.update_Pls} />
-                }
+        
+        if (this.state._Pls != null) {
+            let _PLS = this.state._Pls.sort(compare_storage_space);
+            return (
+                <div>
+                    <center><h4>{this.props.header}</h4></center>
+                    <hr /><hr />
+                    <FILTER
+                        pls={_PLS}
+                        update_Fuels={this.update_Fuels}
+                        update_Status={this.update_Status}
+                        update_Azs={this.update_Azs}
+                        update_State={this.update_State}
+                    />
+                    <hr /><hr />
+                    {this.state._Pls != null &&
+                        <List_pl pls={_PLS} update_Pls={this.update_Pls} />
+                    }
 
-            </div>
-        );
+                </div>
+            );
+        } else {
+            return <br />;
+        }
     }
 }

@@ -90,7 +90,7 @@ export default class list_pl extends Component {
                 if (evt.data != null) {
                     this.props.update_Pls(evt.data);
                     this.setState({ data: evt.data })// Рабочий
-                    this.add_messages("\n" + evt.data);
+                    //his.add_messages("\n" + evt.data);
 
                 }
             }
@@ -113,14 +113,14 @@ export default class list_pl extends Component {
             this.state.connection.send(MS);
             //counter.set(1);
             this.setState({ messages: "", IsOpen: true })
-            this.add_messages("\n\tOnOpen(e)");
+            //this.add_messages("\n\tOnOpen(e)");
         }
     }
     stop_ws(e) {
         if (this.state.IsOpen) {//(this.state.connection.readyState == 1) {
             this.state.connection.close(1000, "Hello Web Sockets!");
             this.setState({ data: null, IsOpen: false });
-            this.add_messages("\n\tstop_ws(e)");
+            //this.add_messages("\n\tstop_ws(e)");
         }
     }
     add_messages(e) {

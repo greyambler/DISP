@@ -99,13 +99,14 @@ export default class list_pl extends Component {
 
                         if (_tus.indexOf(iterator.status) == -1) {
                             _tus[r] = iterator.status;
-                            _TUS[r] = { value: iterator.id, label: get_Text_Status_PL(iterator.status), code: iterator.status };
+                            //_TUS[r] = { value: iterator.id, label: get_Text_Status_PL(iterator.status), code: iterator.status };
+                            _TUS[r] = { value: iterator.id, label: iterator.status, code: iterator.status };
                             r++;
                         }
 
                         if (_te.indexOf(iterator.state) == -1) {
                             _te[s] = iterator.state;
-                            _TE[s] = { value: iterator.id, label: iterator.state };
+                            _TE[s] = { value: iterator.state, label: iterator.state, code: iterator.id };
                             s++;
                         }
                     }
@@ -141,11 +142,18 @@ export default class list_pl extends Component {
                 <table >
                     <tbody>
                         <tr>
-
-                            <td style={r1}>АЗК</td>
-                            <td style={r2}><W_CheckBox list={this.state.azs} update_Azs={this.props.update_Azs} type='azs' /></td>
+                            {!this.props.isAZS &&
+                                <td style={r1}>АЗК</td>
+                            }
+                            {!this.props.isAZS &&
+                                <td style={r2}><W_CheckBox list={this.state.azs} update_Azs={this.props.update_Azs} type='azs' /></td>
+                            }
+                            {!this.props.isFUEL &&
                             <td style={r1}>Вид НП</td>
+                            }
+                            {!this.props.isFUEL &&
                             <td style={r2}><W_CheckBox list={this.state.ai} update_Fuels={this.props.update_Fuels} type='fuel' /></td>
+                            }
                             <td style={r1}>Статус</td>
                             <td style={r2}><W_CheckBox list={this.state.status} update_Status={this.props.update_Status} type='status' /></td>
                             <td style={r1}>Состояние</td>

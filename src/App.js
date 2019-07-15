@@ -10,25 +10,37 @@ import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
 
 import MainWindow from './MainWindow.jsx';
 import W_LEVEL from './w_LEVEL.jsx';
-import W_AZK from './W_AZK.jsx';
+
+import W_AZK from './w_AZK.jsx';
 import W_NOZZLE from './w_NOZZLE.jsx';
+
+import W_TestPrototype from './w_TestPrototype.jsx';
+
 
 const _Debuge = true;
 
 class Main extends Component {
   render() {
-    return (<W_LEVEL w_Height={this.props.w_Height} w_Width={this.props.w_Width} />);
+    return (<W_TestPrototype w_Height={this.props.w_Height} w_Width={this.props.w_Width} />);
+
     /*return (<MainWindow />);
     return (<W_AZK w_Height={this.props.w_Height} w_Width={this.props.w_Width} />);
     return (<W_LEVEL w_Height={this.props.w_Height} w_Width={this.props.w_Width} />);
     return (<W_NOZZLE w_Height={this.props.w_Height} w_Width={this.props.w_Width} />);*/
   }
 }
+class TestPrototype extends Component {
+  render() {
+    return (<W_TestPrototype w_Height={this.props.w_Height} w_Width={this.props.w_Width} />);
+  }
+}
+
 class LEVEL_Main extends Component {
   render() {
     return (<W_LEVEL w_Height={this.props.w_Height} w_Width={this.props.w_Width} />);
   }
 }
+
 class NOZZLE_Main extends Component {
   render() {
     return (<W_NOZZLE w_Height={this.props.w_Height} w_Width={this.props.w_Width} />);
@@ -97,15 +109,18 @@ class Nav extends Component {
                 <li><Link to="/"><center>Технические &gt;&gt;</center></Link>
                   <ul className="submenu">
                     <li><Link to="/Table" >Таблица</Link></li>
+
+                    <li><Link to="/AZK_Main" >АЗК</Link></li>
                   </ul>
                 </li>
+
+
               }
               <li><Link to="/" >Главная</Link></li>
+              <li><Link to="/TestPrototype" >Тестовый прототип</Link></li>
               <li><Link to="/LEVEL_Main" >АСИ</Link></li>
-              <li><Link to="/NOZZLE_Main" >СЧЕТЧИКИ</Link></li>
-
-              <li><Link to="/AZK_Main" >АЗК</Link></li>
-
+              <li><Link to="/NOZZLE_Main" >Счетчики</Link></li>
+              
               <li><Link to="/settings">Настройки</Link></li>
               <li><Link to="/help">Помощь</Link></li>
             </ul>
@@ -141,7 +156,10 @@ export default class App extends Component {
           <Switch>
             <Route exact path="/" render={() => <Main w_Height={this.state.W_Height} w_Width={this.state.W_Width} />} />
 
+            <Route exact path="/TestPrototype" render={() => <TestPrototype w_Height={this.state.W_Height} w_Width={this.state.W_Width} />} />
+
             <Route exact path="/LEVEL_Main" render={() => <LEVEL_Main w_Height={this.state.W_Height} w_Width={this.state.W_Width} />} />
+
             <Route exact path="/NOZZLE_Main" render={() => <NOZZLE_Main w_Height={this.state.W_Height} w_Width={this.state.W_Width} />} />
 
             <Route exact path="/AZK_Main" render={() => <AZK_Main w_Height={this.state.W_Height} w_Width={this.state.W_Width} />} />

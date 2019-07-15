@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { get_FUEL, get_Objs, get_Status, get_State, get_StateGun,get_Pump } from '../core/core_Function.jsx';
+import { get_FUEL, get_Objs, get_Status, get_State, get_StateGun, get_Pump } from '../core/core_Function.jsx';
 
 //import W_CheckBox from '../control/viewListCheckBox.jsx';
 import W_CheckBox from '../control/w_List_ChBox.jsx';
@@ -83,7 +83,7 @@ export default class list_pl extends Component {
             }
 
 
-            this.setState({ stategun: _SGun, azs: _AZS,  pump: _Pump, ai: _AI, status: _TUS, state: _TE });
+            this.setState({ stategun: _SGun, azs: _AZS, pump: _Pump, ai: _AI, status: _TUS, state: _TE });
         } else {
             if (data != null) {
                 let _azs = new Array();
@@ -161,17 +161,23 @@ export default class list_pl extends Component {
                 <table >
                     <tbody>
                         <tr>
-                            <td style={r1}>Состояние пистолета</td>
+                        {!this.props.isAZS &&
+                                <td style={r1}>АЗК</td>
+                            }
+                            {!this.props.isAZS &&
+                                <td style={r2}><W_CheckBox list={this.state.azs} update_Azs={this.props.update_Azs} type='azs' /></td>
+                            }
+                            {!this.props.isFUEL &&
+                            <td style={r1}>Вид НП</td>
+                            }
+                            {!this.props.isFUEL &&
+                            <td style={r2}><W_CheckBox list={this.state.ai} update_Fuels={this.props.update_Fuels} type='fuel' /></td>
+                            }                            <td style={r1}>Состояние пистолета</td>
                             <td style={r2}><W_CheckBox list={this.state.stategun} update_Stategun={this.props.update_Stategun} type='stategun' /></td>
 
-                            <td style={r1}>АЗК</td>
-                            <td style={r2}><W_CheckBox list={this.state.azs} update_Azs={this.props.update_Azs} type='azs' /></td>
-                            
                             <td style={r1}>ТРК</td>
                             <td style={r2}><W_CheckBox list={this.state.pump} update_Pump={this.props.update_Pump} type='pump' /></td>
 
-                            <td style={r1}>Вид НП</td>
-                            <td style={r2}><W_CheckBox list={this.state.ai} update_Fuels={this.props.update_Fuels} type='fuel' /></td>
                             <td style={r1}>Статус</td>
                             <td style={r2}><W_CheckBox list={this.state.status} update_Status={this.props.update_Status} type='status' /></td>
 

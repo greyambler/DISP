@@ -643,10 +643,10 @@ export function get_NOZZLE() {
 export function get_Text_Status_PL(Int) {
   var col = 'Нет данных';
   switch (Int) {
-    case 0: col = 'Нет связи'; break;
-    case 1: col = 'В сети'; break;
-    case 2: col = 'Сбой'; break;
-    default: col = 'Нет связи'; break;
+    case 0: col = 'Нет связи - ' + Int; break;
+    case 1: col = 'В сети - ' + Int; break;
+    case 2: col = 'Сбой - ' + Int; break;
+    default: col = 'Нет связи - ' + Int; break;
   }
   return col;
 }
@@ -675,5 +675,3 @@ function get_Text_NET(Int) {
 }
 */
 /******** Баки ************************* */
-
-

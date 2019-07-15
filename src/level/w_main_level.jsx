@@ -92,13 +92,12 @@ export default class w_main_azk extends React.Component {
         this.SetFilters = this.SetFilters.bind(this);
         this.tick = this.tick.bind(this);
         this.state = {
-
             _Pls: null,
 
-            _Fuels: null,
+            _Azs: this.props.azs,
+            _Fuels: this.props.fuels,
             _Status: null,
-            _State: null,
-            _Azs: null,
+            _State: null,            
 
             Rss: this.props.Rss,
             _Object: null,
@@ -114,6 +113,12 @@ export default class w_main_azk extends React.Component {
     componentDidUpdate(prevProps) {
         if (this.props.Rss != prevProps.Rss) {
             this.setState({ Rss: this.props.Rss }, this.tick);
+        }
+        if(this.props.azs != prevProps.azs) {
+            this.setState({ _Azs: this.props.azs }, this.SetFilters);
+        }
+        if(this.props.fuels != prevProps.fuels) {
+            this.setState({ _Fuels: this.props.fuels }, this.SetFilters);
         }
     }
     async tick() {
@@ -250,6 +255,8 @@ export default class w_main_azk extends React.Component {
                         update_Status={this.update_Status}
                         update_Azs={this.update_Azs}
                         update_State={this.update_State}
+                        isAZS={this.props.isAZS}
+                        isFUEL={this.props.isFUEL}
                     />
                     <hr /><hr />
                     {this.state._Pls != null &&
@@ -259,7 +266,7 @@ export default class w_main_azk extends React.Component {
                 </div>
             );
         } else {
-            return <br />;
+            return <h4><center>Нет связи с сервером!!</center></h4>
         }
     }
 }

@@ -109,17 +109,25 @@ export default class w_main_nozzle extends React.Component {
         this.state = {
             _NOZZLE: null,
 
-
-            _Fuels: null,
+            _Azs: this.props.azs,
+            _Fuels: this.props.fuels,
             _Status: null,
             _State: null,
-            _Azs: null,
+            
             _Stategun: null,
 
         }
     }
     componentDidMount() {
         this.setState({ _NOZZLE: get_NOZZLE().nozzle });
+    }
+    componentDidUpdate(prevProps) {
+        if(this.props.azs != prevProps.azs) {
+            this.setState({ _Azs: this.props.azs }, this.SetFilters);
+        }
+        if(this.props.fuels != prevProps.fuels) {
+            this.setState({ _Fuels: this.props.fuels }, this.SetFilters);
+        }
     }
 
     SetFilters() {
@@ -135,7 +143,7 @@ export default class w_main_nozzle extends React.Component {
         }
         if (this.state._Azs != null) {
             _noz = Delete_Azs(_noz, this.state._Azs);
-        }        
+        }
         if (this.state._Status != null) {
             _noz = Delete_Status(_noz, this.state._Status);
         }
@@ -182,6 +190,9 @@ export default class w_main_nozzle extends React.Component {
                     update_State={this.update_State}
                     update_Stategun={this.update_Stategun}
                     update_Pump={this.update_Pump}
+                    isAZS={this.props.isAZS}
+                    isFUEL={this.props.isFUEL}
+
                 />
                 <hr /><hr />
                 <List_nozzle nozzles={this.state._NOZZLE} />

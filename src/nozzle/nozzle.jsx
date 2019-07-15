@@ -60,7 +60,8 @@ function get_Text_NET_2(Int) {
     return col;
 }
 function get_Color_NET_3(Int) {
-    var col = 'while';
+    var col = 'white';
+    
     switch (Int) {
         case 0: col = 'rgba(0, 128, 0, 0.7)';//'green'; 
             break;
@@ -71,6 +72,7 @@ function get_Color_NET_3(Int) {
             break;
         default: col = 'grey'; break;
     }
+    
     return col;
 }
 function get_Text_NET_3(Int) {
@@ -87,6 +89,7 @@ function get_Text_NET_3(Int) {
 let TRK_Text = 'white';
 function get_ICON_NET_3(Int) {
     var col = ' - ';
+    /*
     switch (Int) {
         case 0: col = '/images/trk0.png'; break;
         case 1: col = '/images/trk1.png'; break;
@@ -94,7 +97,7 @@ function get_ICON_NET_3(Int) {
         case 3: col = '/images/trk0.png'; break;
         default: col = ' - '; break;
     }
-    /*
+    */
     switch (Int) {
         case 0: col = '/images/ТРК_Ok.png'; break;
         case 1: col = '/images/ТРК_out.png'; break;
@@ -103,7 +106,7 @@ function get_ICON_NET_3(Int) {
         default: col = '/images/ТРК_NoConect.png'; break;
     }
     TRK_Text = 'black';
-    */
+    
     return col;
 }
 
@@ -169,11 +172,11 @@ export default class nozzle extends Component {
                                                     <Field _W={_W} _H={_H} obj_color={_color3} _X={_X_s} _Y={_Y_s} s_Width={0} />
                                                     <AZS_Image Image={_icon3} _W={_W_Image} _H={_H_Image} _X={_X_s + 4} _Y={_Y_1 + 4} />
 
-                                                    <Text Text={this.state.NOZZLE.name} x={_X_s + 15} y={_Y_s + 32} fill={TRK_Text}
+                                                    <Text Text={this.state.NOZZLE.name} x={_X_s + 17} y={_Y_s + 32} fill={TRK_Text}
                                                         fontSize='30' fontFamily='Calibri' />
 
                                                     <Text Text={_text3} x={_X_s + 4} y={_Y_s + 75} width={_W} fill='black'
-                                                        fontSize='14' fontFamily='Calibri' />
+                                                        fontSize='14' fontFamily='Calibri'/>
 
 
                                                 </Layer>

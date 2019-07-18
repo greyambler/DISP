@@ -14,6 +14,8 @@ import W_LEVEL from './w_LEVEL.jsx';
 import W_AZK from './w_AZK.jsx';
 import W_NOZZLE from './w_NOZZLE.jsx';
 
+import W_TRK from './w_TRK.jsx';
+
 import W_TestPrototype from './w_TestPrototype.jsx';
 
 
@@ -21,9 +23,12 @@ const _Debuge = true;
 
 class Main extends Component {
   render() {
+
     return (<W_TestPrototype w_Height={this.props.w_Height} w_Width={this.props.w_Width} />);
 
     /*return (<MainWindow />);
+    return (<W_TestPrototype w_Height={this.props.w_Height} w_Width={this.props.w_Width} />);
+     return (<W_TRK w_Height={this.props.w_Height} w_Width={this.props.w_Width} />);
     return (<W_AZK w_Height={this.props.w_Height} w_Width={this.props.w_Width} />);
     return (<W_LEVEL w_Height={this.props.w_Height} w_Width={this.props.w_Width} />);
     return (<W_NOZZLE w_Height={this.props.w_Height} w_Width={this.props.w_Width} />);*/
@@ -38,6 +43,11 @@ class TestPrototype extends Component {
 class LEVEL_Main extends Component {
   render() {
     return (<W_LEVEL w_Height={this.props.w_Height} w_Width={this.props.w_Width} />);
+  }
+}
+class TRK_Main extends Component {
+  render() {
+    return (<W_TRK w_Height={this.props.w_Height} w_Width={this.props.w_Width} />);
   }
 }
 
@@ -111,6 +121,8 @@ class Nav extends Component {
                     <li><Link to="/Table" >Таблица</Link></li>
 
                     <li><Link to="/AZK_Main" >АЗК</Link></li>
+
+                    <li><Link to="/NOZZLE_Main" >Счетчики</Link></li>
                   </ul>
                 </li>
 
@@ -118,9 +130,11 @@ class Nav extends Component {
               }
               <li><Link to="/" >Главная</Link></li>
               <li><Link to="/TestPrototype" >Тестовый прототип</Link></li>
+
               <li><Link to="/LEVEL_Main" >АСИ</Link></li>
-              <li><Link to="/NOZZLE_Main" >Счетчики</Link></li>
-              
+              <li><Link to="/TRK_Main" >ТРК</Link></li>
+
+
               <li><Link to="/settings">Настройки</Link></li>
               <li><Link to="/help">Помощь</Link></li>
             </ul>
@@ -159,6 +173,8 @@ export default class App extends Component {
             <Route exact path="/TestPrototype" render={() => <TestPrototype w_Height={this.state.W_Height} w_Width={this.state.W_Width} />} />
 
             <Route exact path="/LEVEL_Main" render={() => <LEVEL_Main w_Height={this.state.W_Height} w_Width={this.state.W_Width} />} />
+
+            <Route exact path="/TRK_Main" render={() => <TRK_Main w_Height={this.state.W_Height} w_Width={this.state.W_Width} />} />
 
             <Route exact path="/NOZZLE_Main" render={() => <NOZZLE_Main w_Height={this.state.W_Height} w_Width={this.state.W_Width} />} />
 

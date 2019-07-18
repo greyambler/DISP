@@ -5,7 +5,7 @@ import { get_NOZZLE } from '../core/core_Function.jsx';
 import List_nozzle from './list_nozzle.jsx';
 import FILTER from './filters.jsx'
 
-import './nozzle.css';
+//import './nozzle.css';
 
 const _Debuge = false;
 

@@ -8,8 +8,10 @@ import moment from 'moment';
 const _Debuge = false;
 
 
+
 function get_Color_NET_2(Int) {
-    var col = 'while';
+    var col = 'white';
+    
     switch (Int) {
         case 0: col = 'rgba(0, 128, 0, 0.7)';//'green';
             break;
@@ -20,6 +22,7 @@ function get_Color_NET_2(Int) {
             break;
         default: col = 'grey'; break;
     }
+    
     return col;
 }
 function get_Text_NET_2(Int) {
@@ -186,6 +189,7 @@ export default class pl extends Component {
                                                     </td>
                                                 </tr>
                 */
+
                 return (
                     <div>
                         <table className="tb_PL" >

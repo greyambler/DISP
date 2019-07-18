@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { get_VIEW_VIDGs, get_FUEL, get_Objs, get_Status, get_State, get_Text_Status_PL } from '../core/core_Function.jsx';
+import { get_FUEL, get_Objs, get_Status, get_State, get_StateGun, get_Pump, get_VIEW_VIDGs } from '../core/core_Function.jsx';
 
 //import W_CheckBox from '../control/viewListCheckBox.jsx';
 import W_CheckBox from '../control/w_List_ChBox.jsx';
@@ -8,9 +8,7 @@ import W_CheckBox from '../control/w_List_ChBox.jsx';
 //import { Array } from 'core-js';
 
 
-const _Debuge = true;
-
-
+const _Debuge = false;
 
 export default class list_pl extends Component {
     constructor(props) {
@@ -21,6 +19,8 @@ export default class list_pl extends Component {
             //PL: this.props._PL,
             VIEW_VIDG: null,
 
+            stategun: null,
+            pump: null,
             azs: null,
             ai: null,
             status: null,
@@ -28,7 +28,7 @@ export default class list_pl extends Component {
         }
     }
     componentDidMount() {
-        this.Get_AZS(this.props.pls);
+        this.Get_AZS();
     }
 
     Get_AZS(data) {
@@ -40,11 +40,16 @@ export default class list_pl extends Component {
             t++;
         }
 
-        if (_Debuge) {
+        if (!_Debuge) {
+            let _SGun = new Array();
+
+            let _Pump = new Array();
             let _AZS = new Array();
             let _AI = new Array();
             let _TUS = new Array();
             let _TE = new Array();
+
+
 
 
             t = 0;
@@ -53,6 +58,15 @@ export default class list_pl extends Component {
                 _AZS[t] = { value: iterator.name, label: iterator.name };
                 t++;
             }
+
+            t = 0;
+            let _StateGun = get_StateGun();
+            for (let iterator of _StateGun.stategun) {
+                _SGun[t] = { value: iterator.name, label: iterator.name, code: iterator.code };
+                t++;
+            }
+
+
             t = 0;
             let _Fuels = get_FUEL();
             for (let iterator of _Fuels.fuel) {
@@ -72,8 +86,15 @@ export default class list_pl extends Component {
                 _TE[t] = { value: iterator.code, label: iterator.name };
                 t++;
             }
+            t = 0;
+            let _Pamps = get_Pump();
+            for (let iterator of _Pamps.pump) {
+                _Pump[t] = { value: iterator.name, label: iterator.name };
+                t++;
+            }
 
-            this.setState({ VIEW_VIDG: _View_Vidg, azs: _AZS, ai: _AI, status: _TUS, state: _TE });
+
+            this.setState({ VIEW_VIDG: _View_Vidg, stategun: _SGun, azs: _AZS, pump: _Pump, ai: _AI, status: _TUS, state: _TE });
         } else {
             if (data != null) {
                 let _azs = new Array();
@@ -97,33 +118,32 @@ export default class list_pl extends Component {
                     if (iterator.azs != 'АЗС') {
                         if (_azs.indexOf(iterator.azs) == -1) {
                             _azs[t] = iterator.azs;
-                            _AZS[t] = { value: iterator.azs, label: iterator.azs, code: iterator.id };
+                            _AZS[t] = { value: iterator.id, label: iterator.azs };
                             t++;
                         }
 
                         if (_ai.indexOf(iterator.fuel) == -1) {
                             _ai[i] = iterator.fuel;
-                            _AI[i] = { value: iterator.fuel, label: iterator.fuel, code: iterator.id };
+                            _AI[i] = { value: iterator.id, label: iterator.fuel };
                             i++;
                         }
 
                         if (_tus.indexOf(iterator.status) == -1) {
                             _tus[r] = iterator.status;
-                            //_TUS[r] = { value: iterator.id, label: get_Text_Status_PL(iterator.status), code: iterator.status };
-                            _TUS[r] = { value: iterator.id, label: iterator.status, code: iterator.status };
+                            _TUS[r] = { value: iterator.id, label: iterator.status };
                             r++;
                         }
 
                         if (_te.indexOf(iterator.state) == -1) {
                             _te[s] = iterator.state;
-                            _TE[s] = { value: iterator.state, label: iterator.state, code: iterator.id };
+                            _TE[s] = { value: iterator.id, label: iterator.state };
                             s++;
                         }
                     }
                 }
-                this.setState({VIEW_VIDG: _View_Vidg, azs: _AZS, ai: _AI, status: _TUS, state: _TE, });
+                this.setState({ azs: _AZS, ai: _AI, status: _TUS, state: _TE, });
             } else {
-                this.setState({VIEW_VIDG: _View_Vidg, azs: null, ai: null, status: null, state: null, });
+                this.setState({ azs: null, ai: null, status: null, state: null, });
             }
         }
     }
@@ -155,7 +175,6 @@ export default class list_pl extends Component {
                             <td style={r1}>Вид</td>
                             <td style={r2}><W_CheckBox list={this.state.VIEW_VIDG} update_VIEW_VIDG={this.props.update_VIEW_VIDG} type='VIEW_VIDG' /></td>
 
-
                             {!this.props.isAZS &&
                                 <td style={r1}>АЗК</td>
                             }
@@ -168,10 +187,15 @@ export default class list_pl extends Component {
                             {!this.props.isFUEL &&
                                 <td style={r2}><W_CheckBox list={this.state.ai} update_Fuels={this.props.update_Fuels} type='fuel' /></td>
                             }
+
+                            <td style={r1}>Состояние пистолета</td>
+                            <td style={r2}><W_CheckBox list={this.state.stategun} update_Stategun={this.props.update_Stategun} type='stategun' /></td>
+
+                            <td style={r1}>ТРК</td>
+                            <td style={r2}><W_CheckBox list={this.state.pump} update_Pump={this.props.update_Pump} type='pump' /></td>
+
                             <td style={r1}>Статус</td>
                             <td style={r2}><W_CheckBox list={this.state.status} update_Status={this.props.update_Status} type='status' /></td>
-                            <td style={r1}>Состояние</td>
-                            <td style={r2}><W_CheckBox list={this.state.state} update_State={this.props.update_State} type='state' /></td>
 
                         </tr>
                     </tbody>
@@ -180,3 +204,13 @@ export default class list_pl extends Component {
         );
     }
 }
+
+
+/*
+
+                                <td style={r1}>Состояние</td>
+                                <td style={r2}><W_CheckBox list={this.state.state} update_State={this.props.update_State} type='state'/></td>
+
+
+
+*/

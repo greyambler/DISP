@@ -65,11 +65,13 @@ export default class w_List_ChBox extends Component {
                     t++;
                 }
             }
+            
             if (mas.length == 0) {
                 this.props.update_Azs(null);
             } else {
                 this.props.update_Azs(mas);
             }
+            
         }
 
         t = 0;
@@ -102,6 +104,24 @@ export default class w_List_ChBox extends Component {
                 this.props.update_State(null);
             } else {
                 this.props.update_State(mas);
+            }
+        }
+
+
+
+        t = 0;
+        mas = new Array();
+        if (this.props.type == 'VIEW_VIDG') {
+            for (const iterator of this.props.list) {
+                if (selectedOption.indexOf(iterator) == -1) {
+                    mas[t] = iterator.value;
+                    t++;
+                }
+            }
+            if (mas.length == 0) {
+                this.props.update_VIEW_VIDG(null);
+            } else {
+                this.props.update_VIEW_VIDG(mas);
             }
         }
     };

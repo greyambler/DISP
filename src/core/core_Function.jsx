@@ -1,11 +1,13 @@
+//справочники tpList, obList, fuel
 export const RSS = "http://172.23.16.18:8080/dprest-1.0-SNAPSHOT/webresources/ru.expertek.dp.dpfacade.dvc/";
 export const MARK = "http://172.23.16.18:8080/dpmark-1.0-SNAPSHOT/webresources/ru.expertek.dp.dpinside.mark";
 export const WS = "ws://172.23.16.18:8080/dpsock-1.0-SNAPSHOT/alwsc";
 
 //export const WS = "ws://172.23.16.18:8080/dpsock-1.0-SNAPSHOT/alws";
 
-
+// pl
 export const RSS_Tanks = "http://172.23.16.18:8080/dpmark-1.0-SNAPSHOT/webresources/ru.expertek.dp.dpinside.tank";
+
 
 //- обращение напрямую к WildFly
 //http://172.23.16.18:8020/dpmark-1.0-SNAPSHOT/webresources/ru.expertek.dp.dpinside.tank
@@ -239,7 +241,7 @@ export function get_PL() {
     '"Available_volume":3700,' +
     '"CURENT_VOLUME":2400,' +
     '"TOTAL_WATER":100,' +
-    '"azs":"MJ043",' +
+    '"azs":"АЗС-2",' +
     '"storage_space":1,' +
     '"temperature":17,' +
     '"density":0.765,' +
@@ -256,7 +258,7 @@ export function get_PL() {
     '"Available_volume":4900,' +
     '"CURENT_VOLUME":1100,' +
     '"TOTAL_WATER":100,' +
-    '"azs":"MJ043",' +
+    '"azs":"АЗС-2",' +
     '"storage_space":2,' +
     '"temperature":18,' +
     '"density":0.767,' +
@@ -273,7 +275,7 @@ export function get_PL() {
     '"Available_volume":5000,' +
     '"CURENT_VOLUME":4900,' +
     '"TOTAL_WATER":100,' +
-    '"azs":"MJ043",' +
+    '"azs":"АЗС-2",' +
     '"storage_space":3,' +
     '"temperature":19,' +
     '"density":0.769,' +
@@ -290,7 +292,7 @@ export function get_PL() {
     '"Available_volume":2812.44,' +
     '"CURENT_VOLUME":3000.20,' +
     '"TOTAL_WATER":187.36,' +
-    '"azs":"MJ048",' +
+    '"azs":"АЗС-2",' +
     '"storage_space":1,' +
     '"temperature":17,' +
     '"density":0.765,' +
@@ -307,7 +309,7 @@ export function get_PL() {
     '"Available_volume":1358.64,' +
     '"CURENT_VOLUME":4510.20,' +
     '"TOTAL_WATER":131.16,' +
-    '"azs":"MJ048",' +
+    '"azs":"АЗС-2",' +
     '"storage_space":2,' +
     '"temperature":18,' +
     '"density":0.767,' +
@@ -324,7 +326,7 @@ export function get_PL() {
     '"Available_volume":986.12,' +
     '"CURENT_VOLUME":4920.20,' +
     '"TOTAL_WATER":93.68,' +
-    '"azs":"MJ048",' +
+    '"azs":"АЗС-2",' +
     '"storage_space":3,' +
     '"temperature":19,' +
     '"density":0.769,' +
@@ -377,16 +379,16 @@ export function get_StateGun() {
 export function get_Objs() {
   return JSON.parse(
     '{"obList":[' +
-    '{"name":"MJ048"},' +
-    '{"name":"MJ043"}]}'
+    '{"name":"АЗС 81 Ярославское шоссе 15"},' +
+    '{"name":"АЗС-2"}]}'
   );
 }
 
 export function get_Pump() {
   return JSON.parse(
     '{"pump":[' +
-    '{"name":"ТРК А"},' +
-    '{"name":"ТРК B"}]}'
+    '{"name":"ТРК А на АЗС1"},' +
+    '{"name":"ТРК Б на АЗС1"}]}'
   );
 }
 
@@ -442,11 +444,15 @@ export function get_NOZZLE() {
   return JSON.parse('{"id":"f0000000-0000-0000-0000-000000000000","nozzle":[' +
     '{"id":"10000000-0000-0000-0000-000000000000",' +
     '"name":"1",' +
-    '"fuel":"АИ-92",' +
-    '"azs":"MJ043",' +
+
+    '"azs":"АЗС 81 Ярославское шоссе 15",' +
     '"stategun":0,' +
     '"pump":"ТРК А",' +
+
     '"counter":125000,' +
+    '"fuel":"АИ-92",' +
+    '"nozzle": "1",' +
+
     '"date":"03.06.2019",' +
     '"time":"21:19:00",' +
     '"status":1,' +
@@ -454,11 +460,15 @@ export function get_NOZZLE() {
 
     '{"id":"20000000-0000-0000-0000-000000000000",' +
     '"name":"2",' +
-    '"fuel":"АИ-95",' +
-    '"azs":"MJ043",' +
+
+    '"azs":"АЗС 81 Ярославское шоссе 15",' +
     '"stategun":1,' +
     '"pump":"ТРК А",' +
+
     '"counter":250300,' +
+    '"fuel":"АИ-95",' +
+    '"nozzle": "1",' +
+
     '"date":"03.06.2019",' +
     '"time":"21:19:00",' +
     '"status":1,' +
@@ -467,7 +477,7 @@ export function get_NOZZLE() {
     '{"id":"30000000-0000-0000-0000-000000000000",' +
     '"name":"3",' +
     '"fuel":"АИ-98",' +
-    '"azs":"MJ043",' +
+    '"azs":"АЗС 81 Ярославское шоссе 15",' +
     '"stategun":2,' +
     '"pump":"ТРК А",' +
     '"counter":70000,' +
@@ -479,7 +489,7 @@ export function get_NOZZLE() {
     '{"id":"40000000-0000-0000-0000-000000000000",' +
     '"name":"4",' +
     '"fuel":"ДТ",' +
-    '"azs":"MJ043",' +
+    '"azs":"АЗС 81 Ярославское шоссе 15",' +
     '"stategun":3,' +
     '"pump":"ТРК А",' +
     '"counter":75000,' +
@@ -492,7 +502,7 @@ export function get_NOZZLE() {
     '{"id":"50000000-0000-0000-0000-000000000000",' +
     '"name":"1",' +
     '"fuel":"АИ-92",' +
-    '"azs":"MJ043",' +
+    '"azs":"АЗС 81 Ярославское шоссе 15",' +
     '"stategun":0,' +
     '"pump":"ТРК B",' +
     '"counter":122000,' +
@@ -504,7 +514,7 @@ export function get_NOZZLE() {
     '{"id":"60000000-0000-0000-0000-000000000000",' +
     '"name":"2",' +
     '"fuel":"АИ-95",' +
-    '"azs":"MJ043",' +
+    '"azs":"АЗС 81 Ярославское шоссе 15",' +
     '"stategun":1,' +
     '"pump":"ТРК B",' +
     '"counter":352000,' +
@@ -516,7 +526,7 @@ export function get_NOZZLE() {
     '{"id":"70000000-0000-0000-0000-000000000000",' +
     '"name":"3",' +
     '"fuel":"АИ-98",' +
-    '"azs":"MJ043",' +
+    '"azs":"АЗС 81 Ярославское шоссе 15",' +
     '"stategun":0,' +
     '"pump":"ТРК B",' +
     '"counter":80400,' +
@@ -528,7 +538,7 @@ export function get_NOZZLE() {
     '{"id":"80000000-0000-0000-0000-000000000000",' +
     '"name":"4",' +
     '"fuel":"ДТ",' +
-    '"azs":"MJ043",' +
+    '"azs":"АЗС 81 Ярославское шоссе 15",' +
     '"stategun":3,' +
     '"pump":"ТРК B",' +
     '"counter":70200,' +
@@ -542,7 +552,7 @@ export function get_NOZZLE() {
     '{"id":"11000000-0000-0000-0000-000000000000",' +
     '"name":"1",' +
     '"fuel":"АИ-92",' +
-    '"azs":"MJ048",' +
+    '"azs":"АЗС-2",' +
     '"stategun":0,' +
     '"pump":"ТРК А",' +
     '"counter":128040,' +
@@ -554,7 +564,7 @@ export function get_NOZZLE() {
     '{"id":"21000000-0000-0000-0000-000000000000",' +
     '"name":"2",' +
     '"fuel":"АИ-95",' +
-    '"azs":"MJ048",' +
+    '"azs":"АЗС-2",' +
     '"stategun":3,' +
     '"pump":"ТРК А",' +
     '"counter":250700,' +
@@ -566,7 +576,7 @@ export function get_NOZZLE() {
     '{"id":"31000000-0000-0000-0000-000000000000",' +
     '"name":"3",' +
     '"fuel":"АИ-98",' +
-    '"azs":"MJ048",' +
+    '"azs":"АЗС-2",' +
     '"stategun":1,' +
     '"pump":"ТРК А",' +
     '"counter":170600,' +
@@ -578,7 +588,7 @@ export function get_NOZZLE() {
     '{"id":"41000000-0000-0000-0000-000000000000",' +
     '"name":"4",' +
     '"fuel":"ДТ",' +
-    '"azs":"MJ048",' +
+    '"azs":"АЗС-2",' +
     '"stategun":0,' +
     '"pump":"ТРК А",' +
     '"counter":70300,' +
@@ -591,7 +601,7 @@ export function get_NOZZLE() {
     '{"id":"51000000-0000-0000-0000-000000000000",' +
     '"name":"1",' +
     '"fuel":"АИ-92",' +
-    '"azs":"MJ048",' +
+    '"azs":"АЗС-2",' +
     '"stategun":2,' +
     '"pump":"ТРК B",' +
     '"counter":128000,' +
@@ -603,7 +613,7 @@ export function get_NOZZLE() {
     '{"id":"61000000-0000-0000-0000-000000000000",' +
     '"name":"2",' +
     '"fuel":"АИ-95",' +
-    '"azs":"MJ048",' +
+    '"azs":"АЗС-2",' +
     '"stategun":0,' +
     '"pump":"ТРК B",' +
     '"counter":1250000,' +
@@ -615,7 +625,7 @@ export function get_NOZZLE() {
     '{"id":"71000000-0000-0000-0000-000000000000",' +
     '"name":"3",' +
     '"fuel":"АИ-98",' +
-    '"azs":"MJ048",' +
+    '"azs":"АЗС-2",' +
     '"stategun":1,' +
     '"pump":"ТРК B",' +
     '"counter":175000,' +
@@ -627,7 +637,7 @@ export function get_NOZZLE() {
     '{"id":"81000000-0000-0000-0000-000000000000",' +
     '"name":"4",' +
     '"fuel":"ДТ",' +
-    '"azs":"MJ048",' +
+    '"azs":"АЗС-2",' +
     '"stategun":3,' +
     '"pump":"ТРК B",' +
     '"counter":72000,' +
@@ -675,3 +685,110 @@ function get_Text_NET(Int) {
 }
 */
 /******** Баки ************************* */
+
+/******** ТРК ************************* */
+
+
+export function get_TRK() {
+  return JSON.parse('{"id":"f0000000-0000-0000-0000-000000000000","trk":[' +
+
+    '{"id": "3216db78-d495-4e6c-8155-23b5a3bf70c7",' +
+    '"azs": "АЗС 81 Ярославское шоссе 15",' +
+    '"pump": "ТРК А на АЗС1",' +
+
+    '"Counter_Curent": "22222",' +
+    '"fuel":"Аи-95-фрост",' +
+    '"nozzle": "1",' +
+
+    '"date":"03.06.2019",' +
+    '"time":"21:19:00",' +
+    '"status":1,' +
+    '"state":1},' +
+
+
+    '{"id": "436b24f0-a6be-49f2-b8b5-07bc5de0e244",' +
+    '"azs": "АЗС 81 Ярославское шоссе 15",' +
+    '"pump": "ТРК Б на АЗС1",' +
+
+    '"Counter_Curent": "3333333",' +
+    '"fuel":"Аи-95-фрост",' +
+    '"nozzle": "2",' +
+    
+    '"date":"03.06.2019",' +
+    '"time":"21:19:00",' +
+    '"status":1,' +
+    '"state":0},' +
+
+    '{"id": "436b24f0-a6be-49f2-b8b5-07bc5de0e241",' +
+    '"azs": "АЗС-2",' +
+    '"pump": "ТРК Б на АЗС1",' +
+
+    '"Counter_Curent": "3333333",' +
+    '"fuel":"АИ-92",' +
+    '"nozzle": "1",' +
+    
+    '"date":"03.06.2019",' +
+    '"time":"21:19:00",' +
+    '"status":1,' +
+    '"state":0},' +
+
+    '{"id": "436b24f0-a6be-49f2-b8b5-07bc5de0e242",' +
+    '"azs": "АЗС-2",' +
+    '"pump": "ТРК Б на АЗС1",' +
+
+    '"Counter_Curent": "3333333",' +
+    '"fuel":"ДТ",' +
+    '"nozzle": "2",' +
+    
+    '"date":"03.06.2019",' +
+    '"time":"21:19:00",' +
+    '"status":0,' +
+    '"state":0}' +
+
+
+    ']}'
+  );
+}
+/*
+JSON.parse
+
+'{"id":"27c00a08-4bb3-4038-8173-921dfb58c689",' +
+    '"Available_volume":4900,' +
+    '"CURENT_VOLUME":1100,' +
+    '"TOTAL_WATER":100,' +
+    '"azs":"MJ043",' +
+    '"storage_space":2,' +
+    '"temperature":18,' +
+    '"density":0.767,' +
+    '"date":"03.06.2019",' +
+    '"time":"21:19:00",' +
+    '"status":1,' +
+    '"state":0,' +
+    '"fuel":"АИ-95"},' +
+
+'{"id":"21000000-0000-0000-0000-000000000000",' +
+    '"name":"2",' +
+    '"fuel":"АИ-95",' +
+    '"azs":"АЗС-2",' +
+    '"stategun":3,' +
+    '"pump":"ТРК А",' +
+    '"counter":250700,' +
+    '"date":"03.06.2019",' +
+    '"time":"21:19:00",' +
+    '"status":1,' +
+    '"state":1},' +
+*/
+
+/******** ТРК ************************* */
+
+
+export function get_VIEW_VIDGs() {
+  return JSON.parse(
+      '{"VIEW_VIDG":[' +
+      '{"name":"виджет"},' +
+      '{"name":"данные"}]}'
+  );
+}
+
+
+

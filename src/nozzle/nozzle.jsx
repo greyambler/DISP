@@ -176,7 +176,7 @@ export default class nozzle extends Component {
                                                         fontSize='30' fontFamily='Calibri' />
 
                                                     <Text Text={_text3} x={_X_s + 4} y={_Y_s + 75} width={_W} fill='black'
-                                                        fontSize='14' fontFamily='Calibri'/>
+                                                        fontSize='12' fontFamily='Calibri'/>
 
 
                                                 </Layer>
@@ -228,7 +228,7 @@ export default class nozzle extends Component {
                                                 strokeWidth={0}
                                                 valign="top"
                                             />
-                                            <Text fontSize={10} fill='black'
+                                            <Text fontSize={12} fill='black'
                                                 Text={_text2} align='center'
                                                 x={0} y={5} width={_W} height={50} />
                                         </Layer>
@@ -237,10 +237,24 @@ export default class nozzle extends Component {
                             </tr>
 
                             <tr>
-                                <td className='td_Data'>
-                                    {this.state.NOZZLE.azs}
+                                <td colSpan='2'>
+                                    <hr />
                                 </td>
                             </tr>
+
+                            <tr>
+                                <td colSpan='2'>
+                                    <Stage width={_W} height={30} x={0} y={0}>
+                                        <Layer key='1'>
+                                            <Text fontSize={12} fill='black'
+                                                Text={this.state.NOZZLE.azs} align='center'
+                                                x={0} y={+ 1} width={_W} height={30} />
+                                        </Layer>
+                                    </Stage>
+                                </td>
+                            </tr>
+
+                            <tr><td colSpan='2'><hr /></td></tr>
                             <tr>
                                 <td className='td_Data'>
                                     {this.state.NOZZLE.pump}

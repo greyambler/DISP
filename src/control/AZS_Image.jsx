@@ -10,18 +10,32 @@ class AZS_Image extends React.Component {
          _H: this.props._H,
          _X: this.props._X,
          _Y: this.props._Y,
-         src:this.props.Image,
+         image:null,
+         
+         //src:null,
+         //src:this.props.Image,
       };
    }
    componentDidMount() {
       const image = new window.Image();
-      image.src = this.state.src;//'/images/azk3.jpg';
+      image.src = this.props.Image;//this.state.src;//'/images/azk3.jpg';
       image.onload = () => {
          this.setState({
             image: image
          });
       };
    }
+   componentDidUpdate(prevProps) {
+      if (this.props.Image != prevProps.Image) {
+         const image = new window.Image();
+         image.src = this.props.Image;//this.state.src;//'/images/azk3.jpg';
+         image.onload = () => {
+            this.setState({
+               image: image
+            });
+         };
+      }
+  }
    render() {
       return (
          <Image

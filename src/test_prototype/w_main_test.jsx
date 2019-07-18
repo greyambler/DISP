@@ -4,6 +4,8 @@ import { RSS_Tanks, RSS } from '../core/core_Function.jsx';
 
 import W_main_nozzle from '../nozzle/w_main_nozzle.jsx';
 import W_main_level from '../level/w_main_level.jsx';
+import W_main_trk from '../trk/w_main_trk.jsx';
+
 
 import { get_PL } from '../core/core_Function.jsx';
 
@@ -93,9 +95,8 @@ export default class w_main_test extends React.Component {
                         </tr>
                         <tr>
                             <td>
-                                <W_main_nozzle
-
-                                    header='Отображение данных от счетчиков'
+                                <W_main_trk
+                                    header='Отображение данных с ТРК'
                                     w_Width={this.props.w_Width}
                                     startDate={this.props.dateStart} endDate={this.props.dateStop}
                                     RssDate={RSS} isAZS={true} isFUEL={true}

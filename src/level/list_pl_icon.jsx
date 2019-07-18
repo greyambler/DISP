@@ -3,7 +3,7 @@ import OL_List from '../core/OL_List.jsx'
 import { Stage, Layer, Rect, Text, Circle, Shape, Image } from 'react-konva';
 import { WS } from '../core/core_Function.jsx';
 
-import Pl from './pl.jsx'
+import Pl from './pl_icon.jsx'
 import { Array } from 'core-js';
 
 const _Debuge = false;
@@ -35,18 +35,54 @@ function get_ZeroColumn(_pl_first) {
     var col = {
         "id": 0,
         "Available_volume": "Доступный объём",
-        "CURENT_VOLUME": "Текущий объём",
+        //"CURENT_VOLUME": "Текущий объём",
         "TOTAL_WATER": "Подтоварная вода",
+        "WATER_LEVEL": "Подтоварная вода",
         "azs": "АЗС",
         "storage_space": "Резервуар №",
-        "temperature": "Температура",
-        "density": "Плотность",
-        "date": "Дата",
-        "time": "Время",
-        "status": "Статус",
-        "state": "Состояние",
-        "fuel": "Вид НП"
+        //"temperature": "Температура",
+        //"density": "Плотность",
+        //"date": "Дата",
+        //"time": "Время",
+        "TP_STATUS": "Статус",
+        "TP_ALARM": "Состояние",
+        //"status": "Статус",
+        //"state": "Состояние",
+        "fuel": "Вид НП",
+
+        "PRODUCT_LEVEL": "Уровень продукта",
+        "TOTAL_OBSERVED_VOLUME": "Общий_объем",
+        //"TOTAL_GROSS_STANDARD_VOLUME": "TOTAL_GROSS_STANDARD_VOLUME",
+        "AVERAGE_TEMP": "Температура",
+        "OBSERVED_DENSITY": "Плотность",
+        //"WATER_VOLUME": "WATER_VOLUME",
+        "LAST_READING_DATE": "Дата",
+        "LAST_READING_TIME": "Время"
+
+
     };
+
+
+    // пример выгружаемого объекта:
+    // {
+    //  "id":"f09de2cd-56e9-4f0e-a822-232e9a7c4d0c",
+    //  "TP_STATUS":2,
+    //  "TP_ALARM":123,
+    //  ... далее поля, в зависимости от DATA_MASK:
+    //  "PRODUCT_LEVEL":0.1,
+    //  "TOTAL_OBSERVED_VOLUME":0.1,
+    //  "TOTAL_GROSS_STANDARD_VOLUME":0.1,
+    //  "AVERAGE_TEMP":0.1,
+    //  "OBSERVED_DENSITY":0.1,
+    //  "LAST_READING_DATE":"2019/12/28",
+    //  "LAST_READING_TIME":"22:08:54",
+    //  "WATER_VOLUME":0.1,
+    //  ... на поле WATER_LEVEL отсутствует флаг в DATA_MASK
+    //  "WATER_LEVEL":0.1
+    // }
+
+
+
     return col;
 }
 function get_Json_String(mstring) {
@@ -102,8 +138,7 @@ export default class list_pl extends Component {
             let Mass_Id = new Array();
             let t = 0;
             for (let index = 0; index < this.props.pls.length; index++) {
-                if (this.props.pls[index].id != 0) 
-                {
+                if (this.props.pls[index].id != 0) {
                     Mass_Id[t] = this.props.pls[index].id.toString();
                     t++;
                 }
@@ -140,13 +175,13 @@ export default class list_pl extends Component {
             }
 
             let Li_Level = {
-                width: this.props.pls.length * 140 + 'px',
+                width: this.props.pls.length * 150 + 'px',
                 //color: 'black',
                 //background: 'burlywood',
             }
 
             return (
-                <div className='prokrutka_pl'>
+                <div className='prokrutka_pl_Icon'>
                     <center>
                         <ul className="hr" style={Li_Level}>
                             <center className='TBL' ><h4>Резервуары</h4></center>
@@ -158,6 +193,8 @@ export default class list_pl extends Component {
                                             <Pl PL={el}
                                                 key={'PL ' + el.id}
                                                 id={el.id}
+                                                View_Icon={this.props.View_Icon}
+                                                View_Data={this.props.View_Data}
                                             />
                                         </li>
                                     ))

@@ -161,18 +161,20 @@ export default class list_pl extends Component {
                 <table >
                     <tbody>
                         <tr>
-                        {!this.props.isAZS &&
+                            {!this.props.isAZS &&
                                 <td style={r1}>АЗК</td>
                             }
                             {!this.props.isAZS &&
                                 <td style={r2}><W_CheckBox list={this.state.azs} update_Azs={this.props.update_Azs} type='azs' /></td>
                             }
                             {!this.props.isFUEL &&
-                            <td style={r1}>Вид НП</td>
+                                <td style={r1}>Вид НП</td>
                             }
                             {!this.props.isFUEL &&
-                            <td style={r2}><W_CheckBox list={this.state.ai} update_Fuels={this.props.update_Fuels} type='fuel' /></td>
-                            }                            <td style={r1}>Состояние пистолета</td>
+                                <td style={r2}><W_CheckBox list={this.state.ai} update_Fuels={this.props.update_Fuels} type='fuel' /></td>
+                            }
+
+                            <td style={r1}>Состояние пистолета</td>
                             <td style={r2}><W_CheckBox list={this.state.stategun} update_Stategun={this.props.update_Stategun} type='stategun' /></td>
 
                             <td style={r1}>ТРК</td>

@@ -6,22 +6,23 @@ import { get_DateRSS, get_Rss_ID, get_PL } from '../core/core_Function.jsx';
 import Header from '../control/header.jsx';
 import TreeDevice from '../control/treeDevice.jsx';
 
-import List_pl from './list_pl.jsx'
+import List_pl from './list_pl_icon.jsx'
 import FILTER from './filters.jsx'
 
+import moment from 'moment';
 
 const _Debuge = false;
 const _Debuge_update_Pls = false;
+const _Debuge_Mess = false;
 
-
-function Delete_Status(data, dataF) {
+function Delete_Azs(data, dataF) {
     var indices = [];
     if (data != null && dataF != null) {
         var indices = [];
         let t = 0;
         for (let index = 0; index < data.length; index++) {
 
-            if (dataF.indexOf(data[index].status) == -1) {
+            if (dataF.indexOf(data[index].azs.toUpperCase()) == -1) {
                 indices[t] = data[index];
                 t++;
             }
@@ -44,14 +45,16 @@ function Delete_Fuels(data, dataF) {
     }
     return indices;
 }
-function Delete_Azs(data, dataF) {
+
+
+function Delete_Status(data, dataF) {
     var indices = [];
     if (data != null && dataF != null) {
         var indices = [];
         let t = 0;
         for (let index = 0; index < data.length; index++) {
 
-            if (dataF.indexOf(data[index].azs.toUpperCase()) == -1) {
+            if (dataF.indexOf(data[index].status) == -1) {
                 indices[t] = data[index];
                 t++;
             }
@@ -59,6 +62,7 @@ function Delete_Azs(data, dataF) {
     }
     return indices;
 }
+
 function Delete_State(data, dataF) {
     var indices = [];
     if (data != null && dataF != null) {
@@ -79,6 +83,29 @@ function compare_storage_space(a, b) {
     if (a.storage_space > b.storage_space) return 1;
     if (a.storage_space < b.storage_space) return -1;
 }
+function compare_azs(a, b) {
+    /*
+    if (a.azs > b.azs) {
+        if (a.storage_space > b.storage_space) {
+            return 1;
+        } else {
+            return -1;
+        }
+    }
+    */
+    if (a.azs > b.azs) return 1;
+    if (a.azs < b.azs) return -1;
+    /*
+    if (a.azs < b.azs) {
+        if (a.storage_space < b.storage_space) {
+            return 1;
+        } else {
+            return -1;
+        }
+
+    }
+    */
+}
 
 let _CURENT_VOLUME = 2000;
 let _density = 754;
@@ -97,10 +124,15 @@ export default class w_main_azk extends React.Component {
             _Azs: this.props.azs,
             _Fuels: this.props.fuels,
             _Status: null,
-            _State: null,            
+            _State: null,
 
             Rss: this.props.Rss,
             _Object: null,
+
+            _View_Vidg: null,
+            _View_Icon: true,
+            _View_Data: true,
+
         }
     }
     componentDidMount() {
@@ -114,10 +146,10 @@ export default class w_main_azk extends React.Component {
         if (this.props.Rss != prevProps.Rss) {
             this.setState({ Rss: this.props.Rss }, this.tick);
         }
-        if(this.props.azs != prevProps.azs) {
+        if (this.props.azs != prevProps.azs) {
             this.setState({ _Azs: this.props.azs }, this.SetFilters);
         }
-        if(this.props.fuels != prevProps.fuels) {
+        if (this.props.fuels != prevProps.fuels) {
             this.setState({ _Fuels: this.props.fuels }, this.SetFilters);
         }
     }
@@ -176,6 +208,25 @@ export default class w_main_azk extends React.Component {
             this.setState({ _Pls: _pls });
         }
     }
+
+    update_VIEW_VIDG = (View_Vidg) => {
+        if (View_Vidg != null) {
+            let _view_Icon = true;
+            let _view_Data = true;
+            for (const iterator of View_Vidg) {
+                if (iterator == "виджет") {
+                    _view_Icon = false;
+                }
+                if (iterator == "данные") {
+                    _view_Data = false;
+                }
+            }
+            this.setState({ _View_Icon: _view_Icon, _View_Data: _view_Data });
+        } else {
+            this.setState({ _View_Icon: true, _View_Data: true });
+        }
+    }
+
     update_Fuels = (Fuels) => {
         this.setState({ _Fuels: Fuels }, this.SetFilters);
     }
@@ -211,7 +262,8 @@ export default class w_main_azk extends React.Component {
                         if (Item.id == iterator.id) {
                             for (var key in Item) {
                                 if (key != "id") {
-                                    iterator[key] = Item[key];
+                                    let date = moment().local('ru').format('HH-mm-ss');
+                                    iterator[key] = (_Debuge_Mess) ? Item[key] + "  [ws]" : Item[key];
                                 }
                             }
                         }
@@ -242,14 +294,16 @@ export default class w_main_azk extends React.Component {
     }
 
     render() {
-        
+
         if (this.state._Pls != null) {
-            let _PLS = this.state._Pls.sort(compare_storage_space);
+            let _PLS = this.state._Pls.sort(compare_azs);
             return (
                 <div>
                     <center><h4>{this.props.header}</h4></center>
                     <hr /><hr />
                     <FILTER
+                        update_VIEW_VIDG={this.update_VIEW_VIDG}
+
                         pls={_PLS}
                         update_Fuels={this.update_Fuels}
                         update_Status={this.update_Status}
@@ -260,7 +314,10 @@ export default class w_main_azk extends React.Component {
                     />
                     <hr /><hr />
                     {this.state._Pls != null &&
-                        <List_pl pls={_PLS} update_Pls={this.update_Pls} />
+                        <List_pl pls={_PLS} update_Pls={this.update_Pls}
+                            View_Icon={this.state._View_Icon}
+                            View_Data={this.state._View_Data}
+                        />
                     }
 
                 </div>

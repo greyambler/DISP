@@ -1,6 +1,10 @@
 import React, { Component, PropTypes } from 'react';
 
-import { get_DateRSS, get_Rss_ID, get_PL } from '../core/core_Function.jsx';
+import {
+    get_DateRSS, get_Rss_ID, get_PL,
+    IsExistAZS, get_ETALON_AZS, get_Mas_MAS_S,
+    compare_storage_space, compare_azs
+} from '../core/core_Function.jsx';
 
 
 import Header from '../control/header.jsx';
@@ -45,8 +49,6 @@ function Delete_Fuels(data, dataF) {
     }
     return indices;
 }
-
-
 function Delete_Status(data, dataF) {
     var indices = [];
     if (data != null && dataF != null) {
@@ -62,7 +64,6 @@ function Delete_Status(data, dataF) {
     }
     return indices;
 }
-
 function Delete_State(data, dataF) {
     var indices = [];
     if (data != null && dataF != null) {
@@ -79,38 +80,11 @@ function Delete_State(data, dataF) {
     return indices;
 }
 
-function compare_storage_space(a, b) {
-    if (a.storage_space > b.storage_space) return 1;
-    if (a.storage_space < b.storage_space) return -1;
-}
-function compare_azs(a, b) {
-    /*
-    if (a.azs > b.azs) {
-        if (a.storage_space > b.storage_space) {
-            return 1;
-        } else {
-            return -1;
-        }
-    }
-    */
-    if (a.azs > b.azs) return 1;
-    if (a.azs < b.azs) return -1;
-    /*
-    if (a.azs < b.azs) {
-        if (a.storage_space < b.storage_space) {
-            return 1;
-        } else {
-            return -1;
-        }
-
-    }
-    */
-}
-
 let _CURENT_VOLUME = 2000;
 let _density = 754;
 let _temperature = 17;
 let _TOTAL_WATER = 200;
+
 
 
 export default class w_main_azk extends React.Component {
@@ -132,7 +106,6 @@ export default class w_main_azk extends React.Component {
             _View_Vidg: null,
             _View_Icon: true,
             _View_Data: true,
-
         }
     }
     componentDidMount() {
@@ -182,8 +155,6 @@ export default class w_main_azk extends React.Component {
             console.log(error);
         }
     }
-
-
     SetFilters() {
         let _pls;
         if (_Debuge) {
@@ -208,7 +179,6 @@ export default class w_main_azk extends React.Component {
             this.setState({ _Pls: _pls });
         }
     }
-
     update_VIEW_VIDG = (View_Vidg) => {
         if (View_Vidg != null) {
             let _view_Icon = true;
@@ -226,7 +196,6 @@ export default class w_main_azk extends React.Component {
             this.setState({ _View_Icon: true, _View_Data: true });
         }
     }
-
     update_Fuels = (Fuels) => {
         this.setState({ _Fuels: Fuels }, this.SetFilters);
     }
@@ -239,7 +208,6 @@ export default class w_main_azk extends React.Component {
     update_State = (State) => {
         this.setState({ _State: State }, this.SetFilters);
     }
-
     update_Pls = (J_PL) => {
         if (_Debuge_update_Pls) {
             if (this.state._Pls != null) {
@@ -294,9 +262,14 @@ export default class w_main_azk extends React.Component {
     }
 
     render() {
-
         if (this.state._Pls != null) {
-            let _PLS = this.state._Pls.sort(compare_azs);
+            let _PLS_Filter = this.state._Pls;
+            let E_AZS = undefined;
+            let _PLS = undefined;
+            if (this.props.isHiFilter) {
+                E_AZS = get_ETALON_AZS(this.state._Pls);
+                _PLS = get_Mas_MAS_S(this.state._Pls, E_AZS);
+            }
             return (
                 <div>
                     <center><h4>{this.props.header}</h4></center>
@@ -304,7 +277,7 @@ export default class w_main_azk extends React.Component {
                     <FILTER
                         update_VIEW_VIDG={this.update_VIEW_VIDG}
 
-                        pls={_PLS}
+                        pls={_PLS_Filter}
                         update_Fuels={this.update_Fuels}
                         update_Status={this.update_Status}
                         update_Azs={this.update_Azs}
@@ -314,12 +287,14 @@ export default class w_main_azk extends React.Component {
                     />
                     <hr /><hr />
                     {this.state._Pls != null &&
-                        <List_pl pls={_PLS} update_Pls={this.update_Pls}
+                        <List_pl
+                            pls={_PLS_Filter}
+                            pls_Mass={_PLS}
+                            update_Pls={this.update_Pls}
                             View_Icon={this.state._View_Icon}
                             View_Data={this.state._View_Data}
                         />
                     }
-
                 </div>
             );
         } else {

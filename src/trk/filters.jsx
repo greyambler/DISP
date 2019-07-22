@@ -154,7 +154,7 @@ export default class list_pl extends Component {
             paddingLeft: 20,
             //height: 15,
             textAlign: 'left',
-            fontSize: 11,
+            fontSize: 12,
         }
         let r2 = {
             width: 120,
@@ -164,7 +164,7 @@ export default class list_pl extends Component {
             //paddingLeft : 20,
             //height: 15,
             textAlign: 'left',
-            fontSize: 11,
+            fontSize: 12,
         }
 
         return (

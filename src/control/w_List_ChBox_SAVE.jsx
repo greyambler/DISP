@@ -1,57 +1,21 @@
-import React from 'react';
-import MultiSelect from "@khanacademy/react-multi-select";
+import React, { Component } from 'react';
+import ReactMultiSelectCheckboxes from 'react-multiselect-checkboxes';
 
-const options = [
-    { label: "One", value: 1 },
-    { label: "Two", value: 2 },
-    { label: "Three", value: 3 },
-];
 
-export default class w_List_ChBox extends React.Component {
+export default class w_List_ChBox extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-            selected: [],
-        }
+        
+        this.handleChange = this.handleChange.bind(this);
+
     }
-    componentDidMount() {
-        this.setState({ selected: this.props.list });
-    }
-    componentDidUpdate(prevProps) {
-        if (this.props.list != prevProps.list) {
-            this.setState({ selected: this.props.list });
-        }
-    }
-    /*
-        state = {
-            selected: [],
-        }
-    */
+
     handleChange = selectedOption => {
-        this.setState({ selected: selectedOption });
-
-        /*
-        let t = 0;
-        let mas = new Array();
-
-        if (this.props.type == 'azs') {
-            for (const iterator of this.props.list) {
-                if (selectedOption.indexOf(iterator.value) == -1) {
-                    mas[t] = iterator.value.toUpperCase();
-                    t++;
-                }
-            }
-            if (mas.length == 0) {
-                this.props.update_Azs(null);
-            } else {
-                this.props.update_Azs(mas);
-            }
-        } */
         let t = 0;
         let mas = new Array();
         if (this.props.type == 'status') {
             for (const iterator of this.props.list) {
-                if (selectedOption.indexOf(iterator.value) == -1) {
+                if (selectedOption.indexOf(iterator) == -1) {
                     mas[t] = iterator.code;
                     t++;
                 }
@@ -66,7 +30,7 @@ export default class w_List_ChBox extends React.Component {
         mas = new Array();
         if (this.props.type == 'stategun') {
             for (const iterator of this.props.list) {
-                if (selectedOption.indexOf(iterator.value) == -1) {
+                if (selectedOption.indexOf(iterator) == -1) {
                     mas[t] = iterator.code;
                     t++;
                 }
@@ -81,7 +45,7 @@ export default class w_List_ChBox extends React.Component {
         mas = new Array();
         if (this.props.type == 'fuel') {
             for (const iterator of this.props.list) {
-                if (selectedOption.indexOf(iterator.value) == -1) {
+                if (selectedOption.indexOf(iterator) == -1) {
                     mas[t] = iterator.value.toUpperCase();
                     t++;
                 }
@@ -96,7 +60,7 @@ export default class w_List_ChBox extends React.Component {
         mas = new Array();
         if (this.props.type == 'azs') {
             for (const iterator of this.props.list) {
-                if (selectedOption.indexOf(iterator.value) == -1) {
+                if (selectedOption.indexOf(iterator) == -1) {
                     mas[t] = iterator.value.toUpperCase();
                     t++;
                 }
@@ -113,7 +77,7 @@ export default class w_List_ChBox extends React.Component {
         mas = new Array();
         if (this.props.type == 'pump') {
             for (const iterator of this.props.list) {
-                if (selectedOption.indexOf(iterator.value) == -1) {
+                if (selectedOption.indexOf(iterator) == -1) {
                     mas[t] = iterator.value.toUpperCase();
                     t++;
                 }
@@ -128,7 +92,7 @@ export default class w_List_ChBox extends React.Component {
         mas = new Array();
         if (this.props.type == 'state') {
             for (const iterator of this.props.list) {
-                if (selectedOption.indexOf(iterator.value) == -1) {
+                if (selectedOption.indexOf(iterator) == -1) {
                     mas[t] = iterator.value;
                     t++;
                 }
@@ -143,7 +107,7 @@ export default class w_List_ChBox extends React.Component {
         mas = new Array();
         if (this.props.type == 'VIEW_VIDG') {
             for (const iterator of this.props.list) {
-                if (selectedOption.indexOf(iterator.value) == -1) {
+                if (selectedOption.indexOf(iterator) == -1) {
                     mas[t] = iterator.value;
                     t++;
                 }
@@ -154,30 +118,30 @@ export default class w_List_ChBox extends React.Component {
                 this.props.update_VIEW_VIDG(mas);
             }
         }
-
     };
-    render() {
-        if (this.props.list != null && this.state.selected) {
-            //const { selected } = this.state;
-            //onSelectedChanged={selected => this.setState({ selected })}
-            //onSelectedChanged={this.handleChange}
 
+
+
+    render() {
+        let Li_Level = { height: 10 + 'px', }
+        //width  style={Li_Level} className="Def_button"
+        if (this.props.list != null) {
             return (
-                <MultiSelect
+
+                <ReactMultiSelectCheckboxes
+                    className="RMS_checkbox"
+                    id="checkbox"
+                    width='100%'
+                    height='10px'
+                    defaultValue={this.props.list}
                     options={this.props.list}
-                    selected={this.state.selected}
-                    onSelectedChanged={this.handleChange}
-                    overrideStrings={{
-                        selectSomeItems: "Выберите ...",
-                        allItemsAreSelected: "Все выбрано",
-                        selectAll: "Выбрать все",
-                        search: "Поиск",
-                    }}
+                    isMulti
+                    onChange={this.handleChange}
                 />
+
             );
         } else {
             return <br />;
         }
     }
 }
-

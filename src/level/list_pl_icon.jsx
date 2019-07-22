@@ -93,6 +93,7 @@ function get_Json_String(mstring) {
 
 }
 
+
 export default class list_pl extends Component {
     constructor(props) {
         super(props);
@@ -112,7 +113,6 @@ export default class list_pl extends Component {
     componentDidMount() {
         this.start_ws();
     }
-
     start_ws(e) {
         if (this.state.connection == null) {
 
@@ -166,47 +166,95 @@ export default class list_pl extends Component {
             });
         }
     }
-
     render() {
-        if (this.props.pls != null) {
-            if (this.props.pls.length > 0 && this.props.pls[0].id != 0) {
-                let _PL_0 = get_ZeroColumn();
-                this.props.pls.splice(0, -1, _PL_0);
+        if (this.props.pls_Mass == undefined) {
+            if (this.props.pls != null) {
+                if (this.props.pls.length > 0 && this.props.pls[0].id != 0) {
+                    let _PL_0 = get_ZeroColumn();
+                    this.props.pls.splice(0, -1, _PL_0);
+                }
+                let Li_Level = {
+                    width: this.props.pls.length * 140 + 'px',
+                    //color: 'black',
+                    //background: 'burlywood',
+                }
+                return (
+                    <div className='prokrutka_pl_Icon'>
+                        <center>
+                            <ul className="hr" style={Li_Level}>
+                                <center className='TBL' ><h4>Резервуары</h4></center>
+                                <hr /><hr />
+                                <center>
+                                    {
+                                        this.props.pls.map(el => (
+                                            <li key={'li ' + el.id}>
+                                                <Pl PL={el}
+                                                    key={'PL ' + el.id}
+                                                    id={el.id}
+                                                    View_Icon={this.props.View_Icon}
+                                                    View_Data={this.props.View_Data}
+                                                />
+                                            </li>
+                                        ))
+                                    }
+                                </center>
+                            </ul>
+                        </center>
+                    </div>
+                );
+            } else {
+                return <br />;
             }
-
-            let Li_Level = {
-                width: this.props.pls.length * 150 + 'px',
-                //color: 'black',
-                //background: 'burlywood',
-            }
-
-            return (
-                <div className='prokrutka_pl_Icon'>
-                    <center>
-                        <ul className="hr" style={Li_Level}>
-                            <center className='TBL' ><h4>Резервуары</h4></center>
-                            <hr /><hr />
-                            <center>
-                                {
-                                    this.props.pls.map(el => (
-                                        <li key={'li ' + el.id}>
-                                            <Pl PL={el}
-                                                key={'PL ' + el.id}
-                                                id={el.id}
-                                                View_Icon={this.props.View_Icon}
-                                                View_Data={this.props.View_Data}
-                                            />
-                                        </li>
-                                    ))
-                                }
-                            </center>
-                        </ul>
-                    </center>
-                </div>
-            );
         } else {
-            return <br />;
+            if (this.props.pls_Mass != null) {
+                if (this.props.pls_Mass.length > 0 && this.props.pls_Mass[0][0].id != 0) {
+                    let _PL_0 = get_ZeroColumn();
+                    this.props.pls_Mass[0].splice(0, -1, _PL_0);
+                }
+                let ColAll = 0;
+                for (const iterator of this.props.pls_Mass) {
+                    ColAll = ColAll + iterator.length;
+                }
+                let Li_Level = { width: ColAll * 110 + 'px', }
+                return (
+                    <div className='prokrutka_pl_Icon' >
+                        <center>
+                            <ul className="hr" style={Li_Level}>
+                                <center className='TBL' ><h4>Резервуары</h4></center>
+                                <hr /><hr />
+                                <center>
+                                    <table>
+                                        <tbody>
+                                            <tr>
+                                                {
+                                                    this.props.pls_Mass.map(pls_el => (
+                                                        <td>
+                                                            {
+                                                                pls_el.map(el => (
+                                                                    <li key={'li ' + el.id}>
+                                                                        <Pl PL={el}
+                                                                            key={'PL ' + el.id}
+                                                                            id={el.id}
+                                                                            View_Icon={this.props.View_Icon}
+                                                                            View_Data={this.props.View_Data}
+                                                                        />
+                                                                    </li>
+                                                                ))
+                                                            }
+                                                        </td>
+                                                    ))
+                                                }
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </center>
+                            </ul>
+                        </center>
+                    </div>
+                );
+            } else {
+                return <br />;
+            }
         }
-
     }
 }

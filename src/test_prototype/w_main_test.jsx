@@ -84,12 +84,12 @@ export default class w_main_test extends React.Component {
                         <tr >
                             <td>
                                 <W_main_level
-
                                     header='Отображение данных от уровнемеров'
                                     w_Width={this.props.w_Width}
                                     startDate={this.props.dateStart} endDate={this.props.dateStop}
                                     Rss={RSS_Tanks} isAZS={true} isFUEL={true}
                                     azs={this.state._Azs} fuels={this.state._Fuels}
+                                    isHiFilter={true}
                                 />
                             </td>
                         </tr>
@@ -101,6 +101,7 @@ export default class w_main_test extends React.Component {
                                     startDate={this.props.dateStart} endDate={this.props.dateStop}
                                     RssDate={RSS} isAZS={true} isFUEL={true}
                                     azs={this.state._Azs} fuels={this.state._Fuels}
+                                    isHiFilter={true}
                                 />
                             </td>
                         </tr>

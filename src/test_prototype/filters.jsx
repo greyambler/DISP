@@ -3,6 +3,8 @@ import { get_FUEL, get_Objs, get_Status, get_State, get_Text_Status_PL } from '.
 
 //import W_CheckBox from '../control/viewListCheckBox.jsx';
 import W_CheckBox from '../control/w_List_ChBox.jsx';
+//import W_CheckBoxM from '../control/w_List_ChBoxM.jsx';
+
 
 //import moment from 'moment';
 //import { Array } from 'core-js';
@@ -76,6 +78,8 @@ export default class list_pl extends Component {
                 this.setState({ azs: null, ai: null });
             }
         }
+
+
     }
 
     render() {
@@ -84,7 +88,7 @@ export default class list_pl extends Component {
             paddingLeft: 20,
             //height: 15,
             textAlign: 'left',
-            fontSize: 11,
+            fontSize: 12,
         }
         let r2 = {
             width: 120,
@@ -94,8 +98,14 @@ export default class list_pl extends Component {
             //paddingLeft : 20,
             //height: 15,
             textAlign: 'left',
-            fontSize: 11,
+            fontSize: 12,
         }
+        /*
+                                <td style={r1}>АЗК_New</td>
+                                    <td style={r2}><W_CheckBoxM list={this.state.azs} update_Azs={this.props.update_Azs} type='azs' /></td>
+        
+        */
+        
 
         return (
             <center>

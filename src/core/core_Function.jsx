@@ -23,6 +23,61 @@ export function Get_RSS(Rss, startDate, endDate) {
   return rss;
 }
 
+export function IsExistAZS(mas, azs) {
+  for (const iterator of mas) {
+    if (iterator == azs) {
+      return true;
+    }
+  }
+  return false;
+}
+export function get_ETALON_AZS(data_all) {
+
+  if (data_all != undefined) {
+    let MAS_AZS = new Array();
+    for (const iterator of data_all) {
+      if (!IsExistAZS(MAS_AZS, iterator.azs)) {
+        MAS_AZS.push(iterator.azs);
+      }
+    }
+    return MAS_AZS;
+  }
+  else {
+    return undefined;
+  }
+}
+export function get_Mas_MAS_S(data_all, ETALON_AZS) {
+  let MAS_AZS = new Array();
+  if (ETALON_AZS != undefined) {
+    for (const azs of ETALON_AZS) {
+      if (data_all.length > 0) {
+        let s_AZS = new Array();
+        for (const item of data_all) {
+          if (azs == item.azs) {
+            s_AZS.push(item);
+          }
+        }
+        MAS_AZS.push(s_AZS.sort(compare_storage_space));
+      }
+    }
+  } else {
+    MAS_AZS.push(data_all);
+  }
+  return MAS_AZS;
+}
+
+
+
+export function compare_storage_space(a, b) {
+  if (a.storage_space > b.storage_space) return 1;
+  if (a.storage_space < b.storage_space) return -1;
+}
+export function compare_azs(a, b) {
+  if (a.azs > b.azs) return 1;
+  if (a.azs < b.azs) return -1;
+}
+
+
 
 /*
 export function get_DateRSS() {
@@ -713,7 +768,7 @@ export function get_TRK() {
     '"Counter_Curent": "3333333",' +
     '"fuel":"Аи-95-фрост",' +
     '"nozzle": "2",' +
-    
+
     '"date":"03.06.2019",' +
     '"time":"21:19:00",' +
     '"status":1,' +
@@ -726,7 +781,7 @@ export function get_TRK() {
     '"Counter_Curent": "3333333",' +
     '"fuel":"АИ-92",' +
     '"nozzle": "1",' +
-    
+
     '"date":"03.06.2019",' +
     '"time":"21:19:00",' +
     '"status":1,' +
@@ -739,7 +794,7 @@ export function get_TRK() {
     '"Counter_Curent": "3333333",' +
     '"fuel":"ДТ",' +
     '"nozzle": "2",' +
-    
+
     '"date":"03.06.2019",' +
     '"time":"21:19:00",' +
     '"status":0,' +
@@ -784,9 +839,9 @@ JSON.parse
 
 export function get_VIEW_VIDGs() {
   return JSON.parse(
-      '{"VIEW_VIDG":[' +
-      '{"name":"виджет"},' +
-      '{"name":"данные"}]}'
+    '{"VIEW_VIDG":[' +
+    '{"name":"виджет"},' +
+    '{"name":"данные"}]}'
   );
 }
 

@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@khanacademy/react-multi-select": "^0.3.3",
     "konva": "^3.3.3",
     "moment": "^2.24.0",
     "react": "^16.8.6",

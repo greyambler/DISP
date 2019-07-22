@@ -1,6 +1,10 @@
 import React, { Component, PropTypes } from 'react';
 
-import { get_TRK, get_VIEW_VIDGs } from '../core/core_Function.jsx';
+import {
+    get_TRK, get_VIEW_VIDGs,
+    IsExistAZS, get_ETALON_AZS,get_Mas_MAS_S,
+    compare_storage_space, compare_azs
+} from '../core/core_Function.jsx';
 
 import List_trk from './list_trk.jsx';
 import FILTER from './filters.jsx'
@@ -69,7 +73,6 @@ function Delete_Pump(data, dataF) {
     }
     return indices;
 }
-
 function Delete_Status(data, dataF) {
     var indices = [];
     if (data != null && dataF != null) {
@@ -85,7 +88,6 @@ function Delete_Status(data, dataF) {
     }
     return indices;
 }
-
 function Delete_State(data, dataF) {
     var indices = [];
     if (data != null && dataF != null) {
@@ -100,29 +102,6 @@ function Delete_State(data, dataF) {
         }
     }
     return indices;
-}
-function compare_azs(a, b) {
-    /*
-    if (a.azs > b.azs) {
-        if (a.storage_space > b.storage_space) {
-            return 1;
-        } else {
-            return -1;
-        }
-    }
-    */
-    if (a.azs > b.azs) return 1;
-    if (a.azs < b.azs) return -1;
-    /*
-    if (a.azs < b.azs) {
-        if (a.storage_space < b.storage_space) {
-            return 1;
-        } else {
-            return -1;
-        }
-
-    }
-    */
 }
 
 
@@ -186,7 +165,6 @@ export default class w_main_trk extends React.Component {
         }
         this.setState({ _Trk: _trk });
     }
-
     update_VIEW_VIDG = (View_Vidg) => {
         if (View_Vidg != null) {
             let _view_Icon = true;
@@ -204,7 +182,6 @@ export default class w_main_trk extends React.Component {
             this.setState({ _View_Icon: true, _View_Data: true });
         }
     }
-
     update_Stategun = (Stategun) => {
         this.setState({ _Stategun: Stategun }, this.SetFilters);
     }
@@ -225,15 +202,20 @@ export default class w_main_trk extends React.Component {
     }
     render() {
         if (this.state._Trk != null) {
-            let _TRK = this.state._Trk.sort(compare_azs);
-
+            let _TRK_Filter = this.state._Trk.sort(compare_azs);
+            let E_AZS = undefined;
+            let _TRK = undefined;
+            if (this.props.isHiFilter) {
+                E_AZS = get_ETALON_AZS(this.state._Trk);
+                _TRK = get_Mas_MAS_S(this.state._Trk, E_AZS);
+            }
             return (
                 <div>
                     <center><h4>{this.props.header}</h4></center>
                     <hr /><hr />
                     <FILTER
                         update_VIEW_VIDG={this.update_VIEW_VIDG}
-
+                        trk={_TRK_Filter}
                         update_Fuels={this.update_Fuels}
                         update_Status={this.update_Status}
                         update_Azs={this.update_Azs}
@@ -244,16 +226,18 @@ export default class w_main_trk extends React.Component {
                         isFUEL={this.props.isFUEL}
                     />
                     <hr /><hr />
-
                     {this.state._Trk != null &&
-                        <List_trk trk={_TRK}
+                        <List_trk
+                            trk={_TRK_Filter}
+                            trk_Mass={_TRK}
                             View_Icon={this.state._View_Icon}
                             View_Data={this.state._View_Data}
                         />
                     }
                 </div>
             );
-        } else {
+        } else 
+        {
             return <h4><center>Нет связи с сервером!!</center></h4>
         }
 

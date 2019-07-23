@@ -13,50 +13,18 @@ import FILTER from './filters.jsx'
 
 const _Debuge = false;
 
-export default class w_main_test extends React.Component {
+export default class w_main_AZS extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             _Fuels: null,
             _Azs: null,
-            Rss: this.props.Rss,
-            _Object: null,
+            _Object: this.props._Object,
         }
     }
-    componentDidMount() {
-        if (_Debuge) {
-            this.setState({ _Object: get_PL().pl });
-        } else {
-            this.tick();
-        }
-    }
-    async tick() {
-
-        let rss = this.state.Rss;
-        var myRequest = new Request(rss);
-
-        try {
-            var response = await fetch(myRequest,
-                {
-                    method: 'GET',
-                    headers:
-                    {
-                        'Accept': 'application/json',
-                    },
-                }
-            );
-            if (response.ok) {
-                const Jsons = await response.json();
-                this.setState({ _Object: Jsons });
-            }
-            else {
-                throw Error(response.statusText);
-            }
-            this.setState({ isExistError: false })
-        }
-        catch (error) {
-            this.setState({ isExistError: true })
-            console.log(error);
+    componentDidUpdate(prevProps) {
+        if (this.props._Object != prevProps._Object) {
+            this.setState({ _Object: this.props._Object });
         }
     }
     update_Fuels = (Fuels) => {
@@ -67,18 +35,18 @@ export default class w_main_test extends React.Component {
     }
 
     render() {
-
         return (
             <div>
                 <center><h4>{this.props.header}</h4></center>
                 <hr /><hr />
-                <hr /><hr />
                 <FILTER
-                    data={this.state._Object}
+                    data={this.props._Object}
                     update_Fuels={this.update_Fuels}
                     update_Azs={this.update_Azs}
                 />
                 <hr /><hr />
+
+
                 <table>
                     <tbody>
                         <tr >

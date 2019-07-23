@@ -6,15 +6,15 @@
     Цвет фона таблицы */
     color: black;
     /* Цвет текста   
-    border: 2px solid black;    */
+    border: 2px solid red;    */
     width: 99.9%;
     
  }
  td, th, tr {
     /*background: maroon;  Цвет фона ячеек */
     padding: 0px;
-    /* Поля вокруг текста  
-    border: 2px solid black;   */
+    /* Поля вокруг текста 
+    border: 1px solid black;    */
     min-width: 20px;
  }
 

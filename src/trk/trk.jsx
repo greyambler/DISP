@@ -75,7 +75,7 @@ export default class trk extends Component {
     render() {
         if (this.state.TRK != null) {
             let _height = 60;
-            let _width = 100;
+            let _width = (this.state.TRK.id ==0 )?130:100;
             let _dX = 5;
             let PL_width = _width + _dX + 0.4;
             let Icon_TRK = get_ICON_NET_3(this.state.TRK.status);

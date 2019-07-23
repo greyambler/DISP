@@ -35,6 +35,7 @@ function get_ZeroColumn() {
     return col;
 }
 
+
 export default class list_trk extends Component {
     constructor(props) {
         super(props);
@@ -43,6 +44,8 @@ export default class list_trk extends Component {
         return <br/>;
     }
  */
+    
+    
     render() {
         if (this.props.trk_Mass == undefined) {
             if (this.props.trk != null) {
@@ -68,7 +71,7 @@ export default class list_trk extends Component {
                                         this.props.trk.map(el => (
                                             <li key={'li ' + el.id}>
                                                 <Trk TRK={el}
-                                                    key={'PL ' + el.id}
+                                                    key={'Trk ' + el.id}
                                                     id={el.id}
                                                     View_Icon={this.props.View_Icon}
                                                     View_Data={this.props.View_Data}
@@ -87,35 +90,41 @@ export default class list_trk extends Component {
         } else {
             if (this.props.trk_Mass != null) {
                 if (this.props.trk_Mass.length > 0 && this.props.trk_Mass[0][0].id != 0) {
-                    let _PL_0 = get_ZeroColumn();
-                    this.props.trk_Mass[0].splice(0, -1, _PL_0);
+                    let N = new Array();
+                    N.push( get_ZeroColumn());
+                    this.props.trk_Mass.splice(0, -1, N);
+                    //let _PL_0 = get_ZeroColumn();
+                    //this.props.trk_Mass[0].splice(0, -1, _PL_0);
                 }
+                /*
                 let ColAll = 0;
                 for (const iterator of this.props.trk_Mass) {
                     ColAll = ColAll + iterator.length;
                 }
 
-                let Li_Style = { width: ColAll * 130 + 'px', }
-
-                return (
+                let Li_Level = { width: ColAll * 130 + 'px', }
+                */
+               let Li_Level = { width: 6 * 120 + 'px', }
+               let li_Level = { width: 180 + 'px'}
+               return (
                     <div className='prokrutka_trk'>
-                        <center>
-                            <ul className="hr" style={Li_Style}>
+                        <left>
+                            <ul className="hr">
                                 <center className='TBL' ><h4>ТРК</h4></center>
                                 <hr /><hr />
-                                <center>
-                                    <table>
-                                        <tbody>
-                                            <tr>
-                                                {
-
-                                                    this.props.trk_Mass.map(trk_el => (
-                                                        <td>
+                                <left>
+                                    {
+                                        this.props.trk_Mass.map(trk_el => (
+                                            <td>
+                                                <div>
+                                                <table style={(trk_el[0].id != 0)?Li_Level:li_Level}>
+                                                        <tbody>
+                                                            <tr>
                                                             {
                                                                 trk_el.map(el => (
-                                                                    <li key={'trk_li' + el.id}>
+                                                                    <li key={'trk_li_' + el.id}>
                                                                         <Trk TRK={el}
-                                                                            key={'Trk ' + el.id}
+                                                                            key={'Trk_' + el.id}
                                                                             id={el.id}
                                                                             View_Icon={this.props.View_Icon}
                                                                             View_Data={this.props.View_Data}
@@ -123,15 +132,16 @@ export default class list_trk extends Component {
                                                                     </li>
                                                                 ))
                                                             }
-                                                        </td>                                                        
-                                                    ))
-                                                }
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </center>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </td>
+                                        ))
+                                    }
+                                </left>
                             </ul>
-                        </center>
+                        </left>
                     </div>
                 );
             } else {

@@ -127,7 +127,6 @@ export default class list_pl extends Component {
                     this.props.update_Pls(evt.data);
                     this.setState({ data: evt.data })// Рабочий
                     //his.add_messages("\n" + evt.data);
-
                 }
             }
         }
@@ -175,6 +174,7 @@ export default class list_pl extends Component {
                 }
                 let Li_Level = {
                     width: this.props.pls.length * 140 + 'px',
+
                     //color: 'black',
                     //background: 'burlywood',
                 }
@@ -208,48 +208,58 @@ export default class list_pl extends Component {
         } else {
             if (this.props.pls_Mass != null) {
                 if (this.props.pls_Mass.length > 0 && this.props.pls_Mass[0][0].id != 0) {
-                    let _PL_0 = get_ZeroColumn();
-                    this.props.pls_Mass[0].splice(0, -1, _PL_0);
+                    let N = new Array();
+                    N.push(get_ZeroColumn());
+                    this.props.pls_Mass.splice(0, -1, N);
+                    //let _PL_0 = get_ZeroColumn();
+                    //this.props.pls_Mass[0].splice(0, -1, _PL_0);
                 }
-                let ColAll = 0;
+                /*let ColAll = 0;
                 for (const iterator of this.props.pls_Mass) {
                     ColAll = ColAll + iterator.length;
                 }
                 let Li_Level = { width: ColAll * 110 + 'px', }
+                */
+                let Li_Level = { width: 6 * 120 + 'px', }
+                let li_Level = { width: 180 + 'px' }
                 return (
                     <div className='prokrutka_pl_Icon' >
-                        <center>
-                            <ul className="hr" style={Li_Level}>
+                        <left>
+                            <ul className="hr">
                                 <center className='TBL' ><h4>Резервуары</h4></center>
                                 <hr /><hr />
-                                <center>
-                                    <table>
-                                        <tbody>
-                                            <tr>
-                                                {
-                                                    this.props.pls_Mass.map(pls_el => (
-                                                        <td>
-                                                            {
-                                                                pls_el.map(el => (
-                                                                    <li key={'li ' + el.id}>
-                                                                        <Pl PL={el}
-                                                                            key={'PL ' + el.id}
-                                                                            id={el.id}
-                                                                            View_Icon={this.props.View_Icon}
-                                                                            View_Data={this.props.View_Data}
-                                                                        />
-                                                                    </li>
-                                                                ))
-                                                            }
-                                                        </td>
-                                                    ))
-                                                }
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </center>
+                                <left>
+                                    {
+                                        this.props.pls_Mass.map(pls_el => (
+                                            <td>
+                                                <div>
+                                                    <table style={(pls_el[0].id != 0) ? Li_Level : li_Level}>
+                                                        <tbody>
+                                                            <tr>
+                                                                {
+                                                                    pls_el.map(el => (
+                                                                        <li key={'pls_li_' + el.id}>
+                                                                            <Pl PL={el}
+                                                                                key={'PL_' + el.id}
+                                                                                id={el.id}
+                                                                                View_Icon={this.props.View_Icon}
+                                                                                View_Data={this.props.View_Data}
+                                                                            />
+                                                                        </li>
+                                                                    ))
+                                                                }
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </td>
+
+                                        ))
+                                    }
+
+                                </left>
                             </ul>
-                        </center>
+                        </left>
                     </div>
                 );
             } else {

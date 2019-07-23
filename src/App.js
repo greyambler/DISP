@@ -16,7 +16,12 @@ import W_NOZZLE from './w_NOZZLE.jsx';
 
 import W_TRK from './w_TRK.jsx';
 
-import W_TestPrototype from './w_TestPrototype.jsx';
+import W_SharedFilter from './w_SharedFilter.jsx';
+import W_SharedFilterAZS from './w_SharedFilterAZS.jsx';
+
+
+import W_Test from './w_Test.jsx';
+
 
 
 const _Debuge = true;
@@ -24,9 +29,14 @@ const _Debuge = true;
 class Main extends Component {
   render() {
 
-    return (<W_TestPrototype w_Height={this.props.w_Height} w_Width={this.props.w_Width} />);
+    return (<W_SharedFilter w_Height={this.props.w_Height} w_Width={this.props.w_Width} />);
 
     /*return (<MainWindow />);
+
+    return (<W_SharedFilterAZS w_Height={this.props.w_Height} w_Width={this.props.w_Width} />);
+    
+    return (<W_Test w_Height={this.props.w_Height} w_Width={this.props.w_Width} />);
+
     return (<W_TestPrototype w_Height={this.props.w_Height} w_Width={this.props.w_Width} />);
      return (<W_TRK w_Height={this.props.w_Height} w_Width={this.props.w_Width} />);
     return (<W_AZK w_Height={this.props.w_Height} w_Width={this.props.w_Width} />);
@@ -34,9 +44,20 @@ class Main extends Component {
     return (<W_NOZZLE w_Height={this.props.w_Height} w_Width={this.props.w_Width} />);*/
   }
 }
-class TestPrototype extends Component {
+class SharedFilter extends Component {
   render() {
-    return (<W_TestPrototype w_Height={this.props.w_Height} w_Width={this.props.w_Width} />);
+    return (<W_SharedFilter w_Height={this.props.w_Height} w_Width={this.props.w_Width} />);
+  }
+}
+class SharedFilterAZS extends Component {
+  render() {
+    return (<W_SharedFilterAZS w_Height={this.props.w_Height} w_Width={this.props.w_Width} />);
+  }
+}
+
+class Test extends Component {
+  render() {
+    return (<W_Test w_Height={this.props.w_Height} w_Width={this.props.w_Width} />);
   }
 }
 
@@ -121,6 +142,7 @@ class Nav extends Component {
                     <li><Link to="/Table" >Таблица</Link></li>
 
                     <li><Link to="/AZK_Main" >АЗК</Link></li>
+                    <li><Link to="/Test" >Тестовый</Link></li>
 
                     <li><Link to="/NOZZLE_Main" >Счетчики</Link></li>
                   </ul>
@@ -129,7 +151,9 @@ class Nav extends Component {
 
               }
               <li><Link to="/" >Главная</Link></li>
-              <li><Link to="/TestPrototype" >Тестовый прототип</Link></li>
+              <li><Link to="/SharedFilter" >Общий фильтр</Link></li>
+              
+              
 
               <li><Link to="/LEVEL_Main" >АСИ</Link></li>
               <li><Link to="/TRK_Main" >ТРК</Link></li>
@@ -144,7 +168,10 @@ class Nav extends Component {
     );
   }
 }
-
+/*
+<li><Link to="/SharedFilterAZS" >По объектам</Link></li>
+<Route exact path="/SharedFilterAZS" render={() => <SharedFilterAZS w_Height={this.state.W_Height} w_Width={this.state.W_Width} />} />
+*/
 function refreshPage() {
   window.location.reload();
 }
@@ -170,7 +197,10 @@ export default class App extends Component {
           <Switch>
             <Route exact path="/" render={() => <Main w_Height={this.state.W_Height} w_Width={this.state.W_Width} />} />
 
-            <Route exact path="/TestPrototype" render={() => <TestPrototype w_Height={this.state.W_Height} w_Width={this.state.W_Width} />} />
+            <Route exact path="/Test" render={() => <Test w_Height={this.state.W_Height} w_Width={this.state.W_Width} />} />
+
+            <Route exact path="/SharedFilter" render={() => <SharedFilter w_Height={this.state.W_Height} w_Width={this.state.W_Width} />} />
+            
 
             <Route exact path="/LEVEL_Main" render={() => <LEVEL_Main w_Height={this.state.W_Height} w_Width={this.state.W_Width} />} />
 

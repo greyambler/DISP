@@ -54,7 +54,7 @@ export default class pl extends Component {
     render() {
         if (this.state.PL != null) {
             let _height = 60;
-            let _width = 90;
+            let _width = (this.state.PL.id ==0 )?130:100;
             let _dX = 5;
             let PL_width = _width + _dX + 0.4;
             let Icon_Tank = get_ICON_Fuel(this.state.PL.TP_STATUS, "TOTAL_VOLUME", this.state.PL.CURENT_VOLUME);

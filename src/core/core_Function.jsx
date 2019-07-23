@@ -845,5 +845,150 @@ export function get_VIEW_VIDGs() {
   );
 }
 
+export function get_TCO() {
+  return JSON.parse('{"id":"s0000000-0000-0000-0000-000000000000","tco":[' +
 
+    '{"id": "s216db78-d495-4e6c-8155-23b5a3bf70c7",' +
+    '"azs": "АЗС 81 Ярославское шоссе 15",' +
+    '"number": "1",' +
+
+    '"iSelf": "22222",' +
+    '"FR":"ФС",' +
+    '"validator": "1",' +
+    '"lowerSection": "1",' +
+    '"safe": "1",' +
+
+    '"date":"03.06.2019",' +
+    '"time":"21:19:00",' +
+    '"status":0,' +
+    '"state":1},' +
+
+
+    '{"id": "436b24f0-a6be-49f2-b8b5-07bc5de0e244",' +
+    '"azs": "АЗС 81 Ярославское шоссе 15",' +
+    '"number": "2",' +
+
+    '"iSelf": "21111",' +
+    '"FR":"ФС",' +
+    '"validator": "1",' +
+    '"lowerSection": "1",' +
+    '"safe": "1",' +
+
+    '"date":"03.06.2019",' +
+    '"time":"21:19:00",' +
+    '"status":1,' +
+    '"state":1},' +
+
+    '{"id": "436b24f0-a6be-49f2-b8b5-07bc5de0e241",' +
+    '"azs": "АЗС-2",' +
+    '"number": "3",' +
+
+    '"iSelf": "45555",' +
+    '"FR":"ФС",' +
+    '"validator": "1",' +
+    '"lowerSection": "1",' +
+    '"safe": "",' +
+
+    '"date":"03.06.2019",' +
+    '"time":"21:19:00",' +
+    '"status":2,' +
+    '"state":1},' +
+
+    '{"id": "436b24f0-a6be-49f2-b8b5-07bc5de0e242",' +
+    '"azs": "АЗС-2",' +
+    '"number": "4",' +
+
+    '"iSelf": "5777",' +
+    '"FR":"ФС",' +
+    '"validator": "1",' +
+    '"lowerSection": "1",' +
+    '"safe": "1",' +
+
+    '"date":"03.06.2019",' +
+    '"time":"21:19:00",' +
+    '"status":3,' +
+    '"state":0}' +
+
+
+    ']}'
+  );
+}
+/*
+export function get_AZS() {
+  return JSON.parse(
+    {
+      "id": "f09de2cd-56e9-4f0e-a822-232e9a7c4d0c",
+      "dvc": [
+        {
+          "id": "fe17dea5-c1e9-4a41-b343-f77a7d039824",
+          "typ": "pl",
+          "nm": "Резервуар А на АЗС1",
+          "fuel": 1,
+          "prop": [
+            {
+              "typ": "SHELL_CA",
+              "capacity": 3000
+            }
+          ]
+        },
+        {
+          "id": "c7c00a08-4bb3-4038-8173-921dfb58c689",
+          "typ": "pl",
+          "nm": "Резервуар Б на АЗС1",
+          "fuel": 2,
+          "prop": [
+            {
+              "typ": "SHELL_CA",
+              "capacity": 2000
+            }
+          ]
+        },
+        {
+          "id": "3216db78-d495-4e6c-8155-23b5a3bf70c7",
+          "typ": "pump",
+          "nm": "ТРК А на АЗС1",
+          "prop": []
+        },
+        {
+          "id": "436b24f0-a6be-49f2-b8b5-07bc5de0e244",
+          "typ": "pump",
+          "nm": "ТРК Б на АЗС1",
+          "prop": []
+        },
+        {
+          "id": "d0c35750-d15b-4922-bd45-6617400c2a9e",
+          "typ": "tso",
+          "nm": "ТСО на АЗС1",
+          "prop": []
+        },
+        {
+          "id": "aa520eb3-df3a-4a20-b034-de3d7bac19e1",
+          "typ": "pl",
+          "nm": "Резервуар C на АЗС1",
+          "prop": []
+        },
+        {
+          "id": "ae0eb55c-8519-4687-801e-0867d23af51d",
+          "typ": "pl",
+          "nm": "Резервуар D на АЗС1",
+          "prop": []
+        },
+        {
+          "id": "e4881148-6519-459d-8978-1a3b0bb1f3fb",
+          "typ": "pl",
+          "nm": "Резервуар E на АЗС1",
+          "prop": []
+        },
+        {
+          "id": "08c0926b-9e2e-4bce-8af9-d352ca76ed3b",
+          "typ": "pl",
+          "nm": "Резервуар F на АЗС1",
+          "prop": []
+        }
+      ]
+    }    
+  );
+}
+
+*/
 

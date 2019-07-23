@@ -286,6 +286,7 @@ export default class w_main_azk extends React.Component {
                         isFUEL={this.props.isFUEL}
                     />
                     <hr /><hr />
+                    
                     {this.state._Pls != null &&
                         <List_pl
                             pls={_PLS_Filter}
@@ -295,6 +296,7 @@ export default class w_main_azk extends React.Component {
                             View_Data={this.state._View_Data}
                         />
                     }
+                    
                 </div>
             );
         } else {

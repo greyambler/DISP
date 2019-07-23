@@ -86,9 +86,23 @@ export default class trk extends Component {
                         let _X_1 = _X_s + _W_Image;
                         let _Y_1 = _Y_s + 1;
             */
+           let Li_Level = {
+            'border': '0.1px solid rgb(0, 141, 141)',
+            'padding-top': '20px',
+            'vertical-align': 'text-top',
+            'font-size': '12px'
+        }
+        let li_Level = {
+            'background': 'white',
+            'border': '3.1px solid rgb(0, 141, 141)',
+            'padding-top': '20px',
+            'vertical-align': 'text-top',
+            'font-size': '12px'
+        }
+            //className="tb_TRK"
             return (
                 <div>
-                    <table className="tb_TRK" >
+                    <table style={(this.state.TRK.id != 0) ? Li_Level : li_Level} >
                         <tbody>
                             {this.props.View_Icon &&
                                 <tr>

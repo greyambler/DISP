@@ -52,15 +52,32 @@ export default class pl extends Component {
     }
 
     render() {
+
         if (this.state.PL != null) {
             let _height = 60;
-            let _width = (this.state.PL.id ==0 )?130:100;
+            let _width = (this.state.PL.id == 0) ? 130 : 100;
             let _dX = 5;
             let PL_width = _width + _dX + 0.4;
             let Icon_Tank = get_ICON_Fuel(this.state.PL.TP_STATUS, "TOTAL_VOLUME", this.state.PL.CURENT_VOLUME);
+
+            let Li_Level = {
+                'border': '0.1px solid rgb(0, 141, 141)',
+                'padding-top': '20px',
+                'vertical-align': 'text-top',
+                'font-size': '12px'
+            }
+            let li_Level = {
+                'background': 'white',
+                'border': '3.1px solid rgb(0, 141, 141)',
+                'padding-top': '20px',
+                'vertical-align': 'text-top',
+                'font-size': '12px'
+            }
+            //style={(this.state.PL.id != 0) ? Li_Level : li_Level} 
+            //className="tb_PL_Icon" 
             return (
                 <div>
-                    <table className="tb_PL_Icon" >
+                    <table style={(this.state.PL.id != 0) ? Li_Level : li_Level} >
                         <tbody>
                             {this.props.View_Icon &&
                                 <tr>
@@ -136,14 +153,14 @@ export default class pl extends Component {
                                 </tr>
                             }
                             {this.props.View_Icon &&
-                                <tr>
+                                <tr >
                                     <td colSpan='2'>
                                         <hr />
                                     </td>
                                 </tr>
                             }
 
-                            <tr>
+                            <tr >
                                 <td colSpan='2'>
                                     <Stage width={PL_width} height={30} x={0} y={0}>
                                         <Layer key='1'>

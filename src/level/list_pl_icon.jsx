@@ -221,7 +221,8 @@ export default class list_pl extends Component {
                 let Li_Level = { width: ColAll * 110 + 'px', }
                 */
                 let Li_Level = { width: 6 * 120 + 'px', }
-                let li_Level = { width: 180 + 'px' }
+                let li_Level = { width: 180 + 'px'}
+                //let l_i_Level = { width: 180 + 'px', border: '3px solid rgb(0, 141, 141)' }
                 return (
                     <div className='prokrutka_pl_Icon' >
                         <left>
@@ -235,7 +236,7 @@ export default class list_pl extends Component {
                                                 <div>
                                                     <table style={(pls_el[0].id != 0) ? Li_Level : li_Level}>
                                                         <tbody>
-                                                            <tr>
+                                                            <tr >
                                                                 {
                                                                     pls_el.map(el => (
                                                                         <li key={'pls_li_' + el.id}>

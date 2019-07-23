@@ -24,6 +24,55 @@ function get_ICON(Int) {
 
     return col;
 }
+function get_status(Int) {
+    let col = 'Нет связи';
+    switch (Int) {
+        case 0: col = 'Ок'; break;
+        case 1: col = 'Нет связи'; break;
+        default: col = 'Нет связи'; break;
+    }
+    return col;
+}
+function get_iSelf (Int) {
+    let col = 'Нет связи';
+    switch (Int) {
+        case 0: col = 'Ок'; break;
+        case 1: col = 'нет связи с одним из хостов'; break;
+        case 2: col = 'нет связи с устройством'; break;
+        default: col = 'нет связи с устройством'; break;
+    }
+    return col;
+}
+function get_FR (Int, err_Mess) {
+    let col = 'Нет связи';
+    switch (Int) {
+        case 0: col = 'Ок'; break;
+        case 1: col = 'Нет связи'; break;
+        case 2: col = err_Mess; break;
+        default: col = 'Нет связи'; break;
+    }
+    return col;
+}
+function get_validator (Int, err_Mess) {
+    let col = 'Нет связи';
+    switch (Int) {
+        case 0: col = 'Ок'; break;
+        case 1: col = 'Нет связи'; break;
+        case 2: col = err_Mess; break;
+        default: col = 'Нет связи'; break;
+    }
+    return col;
+}
+
+function get_MFK (Int) {
+    let col = 'Нет связи';
+    switch (Int) {
+        case 0: col = 'Ок'; break;
+        case 1: col = 'Нет связи'; break;
+        default: col = 'Нет связи'; break;
+    }
+    return col;
+}
 
 export default class tco extends Component {
     constructor(props) {
@@ -51,9 +100,23 @@ export default class tco extends Component {
                         let _X_1 = _X_s + _W_Image;
                         let _Y_1 = _Y_s + 1;
             */
+           let Li_Level = {
+            'border': '0.1px solid rgb(0, 141, 141)',
+            'padding-top': '20px',
+            'vertical-align': 'text-top',
+            'font-size': '12px'
+        }
+        let li_Level = {
+            'background': 'white',
+            'border': '3.1px solid rgb(0, 141, 141)',
+            'padding-top': '20px',
+            'vertical-align': 'text-top',
+            'font-size': '12px'
+        }
+        //className="tb_TRK"
             return (
                 <div>
-                    <table className="tb_TRK" >
+                    <table style={(this.state.TCO.id != 0) ? Li_Level : li_Level} >
                         <tbody>
                             {this.props.View_Icon &&
                                 <tr>
@@ -199,6 +262,16 @@ export default class tco extends Component {
                             {this.props.View_Data &&
                                 <tr>
                                     <td className='td_Data'>
+                                        {this.state.TCO.topSection}
+                                    </td>
+                                </tr>
+                            }
+                            {this.props.View_Data &&
+                                <tr><td colSpan='2'><hr /></td></tr>
+                            }
+                            {this.props.View_Data &&
+                                <tr>
+                                    <td className='td_Data'>
                                         {this.state.TCO.lowerSection}
                                     </td>
                                 </tr>
@@ -218,7 +291,18 @@ export default class tco extends Component {
                             {this.props.View_Data &&
                                 <tr><td colSpan='2'><hr /></td></tr>
                             }
+                                                  
+                                 {this.props.View_Data &&
+                                <tr>
+                                    <td className='td_Data'>
+                                        {this.state.TCO.MFK}
+                                    </td>
+                                </tr>
+                            }
 
+                            {this.props.View_Data &&
+                                <tr><td colSpan='2'><hr /></td></tr>
+                            }
                             {this.props.View_Data &&
                                 <tr>
                                     <td className='td_Data'>

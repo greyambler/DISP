@@ -855,15 +855,17 @@ export function get_TCO() {
     '"iSelf": "22222",' +
     '"FR":"ФС",' +
     '"validator": "1",' +
+    '"topSection": "21",' +
     '"lowerSection": "1",' +
     '"safe": "1",' +
+    '"MFK": "1",' +
 
     '"date":"03.06.2019",' +
     '"time":"21:19:00",' +
     '"status":0,' +
     '"state":1},' +
-
-
+    
+    
     '{"id": "436b24f0-a6be-49f2-b8b5-07bc5de0e244",' +
     '"azs": "АЗС 81 Ярославское шоссе 15",' +
     '"number": "2",' +
@@ -871,8 +873,10 @@ export function get_TCO() {
     '"iSelf": "21111",' +
     '"FR":"ФС",' +
     '"validator": "1",' +
+    '"topSection": "21",' +
     '"lowerSection": "1",' +
     '"safe": "1",' +
+    '"MFK": "1",' +
 
     '"date":"03.06.2019",' +
     '"time":"21:19:00",' +
@@ -886,8 +890,10 @@ export function get_TCO() {
     '"iSelf": "45555",' +
     '"FR":"ФС",' +
     '"validator": "1",' +
+    '"topSection": "21",' +
     '"lowerSection": "1",' +
     '"safe": "",' +
+    '"MFK": "1",' +
 
     '"date":"03.06.2019",' +
     '"time":"21:19:00",' +
@@ -901,8 +907,10 @@ export function get_TCO() {
     '"iSelf": "5777",' +
     '"FR":"ФС",' +
     '"validator": "1",' +
+    '"topSection": "21",' +
     '"lowerSection": "1",' +
     '"safe": "1",' +
+    '"MFK": "1",' +
 
     '"date":"03.06.2019",' +
     '"time":"21:19:00",' +

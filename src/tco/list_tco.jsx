@@ -23,11 +23,14 @@ function get_ZeroColumn() {
         "azs": "АЗС",
         "number": "ТСО №",
 
-        "iSelf": "iSelf",
-        "fr": "ФР",
+        "iSelf": "ТУ Банка(iSelf)",
+        "fr": "Фискальный регистратор",
         "validator": "Валидато",
+
+        "topSection": "Верхний отсек",
         "lowerSection": "Нижний отсек",
         "safe": "Сейф",
+        "MFK":"Статус МФК",
 
         "date": "Дата",
         "time": "Время",

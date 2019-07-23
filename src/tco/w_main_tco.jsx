@@ -29,18 +29,21 @@ function Delete_Azs(data, dataF) {
     return indices;
 }
 function Delete_Fuels(data, dataF) {
+    
     var indices = [];
     if (data != null && dataF != null) {
         var indices = [];
         let t = 0;
         for (let index = 0; index < data.length; index++) {
 
-            if (dataF.indexOf(data[index].fuel.toUpperCase()) == -1) {
+            //if (dataF.indexOf(data[index].fuel.toUpperCase()) == -1) 
+            {
                 indices[t] = data[index];
                 t++;
             }
         }
     }
+    /**/
     return indices;
 }
 function Delete_StateGun(data, dataF) {

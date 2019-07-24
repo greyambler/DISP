@@ -25,7 +25,7 @@ function get_ZeroColumn() {
 
         "iSelf": "ТУ Банка(iSelf)",
         "fr": "Фискальный регистратор",
-        "validator": "Валидато",
+        "validator": "Валидатор",
 
         "topSection": "Верхний отсек",
         "lowerSection": "Нижний отсек",

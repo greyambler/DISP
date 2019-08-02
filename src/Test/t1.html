@@ -1,0 +1,67 @@
+< !DOCTYPE html>
+    <html lang="ru">
+
+    <head>
+        <meta charset="utf-8">
+        <title>Модель TankCfg</title>
+        <link rel="stylesheet" href="bootstrap.css" />
+        <link rel="stylesheet" href="page-footer.css" />
+    </head>
+
+    <body>
+
+        <header></header>
+
+
+        <main>
+
+
+            <div id="appm">
+                <div v-bind: class="classPendingSateLoad">Loading...<progress value="60" max="100"></progress></div>
+                <div v-bind: class="classResultSateLoad" role="alert">{{ dlStatMessage }}</div>
+                <div v-bind: class="classPendingSateSave">Saving... <progress value="60" max="100"></progress></div>
+
+
+                <form v-on: submit.prevent="readTank">
+                    <button type="submit" v-bind: class="classSaveDialogButton">{{ btnLoadLabel }} CFG</button>
+                </form>
+                <br clear="all" />
+                <form v-on: submit.prevent="sendMark">
+                    <button type="submit" v-bind: class="classSaveDialogButton">{{ btnSaveLabel }} CFG</button>
+                </form>
+                <br clear="all" />
+                <form v-on: submit.prevent="sendData">
+                    <button type="submit" v-bind: class="classSaveDialogButton">{{ btnSaveLabel }} DATA</button>
+                </form>
+                <span>Checked values: {{ checkedValues }}</span>
+
+
+
+                <div class="card-deck">
+                    <div class="card" v-for="dv in TankList">
+                        <h6 class="card-header dvc-name">Tank {{ dv.storage_space }} {{ dv.fuel }}</h6>
+                        <div class="card-body">
+                            <div>{{ dv.Available_volume }}</div>
+                            <div>st:{{ dv.TP_STATUS }}</div>
+                            <div v-for="st in dv.StateList">{{ st }}</div>
+                        </div>
+                        <div class="card-footer text-muted">
+                            <div>{{ dv.azs }}</div>
+                            <div>{{ dv.id }}</div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <div class="container">
+                    <div class="row">
+                        <!-- row1 -->
+
+
+                        <div class="col-3">
+                        </div>
+
+
+                        <div class="col-9">
+                        </div>

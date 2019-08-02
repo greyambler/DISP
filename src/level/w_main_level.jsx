@@ -223,20 +223,21 @@ export default class w_main_azk extends React.Component {
             }
         } else {
             try {
-
-                let Item = JSON.parse(J_PL);
-                if (this.state._Pls != null) {
-                    for (const iterator of this.state._Pls) {
-                        if (Item.id == iterator.id) {
-                            for (var key in Item) {
-                                if (key != "id") {
-                                    let date = moment().local('ru').format('HH-mm-ss');
-                                    iterator[key] = (_Debuge_Mess) ? Item[key] + "  [ws]" : Item[key];
+                if (J_PL != undefined && J_PL != "") {
+                    let Item = JSON.parse(J_PL);
+                    if (this.state._Pls != null) {
+                        for (const iterator of this.state._Pls) {
+                            if (Item.id == iterator.id) {
+                                for (var key in Item) {
+                                    if (key != "id") {
+                                        let date = moment().local('ru').format('HH-mm-ss');
+                                        iterator[key] = (_Debuge_Mess) ? Item[key] + "  [ws]" : Item[key];
+                                    }
                                 }
                             }
                         }
+                        this.setState({ _Pls: this.state._Pls });
                     }
-                    this.setState({ _Pls: this.state._Pls });
                 }
             } catch (error) {
 
@@ -286,7 +287,7 @@ export default class w_main_azk extends React.Component {
                         isFUEL={this.props.isFUEL}
                     />
                     <hr /><hr />
-                    
+
                     {this.state._Pls != null &&
                         <List_pl
                             pls={_PLS_Filter}
@@ -296,7 +297,7 @@ export default class w_main_azk extends React.Component {
                             View_Data={this.state._View_Data}
                         />
                     }
-                    
+
                 </div>
             );
         } else {

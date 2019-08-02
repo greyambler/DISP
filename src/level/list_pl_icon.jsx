@@ -113,6 +113,9 @@ export default class list_pl extends Component {
     componentDidMount() {
         this.start_ws();
     }
+    componentWillUnmount(){
+        this.stop_ws();
+    }
     start_ws(e) {
         if (this.state.connection == null) {
 

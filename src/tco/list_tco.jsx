@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import OL_List from '../core/OL_List.jsx'
 import { Stage, Layer, Rect, Text, Circle, Shape, Image } from 'react-konva';
 
-import { get_Trk, get_Azs, get_Azs_Trk } from '../core/core_Function.jsx';
+import { WS, get_Trk, get_Azs, get_Azs_Trk } from '../core/core_Function.jsx';
 
 import Tco from './tco.jsx'
 
@@ -30,7 +30,7 @@ function get_ZeroColumn() {
         "topSection": "Верхний отсек",
         "lowerSection": "Нижний отсек",
         "safe": "Сейф",
-        "MFK":"Статус МФК",
+        "MFK": "Статус МФК",
 
         "date": "Дата",
         "time": "Время",
@@ -40,14 +40,23 @@ function get_ZeroColumn() {
     return col;
 }
 
+
 export default class list_tco extends Component {
     constructor(props) {
         super(props);
+        this.state = {
+            Ws: WS,
+            connection: null,
+            messages: [],
+            data: null,
+            IsOpen: false,
+        }
     }   /*
     render(){
         return <br/>;
     }
  */
+   
     render() {
         if (this.props.tco_Mass == undefined) {
             if (this.props.tco != null) {
@@ -108,7 +117,7 @@ export default class list_tco extends Component {
                 let Li_Style = { width: ColAll * 130 + 'px', }
         */
                 let Li_Level = { width: 6 * 120 + 'px', }
-                let li_Level = { width: 180 + 'px'}
+                let li_Level = { width: 180 + 'px' }
                 return (
                     <div className='prokrutka_trk'>
                         <left>

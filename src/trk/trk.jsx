@@ -60,6 +60,22 @@ function get_ICON_NET_3(Int) {
     return col;
 }
 
+function Is_View_Row(Data, Name_Row) {
+    let row = false;
+    if(Data != undefined){
+        for (const iterator of Data) {
+            if(iterator== Name_Row)
+            {
+                row = true;
+                break;
+            }
+        }
+        let r=0;
+    }
+
+    return row;
+}
+
 export default class trk extends Component {
     constructor(props) {
         super(props);
@@ -100,11 +116,12 @@ export default class trk extends Component {
             'font-size': '12px'
         }
             //className="tb_TRK"
+            //(this.props.View_Icon || this.props.icon_alarm)
             return (
                 <div>
                     <table style={(this.state.TRK.id != 0) ? Li_Level : li_Level} >
                         <tbody>
-                            {this.props.View_Icon &&
+                            { Is_View_Row(this.props.View_Fields, 'icon_alarm') &&
                                 <tr>
                                     <td colSpan='1'>
                                         <Stage width={PL_width} height={_height + 30} x={_dX} y={0}>
@@ -129,14 +146,14 @@ export default class trk extends Component {
                                     </td>
                                 </tr>
                             }
-                            {this.props.View_Icon &&
+                            {Is_View_Row(this.props.View_Fields, 'icon_alarm') &&
                                 <tr>
                                     <td colSpan='2'>
                                         <hr /><hr />
                                     </td>
                                 </tr>
                             }
-                            {this.props.View_Icon &&
+                            {Is_View_Row(this.props.View_Fields, 'status_alarm') &&
                                 <tr>
                                     <td colSpan='2'>
                                         <Stage width={PL_width} height={20} x={0} y={0}>
@@ -160,10 +177,10 @@ export default class trk extends Component {
                                     </td>
                                 </tr>
                             }
-                            {this.props.View_Icon &&
+                            {Is_View_Row(this.props.View_Fields, 'status_alarm') &&
                                 <tr><td colSpan='2'><hr /></td></tr>
                             }
-                            {this.props.View_Icon &&
+                            {Is_View_Row(this.props.View_Fields, 'state_alarm') &&
                                 <tr>
                                     <td colSpan='2'>
                                         <Stage width={PL_width} height={50} x={0} y={0}>
@@ -187,7 +204,7 @@ export default class trk extends Component {
                                     </td>
                                 </tr>
                             }
-                            {this.props.View_Icon &&
+                            {Is_View_Row(this.props.View_Fields, 'state_alarm') &&
                                 <tr>
                                     <td colSpan='2'>
                                         <hr />
@@ -207,11 +224,11 @@ export default class trk extends Component {
                                 </td>
                             </tr>
 
-                            {this.props.View_Data &&
+                            {Is_View_Row(this.props.View_Fields, 'pump') &&
                                 <tr><td colSpan='2'><hr /></td></tr>
                             }
 
-                            {this.props.View_Data &&
+                            {Is_View_Row(this.props.View_Fields, 'pump') &&
                                 <tr>
                                     <td className='td_Data'>
                                         {this.state.TRK.pump}
@@ -219,11 +236,11 @@ export default class trk extends Component {
                                 </tr>
                             }
 
-                            {this.props.View_Data &&
+                            {Is_View_Row(this.props.View_Fields, 'Counter_Curent') &&
                                 <tr><td colSpan='2'><hr /></td></tr>
                             }
 
-                            {this.props.View_Data &&
+                            {Is_View_Row(this.props.View_Fields, 'Counter_Curent') &&
                                 <tr>
                                     <td className='td_Data'>
                                         {this.state.TRK.status == 1 || this.state.TRK.id == 0 ?
@@ -233,10 +250,10 @@ export default class trk extends Component {
                                 </tr>
                             }
 
-                            {this.props.View_Data &&
+                            {Is_View_Row(this.props.View_Fields, 'fuel') &&
                                 <tr><td colSpan='2'><hr /></td></tr>
                             }
-                            {this.props.View_Data &&
+                            {Is_View_Row(this.props.View_Fields, 'fuel') &&
                                 <tr>
                                     <td className='td_Data'>
                                         {this.state.TRK.status == 1 || this.state.TRK.id == 0 ?
@@ -246,11 +263,11 @@ export default class trk extends Component {
                                 </tr>
                             }
 
-                            {this.props.View_Data &&
+                            {Is_View_Row(this.props.View_Fields, 'nozzle') &&
                                 <tr><td colSpan='2'><hr /></td></tr>
                             }
 
-                            {this.props.View_Data &&
+                            {Is_View_Row(this.props.View_Fields, 'nozzle') &&
                                 <tr>
                                     <td className='td_Data'>
                                         {this.state.TRK.status == 1 || this.state.TRK.id == 0 ?
@@ -260,11 +277,11 @@ export default class trk extends Component {
                                 </tr>
                             }
 
-                            {this.props.View_Data &&
+                            {Is_View_Row(this.props.View_Fields, 'date') &&
                                 <tr><td colSpan='2'><hr /></td></tr>
                             }
 
-                            {this.props.View_Data &&
+                            {Is_View_Row(this.props.View_Fields, 'date') &&
                                 <tr>
                                     <td className='td_Data'>
                                         {this.state.TRK.date == "" ? ('-') : (this.state.TRK.date)}
@@ -272,11 +289,11 @@ export default class trk extends Component {
                                 </tr>
                             }
 
-                            {this.props.View_Data &&
+                            {Is_View_Row(this.props.View_Fields, 'time') &&
                                 <tr><td colSpan='2'><hr /></td></tr>
                             }
 
-                            {this.props.View_Data &&
+                            {Is_View_Row(this.props.View_Fields, 'time') &&
                                 <tr>
                                     <td className='td_Data'>
                                         {this.state.TRK.time == "" ? ('-') : (this.state.TRK.time)}
@@ -284,22 +301,22 @@ export default class trk extends Component {
                                 </tr>
                             }
 
-                            {this.props.View_Data &&
+                            {Is_View_Row(this.props.View_Fields, 'status') &&
                                 <tr><td colSpan='2'><hr /></td></tr>
                             }
 
-                            {this.props.View_Data &&
+                            {Is_View_Row(this.props.View_Fields, 'status') &&
                                 <tr>
                                     <td className='td_Data'>
                                         {this.state.TRK.status}
                                     </td>
                                 </tr>
                             }
-                            {this.props.View_Data &&
+                            {Is_View_Row(this.props.View_Fields, 'state') &&
                                 <tr><td colSpan='2'><hr /></td></tr>
                             }
 
-                            {this.props.View_Data &&
+                            {Is_View_Row(this.props.View_Fields, 'state') &&
                                 <tr>
                                     <td className='td_Data'>
                                         {this.state.TRK.state}

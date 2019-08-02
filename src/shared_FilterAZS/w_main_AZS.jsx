@@ -1,13 +1,13 @@
 import React, { Component, PropTypes } from 'react';
 
-import { RSS_Tanks, RSS } from '../core/core_Function.jsx';
+import { RSS_Tanks, RSS, RSS_AZS, get_PL } from '../core/core_Function.jsx';
 
 import W_main_nozzle from '../nozzle/w_main_nozzle.jsx';
 import W_main_level from '../level/w_main_level.jsx';
 import W_main_trk from '../trk/w_main_trk.jsx';
+import W_main_tco from '../tco/w_main_tco.jsx';
 
 
-import { get_PL } from '../core/core_Function.jsx';
 
 import FILTER from './filters.jsx'
 
@@ -36,46 +36,65 @@ export default class w_main_AZS extends React.Component {
 
     render() {
         return (
-            <div>
-                <center><h4>{this.props.header}</h4></center>
-                <hr /><hr />
-                <FILTER
-                    data={this.props._Object}
-                    update_Fuels={this.update_Fuels}
-                    update_Azs={this.update_Azs}
-                />
-                <hr /><hr />
-
-
-                <table>
-                    <tbody>
-                        <tr >
-                            <td>
-                                <W_main_level
-                                    header='Отображение данных от уровнемеров'
-                                    w_Width={this.props.w_Width}
-                                    startDate={this.props.dateStart} endDate={this.props.dateStop}
-                                    Rss={RSS_Tanks} isAZS={true} isFUEL={true}
-                                    azs={this.state._Azs} fuels={this.state._Fuels}
-                                    isHiFilter={true}
-                                />
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <W_main_trk
-                                    header='Отображение данных с ТРК'
-                                    w_Width={this.props.w_Width}
-                                    startDate={this.props.dateStart} endDate={this.props.dateStop}
-                                    RssDate={RSS} isAZS={true} isFUEL={true}
-                                    azs={this.state._Azs} fuels={this.state._Fuels}
-                                    isHiFilter={true}
-                                />
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+            <h1>dd</h1>
         );
     }
 }
+        /*
+return (
+    <div>
+        <center><h4>{this.props.header}</h4></center>
+        <hr /><hr />
+        <FILTER
+            data={this.props._Object}
+            update_Fuels={this.update_Fuels}
+            update_Azs={this.update_Azs}
+        />
+        <hr /><hr />
+
+
+        <table>
+            <tbody>
+                <tr >
+                    <td>
+                        <W_main_level
+                            header='Отображение данных от уровнемеров'
+                            w_Width={this.props.w_Width}
+                            startDate={this.props.dateStart} endDate={this.props.dateStop}
+                            Rss={RSS_AZS} isAZS={true} isFUEL={true}
+                            azs={this.state._Azs} fuels={this.state._Fuels}
+                            isHiFilter={true}
+                        />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <W_main_trk
+                            header='Отображение данных с ТРК'
+                            w_Width={this.props.w_Width}
+                            startDate={this.props.dateStart} endDate={this.props.dateStop}
+                            RssDate={RSS} isAZS={true} isFUEL={true}
+                            azs={this.state._Azs} fuels={this.state._Fuels}
+                            isHiFilter={true}
+                        />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <W_main_tco
+                            header='Отображение данных с ТСО'
+                            w_Width={this.props.w_Width}
+                            startDate={this.props.dateStart} endDate={this.props.dateStop}
+                            RssDate={RSS} isAZS={true} isFUEL={true}
+                            azs={this.state._Azs} fuels={this.state._Fuels}
+                            isHiFilter={true}
+                        />
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+);
+}
+}
+*/

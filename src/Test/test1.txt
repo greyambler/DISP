@@ -1,0 +1,532 @@
+Сначала - форма, под ней - отсылка
+
+
+    < !DOCTYPE html >
+        <html lang="ru">
+
+            <head>
+                <meta charset="utf-8">
+                    <title>Модель TankCfg</title>
+                    <link rel="stylesheet" href="bootstrap.css" /> <link rel="stylesheet" href="page-footer.css" /> </head> <body>
+
+                    <header></header>
+
+
+                    <main>
+
+
+                        <div id="appm">
+                            <div v-bind: class="classPendingSateLoad"            >Loading...<progress value="60" max="100"></progress></div>
+                        <div v-bind: class="classResultSateLoad" role="alert">{{ dlStatMessage }}</div>
+                    <div v-bind: class="classPendingSateSave"            >Saving... <progress value="60" max="100"></progress></div>
+
+
+                <form v-on: submit.prevent="readTank">
+	  <button type="submit" v-bind: class="classSaveDialogButton">{{ btnLoadLabel }} CFG</button>
+	</form>
+        <br clear="all" />
+        <form v-on: submit.prevent="sendMark">
+            <button type="submit" v-bind: class="classSaveDialogButton">{{ btnSaveLabel }} CFG</button>
+	</form >
+    <br clear="all" />
+    <form v-on: submit.prevent="sendData">
+        <button type="submit" v-bind: class="classSaveDialogButton">{{ btnSaveLabel }} DATA</button>
+	</form >
+    <span>Checked values: {{ checkedValues }}</span>
+
+
+
+    <div class="card-deck">
+        <div class="card" v-for="dv in TankList">
+            <h6 class="card-header dvc-name">Tank {{ dv.storage_space }} {{ dv.fuel }}</h6>
+            <div class="card-body">
+                <div>{{ dv.Available_volume }}</div>
+                <div>st:{{ dv.TP_STATUS }}</div>
+                <div v-for="st in dv.StateList">{{ st }}</div>
+            </div>
+            <div class="card-footer text-muted">
+                <div>{{ dv.azs }}</div>
+                <div>{{ dv.id }}</div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="container">
+        <div class="row"><!-- row1 -->
+        
+        
+<div class="col-3">
+            </div>
+
+
+            <div class="col-9">
+            </div>
+
+
+            <!-- end_of row1 --></div>
+        <!-- end_of form container --></div>
+
+    <!--
+        get - запрос:
+http://172.23.16.18:8020/dpmark-1.0-SNAPSHOT/webresources/ru.expertek.dp.dpinside.tank
+ответ:
+{
+    "pl":
+    [
+        {
+            "id": "fe17dea5-c1e9-4a41-b343-f77a7d039824",
+            "azs": "АЗС 81 Ярославское шоссе 15",
+            "storage_space": 1,
+            "fuel": "Аи-92",
+            "Available_volume": 2345.780029296875,
+            "CURENT_VOLUME": 0.0,
+            "TOTAL_WATER": 0.0,
+            "temperature": 0.0,
+            "density": 0.0,
+            "date": "",
+            "time": "",
+            "status": 0,
+            "state": 0
+        },
+        {
+            "id": "c7c00a08-4bb3-4038-8173-921dfb58c689",
+            "azs": "АЗС 81 Ярославское шоссе 15",
+            "storage_space": 2,
+            "fuel": "ДТ",
+            "Available_volume": 2345.780029296875,
+            "CURENT_VOLUME": 0.0,
+            "TOTAL_WATER": 0.0,
+            "temperature": 0.0,
+            "density": 0.0,
+            "date": "",
+            "time": "",
+            "status": 0,
+            "state": 0
+        }
+    ]
+}
+-->
+
+</div > < !--end_of appm-- >
+
+
+</main >
+
+
+    <footer>
+        <p class="text-muted">&nbsp;ООО &laquo;ЭКСПЕРТЕК ИБС&raquo;<br />&nbsp;www.expertek.ru</p> </footer>
+    <!--JavaScript loader-- >
+        <script src="vue.js"></script>
+        <script src="vue-router.js"></script>
+        <script src="model6_tankcfg.js"></script> </body > </html >
+
+========================================================================================================
+var TankCfgDataModel = {
+
+  tcs:  [
+         {
+	   "id":1,
+           "ip":"172.23.16.125",
+           "ifsf":"10.64.184.234",
+           "tank":1,
+           "prodnb":1,
+           "shellcapacity":300.50,
+           "maxsafefillcapacity":290.50,
+           "minoperatingcapacity":50.50,
+           "lowcapacity":20.50,
+           "hihilevelsetpoint":490.500,
+           "hilevelsetpoint":450.500,
+           "lolevelsetpoint":50.500,
+           "lololevelsetpoint":20.500,
+           "hiwatersetpoint":100.500
+	 }
+	],
+
+  tds:  [
+         {
+	   "id":1,
+           "ip":"172.23.16.125",
+           "ifsf":"10.64.184.234",
+           "tank":1,
+           "tpstatus":2,
+           "tpalarm":"0x32",
+           "totalobservedvolume":1500.00,
+           "totalgrosstandardvolume":1500.50,
+           "watervolume":20.50,
+           "averagetemp":14.50,
+           "observeddensity":751.000,
+           "productlevel":866.700,
+           "waterlevel":10.500,
+           "lastreadingdate":"2019/06/20",
+           "lastreadingtime":"17:37:14"
+	 }
+	],
+    TankList: [],
+
+	socketAlarms: null, // веб-сокет для получения признаков критичности по типам устройств
+	connectionLost: false, // окрашивание станций при потере связи с сервером
+	socketConnected: false, // величина, обратная connectionLost
+	timerId: null, // идентификатор таймера из setTimeout
+
+    checkedValues: [],
+    dlStatMessage: 'Ошибка загрузки',
+    btnSaveLabel: 'Сохранить',
+    btnLoadLabel: 'Загрузить',
+    pendingLoad: false,
+    pendingCreate: false,
+    errorLoad:   true
+}; // end_of TankCfgDataModel
+
+
+//const vlink2 = 'http://172.23.16.18:8080/dpmark-1.0-SNAPSHOT/webresources/ru.expertek.dp.dpinside.state';
+const vlink2 = 'dpmark-1.0-SNAPSHOT/webresources/ru.expertek.dp.dpinside.tank';
+const vlink3 = 'dpmark-1.0-SNAPSHOT/webresources/ru.expertek.dp.dpinside.tank/fe17dea5-c1e9-4a41-b343-f77a7d039824/data';
+const vsock2 = 'dpsock-1.0-SNAPSHOT/alwsc'; const wsUri2 = "ws://" + window.location.host + "/" + vsock2;
+
+function onGetData(rResponse) {
+	let rStatus;
+	rStatus = rResponse.status;
+	console.log("response onGet: status " + rStatus);
+	switch (rStatus) {
+		case 200:
+			return Promise.all(  [Promise.resolve(rStatus), rResponse.json()]  );
+			break;
+//				case 201:
+// 					return Promise.all([rResponse.json(),    Promise.resolve(rResponse)]);
+//					break;
+//				case 204:
+//					return Promise.all([Promise.resolve(''), Promise.resolve(rResponse)]);
+//					break;
+        case 404:
+            return Promise.all(  [Promise.resolve(rStatus), rResponse.statusText + " " + rResponse.url]  );
+		default:
+			return Promise.all(  [Promise.resolve(rStatus), rResponse.text()]  );
+			break;
+	}
+}
+
+
+// end_of onGetData
+
+
+
+function onPostData(rResponse) {
+    let rStatus;
+    rStatus = rResponse.status;
+	console.log("response onPost: status " + rStatus);
+	switch (rStatus) {
+        // есть вариант обрабатывать одинаково 200 и 201
+        case 201:
+		console.log("response onPost: headers" + rStatus);
+		console.log(rResponse.headers);
+//        	let lLocation = rResponse.headers.get('Location');
+//		console.log(lLocation);
+//		let newId = lLocation.substring(  lLocation.lastIndexOf('/')  +  1  );
+		let newId = "1";
+		return Promise.all(  [Promise.resolve(rStatus), Promise.resolve(newId)]  );
+		break;
+//	case 204:
+//		return Promise.all([Promise.resolve(''), Promise.resolve(rResponse)]);
+//		break;
+
+//        case 502:
+//<!DOCTYPE html>
+//<html>
+//<head>
+//<title>Error</title>
+//</head>
+//<body>
+//<h1>An error occurred.</h1>
+//<p>Sorry, the page you are looking for is currently unavailable.<br/> //Please try again later.</p> //</body> //</html>
+	default:
+		return Promise.all(  [Promise.resolve(rStatus), rResponse.text()]  );
+		break;
+	}
+}
+// end_of onPostData
+
+
+
+function arrayResolveReject(arrResp) {
+	var rError;
+	console.log("arrayResolveReject status: " + arrResp[0]);
+	console.log("arrayResolveReject result type:" + (typeof arrResp[1]) + ", value (next line):");
+	console.log(arrResp[1]);
+	switch (arrResp[0]) {
+		case 200:
+		case 201:
+//				case 204:
+			return arrResp[1];
+			break;
+        case 404:
+        case 502:
+		default:
+			rError = new Error(arrResp[1]);
+			rError.code = arrResp[0];
+			throw rError;
+			break;
+	}
+}
+// end_of arrayResolveReject
+
+
+
+
+function fetchData_get01() {
+	let vlink = vlink2;
+	const fetchPromise07 = fetch(
+		vlink,
+		{
+			headers:{'Accept': 'application/json'}
+		}
+	)
+	.then(onGetData)           // прочесть либо json, либо error-string
+	.then(arrayResolveReject); // разделить потоки на resolved и rejected
+    return fetchPromise07;
+} // end_of fetchData_get01
+function fetchData_post01(ms) {
+	// ms - массив передаваемых объектов
+	let vlink = vlink2;
+	// пример протокола vlink = 'protocol_post_03.json';
+	const fetchPromise05 = fetch(
+		vlink,
+		{
+            method: 'POST',
+            headers:{'Content-type': 'application/json; charset=utf-8'},
+            body:   JSON.stringify(ms)
+		}
+	)
+	// Ответ сервера на POST createOrder():
+	//    - если ресурс успешно создан - 201
+	//    - если ресурс с указанным URI не может быть создан или модифицирован - 500 (Internal Server Error)
+	.then(onPostData)      // прочесть либо json, либо error-string
+	.then(arrayResolveReject); // разделить потоки на resolved и rejected
+    return fetchPromise05;
+}
+// end_of fetchData_post01
+
+
+
+function fetchData_post02(ms) {
+	// ms - массив передаваемых объектов
+	let vlink = vlink3;
+	// пример протокола vlink = 'protocol_post_04.json';
+	const fetchPromise06 = fetch(
+		vlink,
+		{
+            method: 'POST',
+            headers:{'Content-type': 'application/json; charset=utf-8'},
+            body:   JSON.stringify(ms)
+//            headers:{'Content-type': 'application/json; charset=utf-8'}
+		}
+	)
+	// Ответ сервера на POST createOrder():
+	//    - если ресурс успешно создан - 201
+	//    - если ресурс с указанным URI не может быть создан или модифицирован - 500 (Internal Server Error)
+	.then(onPostData)      // прочесть либо json, либо error-string
+	.then(arrayResolveReject); // разделить потоки на resolved и rejected
+    return fetchPromise06;
+}
+
+// end_of fetchData_post02
+
+
+const appm = new Vue({
+  el: '#appm',
+  data: function dataDataTankCfg() {
+	return TankCfgDataModel;
+  }, // end_of data()
+
+
+  computed: {
+		classPendingSateLoad: function classPendingSateLoadFun() {
+			return {
+				progress: true,
+				'd-none': !this.pendingLoad
+			}
+		},
+		classPendingSateSave: function classPendingSateSaveFun() {
+			return {
+				'alert': true,
+				'alert-info': true,
+				'd-none': !this.pendingCreate
+			}
+		},
+		classResultSateLoad: function classResultSateLoadFun() {
+			return {
+				alert: true,
+				'alert-danger': true,
+				'd-none': !this.errorLoad
+			}
+		},
+		classSaveDialogButton: function classSaveDialogButtonFun() {
+			return {
+				'btn': true,
+				'btn-primary': true,
+				'd-none': (this.pendingLoad) || (this.pendingCreate) // || this.errorCreate || this.successCreate || (!this.btnSaveState))
+			}
+		},
+		staIdList: function staIdList () { // перечень UUID АЗС верхнего уровня
+		  let iNumStations = this.TankList.length;
+		  let IdList = new Array(iNumStations);
+		  for (let i = 0; i < iNumStations; i++) {
+			let obSta = this.TankList[i];
+			IdList[i] = obSta.id;
+		  }
+		  return IdList;
+		}
+  }, // end_of computed
+
+
+  methods: {
+		readTank: function readTank (eEvent) {
+			console.log("model02 readTank");
+			this.errorLoad = false;
+			this.pendingLoad = true;
+		        fetchData_get01()
+			.then(this.onLoadTank)
+			.catch(this.displayError);
+		}, // end_of sendMark
+		sendMark: function sendMark (eEvent) {
+			console.log("model02 sendMark");
+			this.errorLoad = false;
+			this.pendingCreate = true;
+//				this.readonlyDialogFields = true; // установить read-only на поля ввода
+			let ms = {};
+			ms.tcs = this.tcs;
+
+		        fetchData_post01(ms)
+			.then(this.onSaveMark)
+			.catch(this.displayCrError);
+		}, // end_of sendMark
+		sendData: function sendMark (eEvent) {
+			console.log("model02 sendData");
+			this.errorLoad = false;
+			this.pendingCreate = true;
+//				this.readonlyDialogFields = true; // установить read-only на поля ввода
+			let ms = {};
+			ms.tds = this.tds;
+		        fetchData_post02(ms)
+			.then(this.onSaveData)
+			.catch(this.displayCrError);
+		}, // end_of sendMark
+		displayCrError: function displayError(eError) {
+	console.log('displayCrError: ' + ' status[' + eError.status + '] code[' + eError.code + '] message[' + eError.message + '] statusText[' + eError.statusText + ']');
+        switch (eError.code) {
+          case 400:
+            this.dlRawMessage  = '';
+            this.dlStatMessage = 'Ошибка сохранения измерений: ' + eError.message;
+            break;
+          case 502:
+          case 504:
+            this.dlStatMessage = '';
+	    this.dlRawMessage  = '<span>Ошибка сохранения измерений: ' + eError.message + '</span>';
+            break;
+          default:
+            this.dlStatMessage = 'Ошибка сохранения измерений: ' + eError.message;
+        }
+	this.pendingCreate = false;
+	this.errorLoad   = true;
+		}, // end_of displayCrError
+		displayError: function displayError(eError) {
+	console.log('displayError: ' + ' status[' + eError.status + '] code[' + eError.code + '] message[' + eError.message + '] statusText[' + eError.statusText + ']');
+	this.dlStatMessage = 'Ошибка загрузки: ' + eError.message;
+	this.pendingLoad = false;
+	this.errorLoad   = true;
+		}, // end_of displayError
+
+		onSaveMark: function onSaveMark (pObjJson) {
+			console.log("10 onSave Tank");
+			this.pendingCreate = false;
+		}, // end_of SaveMark
+		onSaveData: function onSaveData (pObjJson) {
+			console.log("10 onSave Data");
+			this.pendingCreate = false;
+		}, // end_of SaveMark
+		onLoadTank: function onLoadTank (pObjJson) {
+			console.log("05 onLoad Tank");
+			this.TankList.length = 0;
+			for (let i = 0; i < pObjJson.pl.length; i++) {
+				this.TankList.push(pObjJson.pl[i]);
+			}
+			this.socketAlarmsCreate();
+			this.pendingLoad = false;
+		}, // end_of onLoadTank
+
+		// ==================== обработчики событий WebSocket ====================
+		socketAlarmsCreate: function socketAlarmsCreate() {
+			// если повторное открытие пройдёт здесь же, то сначала отсоединить обработчики, закрыть соединение
+			console.log("08 sta WebSocket create");
+			this.socketAlarms = new WebSocket(wsUri2);
+			this.socketAlarms.onopen    = this.socketAlarmsOnOpen; // по onOpen сбрасывается флаг connectionLost
+			this.socketAlarms.onerror   = this.socketAlarmsOnError;
+		        this.timerId = setTimeout(this.socketAlarmsCreate, 120000); // повторная попытка в случае отсутствия соединения
+			this.connectionLost = true;
+			this.socketConnected = false;
+		}, // socketAlarmsCreate
+		socketAlarmsOnOpen: function socketAlarmsOnOpen() {
+			console.log("09 sta WebSocket open");
+			clearTimeout(this.timerId);
+			this.socketAlarms.onclose   = this.socketAlarmsOnClose;
+			this.socketAlarms.onmessage = this.socketAlarmsOnMessage; // ? по onMessage флаг тоже сбрасывается ?
+			this.socketAlarms.send(JSON.stringify(this.staIdList));
+			this.connectionLost = false;
+			this.socketConnected = true;
+		},  // end_of socketAlarmsOnOpen
+		socketAlarmsOnClose: function socketAlarmsOnClose(event) {
+			console.log("10 sta socketAlarms OnClose код: " + event.code + ' причина: ' + event.reason);
+			if (event.wasClean) {
+				console.log('  Соединение закрыто чисто');
+			} else {
+				console.log('  Обрыв соединения'); // например, "убит" процесс сервера
+				this.connectionLost = true;
+				this.socketConnected = false;
+				this.socketAlarms.onclose = function () {}; // disable onclose handler first
+				this.socketAlarms.close();
+				// переоткрыть через две минуты
+		                this.timerId = setTimeout(this.socketAlarmsCreate, 120000);
+			} // end_of обрыв соединения
+		}, // end_of socketAlarmsOnClose
+		socketAlarmsOnError: function socketAlarmsOnError(error) {
+			console.log("  sta socketAlarms Ошибка " + error.message);
+			this.socketAlarms.onclose = null;
+			this.connectionLost = true;
+			this.socketConnected = false;
+			this.socketAlarms.close();
+		        this.timerId = setTimeout(this.socketAlarmsCreate, 120000);
+	        }, // end_of socketAlarmsOnError
+		socketAlarmsOnMessage: function socketAlarmsOnMessage(event) {
+			console.log("11 sta socketAlarms OnMessage: " + event.data);
+		        // {"id":"f09de2cd-56e9-4f0e-a822-232e9a7c4d0c","volume":123.4,"temp":15.3, ...}
+			let vEvMessage = JSON.parse(event.data);
+
+			// найти резервуар по id и обновить поля состояния
+			let iNumStations = this.TankList.length;
+			for (let i = 0; i < iNumStations; i++) {
+				let obSta = this.TankList[i].id;
+				if (obSta == vEvMessage.id) {
+this.TankList[i].StateList = {};
+for (var key in vEvMessage) {
+  if (key == "TP_STATUS") {
+    this.TankList[i].TP_STATUS = vEvMessage.TP_STATUS;
+  } else if (key == "id") {
+    continue;
+  } else {
+    this.TankList[i].StateList[key] = vEvMessage[key];
+  }
+}
+					break;
+				}
+			}
+			console.log("10 sta onMessage passed");
+			this.connectionLost = false;
+	        } // end_of socketAlarmsOnMessage
+  } // end_of methods
+
+
+});
+
+========================================================================================================
+Сергей Молотков

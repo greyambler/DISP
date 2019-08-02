@@ -1,11 +1,6 @@
 import React from 'react';
 import MultiSelect from "@khanacademy/react-multi-select";
 
-const options = [
-    { label: "One", value: 1 },
-    { label: "Two", value: 2 },
-    { label: "Three", value: 3 },
-];
 
 export default class w_List_ChBox extends React.Component {
     constructor(props) {
@@ -14,6 +9,7 @@ export default class w_List_ChBox extends React.Component {
             selected: [],
         }
     }
+
     componentDidMount() {
         this.setState({ selected: this.props.list });
     }
@@ -22,31 +18,10 @@ export default class w_List_ChBox extends React.Component {
             this.setState({ selected: this.props.list });
         }
     }
-    /*
-        state = {
-            selected: [],
-        }
-    */
+
     handleChange = selectedOption => {
         this.setState({ selected: selectedOption });
 
-        /*
-        let t = 0;
-        let mas = new Array();
-
-        if (this.props.type == 'azs') {
-            for (const iterator of this.props.list) {
-                if (selectedOption.indexOf(iterator.value) == -1) {
-                    mas[t] = iterator.value.toUpperCase();
-                    t++;
-                }
-            }
-            if (mas.length == 0) {
-                this.props.update_Azs(null);
-            } else {
-                this.props.update_Azs(mas);
-            }
-        } */
         let t = 0;
         let mas = new Array();
         if (this.props.type == 'status') {

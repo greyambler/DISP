@@ -1,6 +1,16 @@
 //справочники tpList, obList, fuel
+
 export const RSS = "http://172.23.16.18:8080/dprest-1.0-SNAPSHOT/webresources/ru.expertek.dp.dpfacade.dvc/";
 export const MARK = "http://172.23.16.18:8080/dpmark-1.0-SNAPSHOT/webresources/ru.expertek.dp.dpinside.mark";
+
+export const RSS_Type_List = "http://172.23.16.18:8080/dprest-1.0-SNAPSHOT/webresources/ru.expertek.dp.dpfacade.dic"
+
+//export const AZS_s = "http://172.23.16.18:8020/dprest-1.0-SNAPSHOT/webresources/ru.expertek.dp.dpfacade.azk";
+
+export const AZS_s = "http://172.23.16.18:8080/dprest-1.0-SNAPSHOT/webresources/ru.expertek.dp.dpfacade.azk";
+
+export const RSS_AZS = "http://172.23.16.18:8080/dprest-1.0-SNAPSHOT/webresources/ru.expertek.dp.dpfacade.azk";
+
 export const WS = "ws://172.23.16.18:8080/dpsock-1.0-SNAPSHOT/alwsc";
 
 //export const WS = "ws://172.23.16.18:8080/dpsock-1.0-SNAPSHOT/alws";
@@ -15,6 +25,18 @@ export const RSS_Tanks = "http://172.23.16.18:8080/dpmark-1.0-SNAPSHOT/webresour
 //- обращение через nginx
 //http://172.23.16.18:8080/dpmark-1.0-SNAPSHOT/webresources/ru.expertek.dp.dpinside.tank
 
+
+export function get_NameFuel(_id, ListType) {
+  let t = _id;
+  if(ListType != null) {
+      for (const iterator of ListType) {
+          if (iterator.id == _id) {
+              t = iterator.fu;
+          }
+      }
+  }
+  return t;
+}
 
 
 
@@ -845,6 +867,7 @@ export function get_VIEW_VIDGs() {
   );
 }
 
+
 export function get_TCO() {
   return JSON.parse('{"id":"s0000000-0000-0000-0000-000000000000","tco":[' +
 
@@ -921,6 +944,7 @@ export function get_TCO() {
     ']}'
   );
 }
+
 /*
 export function get_AZS() {
   return JSON.parse(

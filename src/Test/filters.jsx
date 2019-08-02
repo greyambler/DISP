@@ -53,33 +53,33 @@ export default class list_pl extends Component {
 
             this.setState({ azs: _AZS, ai: _AI });
         } else {
-            if (data != null) {
-                if (data.obList != null) {
-                    let t = 0;
-                    let _azs = new Array();
-                    let _AZS = new Array();
-                    for (let iterator of data.obList) {
-                        _azs[t] = iterator.azs;
-                        _AZS[t] = { value: iterator.nm, label: iterator.nm, code: iterator.id };
-                        t++;
-                    }
-                    this.setState({ azs: _AZS});
+            if (data != null && data.obList != null && data.fuel != null) {
+                let _azs = new Array();
+                let _AZS = new Array();
+
+                let _ai = new Array();
+                let _AI = new Array();
+
+                let t = 0;
+                let i = 0;
+
+                for (let iterator of data.obList) {
+                    _azs[t] = iterator.azs;
+                    _AZS[t] = { value: iterator.nm, label: iterator.nm, code: iterator.id };
+                    t++;
                 }
-                if (data.fuel != null) {
-                    let i = 0;
-                    let _ai = new Array();
-                    let _AI = new Array();
-                    for (let iterator of data.fuel) {
-                        _ai[i] = iterator.fuel;
-                        _AI[i] = { value: iterator.nm, label: iterator.nm, code: iterator.id };
-                        i++;
-                    }
-                    this.setState({ ai: _AI });
+                for (let iterator of data.fuel) {
+                    _ai[i] = iterator.fuel;
+                    _AI[i] = { value: iterator.nm, label: iterator.nm, code: iterator.id };
+                    i++;
                 }
+                this.setState({ azs: _AZS, ai: _AI });
             } else {
                 this.setState({ azs: null, ai: null });
             }
         }
+
+
     }
 
     render() {
@@ -105,7 +105,7 @@ export default class list_pl extends Component {
                                     <td style={r2}><W_CheckBoxM list={this.state.azs} update_Azs={this.props.update_Azs} type='azs' /></td>
         
         */
-
+        
 
         return (
             <center>

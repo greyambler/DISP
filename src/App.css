@@ -1,20 +1,84 @@
  legend {
     font-size: 14px;
  }
+
  table {
+    width: 100%;
+    color: black;
     /*  background: white;
     Цвет фона таблицы */
-    color: black;
-    /* Цвет текста   
-    border: 2px solid red;    */
-    width: 99.9%;
-    
+    /* Цвет текста 
+    border: 1px solid blue;     */
+    align-content: center;
  }
+
  td, th, tr {
     /*background: maroon;  Цвет фона ячеек */
     padding: 0px;
     /* Поля вокруг текста 
-    border: 1px solid black;    */
-    min-width: 20px;
+    border: 1px solid black;   */
+    /*min-width: 20px;*/
  }
 
+ .tableDevice {
+    color: black;
+    width: auto;
+    margin: 0;
+    /* Цвет текста 
+    border: 3px solid red;   */
+    align-content: center;
+ }
+
+ .Dev_TBL {
+   margin-right: 0px;
+    border: 3px ridge rgb(250, 246, 246);
+ }
+
+ .DevS_TBL {
+   margin-right: 0px;
+  /*  margin: 10px;
+     Цвет текста   
+   border: 4px ridge rgb(0, 141, 141); */
+   border: 3px ridge rgb(250, 246, 246);
+ }
+
+/*
+ .DevS_tr {
+    
+    border: 4px ridge rgb(0, 141, 141);
+ }
+ */
+
+ #li_Level {
+    text-align: left;
+    width: 260px;
+    background: white;
+    border: 1.1px solid rgb(0, 141, 141);
+    vertical-align: top;
+    font-size: 12px;
+    margin-top: 6px;
+    margin-bottom: 6px;
+    border: 3px ridge rgb(250, 246, 246);
+    
+ }
+
+ #Li_Level {
+    text-align: center;
+    width: 30px;
+    border: 0.1px solid rgb(0, 141, 141);
+    vertical-align: top;
+    margin-top: 6px;
+    margin-bottom: 6px;
+    border: 3px ridge rgb(250, 246, 246);
+    
+ }
+
+ #td_ID {
+    vertical-align: text-top;
+    height: 45px;
+
+ }
+ #td_ID_Filter {
+   vertical-align: text-top;
+   height: 28px;
+}

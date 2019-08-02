@@ -2,16 +2,19 @@ import React, { Component, PropTypes } from 'react';
 
 import {
     get_TRK, get_VIEW_VIDGs,
-    IsExistAZS, get_ETALON_AZS,get_Mas_MAS_S,
+    IsExistAZS, get_ETALON_AZS, get_Mas_MAS_S,
     compare_storage_space, compare_azs
 } from '../core/core_Function.jsx';
 
 import List_trk from './list_trk.jsx';
 import FILTER from './filters.jsx'
 
-
+import moment from 'moment';
 
 const _Debuge = true;
+const _Debuge_update_Pls = false;
+const _Debuge_Mess = false;
+
 
 function Delete_Azs(data, dataF) {
     var indices = [];
@@ -103,6 +106,58 @@ function Delete_State(data, dataF) {
     }
     return indices;
 }
+function get_Mass_View(mas_Vidg) {
+    let View_Fields = new Array();
+    for (const nameView of mas_Vidg) {
+        if (nameView.value == 'selectAll') {
+            View_Fields.push('vidget');
+            View_Fields.push('data');
+
+            View_Fields.push('icon_alarm');
+            View_Fields.push('status_alarm');
+            View_Fields.push('state_alarm');
+
+            View_Fields.push('pump');
+            View_Fields.push('Counter_Curent');
+            View_Fields.push('fuel');
+            View_Fields.push('nozzle');
+            View_Fields.push('date');
+            View_Fields.push('time');
+            View_Fields.push('status');
+            View_Fields.push('state');
+        }
+        if (nameView.value == 'vidget') {
+            View_Fields.push('vidget');
+            View_Fields.push('icon_alarm');
+            View_Fields.push('status_alarm');
+            View_Fields.push('state_alarm');
+        }
+        if (nameView.value == 'data') {
+            View_Fields.push('data');
+            View_Fields.push('pump');
+            View_Fields.push('Counter_Curent');
+            View_Fields.push('fuel');
+            View_Fields.push('nozzle');
+            View_Fields.push('date');
+            View_Fields.push('time');
+            View_Fields.push('status');
+            View_Fields.push('state');
+        }
+        if (nameView.value == 'icon_alarm') { View_Fields.push('icon_alarm'); }
+        if (nameView.value == 'status_alarm') { View_Fields.push('status_alarm'); }
+        if (nameView.value == 'state_alarm') { View_Fields.push('state_alarm'); }
+        if (nameView.value == 'pump') { View_Fields.push('pump'); }
+        if (nameView.value == 'Counter_Curent') { View_Fields.push('Counter_Curent'); }
+        if (nameView.value == 'fuel') { View_Fields.push('fuel'); }
+        if (nameView.value == 'nozzle') { View_Fields.push('nozzle'); }
+        if (nameView.value == 'date') { View_Fields.push('date'); }
+        if (nameView.value == 'time') { View_Fields.push('time'); }
+        if (nameView.value == 'status') { View_Fields.push('status'); }
+        if (nameView.value == 'state') { View_Fields.push('state'); }
+    }
+    return View_Fields;
+}
+
 
 
 
@@ -110,6 +165,7 @@ export default class w_main_trk extends React.Component {
     constructor(props) {
         super(props);
         //this.SetFilters = this.SetFilters.bind(this);
+        this.update_VV_TREE = this.update_VV_TREE.bind(this);
         this.state = {
             _Trk: null,
 
@@ -121,8 +177,12 @@ export default class w_main_trk extends React.Component {
             _Stategun: null,
 
             _View_Vidg: null,
-            _View_Icon: true,
-            _View_Data: true,
+
+            _View_Icon: false,
+            _View_Data: false,
+
+            View_Fields: get_Mass_View([{ value: 'selectAll' }]),
+
         }
     }
     componentDidMount() {
@@ -142,6 +202,7 @@ export default class w_main_trk extends React.Component {
         if (_Debuge) {
             _trk = get_TRK().trk;
         } else {
+            if(this.state._Object != undefined)
             _trk = this.state._Object.trk;
         }
 
@@ -200,6 +261,59 @@ export default class w_main_trk extends React.Component {
     update_Pump = (Pump) => {
         this.setState({ _Pump: Pump }, this.SetFilters);
     }
+    update_VV_TREE = (View_Vidg) => {
+        let _View_Fields = new Array();
+        if (View_Vidg == undefined || View_Vidg.length == 0) {
+            //this.setState({ _View_Icon: false, _View_Data: false, View_Fields: new Array() });
+            this.setState({ View_Fields: _View_Fields });
+        } else {
+            let _view_Icon = false;
+            let _view_Data = false;
+            _View_Fields = get_Mass_View(View_Vidg);
+            /*
+                     for (const iterator of View_Vidg) {
+         
+                      
+                         if (iterator.value == "is_selectAll") {
+                             _view_Icon = true;
+                             _view_Data = true;
+                             break;
+                         }
+                         if (iterator.label == "виджет") {
+                             _view_Icon = true;
+                         }
+                         if (iterator.label == "данные") {
+                             _view_Data = true;
+                         }
+                         
+                     }*/
+            //this.setState({ _View_Icon: _view_Icon, _View_Data: _view_Data, View_Fields: _View_Fields });
+            this.setState({ View_Fields: _View_Fields });
+        }
+    }
+    update_Trk = (J_TRK) => {
+        try {
+            if (J_TRK != undefined &&  J_TRK != "") {
+                let Item = JSON.parse(J_TRK);
+                if (this.state._Trk != null) {
+                    for (const iterator of this.state._Trk) {
+                        if (Item.id == iterator.id) {
+                            for (var key in Item) {
+                                if (key != "id") {
+                                    let date = moment().local('ru').format('HH-mm-ss');
+                                    iterator[key] = (_Debuge_Mess) ? Item[key] + "  [ws]" : Item[key];
+                                }
+                            }
+                        }
+                    }
+                    this.setState({ _Trk: this.state._Trk });
+                }
+            }
+        } catch (error) {
+            let r = 0;
+        }
+    }
+
     render() {
         if (this.state._Trk != null) {
             let _TRK_Filter = this.state._Trk.sort(compare_azs);
@@ -214,6 +328,8 @@ export default class w_main_trk extends React.Component {
                     <center><h4>{this.props.header}</h4></center>
                     <hr /><hr />
                     <FILTER
+                        update_VV_TREE={this.update_VV_TREE}
+
                         update_VIEW_VIDG={this.update_VIEW_VIDG}
                         trk={_TRK_Filter}
                         update_Fuels={this.update_Fuels}
@@ -230,14 +346,15 @@ export default class w_main_trk extends React.Component {
                         <List_trk
                             trk={_TRK_Filter}
                             trk_Mass={_TRK}
+                            update_Trk={this.update_Trk}
                             View_Icon={this.state._View_Icon}
                             View_Data={this.state._View_Data}
+                            View_Fields={this.state.View_Fields}
                         />
                     }
                 </div>
             );
-        } else 
-        {
+        } else {
             return <h4><center>Нет связи с сервером!!</center></h4>
         }
 

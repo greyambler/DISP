@@ -4,11 +4,115 @@ import { get_FUEL, get_Objs, get_Status, get_State, get_StateGun, get_Pump, get_
 //import W_CheckBox from '../control/viewListCheckBox.jsx';
 import W_CheckBox from '../control/w_List_ChBox.jsx';
 
+import W_List_ChBoxTree from '../control/w_List_ChBoxTree.jsx';
+
 //import moment from 'moment';
 //import { Array } from 'core-js';
 
 
 const _Debuge = false;
+const data = get_VTree_LEVEL();
+/*[{ "label": "VP Accounting", "checked": true, "children": [{ "label": "iWay", "children": [{ "label": "Universidad de Especialidades del Espíritu Santo" }, { "label": "Marmara University" }, { "label": "Baghdad College of Pharmacy" }] }, { "label": "KDB", "children": [{ "label": "Latvian University of Agriculture" }, { "label": "Dublin Institute of Technology" }] }, { "label": "Justice", "children": [{ "label": "Baylor University" }, { "label": "Massachusetts College of Art" }, { "label": "Universidad Técnica Latinoamericana" }, { "label": "Saint Louis College" }, { "label": "Scott Christian University" }] }, { "label": "Utilization Review", "children": [{ "label": "University of Minnesota - Twin Cities Campus" }, { "label": "Moldova State Agricultural University" }, { "label": "Andrews University" }, { "label": "Usmanu Danfodiyo University Sokoto" }] }, { "label": "Norton Utilities", "children": [{ "label": "Universidad Autónoma del Caribe" }, { "label": "National University of Uzbekistan" }, { "label": "Ladoke Akintola University of Technology" }, { "label": "Kohat University of Science and Technology  (KUST)" }, { "label": "Hvanneyri Agricultural University" }] }] }];*/
+
+let T = true;
+//checked: true,
+function get_VTree_LEVEL() {
+
+    let _Data = {
+        label: 'Выбрать все',
+        value: 'selectAll',
+        checked: true,
+        children: [
+            {
+                label: 'виджет',
+                value: 'vidget',
+                children: [
+                    {
+                        label: 'Иконка',
+                        value: 'icon_alarm'
+                    },
+                    {
+                        label: 'Статус',
+                        value: 'status_alarm'
+                    },
+                    {
+                        label: 'Состояние',
+                        value: 'state_alarm'
+                    }
+                ]
+            },
+            {
+                label: 'данные',
+                value: 'data',
+                children: [
+                    {
+                        label: 'ТРК',
+                        value: 'pump'
+                    },
+                    {
+                        label: 'Cч.текщего налива',
+                        value: 'Counter_Curent'
+                    },
+                    {
+                        label: 'Вид НП',
+                        value: 'fuel'
+                    },
+                    {
+                        label: 'пистолет',
+                        value: 'nozzle'
+                    },
+                    {
+                        label: 'Дата',
+                        value: 'date'
+                    },
+                    {
+                        label: 'Время',
+                        value: 'time'
+                    },
+                    {
+                        label: 'Статус',
+                        value: 'status'
+                    },
+                    {
+                        label: 'Состояние',
+                        value: 'state'
+                    }
+                ]
+
+            }
+        ]
+    }
+    return _Data;
+    /*
+     var col = {
+        "id": 0,
+        "azs": "АЗС",
+        "pump": "ТРК",
+
+        "Counter_Curent": "Cч.текщего налива",
+        "fuel": "Вид НП",
+        "nozzle": "пистолет",
+
+        "date": "Дата",
+        "time": "Время",
+        "status": "Статус",
+        "state": "Состояние"
+    };
+
+    {
+                label: 'данные',
+                value: 'data',
+                children: [
+                    {
+                        label: 'НП',
+                        value: 'anonymous'
+                    }
+                ]
+
+            }
+   
+    */
+}
 
 export default class list_pl extends Component {
     constructor(props) {
@@ -25,6 +129,8 @@ export default class list_pl extends Component {
             ai: null,
             status: null,
             state: null,
+
+            test: 'hello',
         }
     }
     componentDidMount() {
@@ -147,6 +253,12 @@ export default class list_pl extends Component {
             }
         }
     }
+    /*  
+    onChange = (currentNode, selectedNodes) => {
+        this.setState({ test: 'something else' }, this.props.update_VV_TREE(selectedNodes));
+        console.log('onChange::', currentNode, selectedNodes);
+        T = !T;
+    }*/
 
     render() {
         let r1 = {
@@ -167,13 +279,19 @@ export default class list_pl extends Component {
             fontSize: 12,
         }
 
+        //onChange={this.onChange} 
+        //onChange={(currentNode, selectedNodes) => { this.props.update_VV_TREE(selectedNodes) }}
         return (
             <center>
                 <table >
                     <tbody>
                         <tr>
-                            <td style={r1}>Вид</td>
-                            <td style={r2}><W_CheckBox list={this.state.VIEW_VIDG} update_VIEW_VIDG={this.props.update_VIEW_VIDG} type='VIEW_VIDG' /></td>
+                            <td style={r1}>TEST Вид</td>
+                            <td style={r2}>
+                                <W_List_ChBoxTree data={data}
+                                    onChange={(currentNode, selectedNodes) => { this.props.update_VV_TREE(selectedNodes) }}
+                                />
+                            </td>
 
                             {!this.props.isAZS &&
                                 <td style={r1}>АЗК</td>
@@ -207,6 +325,11 @@ export default class list_pl extends Component {
 
 
 /*
+
+
+                            <td style={r1}>Вид</td>
+                            <td style={r2}><W_CheckBox list={this.state.VIEW_VIDG} update_VIEW_VIDG={this.props.update_VIEW_VIDG} type='VIEW_VIDG' /></td>
+
 
                                 <td style={r1}>Состояние</td>
                                 <td style={r2}><W_CheckBox list={this.state.state} update_State={this.props.update_State} type='state'/></td>

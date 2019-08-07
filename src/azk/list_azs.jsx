@@ -30,22 +30,26 @@ export default class list_azs extends Component {
    }
 
    render() {
-      return (
-         <ul className="hr">
-            <center className='TBL' ><h4>Объекты</h4></center>
-            <hr /><hr />
-            {
-               this.props.List.map(el => (
-                  <li key={'li ' + el.id}>
-                     <Azs azs={el}                     
-                        key={'AZS_View ' + el.id}
-                        id={el.id}
-                        on_Click={this.ON_Clisck}
-                     />
-                  </li>
-               ))
-            }
-         </ul>
-      );
+      if (this.props.List != undefined) {
+         return (
+            <ul className="hr">
+               <center className='TBL' ><h4>Объекты</h4></center>
+               <hr /><hr />
+               {
+                  this.props.List.map(el => (
+                     <li key={'li ' + el.id}>
+                        <Azs azs={el}
+                           key={'AZS_View ' + el.id}
+                           id={el.id}
+                           on_Click={this.ON_Clisck}
+                        />
+                     </li>
+                  ))
+               }
+            </ul>
+         );
+      } else {
+         return <br />
+      }
    }
 }

@@ -68,7 +68,6 @@ export default class Onle_Need extends React.Component {
             <div>
                 <Link activeClass="active" to="e1" spy={true} smooth={true} duration={250} containerId="containerElement" style={{ display: 'inline-block', margin: '20px' }}>
                     Перейти к Э1        </Link>
-
                 <Link activeClass="active" to="e2" spy={true} smooth={true} duration={250} containerId="containerElement" style={{ display: 'inline-block', margin: '20px' }}>
                     Перейти к Э2       </Link>
                 <Link activeClass="active" to="e3" spy={true} smooth={true} duration={250} containerId="containerElement" style={{ display: 'inline-block', margin: '20px' }}>

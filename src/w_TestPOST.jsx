@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { Get_RSS, RSS } from './core/core_Function.jsx';
-import W_main_post from './Test/w_main_post.jsx';
+import W_main_post from './Test/POST/w_main_post.jsx';
 
 const _Debuge = false;
 

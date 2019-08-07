@@ -7,6 +7,8 @@ import {
     compare_storage_space, compare_azs
 } from '../core/core_Function.jsx';
 
+import { Link, DirectLink, Element, Events, animateScroll as scroll, scrollSpy, scroller } from 'react-scroll'
+
 import Header from '../control/header.jsx';
 import TreeDevice from '../control/treeDevice.jsx';
 
@@ -102,7 +104,8 @@ export default class w_main_azs extends React.Component {
         if (this.state._Azs != null) {
             return (
                 <div>
-                    <center><h4>{this.props.header}</h4></center>
+                    <center >{this.props.header}</center>
+
                     <hr /><hr />
 
                     {this.state._Azs != null &&
@@ -114,7 +117,7 @@ export default class w_main_azs extends React.Component {
                             RSS={this.state.Rss}
                             azs={this.state._Azs}
                             azs_Mass={this.state._Azs_Mass}
-                            
+
                             PL_0={this.props.PL_0} PL_Col={this.props.PL_Col}
                             TRK_0={this.props.TRK_0} TRK_Col={this.props.TRK_Col}
                             TCO_0={this.props.TCO_0} TCO_Col={this.props.TCO_Col}

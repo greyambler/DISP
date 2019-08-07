@@ -23,6 +23,10 @@ export default class w_AZS extends React.Component {
             TCO_0: null,
             TCO_Col: null,
 
+            t_TCO_0: null,
+            t_TCO_Col: null,
+
+
             NOZZLE_0: null,
             NOZZLE_Col: null,
 
@@ -53,6 +57,8 @@ export default class w_AZS extends React.Component {
         let _NOZZLE_0 = new Array();
         let _NOZZLE_Col = new Array();
 
+        let t_TCO_0 = new Array();
+        let t_TCO_Val_0 = new Array();
 
 
         if (this.state._List_Objs != null) {
@@ -75,7 +81,6 @@ export default class w_AZS extends React.Component {
                     }
                 }
 
-
                 if (iterator.typ == 'pump') {
                     for (const Item in iterator) {
                         if (Item == 'id') {
@@ -95,7 +100,6 @@ export default class w_AZS extends React.Component {
                     }
                 }
 
-
                 if (iterator.typ == 'tso') {
                     for (const Item in iterator) {
                         if (Item == 'id') {
@@ -108,9 +112,8 @@ export default class w_AZS extends React.Component {
                         if (Item != 'cntyp' && Item != 'id' && Item != 'typ')
                             _TCO_Col.push(Item);
                     }
-                    
-                }
 
+                }
 
                 if (iterator.typ == 'nozzle') {
                     for (const Item in iterator) {
@@ -122,25 +125,64 @@ export default class w_AZS extends React.Component {
 
                         }
                         if (Item != 'cntyp' && Item != 'id' && Item != 'typ')
-                        _NOZZLE_Col.push(Item);
+                            _NOZZLE_Col.push(Item);
                     }
                     for (const key of iterator.cntyp) {
                         _NOZZLE_0[key.typ] = key.def.nm;
                         _NOZZLE_Col.push(key.typ);
                     }
                 }
-
             }
+            for (const iterator of this.state._List_Objs.dvctyptree) {
+                if (iterator.typ == 'tso') {
+                    for (const Item in iterator) {
+                        if (Item == 'id') {
+                            t_TCO_0[Item] = 0;
+                        }
+                        if (Item == 'nm' || Item == 'typ') {
+                            t_TCO_0[Item] = iterator[Item];
+
+                        }
+                        if (Item != 'cntyp' && Item != 'id' && Item != 'typ' && Item != 'dvctyptree')
+                            t_TCO_Val_0.push(Item);
+                    }
+                    for (const key of iterator.cntyp) {
+                        t_TCO_0[key.typ] = key.def.nm;
+                        t_TCO_Val_0.push(key.typ);
+                    }
+
+                    for (const Item_DVC of iterator.dvctyptree) {
+                        for (const item in Item_DVC) {
+                            if (item == 'id') {
+                                t_TCO_0[item + '_' + Item_DVC['typ']] = Item_DVC[item];//'001';//
+                            } else {
+
+                                t_TCO_0[item + '_' + Item_DVC['typ']] = Item_DVC[item];
+                            }
+                            if (item != 'cntyp')//  && item != 'typ' && item != 'id')
+                                t_TCO_Val_0.push(item + '_' + Item_DVC['typ']);
+                        }
+                    }
+                    let r = 0;
+                }
+            }
+
+
+
             this.setState({
                 PL_0: _PL_0, PL_Col: _PL_Col,
                 TRK_0: _TRK_0, TRK_Col: _TRK_Col,
-                TCO_0: _TCO_0, TCO_Col: _TCO_Col,
+                //TCO_0: _TCO_0, TCO_Col: _TCO_Col,
+
+                TCO_0: t_TCO_0, TCO_Col: t_TCO_Val_0,
+
+
                 NOZZLE_0: _NOZZLE_0, NOZZLE_Col: _NOZZLE_Col
             });
         }
     }
 
-    
+
     render() {
         if (this.state._List_Objs != null) {
             return (

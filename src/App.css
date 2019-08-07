@@ -15,8 +15,8 @@
  td, th, tr {
     /*background: maroon;  Цвет фона ячеек */
     padding: 0px;
-    /* Поля вокруг текста 
-    border: 1px solid black;   */
+    /* Поля вокруг текста  
+    border: 1px solid black; */
     /*min-width: 20px;*/
  }
 
@@ -30,19 +30,19 @@
  }
 
  .Dev_TBL {
-   margin-right: 0px;
+    margin-right: 0px;
     border: 3px ridge rgb(250, 246, 246);
  }
 
  .DevS_TBL {
-   margin-right: 0px;
-  /*  margin: 10px;
+    margin-right: 0px;
+    /*  margin: 10px;
      Цвет текста   
    border: 4px ridge rgb(0, 141, 141); */
-   border: 3px ridge rgb(250, 246, 246);
+    border: 3px ridge rgb(250, 246, 246);
  }
 
-/*
+ /*
  .DevS_tr {
     
     border: 4px ridge rgb(0, 141, 141);
@@ -59,7 +59,6 @@
     margin-top: 6px;
     margin-bottom: 6px;
     border: 3px ridge rgb(250, 246, 246);
-    
  }
 
  #Li_Level {
@@ -70,15 +69,19 @@
     margin-top: 6px;
     margin-bottom: 6px;
     border: 3px ridge rgb(250, 246, 246);
-    
  }
 
  #td_ID {
     vertical-align: text-top;
     height: 45px;
-
  }
+
  #td_ID_Filter {
-   vertical-align: text-top;
-   height: 28px;
-}
+    vertical-align: text-top;
+    height: 28px;
+ }
+
+ .test1:hover, .test2:hover, .test3:hover {
+    font-size: 20.5px;
+    color: blue;
+ }

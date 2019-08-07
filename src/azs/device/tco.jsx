@@ -34,8 +34,15 @@ function get_ICON_Fuel(TP_STATUS, Full_V, Curent_V) {
     }
 }
 function get_TextFirstCol(nameCol, TCO_0) {
-    let r = 0;
-    return TCO_0[nameCol];
+    let text =nameCol;
+    let r =0;
+    try {
+        text = TCO_0[nameCol];  
+        let r =0;
+    } catch (error) {
+        let r =0;
+    }
+    return text;
     /*
     for (const iterator of PL_0) {
         return iterator[nameCol];
@@ -78,7 +85,7 @@ export default class tco extends Component {
     render() {
         if (this.state.TCO != null) {
             let _height = 60;
-            let _width = (this.state.TCO.id == 0) ? 110 : 80;
+            let _width = (this.state.TCO.id == 0) ? 110 : 110;
             let _dX = 2;
             let PL_width = _width + _dX + 0.4;
             let Icon_TCO = get_ICON_Fuel(this.state.TCO.TP_STATUS, "TOTAL_VOLUME", this.state.TCO.CURENT_VOLUME);
@@ -121,6 +128,9 @@ export default class tco extends Component {
                                                 </td>
                                             </tr>
                                             <tr>
+                                                <td id='td_ID'>
+                                                    {el}
+                                                </td>
                                                 <td id='td_ID'>
                                                     {get_TextFirstCol(el, this.state.TCO)}
                                                 </td>

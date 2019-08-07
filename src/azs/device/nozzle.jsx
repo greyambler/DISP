@@ -81,7 +81,7 @@ export default class nozzle extends Component {
     render() {
         if (this.state.NOZZLE != null) {
             let _height = 60;
-            let _width = (this.state.NOZZLE.id == 0) ? 110 : 80;
+            let _width = (this.state.NOZZLE.id == 0) ? 110 : 110;
             let _dX = 2;
             let PL_width = _width + _dX + 0.4;
             let Icon_Tank = get_ICON_Fuel(this.state.NOZZLE.TP_STATUS, "TOTAL_VOLUME", this.state.NOZZLE.CURENT_VOLUME);

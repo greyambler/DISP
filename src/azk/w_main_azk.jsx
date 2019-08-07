@@ -103,6 +103,7 @@ export default class w_main_azk extends React.Component {
     render() {
         const _Objects = this.state.Object;
         if (_Objects != null) {
+            //_Objects.obList == undefined ? _Objects.obList : new Array();
             return (
                 <div>
                     <center><h4>{this.props.header}</h4></center>
@@ -110,18 +111,11 @@ export default class w_main_azk extends React.Component {
                     <div className="WinNotTree">
 
                         <TreeDevice objects={_Objects} Rss={this.state.Rss} />
+
                         <Header objects={_Objects} />
+
                         <List_azs objects={_Objects} List={_Objects.obList} on_Click={this.get_Id_AZS} />
 
-                        {this.state.dvcs != null &&
-                            <div>
-                                <List_device
-                                    List={this.state.dvcs.dvc}
-                                    name={this.state.nameAZS}
-                                    ListFuels={_Objects.fuel}
-                                />
-                            </div>
-                        }
                     </div>
                 </div>
             );
@@ -132,6 +126,22 @@ export default class w_main_azk extends React.Component {
 }
 
 /*
+
+                        <TreeDevice objects={_Objects} Rss={this.state.Rss} />
+                        <Header objects={_Objects} />
+                        <List_azs objects={_Objects} List={_Objects.obList} on_Click={this.get_Id_AZS} />
+
+{this.state.dvcs != null &&
+                            <div>
+                                <List_device
+                                    List={this.state.dvcs.dvc}
+                                    name={this.state.nameAZS}
+                                    ListFuels={_Objects.fuel}
+                                />
+                            </div>
+                        }
+
+
 
 <Header objects={_Objects}/>
 

@@ -13,6 +13,9 @@ import NOZZLE from './device/nozzle.jsx'
 
 import FILTER_F from './filtersF.jsx'
 
+
+import { Link, DirectLink, Element, Events, animateScroll as scroll, scrollSpy, scroller } from 'react-scroll'
+
 const _Debuge = false;
 
 
@@ -102,17 +105,10 @@ export default class devices extends Component {
                                     <hr /><hr />
                                 </td>
                             </tr>
-
                             {this.state._pl != null &&
                                 <tr>
                                     <td>
-                                        <center ><h4>Резервуары</h4></center>
-                                    </td>
-                                </tr>
-                            }
-                            {this.state._pl != null &&
-                                <tr>
-                                    <td>
+                                    <center><Element name="test1" className="element" >Резервуары</Element></center>
                                         {
                                             this.state._pl.map(el => (
                                                 <td key={'li ' + el.id}>
@@ -132,11 +128,11 @@ export default class devices extends Component {
                                     </td>
                                 </tr>
                             }
-
+                            
                             {this.state._trk != null &&
                                 <tr>
                                     <td>
-                                        <center ><h4>ТРК</h4></center>
+                                        <center><Element name="test2" className="element" >ТРК</Element></center>
                                         {
                                             this.state._trk.map(el => (
                                                 <td key={'li ' + el.id}>
@@ -149,6 +145,7 @@ export default class devices extends Component {
                                                         View_Icon={this.props.View_Icon}
                                                         View_Data={this.props.View_Data}
 
+
                                                     />
                                                 </td>
                                             ))
@@ -156,11 +153,11 @@ export default class devices extends Component {
                                     </td>
                                 </tr>
                             }
-
+                            
                             {this.state._tco != null &&
                                 <tr>
                                     <td>
-                                        <center ><h4>ТСО</h4></center>
+                                    <center ><Element name="test3" className="element" >ТСО</Element></center>
                                         {
                                             this.state._tco.map(el => (
                                                 <td key={'li ' + el.id}>
@@ -181,7 +178,7 @@ export default class devices extends Component {
                                 </tr>
                             }
 
-                            {this.state._nozzle != null &&
+                            {/*this.state._nozzle != null &&
                                 <tr>
                                     <td>
                                         <center ><h4>Пистолеты</h4></center>
@@ -203,7 +200,7 @@ export default class devices extends Component {
                                         }
                                     </td>
                                 </tr>
-                            }
+                            */}
 
                         </tbody>
                     </table>
@@ -225,34 +222,36 @@ export default class devices extends Component {
                             }
 
                             {(this.state.PLs != null && this.state.PLs.length > 0) &&
-                            <>
-                                <tr>
-                                    <td>
-                                        <center ><h4>Резервуары</h4></center>
-                                    </td>
-                                </tr>
+                                <>
+                                    <tr>
+                                        <td>
+                                            <center ><h4>Резервуары</h4></center>
+                                        </td>
+                                    </tr>
 
-                                <tr>
-                                    <td >
-                                        {
-                                            this.state.PLs.map(el => (
-                                                <td key={'li ' + el.id}>
-                                                    <Pl PL={el}
-                                                        fuels={this.props._List_Objs.fuel}
-                                                        key={'PL ' + el.id}
-                                                        id={el.id}
+                                    <tr>
+                                        <td >
+                                            {
+                                                this.state.PLs.map(el => (
+                                                    <td key={'li ' + el.id}>
+                                                        <Pl PL={el}
+                                                            fuels={this.props._List_Objs.fuel}
+                                                            key={'PL ' + el.id}
+                                                            id={el.id}
 
-                                                        PL_Col={this.props.PL_Col}
-                                                        DeVal={this.props.DeVal}
+                                                            PL_Col={this.props.PL_Col}
+                                                            DeVal={this.props.DeVal}
 
-                                                        View_Icon={this.props.View_Icon}
-                                                        View_Data={this.props.View_Data}
-                                                    />
-                                                </td>
-                                            ))
-                                        }
-                                    </td>
-                                </tr>
+                                                            View_Icon={this.props.View_Icon}
+                                                            View_Data={this.props.View_Data}
+
+                                                            _List_Objs={this.props._List_Objs}
+                                                        />
+                                                    </td>
+                                                ))
+                                            }
+                                        </td>
+                                    </tr>
                                 </>
                             }
 
@@ -274,6 +273,9 @@ export default class devices extends Component {
                                                         View_Icon={this.props.View_Icon}
                                                         View_Data={this.props.View_Data}
 
+                                                        _List_Objs={this.props._List_Objs}
+
+                                                        devices={this.props.devices}
                                                     />
                                                 </td>
                                             ))
@@ -300,6 +302,8 @@ export default class devices extends Component {
                                                         View_Icon={this.props.View_Icon}
                                                         View_Data={this.props.View_Data}
 
+                                                        _List_Objs={this.props._List_Objs}
+
                                                     />
                                                 </td>
                                             ))
@@ -308,7 +312,7 @@ export default class devices extends Component {
                                 </tr>
                             }
 
-                            {(this.state.Nozzle != null && this.state.Nozzle.length > 0) &&
+                            {/*(this.state.Nozzle != null && this.state.Nozzle.length > 0) &&
                                 <tr>
                                     <td>
                                         <center ><h4>Пистолеты</h4></center>
@@ -332,7 +336,7 @@ export default class devices extends Component {
                                         }
                                     </td>
                                 </tr>
-                            }
+                            */}
 
                         </tbody>
                     </table>

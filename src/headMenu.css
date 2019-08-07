@@ -2,7 +2,8 @@
     background: rgb(0, 141, 141);
     /* rgb(0, 21, 41);*/
     position: fixed;
-    top: 0;
+    top: 0px;
+    
     width: 99.5%;
     display: table;
     z-index: 1;
@@ -48,8 +49,11 @@
     color: rgb(235, 235, 235);
     display: table-cell;
     vertical-align: middle;
+    width: 30%;
  }
-
+ .header_Text_Table {
+   color: rgb(235, 235, 235);
+}
  .submenu {
     position: absolute;
     z-index: 5;

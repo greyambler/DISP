@@ -10,6 +10,9 @@
    color: white;*/
    color: black;
 }
+#hid{
+   color:white;
+}
 
  html, body {
     margin-left: 2px;
@@ -21,7 +24,7 @@
  .content {
     flex: 70 10 auto;
     min-height: 99%;
-    margin-top: 35px;
+    margin-top: 70px;
     margin-left: 2px;    
     
  }

@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import { get_FUEL, get_Objs, get_Status, get_State, get_Text_Status_PL } from '../core/core_Function.jsx';
+import { get_FUEL, get_Objs, get_Status, get_State, get_Text_Status_PL } from '../../core/core_Function.jsx';
 
 //import W_CheckBox from '../control/viewListCheckBox.jsx';
-import W_CheckBox from '../control/w_List_ChBox.jsx';
+import W_CheckBox from '../../control/w_List_ChBox.jsx';
 //import W_CheckBoxM from '../control/w_List_ChBoxM.jsx';
 
 

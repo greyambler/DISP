@@ -1,9 +1,7 @@
-m
-rsrc
+msrc
+rsrc/Test
 msrc/azk
+msrc/azs
+msrc/azs/device
+msrc/control
 msrc/core
-msrc/level
-msrc/shared_Filter
-msrc/shared_FilterAZS
-msrc/tco
-msrc/trk

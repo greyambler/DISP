@@ -4,13 +4,16 @@ import React from 'react';
 export default class OL_List extends React.Component {
    constructor(props) {
       super(props);
-      this.state = { List: this.props.obList };
+      this.state =
+         {
+            List: this.props.obList != undefined ? this.props.obList : new Array()
+         };
    }
-/*
-   componentDidUpdate(prevProps) {
-      //this.setState({ 'List': prevProps.ListVal });
-   }
-*/
+   /*
+      componentDidUpdate(prevProps) {
+         //this.setState({ 'List': prevProps.ListVal });
+      }
+   */
    Get_str() {
       let Mes = '';
       for (const iterator of this.props) {
@@ -26,7 +29,7 @@ export default class OL_List extends React.Component {
       }
 
       const List = this.props.ListVal;
-      if (List != null) {
+      if (List != undefined) {
          return (
             <ol style={_OL}>
                {

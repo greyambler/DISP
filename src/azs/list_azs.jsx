@@ -1,10 +1,12 @@
-import React, { Component,PropTypes } from 'react';
+import React, { Component, PropTypes } from 'react';
 import OL_List from '../core/OL_List.jsx'
 import { Stage, Layer, Rect, Text, Circle, Shape, Image } from 'react-konva';
-import { WS ,compare_azs} from '../core/core_Function.jsx';
+import { WS, compare_azs } from '../core/core_Function.jsx';
 import AZS from './azs.jsx'
 import FILTER_F from './filtersF.jsx'
 import FILTER_FF from './filtersFF.jsx'
+
+import { Link, DirectLink, Element, Events, animateScroll as scroll, scrollSpy, scroller } from 'react-scroll'
 
 
 import { Array } from 'core-js';
@@ -201,7 +203,7 @@ export default class list_azs extends Component {
                         if (evt.data != "") {
                             this.setState({ data: JSON.parse(evt.data) })// Рабочий
                             //his.add_messages("\n" + evt.data);
-                            console.log('***JSON*********************' + evt.data);
+                            //console.log('***JSON*********************' + evt.data);
                         }
                     } catch (error) {
                         console.log('******WS******************' + error);
@@ -335,10 +337,17 @@ export default class list_azs extends Component {
                 );
 
             } else {
+/*
+                <Link activeClass="active" className="test1" to="test1" spy={true} smooth={true} duration={500} >Test 2</Link>
+                <Link activeClass="active" className="test1" to="test1" spy={true} smooth={true} duration={500} >Test 3</Link>
+*/
                 return (
                     <div>
+                                  
+
                         <table className="tableDevice">
                             <tbody>
+
                                 <tr>
                                     <td >
                                         <center>

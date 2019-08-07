@@ -13,7 +13,7 @@ export default class header extends Component {
    render() {
       let Objest = this.props.objects;
       let Ob_Mass = new Array();
-      Ob_Mass[0] = Objest.obList;
+      Ob_Mass[0] = Objest.obList != undefined ? Objest.obList : new Array();
       Ob_Mass[1] = Objest.fuel;
       Ob_Mass[2] = Objest.tpList;
 

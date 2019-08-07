@@ -2,14 +2,14 @@ import React, { Component, PropTypes } from 'react';
 
 //import Post from './MyComponent.jsx';
 
-import { RSS_Tanks, RSS } from '../core/core_Function.jsx';
+import { RSS_Tanks, RSS } from '../../core/core_Function.jsx';
 
 
-import W_main_nozzle from '../nozzle/w_main_nozzle.jsx';
-import W_main_level from '../level/w_main_level.jsx';
-import W_main_trk from '../trk/w_main_trk.jsx';
-import W_main_tco from '../tco/w_main_tco.jsx';
-import { get_PL } from '../core/core_Function.jsx';
+import W_main_nozzle from '../../nozzle/w_main_nozzle.jsx';
+import W_main_level from '../../level/w_main_level.jsx';
+import W_main_trk from '../../trk/w_main_trk.jsx';
+import W_main_tco from '../../tco/w_main_tco.jsx';
+import { get_PL } from '../../core/core_Function.jsx';
 import FILTER from './filters.jsx'
 
 
@@ -18,9 +18,9 @@ import Post from './Onle_Need.jsx';
 
 import { Link, DirectLink, Element, Events, animateScroll as scroll, scrollSpy, scroller } from 'react-scroll'
 
-import './MyComponent.css';
+//import './MyComponent.css';
 
-const _Debuge = false;
+const _Debuge = true;
 
 
 export default class w_main_post extends React.Component {

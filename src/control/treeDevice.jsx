@@ -83,7 +83,7 @@ export default class treeDevice extends PureComponent {
             MASS_DVC: new Array(),
         };
     }
-    
+
     componentDidMount() {
         this.get_Full_TreeBar();
         //this.tick();
@@ -115,10 +115,12 @@ export default class treeDevice extends PureComponent {
     get_Child(list) {
         let children = Array();
         let t = 0;
-        for (const item of list) {
-            let J_Rss_ID = this.get_Child_ID(item.id);
-            children[t] = { id: item.id, key: item.id, name: item.nm, fu: item.fu, children: J_Rss_ID };
-            t++;
+        if (list != undefined) {
+            for (const item of list) {
+                let J_Rss_ID = this.get_Child_ID(item.id);
+                children[t] = { id: item.id, key: item.id, name: item.nm, fu: item.fu, children: J_Rss_ID };
+                t++;
+            }
         }
         if (children.length == 0) {
             children = null;

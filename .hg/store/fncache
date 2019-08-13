@@ -157,3 +157,7 @@ data/src/Test/TREE/w_main_tree.jsx.i
 data/src/Test/TREE/treeDevice.css.i
 data/src/Test/POST/MyComponent.css.i
 data/src/Test/POST/filters.jsx.i
+data/src/control/tco_Dvc_Item_Tree.jsx.i
+data/src/azs/device/tcoTree.jsx.i
+data/src/control/tco_Item_Tree.jsx.i
+data/src/Test/TREE/save.txt.i

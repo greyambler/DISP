@@ -98,7 +98,7 @@ export default class tco extends Component {
                             <tbody>
                                 {this.props.View_Icon &&
                                     <tr>
-                                        <td colSpan='1'>
+                                        <td colSpan='2'>
                                             <Stage width={PL_width} height={_height + 30} x={_dX} y={0}>
                                                 <Layer key='1'>
                                                     <AZS_Image Image={Icon_TCO} _W='65' _H='55' _X={0 + 4} _Y={0 + 14} />

@@ -198,7 +198,6 @@ export default class trk extends Component {
                                                 </td>
                                             </tr>
                                             <tr>
-
                                                 <td id='td_ID'>
                                                     {get_TextFirstCol(el, this.state.TRK, this.props._List_Objs)}
                                                 </td>

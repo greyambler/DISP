@@ -120,7 +120,9 @@ export default class w_main_azs extends React.Component {
 
                             PL_0={this.props.PL_0} PL_Col={this.props.PL_Col}
                             TRK_0={this.props.TRK_0} TRK_Col={this.props.TRK_Col}
+
                             TCO_0={this.props.TCO_0} TCO_Col={this.props.TCO_Col}
+                            
                             NOZZLE_0={this.props.NOZZLE_0} NOZZLE_Col={this.props.NOZZLE_Col}
                         />
                     }

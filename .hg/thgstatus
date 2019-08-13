@@ -1,7 +1,5 @@
 msrc
-rsrc/Test
-msrc/azk
+msrc/Test/TREE
 msrc/azs
 msrc/azs/device
-msrc/control
 msrc/core

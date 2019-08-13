@@ -8,6 +8,7 @@ import { Array } from 'core-js';
 import Pl from './device/pl.jsx'
 import TRK from './device/trk.jsx'
 import TCO from './device/tco.jsx'
+import TCO_Tee from './device/tcoTree.jsx'
 
 import NOZZLE from './device/nozzle.jsx'
 
@@ -46,6 +47,12 @@ export default class devices extends Component {
             Tco: null,
             Nozzle: null,
 
+            Tree_TCO: null,
+            Tree_TCO_DEVICES: null,
+
+
+            TCO: null,
+
         }
     }
 
@@ -53,13 +60,19 @@ export default class devices extends Component {
         this.setState({ _pl: get_ZeroColumn_0(this.props.PL_0) });
         this.setState({ _trk: get_ZeroColumn_0(this.props.TRK_0) });
         this.setState({ _tco: get_ZeroColumn_0(this.props.TCO_0) });
+
         this.setState({ _nozzle: get_ZeroColumn_0(this.props.NOZZLE_0) });
 
 
         this.setState({
             PLs: this.props.PLs, Trk: this.props.Trk,
-            Tco: this.props.Tco, Nozzle: this.props.Nozzle
+            Tco: this.props.Tco, Nozzle: this.props.Nozzle,
+            TCO: this.props.TCO,
         });
+
+
+        this.setState({ Tree_TCO: this.props.TCO_0 });
+
     }
     componentDidUpdate(prevProps) {
         if (this.props.id != prevProps.id) {
@@ -87,9 +100,20 @@ export default class devices extends Component {
         }
         if (this.props.Tco != prevProps.Tco) {
             this.setState({ Tco: this.props.Tco });
-        } if (this.props.Nozzle != prevProps.Nozzle) {
+        }
+        if (this.props.Nozzle != prevProps.Nozzle) {
             this.setState({ Nozzle: this.props.Nozzle });
         }
+
+
+        if (this.props.Tree_TCO != prevProps.Tree_TCO) {
+            this.setState({ Tree_TCO: this.props.Tree_TCO });
+        }
+        if (this.props.TCO != prevProps.TCO) {
+            this.setState({ TCO: this.props.TCO });
+        }
+
+
     }
 
     render() {
@@ -108,7 +132,7 @@ export default class devices extends Component {
                             {this.state._pl != null &&
                                 <tr>
                                     <td>
-                                    <center><Element name="test1" className="element" >Резервуары</Element></center>
+                                        <center><Element name="test1" className="element" >Резервуары</Element></center>
                                         {
                                             this.state._pl.map(el => (
                                                 <td key={'li ' + el.id}>
@@ -128,7 +152,7 @@ export default class devices extends Component {
                                     </td>
                                 </tr>
                             }
-                            
+
                             {this.state._trk != null &&
                                 <tr>
                                     <td>
@@ -153,26 +177,38 @@ export default class devices extends Component {
                                     </td>
                                 </tr>
                             }
-                            
-                            {this.state._tco != null &&
+
+                            {this.state.Tree_TCO != null &&
                                 <tr>
                                     <td>
-                                    <center ><Element name="test3" className="element" >ТСО</Element></center>
+                                        <center ><Element name="test3" className="element" >ТСО</Element></center>
                                         {
-                                            this.state._tco.map(el => (
-                                                <td key={'li ' + el.id}>
-                                                    <TCO TCO={el}
-                                                        key={'Tco ' + el.id}
-                                                        id={el.id}
+                                            <td>
+                                                <TCO_Tee TCO={this.state.Tree_TCO}
+                                                    IsHead={true}
+                                                    View_Icon={this.props.View_Icon}
+                                                    View_Data={this.props.View_Data}
 
-                                                        TCO_Col={this.props.TCO_Col}
-
-                                                        View_Icon={this.props.View_Icon}
-                                                        View_Data={this.props.View_Data}
-
-                                                    />
-                                                </td>
-                                            ))
+                                                />
+                                            </td>
+                                            /*
+                                                                                          this.state._tco.map(el => (
+                                              
+                                                                                              <td key={'li ' + el.id}>
+                                                                                                  <TCO TCO={el}
+                                                                                                      key={'Tco ' + el.id}
+                                                                                                      id={el.id}
+                                              
+                                                                                                      TCO_Col={this.props.TCO_Col}
+                                              
+                                                                                                      View_Icon={this.props.View_Icon}
+                                                                                                      View_Data={this.props.View_Data}
+                                              
+                                                                                                  />
+                                                                                              </td>
+                                              
+                                                                                          ))
+                                         */
                                         }
                                     </td>
                                 </tr>
@@ -284,29 +320,42 @@ export default class devices extends Component {
                                 </tr>
                             }
 
-                            {(this.state.Tco != null && this.state.Tco.length > 0) &&
+                            {(this.state.TCO != null && this.state.TCO.length > 0) &&
                                 <tr>
-                                    <td>
+                                    <td id="td_tso">
                                         <center ><h4>ТСО</h4></center>
                                         {
-                                            this.state.Tco.map(el => (
+                                            this.state.TCO.map(el => (
                                                 <td key={'li ' + el.id}>
-                                                    <TCO TCO={el}
-                                                        fuels={this.props._List_Objs.fuel}
-                                                        key={'Tco ' + el.id}
-                                                        id={el.id}
-
-                                                        TCO_Col={this.props.TCO_Col}
-                                                        DeVal={this.props.DeVal}
-
+                                                    <TCO_Tee TCO={el}
+                                                        IsHead={false}
                                                         View_Icon={this.props.View_Icon}
                                                         View_Data={this.props.View_Data}
 
-                                                        _List_Objs={this.props._List_Objs}
-
+                                                        DeVal={this.props.DeVal}
                                                     />
                                                 </td>
                                             ))
+                                            /*
+                                              this.state.Tco.map(el => (
+                                                      <td key={'li ' + el.id}>
+                                                <TCO TCO={el}
+                                                    fuels={this.props._List_Objs.fuel}
+                                                    key={'Tco ' + el.id}
+                                                    id={el.id}
+    
+                                                    TCO_Col={this.props.TCO_Col}
+                                                    DeVal={this.props.DeVal}
+    
+                                                    View_Icon={this.props.View_Icon}
+                                                    View_Data={this.props.View_Data}
+    
+                                                    _List_Objs={this.props._List_Objs}
+    
+                                                />
+                                            </td>
+                                            ))
+                                             */
                                         }
                                     </td>
                                 </tr>

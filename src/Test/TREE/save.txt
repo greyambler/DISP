@@ -1,0 +1,314 @@
+/*
+function Get_Device(name_Dev) {
+    let Obj = get_DVC_TREE();
+    if (Obj != null && Obj.dvctyptree != null) {
+        for (const DEVICE of Obj.dvctyptree) {
+            if (DEVICE.typ == name_Dev) {
+                return DEVICE;
+                break;
+            }
+        }
+    }
+    return null;
+}
+function Get_MainHead(TCO) {
+    let Tso = new Array();
+    let TsoVal = new Array();
+    for (const key in TCO) {
+        if (key == "nm" || key == "typ" || key == "id") {
+            Tso.push(key);
+            TsoVal[key] = TCO[key];
+        }
+    }
+    if (TCO.cntyp != undefined) {
+        for (const item of TCO.cntyp) {
+            Tso.push(item.typ);
+            TsoVal[item.typ] = item.def.nm;
+        }
+    }
+    Tso.push(TsoVal);
+    return Tso;
+}
+function Get_Val(mas, key) {
+    let R = "";
+    let len = mas.length;
+    if (len > 0) {
+        R = mas[len - 1][key];
+    }
+    return R;
+}
+*/
+
+/*
+class Tco_Item_Tree extends Component {
+    render() {
+        let main = this.props.PROPERTYS;
+        let MASS = this.props.MASS_LIBRR;
+        let isKeyShow = this.props.isKeyShow;
+        let F = this.props.FirstPROPS;
+        let p = this.props.N;
+        return (
+            <>
+                {
+                    (!Array.isArray(main) && p >= F) &&
+                    <>
+                        <tr>
+                            {isKeyShow &&
+                                <td id="li_Level">
+                                    {main}
+                                </td>
+                            }
+                            {MASS.length - (1 + F) > 1 &&
+                                <td colSpan='2' height='20px' id="li_Level">
+                                    {Get_Val(MASS, main)}
+                                </td>
+                            }
+                        </tr>
+                        <tr>
+                            <td colSpan='2' id="li_Level">
+                                <hr />
+                            </td>
+                        </tr>
+                    </>
+                }
+            </>
+        );
+    }
+}
+
+class Tco_Dvc_Item_Tree extends Component {
+    render() {
+        let main = this.props.PROPERTYS;
+        let MASS = this.props.MASS_LIBRR;
+        let isKeyShow = this.props.isKeyShow;
+        let p = this.props.N;
+        let F = this.props.FirstPROPS;
+        return (
+            <>
+                {(!Array.isArray(main) && p >= F) &&
+                    <>
+                        <tr>
+                            {isKeyShow &&
+                                <td id="li_Level">
+                                    {main}
+                                    {MASS.length - (1 + p) >= 2 &&
+                                        <hr />
+                                    }
+                                </td>
+                            }
+                            {
+                                p == F && MASS.length - (1 + p) > 1 &&
+                                <td id='td_ID' rowSpan={MASS.length - (1 + p)}
+                                    id="li_Level">
+                                    {Get_Val(MASS, "nm")}
+                                </td>
+                            }
+                            {
+                                MASS.length - (1 + F) > 1 ?
+                                    (
+                                        <td id="li_Level">
+                                            {Get_Val(MASS, main)}
+                                            {MASS.length - (1 + p) >= 2 &&
+                                                <hr />
+                                            }
+                                        </td>
+                                    ) : (
+                                        <td colSpan='2' id="li_Level">
+                                            {Get_Val(MASS, main)}
+
+                                        </td>
+
+                                    )
+                            }
+                        </tr>
+
+                        {
+                            MASS.length - (1 + p) == 1 &&
+                            <tr>
+                                <td colSpan='3'>
+                                    <hr />
+                                </td>
+                            </tr>
+                        }
+                    </>
+                }
+            </>);
+    }
+}
+*/
+
+
+/*
+render() {
+    if (this.state.TCO != null) {
+        let Tso_Main = Get_MainHead(this.state.TCO);
+        let DEVICES = new Array();
+        for (const item of this.state.TCO.dvctyptree) {
+            DEVICES.push(Get_MainHead(item));
+        }
+
+        return (
+            <div>
+                <table>
+                    <tbody>
+                        {Tso_Main.map(main => (
+                            <Tco_Item_Tree main={main} TCO_M={Tso_Main} />
+                        ))
+                        }
+                        {Tso_Main.map(main => (
+                            <>
+                                {(main != "id" && main != "typ") &&
+                                    <tr>
+                                        {false &&
+                                            <td>
+                                                {main}
+                                            </td>
+                                        }
+
+                                        <td colSpan='2'>
+                                            {Get_Val(Tso_Main, main)}
+                                        </td>
+                                    </tr>
+                                }
+                            </>
+                        ))}
+
+                        {
+                            DEVICES.map(MASS => (
+                                MASS.map((main, p) => (
+                                    <>
+                                        {(!Array.isArray(main) && main != "id" && main != "typ") &&
+                                            <>
+                                                <tr>
+                                                    {false && p == 0 &&
+                                                        <td>
+                                                            {main}
+                                                        </td>
+                                                    }
+
+
+                                                    {p == 0 &&
+                                                        <>
+                                                            <td rowSpan={MASS.length - 1}>
+                                                                {Get_Val(MASS, "nm")}
+                                                            </td>
+                                                            <td>
+
+                                                                {Get_Val(MASS, main)}
+
+                                                            </td>
+                                                        </>
+                                                    }
+                                                </tr>
+                                            </>
+                                        }
+                                    </>
+                                ))
+
+                            ))
+                        }
+
+                        {
+                            DEVICES.map(MASS => (
+                                MASS.map((main, p) => (
+                                    <>
+                                        {(!Array.isArray(main)) &&
+                                            <>
+                                                {(main != "id" && main != "typ") &&
+                                                    <tr>
+                                                        {false && p == 2 &&
+                                                            <td>
+                                                                {main}
+                                                            </td>
+                                                        }
+                                                        {p == 2 &&
+                                                            <td rowSpan={MASS.length - 3}>
+                                                                {Get_Val(MASS, "nm")}
+                                                            </td>
+                                                        }
+                                                        <td>
+                                                            {Get_Val(MASS, main)}
+                                                        </td>
+
+                                                    </tr>
+                                                }
+                                            </>
+                                        }
+                                    </>
+                                ))
+
+                            ))
+                        }
+                    </tbody>
+                </table>
+            </div>
+        );
+    } else {
+        return (
+            <div>
+                нет связи!
+</div>
+        );
+    }
+}
+}
+
+
+*/
+
+
+
+                            {/*
+
+                                DEVICES.map(MASS => (
+                                    MASS.map((main, p) => (
+                                        <>
+                                            {(!Array.isArray(main) && p >= F) &&
+                                                <>
+                                                    <tr>
+                                                        {isKeyShow &&
+                                                            <td id="li_Level">
+                                                                {main}
+                                                                {MASS.length - (1 + p) >= 2 &&
+                                                                    <hr />
+                                                                }
+                                                            </td>
+                                                        }
+                                                        {
+                                                            p == F && MASS.length - (1 + p) > 1 &&
+                                                            <td id='td_ID' rowSpan={MASS.length - (1 + p)}
+                                                                id="li_Level">
+                                                                {Get_Val(MASS, "nm")}
+                                                            </td>
+                                                        }
+                                                        {MASS.length - (1 + F) > 1 ?
+                                                            (
+                                                                <td id="li_Level">
+                                                                    {Get_Val(MASS, main)}
+                                                                    {MASS.length - (1 + p) >= 2 &&
+                                                                        <hr />
+                                                                    }
+                                                                </td>
+                                                            ) : (
+                                                                <td colSpan='2' id="li_Level">
+                                                                    {Get_Val(MASS, main)}
+
+                                                                </td>
+
+                                                            )
+                                                        }
+                                                    </tr>
+
+                                                    {MASS.length - (1 + p) == 1 &&
+                                                        <tr>
+                                                            <td colSpan='3'>
+                                                                <hr />
+                                                            </td>
+                                                        </tr>
+                                                    }
+                                                </>
+                                            }
+                                        </>
+                                    ))
+                                ))
+                            */}

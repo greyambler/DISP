@@ -34,9 +34,10 @@ function get_ICON_Fuel(TP_STATUS, Full_V, Curent_V) {
     }
 }
 
-function get_TextFirstCol(nameCol, PL_0) {
+function get_TextFirstCol(nameCol, PL_0, isFull) {
     let r = 0;
-    let text = PL_0[nameCol];
+    let text = isFull ? PL_0[nameCol] : PL_0[nameCol].substr(0, 36);
+    //let text = PL_0[nameCol];
 /**/
     if (text != "0" && text != "---" && nameCol == "PRODUCT_LEVEL" && PL_0.id != 0) {
         try {
@@ -154,8 +155,8 @@ export default class pl extends Component {
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td id='td_ID'>
-                                                    {get_TextFirstCol(el, this.state.PL)}
+                                                <td id='td_ID' title={get_TextFirstCol(el, this.state.PL, true)}>
+                                                    {get_TextFirstCol(el, this.state.PL, true)}
                                                 </td>
                                             </tr>
                                         </>

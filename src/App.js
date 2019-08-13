@@ -34,8 +34,8 @@ class Main extends Component {
     /*
     if (_Debuge) {
       return (<W_TestTree w_Height={this.props.w_Height} w_Width={this.props.w_Width} />);
-    } else 
-    */{
+    } else */
+    {
       return (<W_AZS w_Height={this.props.w_Height} w_Width={this.props.w_Width} _List_Objs={this.props._List_Objs} />);
     }
 

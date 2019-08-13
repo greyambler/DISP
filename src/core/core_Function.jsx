@@ -28,12 +28,12 @@ export const RSS_Tanks = "http://172.23.16.18:8080/dpmark-1.0-SNAPSHOT/webresour
 
 export function get_NameFuel(_id, ListType) {
   let t = _id;
-  if(ListType != null) {
-      for (const iterator of ListType) {
-          if (iterator.id == _id) {
-              t = iterator.fu;
-          }
+  if (ListType != null) {
+    for (const iterator of ListType) {
+      if (iterator.id == _id) {
+        t = iterator.fu;
       }
+    }
   }
   return t;
 }
@@ -859,6 +859,52 @@ JSON.parse
 /******** ТРК ************************* */
 
 
+/******** ТCO ************************* */
+
+
+export function Get_Device(name_Dev) {
+  let Obj = get_DVC_TREE();
+  if (Obj != null && Obj.dvctyptree != null) {
+    for (const DEVICE of Obj.dvctyptree) {
+      if (DEVICE.typ == name_Dev) {
+        return DEVICE;
+        break;
+      }
+    }
+  }
+  return null;
+}
+export function Get_MainHead(TCO) {
+  let Tso = new Array();
+  let TsoVal = new Array();
+  for (const key in TCO) {
+    if (key == "nm"  || key == "id" || key == "typ") 
+    {  Tso.push(key);
+      TsoVal[key] = TCO[key];
+    }
+  }
+  if (TCO.cntyp != undefined) {
+    for (const item of TCO.cntyp) {
+      Tso.push(item.typ);
+      TsoVal[item.typ] = item.def.nm;
+    }
+  }
+  Tso.push(TsoVal);
+  return Tso;
+}
+export function Get_Val(mas, key) {
+  let R = "";
+  let len = mas.length;
+  if (len > 0) {
+    R = mas[len - 1][key];
+  }
+  return R;
+}
+
+
+/******** ТCO ************************* */
+
+
 export function get_VIEW_VIDGs() {
   return JSON.parse(
     '{"VIEW_VIDG":[' +
@@ -887,8 +933,8 @@ export function get_TCO() {
     '"time":"21:19:00",' +
     '"status":0,' +
     '"state":1},' +
-    
-    
+
+
     '{"id": "436b24f0-a6be-49f2-b8b5-07bc5de0e244",' +
     '"azs": "АЗС 81 Ярославское шоссе 15",' +
     '"number": "2",' +
@@ -945,7 +991,7 @@ export function get_TCO() {
   );
 }
 
-/*
+
 export function get_AZS() {
   return JSON.parse(
     {
@@ -1018,9 +1064,279 @@ export function get_AZS() {
           "prop": []
         }
       ]
-    }    
+    }
   );
 }
 
-*/
 
+export function get_DVC_TREE() {
+  return (
+    {
+      "dvctyptree": [
+        {
+          "id": 2,
+          "typ": "pl",
+          "nm": "резервуар",
+          "cntyp": [
+            {
+              "typ": "WATER_VOLUME",
+              "def": { "nm": "Объем воды (л)" }
+            },
+            {
+              "typ": "cn07",
+              "def": { "nm": "датчик температуры на уровне 3" }
+            },
+            {
+              "typ": "cn08",
+              "def": { "nm": "датчик общей массы" }
+            },
+            {
+              "typ": "TP_STATUS",
+              "def": {
+                "nm": "статус резервуара или пробника",
+                "op": [
+                  {
+                    "val": "0",
+                    "text": "не отвечает на запросы"
+                  },
+                  {
+                    "val": "1",
+                    "text": "отвечает на запросы"
+                  }
+                ]
+              }
+            },
+            {
+              "typ": "TP_ALARM",
+              "def": { "nm": "шестнадцатиричная маска будильников. Указывает ошибки или выход измеренных значений за допустимые пределы" }
+            },
+            {
+              "typ": "PRODUCT_LEVEL",
+              "def": { "nm": "Уровень продукта в миллиметрах" }
+            },
+            {
+              "typ": "WATER_LEVEL",
+              "def": { "nm": "Уровень воды (mm)" }
+            },
+            {
+              "typ": "OBSERVED_DENSITY",
+              "def": { "nm": "Средняя плотность (kg/m3)" }
+            },
+            {
+              "typ": "AVERAGE_TEMP",
+              "def": { "nm": "Средняя температура продукта. Гр. Цельсия." }
+            },
+            {
+              "typ": "TOTAL_OBSERVED_VOLUME",
+              "def": { "nm": "Объем продукта+объем воды = полный текущий объем. Литры." }
+            },
+            {
+              "typ": "TOTAL_GROSS_STANDARD_VOLUME",
+              "def": { "nm": "Объем продукта (не включая воду), приведённый к стандартной температуре. Литры." }
+            }
+          ]
+        },
+        {
+          "id": 3,
+          "typ": "pump",
+          "nm": "ТРК",
+          "cntyp": [
+            {
+              "typ": "STATUS_TRK",
+              "def": {
+                "nm": "Статус ТРК",
+                "op": [
+                  {
+                    "val": "1",
+                    "text": "Нет связи"
+                  },
+                  {
+                    "val": "2",
+                    "text": "Закрыта"
+                  },
+                  {
+                    "val": "3",
+                    "text": "Свободна"
+                  },
+                  {
+                    "val": "4",
+                    "text": "Снят пистолет"
+                  },
+                  {
+                    "val": "5",
+                    "text": "Идет налив"
+                  },
+                  {
+                    "val": "6",
+                    "text": "Выдано разрешение"
+                  },
+                  {
+                    "val": "7",
+                    "text": "Завершение налива"
+                  },
+                  {
+                    "val": "8",
+                    "text": "Включен автоналив"
+                  },
+                  {
+                    "val": "9",
+                    "text": "Выключен автоналив"
+                  },
+                  {
+                    "val": "10",
+                    "text": "Заблокирована"
+                  },
+                  {
+                    "val": "11",
+                    "text": "Разблокирована"
+                  }
+                ]
+              }
+            },
+            {
+              "typ": "nozzle",
+              "def": { "nm": "Номер пистолета" }
+            },
+            {
+              "typ": "CURRENT_TRANSACTION",
+              "def": { "nm": "состояние налива" }
+            }
+          ],
+          "dvctyptree": [
+            {
+              "id": 4,
+              "typ": "nozzle",
+              "nm": "пистолет",
+              "cntyp": [
+                {
+                  "typ": "READY_TRANSACTION",
+                  "def": { "nm": "окончание налива" }
+                },
+                {
+                  "typ": "cn15",
+                  "def": { "nm": "состояние налива" }
+                },
+                {
+                  "typ": "cn17",
+                  "def": {
+                    "nm": "состояние пистолета",
+                    "op": [
+                      {
+                        "val": "0",
+                        "text": "снят"
+                      },
+                      {
+                        "val": "1",
+                        "text": "повешен"
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": 5,
+          "typ": "ups",
+          "nm": "ИБП"
+        },
+        {
+          "id": 6,
+          "typ": "tso",
+          "nm": "терминал самообслуживания",
+          "cntyp": [
+            {
+              "typ": "STATE_SHIFT",
+              "def": { "nm": "Статус смены" }
+            },
+            {
+              "typ": "ID_SHIFT",
+              "def": { "nm": "Номер смены" }
+            },
+            {
+              "typ": "STATE_TSO",
+              "def": { "nm": "Состояние" }
+            }
+          ],
+          "dvctyptree": [
+            {
+              "id": 7,
+              "typ": "fr",
+              "nm": "фискальный регистратор",
+              "cntyp": [
+                {
+                  "typ": "ERROR_FR",
+                  "def": { "nm": "Фискальные ошибки" }
+                },
+                {
+                  "typ": "STATE_FR",
+                  "def": { "nm": "Состояние" }
+                }
+              ]
+            },
+            {
+              "id": 8,
+              "typ": "cash",
+              "nm": "купюроприёмник",
+              "cntyp": [
+                {
+                  "typ": "STATE_CASH",
+                  "def": { "nm": "Состояние купюроприемника" }
+                },
+                {
+                  "typ": "SUBSTATE_CASH",
+                  "def": { "nm": "Субсостояние купюроприёмника" }
+                },
+                {
+                  "typ": "STAT_LOCK",
+                  "def": { "nm": "Блокировка по статическому фильтру" }
+                },
+                {
+                  "typ": "NOTE",
+                  "def": { "nm": "Номинал купюры" }
+                }
+              ]
+            },
+            {
+              "id": 9,
+              "typ": "msc",
+              "nm": "многофункциональный контроллер"
+            },
+            {
+              "id": 10,
+              "typ": "td",
+              "nm": "терминальное устройство",
+              "cntyp": [
+                {
+                  "typ": "ERROR_TD_ARCUS",
+                  "def": { "nm": "Код ответа библиотеки Arcus2 (библиотека для работы с ТУ)" }
+                },
+                {
+                  "typ": "ERROR_TD_HOST",
+                  "def": { "nm": "Код ответа процессингового центра" }
+                },
+                {
+                  "typ": "STATE_TD_BANK",
+                  "def": { "nm": "Состояние связи с процессинговым центром банковских карт" }
+                },
+                {
+                  "typ": "STATE_TD_BONUS",
+                  "def": { "nm": "Состояние связи с процессинговым центром бонусных карт" }
+                },
+                {
+                  "typ": "STATE_TD_FUEL",
+                  "def": { "nm": "Состояние связи с процессинговым центром топливных карт" }
+                },
+                {
+                  "typ": "STATE_TD_VFUEL",
+                  "def": { "nm": "Состояние связи с процессинговым центром виртуальных топливных карт" }
+                }
+              ]
+            }
+          ]
+        }
+      ],
+    }
+  );
+}

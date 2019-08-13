@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import OL_List from '../core/OL_List.jsx'
 import { Stage, Layer, Rect, Text, Circle, Shape, Image } from 'react-konva';
-import { WS } from '../core/core_Function.jsx';
+import { WS, Get_MainHead } from '../core/core_Function.jsx';
 
 import { Array } from 'core-js';
 
@@ -39,6 +39,11 @@ export default class azs extends Component {
     constructor(props) {
         super(props);
         this.update_Dev = this.update_Dev.bind(this);
+
+        this.Get_TCO_TREE = this.Get_TCO_TREE.bind(this);
+        this.Get_Mass = this.Get_Mass.bind(this);
+        this.Get_Mass_Devices = this.Get_Mass_Devices.bind(this);
+
         this.state = {
             Rss: this.props.RSS,
             AZS: this.props.AZS,
@@ -56,6 +61,7 @@ export default class azs extends Component {
             TRK: null,
             TCO: null,
 
+            
         }
     }
     componentDidMount() {
@@ -154,9 +160,14 @@ export default class azs extends Component {
 
                 }
             }
-            this.setState({ PLs: _PLs, Trk: _Trk, Tco: _Tco, Nozzle: _Nozzle });
+            this.setState({
+                PLs: _PLs, Trk: _Trk,
+                Tco: _Tco,
+                Nozzle: _Nozzle
+            }, this.Get_TCO_TREE());
         }
 
+        /*
         if (this.state._devices != null && this.state._devices != undefined) {
             //let _PLS = new Array();
             //let _TRK = new Array();
@@ -205,26 +216,105 @@ export default class azs extends Component {
                         let r = 0;
                         _TCO.push(t_TCO_0);
                     }
-
-
-
-                    /*
-                    if (prop_dev.typ == 'pl') {
-                        _PLS.push(prop_dev);
-                    }
-                    if (prop_dev.typ == 'pump') {
-                        _TRK.push(prop_dev);
-                    }
-                    */
-
+                    //if (prop_dev.typ == 'pl') {
+                    //    _PLS.push(prop_dev);
+                    //}
+                    //if (prop_dev.typ == 'pump') {
+                    //    _TRK.push(prop_dev);
+                    //}
                 }
             }
 
 
             //this.setState({ PLS: _PLS, TRK: _TRK, TCO: _TCO });
-            this.setState({ TCO: _TCO });
+            //this.setState({ TCO: _TCO });
 
         }
+        */
+    }
+    Get_Mass(iterator, TCO_0) {
+        /** Массив 0 - TCO */
+        let TSO_Val = new Array();
+        for (const key of TCO_0) {
+            if (!Array.isArray(key)) {
+                TSO_Val[key] = (iterator[key] != undefined) ? iterator[key] : '-----';
+            }
+        }
+        let TSO_Item = new Array();
+        for (const item of TCO_0) {
+            if (!Array.isArray(item)) {
+                TSO_Item.push(item);
+            } else {
+                TSO_Item.push(TSO_Val);
+            }
+        }
+        /** Массив 0 - TCO */
+        return TSO_Item;
+    }
+
+
+    Get_Mass_Devices(iterator, TCO_1) {
+        let DEV_Mass_Val = new Array();
+        for (const deviceS of TCO_1) {
+            for (const device of deviceS) {
+                if (Array.isArray(device)) {
+                    let Is_Exist = false;
+                    if (iterator != undefined) {
+                        for (const key of iterator) {
+                            if (device['typ'] == key['typ']) {
+
+                                let M = this.Get_Mass(key, deviceS);
+                                DEV_Mass_Val.push(M);
+                                Is_Exist = true;
+                                break;
+                            }
+                        }
+                    }
+                    if (!Is_Exist && iterator != undefined) {
+                        let M = this.Get_Mass(device, deviceS);
+                        DEV_Mass_Val.push(M);
+                    }
+                    if(iterator == undefined){
+                        let M = this.Get_Mass("zero", deviceS);
+                        let tt = 0;
+                        DEV_Mass_Val.push(M);
+                    }
+
+                }
+            }
+
+        }
+        return DEV_Mass_Val;
+    }
+
+    Get_TCO_TREE() {
+        let All_TSO = null;
+
+        if (this.state._devices != undefined && this.state._devices != null && this.props.TCO_0 != null) {
+            for (const iterator of this.state._devices) {
+
+                if (iterator.typ == 'tso' && this.props.TCO_0[0] != null) {
+                    if (All_TSO == null) {
+                        All_TSO = new Array();
+                    }
+
+                    let TSO_Item = this.Get_Mass(iterator, this.props.TCO_0[0]);
+                    let TSO_Devices = null;
+                    //if (this.props.TCO_0[1] != null && iterator.devices != null) 
+                    {
+                        TSO_Devices = this.Get_Mass_Devices(iterator.devices, this.props.TCO_0[1]);
+                    }
+                    let TSO_TWO_M = new Array();
+                    TSO_TWO_M.push(TSO_Item);
+                    TSO_TWO_M.push(TSO_Devices);
+                    All_TSO.push(TSO_TWO_M);
+
+                    this.setState({ TCO: All_TSO });
+                }
+
+            }
+        }
+
     }
 
     render(d) {
@@ -260,6 +350,8 @@ export default class azs extends Component {
                     Nozzle={this.state.Nozzle}
 
                     w_Height={_height}
+
+                    TCO={this.state.TCO}
                 />
             </dev>
         );

@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { RSS_Tanks, Get_RSS, RSS, ETALON_AZS, RSS_AZS, RSS_Type_List } from './core/core_Function.jsx';
+import { RSS_Tanks, Get_RSS, RSS, ETALON_AZS, RSS_AZS, RSS_Type_List ,Get_Device, Get_MainHead, Get_Val} from './core/core_Function.jsx';
 //import W_main_AZS from './shared_FilterAZS/w_main_AZS.jsx';
 
 import W_main_azs from './azs/w_main_azs.jsx';
@@ -11,6 +11,7 @@ export default class w_AZS extends React.Component {
     constructor(props) {
         super(props);
         this.Get_FieldsPL = this.Get_FieldsPL.bind(this);
+        this.Get_TCO_TREE = this.Get_TCO_TREE.bind(this);
         this.state = {
             header: 'Объекты.',
             _List_Objs: null,
@@ -29,6 +30,8 @@ export default class w_AZS extends React.Component {
 
             NOZZLE_0: null,
             NOZZLE_Col: null,
+
+            
 
         }
     }
@@ -172,14 +175,39 @@ export default class w_AZS extends React.Component {
             this.setState({
                 PL_0: _PL_0, PL_Col: _PL_Col,
                 TRK_0: _TRK_0, TRK_Col: _TRK_Col,
-                //TCO_0: _TCO_0, TCO_Col: _TCO_Col,
+                //TCO_0: _TCO_0, 
+                //TCO_Col: _TCO_Col,
 
-                TCO_0: t_TCO_0, TCO_Col: t_TCO_Val_0,
+                //TCO_0: t_TCO_0,
+                //TCO_Col: t_TCO_Val_0,
 
 
                 NOZZLE_0: _NOZZLE_0, NOZZLE_Col: _NOZZLE_Col
-            });
+            }, this.Get_TCO_TREE);
         }
+    }
+
+    Get_TCO_TREE() {
+        if (this.state._List_Objs != null && this.state._List_Objs.dvctyptree != undefined) {
+            for (const iterator of this.state._List_Objs.dvctyptree) {
+                if (iterator.typ == 'tso') {
+
+                    let TSO_ALL = new Array();
+
+                    let TCO = iterator;
+
+                    let Tso_Main = Get_MainHead(TCO);
+                    let DEVICES = new Array();
+                    for (const item of TCO.dvctyptree) {
+                        DEVICES.push(Get_MainHead(item));
+                    }
+                    TSO_ALL.push(Tso_Main);
+                    TSO_ALL.push(DEVICES);
+                    this.setState({ TCO_0: TSO_ALL });
+                }
+            }
+        }
+
     }
 
 

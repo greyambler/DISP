@@ -9,27 +9,28 @@ import Tco_Dvc_Item_Tree from '../../control/tco_Dvc_Item_Tree.jsx';
 
 const _Debuge = false;
 
-function get_ICON_Fuel(TP_STATUS, Full_V, Curent_V) {
-
-    //#define TP_ST_NON_REACHABLE       0 /* Нет резервуара */
-    //#define TP_ST_INOPERATIVE         1 /* Неисправен, или нет связи */
-    //#define TP_ST_OPERATIVE           2 /* Исправен */
-    //#define TP_ST_MAINTENANCE         3 /* Идет конфигурация */
+function get_ICON_Fuel(TCO_0) {
+    let NUM_STATE_TSO = Number(TCO_0[TCO_0.length - 1]['STATE_TSO']);
 
     let col = '/images/TCO_Error.png';
-    if (TP_STATUS == null || TP_STATUS === undefined || !TP_STATUS.toString().startsWith("2")) {
-        if (TP_STATUS == null || TP_STATUS === undefined || !TP_STATUS.toString().startsWith("0")) {
-
-            return col;
-        } else {
-            col = '/images/TCO_NoConect.png';
-            return col;
+    if (!isNaN(NUM_STATE_TSO)) {
+        switch (NUM_STATE_TSO) {
+            case 0:
+            case 1:
+            case 2:
+            case 3:
+            case 4:
+            case 5:
+            case 6:
+            case 7:
+            case 8:
+            case 9:
+            case 10:
+            case 11: col = '/images/TCO_Ok.png'; break;
+            default: col = '/images/TCO_NoConect.png'; break;
         }
-    } else {
-        col = '/images/TCO_Ok.png';
-
-        return col;
     }
+    return col;
 }
 
 function Is_FindDEVICE(id, MassDev) {
@@ -55,7 +56,7 @@ function Get_Device_ID_WS(id, TCO) {
             for (const iterator of TCO[1]) {
                 mass = Is_FindDEVICE(id, iterator);
                 if (mass != null) {
-                    return mass;
+                    //    return mass;
                     break;
                 }
             }
@@ -63,6 +64,21 @@ function Get_Device_ID_WS(id, TCO) {
     }
     return mass;
 }
+function Is_View_Row(Data, Name_Row) {
+    let row = false;
+    if (Data != undefined) {
+        for (const iterator of Data) {
+            if (iterator == Name_Row) {
+                row = true;
+                break;
+            }
+        }
+        let r = 0;
+    }
+
+    return row;
+}
+
 
 export default class tcoTree extends Component {
     constructor(props) {
@@ -95,7 +111,11 @@ export default class tcoTree extends Component {
 
                 if (F_mass != null) {
                     for (const iterator of this.state.DeVal.values) {
-                        F_mass[iterator.typ] = iterator.val;
+                        if (iterator.comment != null && iterator.comment != undefined) {
+                            F_mass[iterator.typ] = iterator.comment + ' [' + iterator.val + '] ';
+                        } else {
+                            F_mass[iterator.typ] = iterator.val;
+                        }
                     }
                     this.setState({ TCO: this.state.TCO });
                 }
@@ -124,13 +144,6 @@ export default class tcoTree extends Component {
         }
     }
     render() {
-
-        /*
-        <td >
-            {main}
-        </td>
-        */
-
         if (this.state.TCO != null) {
 
             let V_ID = Get_Val(this.state.TCO[0], "id")
@@ -139,31 +152,30 @@ export default class tcoTree extends Component {
             let _width = (V_ID == 6) ? 110 : 110;
             let _dX = 2;
             let PL_width = _width + _dX + 0.4;
-            let Icon_TCO = get_ICON_Fuel(this.state.TCO.TP_STATUS, "TOTAL_VOLUME", this.state.TCO.CURENT_VOLUME);
+            let Icon_TCO = get_ICON_Fuel(this.state.TCO[0]);
+
             //id={(V_ID != 6) ? 'Li_Level' : 'li_Level'}>
-
-
-
 
             let MASS = this.state.TCO[0];
             let DEVICES = null;
             if (this.state.TCO[1] != null) {
                 DEVICES = this.state.TCO[1];
             }
-            /*
-            for (const item of this.state.TCO.dvctyptree) {
-                DEVICES.push(Get_MainHead(item));
-            }
-            */
-
             let F = 2;
             let isKeyShow = false;
+            //View_Fields={this.props.View_Fields}
+
+            //{this.props.View_Icon &&
+            //let r = Is_View_Row(this.props.View_Fields, 'icon_alarm');
+            //{ Is_View_Row(this.props.View_Fields, 'icon_alarm') &&
+            //id={(V_ID != 6) ? 'Li_Level_tco' : 'li_Level'}>
             return (
                 <div>
                     <table
                         id={(V_ID != 6) ? 'Li_Level' : 'li_Level'}>
                         <tbody>
-                            {this.props.View_Icon &&
+
+                            {Is_View_Row(this.props.View_Fields, 'icon_alarm') &&
                                 <tr>
                                     <td colSpan='2'>
                                         <Stage width={PL_width} height={_height + 30} x={_dX} y={0}>
@@ -179,8 +191,19 @@ export default class tcoTree extends Component {
                                     </td>
                                 </tr>
                             }
+                            <tr>
+                                <td colSpan='2'>
+                                    <hr />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colSpan='2'>
+                                    <hr />
+                                </td>
+                            </tr>
                             {
                                 MASS.map((main, p) => (
+                                    (Is_View_Row(this.props.View_Fields, 'data') || main == 'nm') &&
                                     <Tco_Item_Tree PROPERTYS={main} MASS_LIBRR={MASS} isKeyShow={isKeyShow} FirstPROPS={F} N={p}
                                     />
                                 ))
@@ -189,6 +212,7 @@ export default class tcoTree extends Component {
                             {DEVICES != null &&
                                 DEVICES.map(m_MASS => (
                                     m_MASS.map((main, p) => (
+                                        (Is_View_Row(this.props.View_Fields, 'data')) &&
                                         <Tco_Dvc_Item_Tree PROPERTYS={main} MASS_LIBRR={m_MASS} isKeyShow={isKeyShow} FirstPROPS={F} N={p}
                                             IsHead={this.props.IsHead}
                                         />
@@ -201,83 +225,6 @@ export default class tcoTree extends Component {
                 </div>
 
             );
-
-            /*
-                        return (
-                            <div>
-                                <table
-                                    id={(V_ID != 6) ? 'Li_Level' : 'li_Level'}>
-                                    <tbody>
-                                        <tr>
-                                            <td colSpan='2'>
-                                                <Stage width={PL_width} height={_height + 30} x={_dX} y={0}>
-                                                    <Layer key='1'>
-                                                        <AZS_Image Image={Icon_TCO} _W='65' _H='55' _X={0 + 4} _Y={0 + 14} />
-            
-                                                        {this.state.TCO.id != 0 && 
-                                                            <Text Text={get_NameFuel(this.state.TCO.fuel, this.props.fuels)} x='2' y='75' fill='black'
-                                                                fontSize='14' fontFamily='Calibri' />
-                                                        }
-                                                    </Layer>
-                                                </Stage>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td colSpan='2'>
-                                                <hr />
-                                            </td>
-                                        </tr>
-                                        {
-                                            this.state.TCO[0].map(main => (
-                                                <Tco_Item_Tree main={main} TCO_M={this.state.TCO[0]} />
-                                            ))
-                                        }
-            
-            
-            
-            
-                                        {this.state.TCO[1] != null &&
-                                            this.state.TCO[1].map(MASS => (
-                                                MASS.map((main, p) => (
-                                                    <>
-                                                        {p == 0 &&
-                                                            <tr>
-                                                                <td colSpan='2'>
-                                                                    <hr />
-                                                                </td>
-                                                            </tr>
-                                                        }
-                                                        {(!Array.isArray(main) && main != "id" && main != "typ") &&
-                                                            <>
-                                                                <tr>
-                                                                    {false && p == 2 &&
-                                                                        <td>
-                                                                            {main}
-                                                                        </td>
-                                                                    }
-                                                                    {this.props.IsHead &&
-                                                                        p == 2 &&
-                                                                        <td id='td_ID' rowSpan={MASS.length - 3}>
-                                                                            {Get_Val(MASS, "nm")}
-                                                                        </td>
-                                                                    }
-                                                                    <td height='70px' colSpan='2' id='td_ID'>
-                                                                        {Get_Val(MASS, main)}
-                                                                        
-                                                                    </td>
-                                                                </tr>
-                                                            </>
-                                                        }
-                                                    </>
-                                                ))
-                                            ))
-                                        }
-                                    </tbody>
-                                </table>
-                            </div>
-                        );
-            
-                        */
         }
         else {
             return <br />

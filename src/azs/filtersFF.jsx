@@ -24,19 +24,37 @@ function get_VTree_LEVEL() {
                         label: 'Иконка',
                         value: 'icon_alarm'
                     },
-                    {
+                    /*{
                         label: 'Статус',
                         value: 'status_alarm'
                     },
                     {
                         label: 'Состояние',
                         value: 'state_alarm'
-                    }
+                    }*/
                 ]
             },
+            
             {
                 label: 'данные',
-                value: 'data',
+                value: 'data'
+            },
+            {
+                label: 'Функции кнопки', 
+                value: 'F_button', 
+                children: [{
+                    label: 'блокировка',
+                    value: 'lock'
+                },
+                {
+                    label: 'управление',
+                    value: 'management'
+                }]
+            }
+        ]
+    }
+    return _Data;
+                    /*,
                 children: [
                     {
                         label: 'ТРК',
@@ -71,10 +89,8 @@ function get_VTree_LEVEL() {
                         value: 'state'
                     }
                 ]
-            }
-        ]
-    }
-    return _Data;
+                */
+
 }
 
 
@@ -160,7 +176,7 @@ export default class list_pl extends Component {
             
         }
         let r2 = {
-            nimWidth: 260,
+            width: 160,
             textAlign: 'left',
             
         }
@@ -168,9 +184,11 @@ export default class list_pl extends Component {
             <center>
                 <table >
                     <tbody>
+                        {/*
                         <tr>
                             <td style={r1}>Вид</td>
                         </tr>
+                        */}
                         <tr>
                             <td style={r2}>
                                 <W_List_ChBoxTree data={data}

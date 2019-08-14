@@ -20,7 +20,7 @@ function get_ICON_Fuel(_STATUS) {
     let NUM_STATUS = Number(_STATUS);
     if (!isNaN(NUM_STATUS)) {
         switch (NUM_STATUS) {
-            case 0: 
+            case 0:
             case 1:
             case 2:
             case 3:
@@ -30,7 +30,7 @@ function get_ICON_Fuel(_STATUS) {
             case 7:
             case 8:
             case 9:
-            case 10: 
+            case 10:
             case 11: col = '/images/ТРК_Ok.png'; break;
             default: col = '/images/ТРК_NoConect.png'; break;
         }
@@ -38,13 +38,13 @@ function get_ICON_Fuel(_STATUS) {
     return col;
 }
 function get_TextFirstCol(nameCol, TRK_0, _List_Objs) {
-    let text =nameCol;
+    let text = nameCol;
     try {
-        text = TRK_0[nameCol];    
+        text = TRK_0[nameCol];
     } catch (error) {
-        
+
     }
-    
+
     /*
     if (text != "0" && text != "---" && nameCol == "CURRENT_TRANSACTION" && TRK_0.id != 0) {
         try {
@@ -86,31 +86,46 @@ function get_TextFirstCol(nameCol, TRK_0, _List_Objs) {
 function get_Nozzle_Fuel(nameCol, TRK_0, _Devices, _List_Objs) {
     let text = TRK_0[nameCol];
     let FUEL_NAME = "";
-    if (text != "0" && text != "---" && TRK_0.id != 0 && _Devices != undefined && _List_Objs != undefined
-        && TRK_0.id == "3216db78-d495-4e6c-8155-23b5a3bf70c7") {
+    if (text != "0" && text != "---" && TRK_0.id != 0 && _Devices != undefined && _List_Objs != undefined && _List_Objs.fuel != undefined)
+    {
 
-        if (_List_Objs.fuel != undefined) {
-            for (const dev_A of _Devices) {
-                if (dev_A.prop != undefined) {
-                    for (const item_prop of dev_A.prop) {
-                        if (item_prop.typ == 'NUM') {
-                            if (item_prop.capacity.toString() == text) {
-                                let fuels_Code = dev_A.fuel;
+        for (const dev_A of _Devices) {
+            if (dev_A.id == TRK_0.id && dev_A.prop != undefined) {
 
+                for (const item_devices of dev_A.devices) {
+                    if (item_devices.prop != null && item_devices.prop != undefined) {
+                        for (const item_prop of item_devices.prop) {
+                            if (item_prop.typ == 'NUM' && item_prop.capacity.toString() == text) {
+                                let fuels_Code = item_devices.fuel;
+                                
                                 for (const item_fuel of _List_Objs.fuel) {
                                     if (item_fuel.id == fuels_Code) {
                                         FUEL_NAME = item_fuel.fu;
                                     }
                                 }
                             }
-
                         }
                     }
                 }
             }
         }
+
     }
     return FUEL_NAME;
+}
+function Is_View_Row(Data, Name_Row) {
+    let row = false;
+    if (Data != undefined) {
+        for (const iterator of Data) {
+            if (iterator == Name_Row) {
+                row = true;
+                break;
+            }
+        }
+        let r = 0;
+    }
+
+    return row;
 }
 
 export default class trk extends Component {
@@ -156,7 +171,8 @@ export default class trk extends Component {
                         <table
                             id={(this.state.TRK.id != 0) ? 'Li_Level' : 'li_Level'}>
                             <tbody>
-                                {this.props.View_Icon &&
+                                {//this.props.View_Icon &&
+                                    Is_View_Row(this.props.View_Fields, 'icon_alarm') &&
                                     <tr>
                                         <td colSpan='1'>
                                             <Stage width={PL_width} height={_height + 30} x={_dX} y={0}>
@@ -190,7 +206,8 @@ export default class trk extends Component {
                                 </tr>
                                 {
                                     this.props.TRK_Col.map(el => (
-                                        (this.props.View_Data || el == 'nm') &&
+                                        //(this.props.View_Data || el == 'nm') &&
+                                        (Is_View_Row(this.props.View_Fields, 'data') || el == 'nm') &&
                                         <>
                                             <tr>
                                                 <td colSpan='2'>

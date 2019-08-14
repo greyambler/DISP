@@ -50,35 +50,44 @@
  */
 
  #li_Level {
+    font-size: 12px;
+    /* white-space: nowrap; */
     text-align: left;
     width: 260px;
     background: white;
-    /*border: 1.1px solid rgb(0, 141, 141);*/
     border: 3px ridge rgb(250, 246, 246);
     vertical-align: top;
-    font-size: 12px;
     margin-top: 6px;
     margin-bottom: 6px;
-    
-    
  }
 
- #Li_Level {
+ #Li_Level, #Li_Level_tco {
+
     text-align: center;
     width: 30px;
     min-width: 110px;
-    /*border: 0.1px solid rgb(0, 141, 141);*/
+    background: white;
     border: 3px ridge rgb(250, 246, 246);
     vertical-align: top;
     margin-top: 6px;
     margin-bottom: 6px;
-    /*white-space: nowrap;*/
  }
+
+ #Li_Level_tco {
+    font-size: 10px;
+ }
+
 
  #td_ID {
     vertical-align: text-top;
-    height: 55px;
+    height: 49px;
  }
+
+ #td_ID_MinFont {
+   vertical-align: text-top;
+   height: 49px;
+   font-size: 10px;
+}
 
  #td_ID_Filter {
     vertical-align: text-top;
@@ -89,8 +98,15 @@
     font-size: 20.5px;
     color: blue;
  }
- #Div_TOP{
-   vertical-align: top;
-   min-width: 200px;
-   
+
+ #DropdownTreeSelect {
+    font-size: 10px;
+    vertical-align: top;
+    min-width: 200px;
+ }
+
+ #TD_DEV {
+    border: 3px ridge rgb(250, 246, 246);
+    /*border: 3px ridge rgb(250, 246, 246);
+    border: 1px ridge rgb(0, 0, 0);*/
  }

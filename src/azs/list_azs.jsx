@@ -83,7 +83,7 @@ function get_Mass_View(mas_Vidg) {
 
 
 const _Debuge = false;
-const _Debuge_Filter = false;
+const _Debuge_Filter = true;
 
 export default class list_azs extends Component {
     constructor(props) {
@@ -202,7 +202,7 @@ export default class list_azs extends Component {
 
                         if (evt.data != "") {
                             this.setState({ data: JSON.parse(evt.data) })// Рабочий
-                            //his.add_messages("\n" + evt.data);
+                            //this.add_messages("\n" + evt.data);
                             //console.log('***JSON*********************' + evt.data);
                         }
                     } catch (error) {
@@ -238,6 +238,7 @@ export default class list_azs extends Component {
     }
     /******** WS******************** */
 
+    /********** ФИЛЬТРЫ ********/
     update_VIEW_VIDG = (View_Vidg) => {
         if (View_Vidg != null) {
             let _view_Icon = true;
@@ -269,6 +270,8 @@ export default class list_azs extends Component {
             this.setState({ View_Fields: _View_Fields });
         }
     }
+    /********** ФИЛЬТРЫ ********/
+
 
     render() {
         if (this.props.azs_Mass != null) {
@@ -277,6 +280,9 @@ export default class list_azs extends Component {
             }
             if (_Debuge_Filter) {
                 let _TRK_Filter = null;//this.state._Trk.sort(compare_azs);
+                if(this.state.data != null){
+                    let r=0;
+                }
                 return (
                     <div>
                         <table className="tableDevice">
@@ -323,6 +329,8 @@ export default class list_azs extends Component {
 
                                                     data={this.state.data}
 
+                                                    View_Fields={this.state.View_Fields}
+
                                                 // update_List_ID={this.update_List_ID}
                                                 //_M_ID={this.state._M_ID}
                                                 />
@@ -337,13 +345,13 @@ export default class list_azs extends Component {
                 );
 
             } else {
-/*
-                <Link activeClass="active" className="test1" to="test1" spy={true} smooth={true} duration={500} >Test 2</Link>
-                <Link activeClass="active" className="test1" to="test1" spy={true} smooth={true} duration={500} >Test 3</Link>
-*/
+                /*
+                                <Link activeClass="active" className="test1" to="test1" spy={true} smooth={true} duration={500} >Test 2</Link>
+                                <Link activeClass="active" className="test1" to="test1" spy={true} smooth={true} duration={500} >Test 3</Link>
+                */
                 return (
                     <div>
-                                  
+
 
                         <table className="tableDevice">
                             <tbody>
@@ -382,12 +390,14 @@ export default class list_azs extends Component {
 
                                                     PL_0={this.props.PL_0} PL_Col={this.props.PL_Col}
                                                     TRK_0={this.props.TRK_0} TRK_Col={this.props.TRK_Col}
-                                                    
+
                                                     TCO_0={this.props.TCO_0} TCO_Col={this.props.TCO_Col}
 
                                                     NOZZLE_0={this.props.NOZZLE_0} NOZZLE_Col={this.props.NOZZLE_Col}
 
                                                     data={this.state.data}
+
+                                                    View_Fields={this.props.View_Fields}
 
                                                 // update_List_ID={this.update_List_ID}
                                                 //_M_ID={this.state._M_ID}

@@ -237,6 +237,7 @@ export default class azs extends Component {
         let TSO_Val = new Array();
         for (const key of TCO_0) {
             if (!Array.isArray(key)) {
+                
                 TSO_Val[key] = (iterator[key] != undefined) ? iterator[key] : '-----';
             }
         }
@@ -272,11 +273,12 @@ export default class azs extends Component {
                     }
                     if (!Is_Exist && iterator != undefined) {
                         let M = this.Get_Mass(device, deviceS);
+                        M[3]['id'] = "a12";
                         DEV_Mass_Val.push(M);
                     }
                     if(iterator == undefined){
                         let M = this.Get_Mass("zero", deviceS);
-                        let tt = 0;
+                        
                         DEV_Mass_Val.push(M);
                     }
 
@@ -320,7 +322,7 @@ export default class azs extends Component {
     render(d) {
         let _height = this.props.w_Height - 150 + "px";
         return (
-            <dev>
+            
                 <Devices
                     _List_Objs={this.props._List_Objs}
                     AZS={this.state.AZS}
@@ -352,8 +354,10 @@ export default class azs extends Component {
                     w_Height={_height}
 
                     TCO={this.state.TCO}
+                    
+                    View_Fields={this.props.View_Fields}
                 />
-            </dev>
+            
         );
     }
 }

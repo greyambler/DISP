@@ -65,6 +65,22 @@ function get_NameFuel(_id, ListType) {
 
 */
 
+function Is_View_Row(Data, Name_Row) {
+    let row = false;
+    if (Data != undefined) {
+        for (const iterator of Data) {
+            if (iterator == Name_Row) {
+                row = true;
+                break;
+            }
+        }
+        let r = 0;
+    }
+
+    return row;
+}
+
+
 export default class pl extends Component {
     constructor(props) {
         super(props);
@@ -86,8 +102,8 @@ export default class pl extends Component {
             /*
             if (this.props.DeVal != null) {
                 console.log('************************' + this.props.DeVal.id + '  ' + this.props.DeVal.values.length + '  ' + this.props.DeVal.values[0].typ + '  ' + this.props.DeVal.values[0].val);
-            }*/
-
+            }
+             */
         }
     }
     full_Value() {
@@ -116,7 +132,8 @@ export default class pl extends Component {
                         <table
                             id={(this.state.PL.id != 0) ? 'Li_Level' : 'li_Level'}>
                             <tbody>
-                                {this.props.View_Icon &&
+                                {//this.props.View_Icon &&
+                                    Is_View_Row(this.props.View_Fields, 'icon_alarm') &&
                                     <tr>
                                         <td colSpan='1'>
 
@@ -144,7 +161,8 @@ export default class pl extends Component {
                                 </tr>
                                 {
                                     this.props.PL_Col.map(el => (
-                                        (this.props.View_Data || el == 'nm') &&
+                                        //(this.props.View_Data || el == 'nm') &&
+                                        (Is_View_Row(this.props.View_Fields, 'data') || el == 'nm') &&
                                         <>
 
                                             <tr>

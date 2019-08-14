@@ -33,7 +33,7 @@ class Main extends Component {
   render() {
     /*
     if (_Debuge) {
-      return (<W_TestTree w_Height={this.props.w_Height} w_Width={this.props.w_Width} />);
+      return (<W_TestTree w_Height={this.props.w_Height} w_Width={this.props.w_Width} _List_Objs={this.props._List_Objs}/>);
     } else */
     {
       return (<W_AZS w_Height={this.props.w_Height} w_Width={this.props.w_Width} _List_Objs={this.props._List_Objs} />);
@@ -78,7 +78,7 @@ class TestTree extends Component {
 
 class AZS extends Component {
   render() {
-    return (<W_AZS w_Height={this.props.w_Height} w_Width={this.props.w_Width} />);
+    return (<W_AZS w_Height={this.props.w_Height} w_Width={this.props.w_Width} _List_Objs={this.props._List_Objs}/>);
   }
 }
 class Test extends Component {
@@ -161,7 +161,7 @@ class Nav extends Component {
                 </tbody>
               </table>
             </div>
-            <li>
+            <>
               <div>
                 <table>
                   <tbody>
@@ -182,7 +182,7 @@ class Nav extends Component {
                   </tbody>
                 </table>
               </div>
-            </li>
+            </>
             <ul className="submenu">
               {_Debuge &&
                 <li><Link to="/"><center>Технические &gt;&gt;</center></Link>
@@ -203,6 +203,7 @@ class Nav extends Component {
 
               }
               <li><Link to="/" >Главная</Link></li>
+              <li><Link to="/AZS" >Начальная</Link></li>
               <li><Link to="/SharedFilter" >Общий фильтр</Link></li>
 
 
@@ -280,6 +281,10 @@ export default class App extends Component {
         <div className="content">
           <Switch>
             <Route exact path="/" render={() => <Main w_Height={this.state.W_Height} w_Width={this.state.W_Width}
+              _List_Objs={this.state._List_Objs}
+            />} />
+
+            <Route exact path="/AZS" render={() => <AZS w_Height={this.state.W_Height} w_Width={this.state.W_Width} 
               _List_Objs={this.state._List_Objs}
             />} />
 

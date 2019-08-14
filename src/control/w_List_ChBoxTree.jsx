@@ -22,7 +22,7 @@ export default class Container extends Component {
     render() {
        const { data, ...rest } = this.props
         return (
-            <DropdownTreeSelect
+            <DropdownTreeSelect id='DropdownTreeSelect'
                 data={this.state.data}
                 showPartiallySelected={true} 
                 {...rest}

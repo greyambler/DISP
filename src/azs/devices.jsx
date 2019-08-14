@@ -7,11 +7,11 @@ import { Array } from 'core-js';
 
 import Pl from './device/pl.jsx'
 import TRK from './device/trk.jsx'
-import TCO from './device/tco.jsx'
 import TCO_Tee from './device/tcoTree.jsx'
 
-import NOZZLE from './device/nozzle.jsx'
 
+import TCO from './device/tco.jsx'
+import NOZZLE from './device/nozzle.jsx'
 import FILTER_F from './filtersF.jsx'
 
 
@@ -27,6 +27,13 @@ function get_ZeroColumn_0(ValF) {
         M.push(ValF)
     }
     return M;
+}
+
+function createGuid() {
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+        var r = Math.random() * 16 | 0, v = c === 'x' ? r : (r & 0x3 | 0x8);
+        return v.toString(16);
+    });
 }
 
 export default class devices extends Component {
@@ -117,8 +124,9 @@ export default class devices extends Component {
     }
 
     render() {
-
+        let e_Guid = createGuid();
         if (this.state.AZS != null && this.state.id == 0) {
+
             return (
                 <div >
                     <table className="Dev_TBL">
@@ -129,28 +137,40 @@ export default class devices extends Component {
                                     <hr /><hr />
                                 </td>
                             </tr>
-                            {this.state._pl != null &&
-                                <tr>
-                                    <td>
-                                        <center><Element name="test1" className="element" >Резервуары</Element></center>
-                                        {
-                                            this.state._pl.map(el => (
-                                                <td key={'li ' + el.id}>
-                                                    <Pl PL={el}
-                                                        key={'PL ' + el.id}
-                                                        id={el.id}
+                            {
+                                this.state._pl != null &&
+                                <>
+                                    <tr>
+                                        <td>
+                                            <center><Element name="test1" className="element" >Резервуары</Element></center>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
 
-                                                        PL_Col={this.props.PL_Col}
+                                            {
+                                                this.state._pl.map(el => (
+                                                    <td key={'pl_' + createGuid()}>
+                                                        <Pl PL={el}
+                                                            key={'PL_' + createGuid()}
+                                                            id={el.id}
 
-                                                        View_Icon={this.props.View_Icon}
-                                                        View_Data={this.props.View_Data}
+                                                            PL_Col={this.props.PL_Col}
 
-                                                    />
-                                                </td>
-                                            ))
-                                        }
-                                    </td>
-                                </tr>
+                                                            View_Icon={this.props.View_Icon}
+                                                            View_Data={this.props.View_Data}
+
+                                                            View_Fields={this.props.View_Fields}
+
+                                                        />
+
+                                                    </td>
+                                                ))
+
+                                            }
+                                        </td>
+                                    </tr>
+                                </>
                             }
 
                             {this.state._trk != null &&
@@ -159,9 +179,9 @@ export default class devices extends Component {
                                         <center><Element name="test2" className="element" >ТРК</Element></center>
                                         {
                                             this.state._trk.map(el => (
-                                                <td key={'li ' + el.id}>
+                                                <td key={'trk_' + createGuid()}>
                                                     <TRK TRK={el}
-                                                        key={'Trk ' + el.id}
+                                                        key={'Trk ' + createGuid()}
                                                         id={el.id}
 
                                                         TRK_Col={this.props.TRK_Col}
@@ -169,8 +189,10 @@ export default class devices extends Component {
                                                         View_Icon={this.props.View_Icon}
                                                         View_Data={this.props.View_Data}
 
+                                                        View_Fields={this.props.View_Fields}
 
                                                     />
+
                                                 </td>
                                             ))
                                         }
@@ -183,60 +205,23 @@ export default class devices extends Component {
                                     <td>
                                         <center ><Element name="test3" className="element" >ТСО</Element></center>
                                         {
-                                            <td>
+                                            <td key={'tso_' + createGuid()}>
+
+
                                                 <TCO_Tee TCO={this.state.Tree_TCO}
                                                     IsHead={true}
                                                     View_Icon={this.props.View_Icon}
                                                     View_Data={this.props.View_Data}
 
+                                                    View_Fields={this.props.View_Fields}
                                                 />
+
                                             </td>
-                                            /*
-                                                                                          this.state._tco.map(el => (
-                                              
-                                                                                              <td key={'li ' + el.id}>
-                                                                                                  <TCO TCO={el}
-                                                                                                      key={'Tco ' + el.id}
-                                                                                                      id={el.id}
-                                              
-                                                                                                      TCO_Col={this.props.TCO_Col}
-                                              
-                                                                                                      View_Icon={this.props.View_Icon}
-                                                                                                      View_Data={this.props.View_Data}
-                                              
-                                                                                                  />
-                                                                                              </td>
-                                              
-                                                                                          ))
-                                         */
+
                                         }
                                     </td>
                                 </tr>
                             }
-
-                            {/*this.state._nozzle != null &&
-                                <tr>
-                                    <td>
-                                        <center ><h4>Пистолеты</h4></center>
-                                        {
-                                            this.state._nozzle.map(el => (
-                                                <td key={'li ' + el.id}>
-                                                    <NOZZLE NOZZLE={el}
-                                                        key={'PL ' + el.id}
-                                                        id={el.id}
-
-                                                        NOZZLE_Col={this.props.NOZZLE_Col}
-
-                                                        View_Icon={this.props.View_Icon}
-                                                        View_Data={this.props.View_Data}
-
-                                                    />
-                                                </td>
-                                            ))
-                                        }
-                                    </td>
-                                </tr>
-                            */}
 
                         </tbody>
                     </table>
@@ -257,7 +242,8 @@ export default class devices extends Component {
                                 </tr>
                             }
 
-                            {(this.state.PLs != null && this.state.PLs.length > 0) &&
+                            {
+                                (this.state.PLs != null && this.state.PLs.length > 0) &&
                                 <>
                                     <tr>
                                         <td>
@@ -282,6 +268,9 @@ export default class devices extends Component {
                                                             View_Data={this.props.View_Data}
 
                                                             _List_Objs={this.props._List_Objs}
+
+                                                            View_Fields={this.props.View_Fields}
+
                                                         />
                                                     </td>
                                                 ))
@@ -291,7 +280,8 @@ export default class devices extends Component {
                                 </>
                             }
 
-                            {(this.state.Trk != null && this.state.Trk.length > 0) &&
+                            {
+                                (this.state.Trk != null && this.state.Trk.length > 0) &&
                                 <tr>
                                     <td>
                                         <center ><h4>ТРК</h4></center>
@@ -312,6 +302,8 @@ export default class devices extends Component {
                                                         _List_Objs={this.props._List_Objs}
 
                                                         devices={this.props.devices}
+
+                                                        View_Fields={this.props.View_Fields}
                                                     />
                                                 </td>
                                             ))
@@ -326,66 +318,22 @@ export default class devices extends Component {
                                         <center ><h4>ТСО</h4></center>
                                         {
                                             this.state.TCO.map(el => (
-                                                <td key={'li ' + el.id}>
+                                                <td key={'tso_' + el.id}>
                                                     <TCO_Tee TCO={el}
                                                         IsHead={false}
                                                         View_Icon={this.props.View_Icon}
                                                         View_Data={this.props.View_Data}
 
                                                         DeVal={this.props.DeVal}
+
+                                                        View_Fields={this.props.View_Fields}
                                                     />
                                                 </td>
                                             ))
-                                            /*
-                                              this.state.Tco.map(el => (
-                                                      <td key={'li ' + el.id}>
-                                                <TCO TCO={el}
-                                                    fuels={this.props._List_Objs.fuel}
-                                                    key={'Tco ' + el.id}
-                                                    id={el.id}
-    
-                                                    TCO_Col={this.props.TCO_Col}
-                                                    DeVal={this.props.DeVal}
-    
-                                                    View_Icon={this.props.View_Icon}
-                                                    View_Data={this.props.View_Data}
-    
-                                                    _List_Objs={this.props._List_Objs}
-    
-                                                />
-                                            </td>
-                                            ))
-                                             */
                                         }
                                     </td>
                                 </tr>
                             }
-
-                            {/*(this.state.Nozzle != null && this.state.Nozzle.length > 0) &&
-                                <tr>
-                                    <td>
-                                        <center ><h4>Пистолеты</h4></center>
-                                        {
-                                            this.state.Nozzle.map(el => (
-                                                <td key={'li ' + el.id}>
-                                                    <NOZZLE NOZZLE={el}
-                                                        fuels={this.props._List_Objs.fuel}
-                                                        key={'NOZZLE ' + el.id}
-                                                        id={el.id}
-
-                                                        NOZZLE_Col={this.props.NOZZLE_Col}
-                                                        DeVal={this.props.DeVal}
-
-                                                        View_Icon={this.props.View_Icon}
-                                                        View_Data={this.props.View_Data}
-
-                                                    />
-                                                </td>
-                                            ))
-                                        }
-                                    </td>
-                                </tr>
-                            */}
 
                         </tbody>
                     </table>

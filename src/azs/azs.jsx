@@ -356,6 +356,7 @@ export default class azs extends Component {
                     TCO={this.state.TCO}
                     
                     View_Fields={this.props.View_Fields}
+                    
                 />
             
         );

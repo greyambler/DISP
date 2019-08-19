@@ -31,8 +31,6 @@ export default class w_AZS extends React.Component {
             NOZZLE_0: null,
             NOZZLE_Col: null,
 
-            
-
         }
     }
     componentDidMount() {
@@ -221,9 +219,9 @@ export default class w_AZS extends React.Component {
 
                     TRK_0={this.state.TRK_0} TRK_Col={this.state.TRK_Col}
 
-                    TCO_0={this.state.TCO_0} TCO_Col={this.state.TCO_Col}
+                    TCO_0={this.state.TCO_0} //TCO_Col={this.state.TCO_Col}
 
-                    NOZZLE_0={this.state.NOZZLE_0} NOZZLE_Col={this.state.NOZZLE_Col}
+                    //NOZZLE_0={this.state.NOZZLE_0} NOZZLE_Col={this.state.NOZZLE_Col}
 
                     _List_Objs={this.props._List_Objs}
                 />

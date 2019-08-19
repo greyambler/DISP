@@ -56,7 +56,6 @@ function Get_Device_ID_WS(id, TCO) {
             for (const iterator of TCO[1]) {
                 mass = Is_FindDEVICE(id, iterator);
                 if (mass != null) {
-                    //    return mass;
                     break;
                 }
             }
@@ -77,6 +76,66 @@ function Is_View_Row(Data, Name_Row) {
     }
 
     return row;
+}
+
+function isOpExist_TSO(dvctyptree, typ_key_val) {
+    let TextValue = null;
+    for (const iterator of dvctyptree) {
+        if (iterator.typ == 'tso') {
+            for (const pro_cntyp of iterator.cntyp) {
+                if (pro_cntyp.typ == typ_key_val.typ) {
+                    if (pro_cntyp.def != null && pro_cntyp.def != undefined && pro_cntyp.def.op != null) {
+                        for (const itemVal of pro_cntyp.def.op) {
+                            if (itemVal.val == typ_key_val.val.toString()) {
+                                TextValue = itemVal.text;
+                                break;
+                            }
+                        }
+                    }
+                }
+                if (TextValue != null) {
+                    break;
+                }
+            }
+        }
+        if (TextValue != null) {
+            break;
+        }
+    }
+    return TextValue;
+}
+function isOpExist_TSO_DVC(dvctyptree, typ_key_val) {
+    let TextValue = null;
+    for (const iterator of dvctyptree) {
+        if (iterator.typ == 'tso') {
+            for (const _DVC of iterator.dvctyptree) {
+                if (_DVC.cntyp != null && _DVC.cntyp != undefined) {
+                    for (const pro_cntyp of _DVC.cntyp) {
+                        if (pro_cntyp.typ == typ_key_val.typ) {
+                            if (pro_cntyp.def != null && pro_cntyp.def != undefined && pro_cntyp.def.op != null) {
+                                for (const itemVal of pro_cntyp.def.op) {
+                                    if (itemVal.val == typ_key_val.val.toString()) {
+                                        TextValue = itemVal.text;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                        if (TextValue != null) {
+                            break;
+                        }
+                    }
+                }
+                if (TextValue != null) {
+                    break;
+                }
+            }
+        }
+        if (TextValue != null) {
+            break;
+        }
+    }
+    return TextValue;
 }
 
 
@@ -104,50 +163,36 @@ export default class tcoTree extends Component {
     full_Value() {
         if (this.state.TCO != null) {
 
-
             if (this.state.DeVal != null && this.state.DeVal != undefined && this.state.DeVal.id != null) {
-
                 let F_mass = Get_Device_ID_WS(this.state.DeVal.id, this.state.TCO);
-
                 if (F_mass != null) {
-                    for (const iterator of this.state.DeVal.values) {
-                        if (iterator.comment != null && iterator.comment != undefined) {
-                            F_mass[iterator.typ] = iterator.comment + ' [' + iterator.val + '] ';
-                        } else {
-                            F_mass[iterator.typ] = iterator.val;
+
+                    let TextValue = isOpExist_TSO(this.props._List_Objs.dvctyptree, this.state.DeVal.values[0]);
+                    if (TextValue != null) {
+                        F_mass[this.state.DeVal.values[0].typ] = TextValue + ' [' + this.state.DeVal.values[0].val + '] ';
+                    } else {
+                        TextValue = isOpExist_TSO_DVC(this.props._List_Objs.dvctyptree, this.state.DeVal.values[0]);
+                        if (TextValue != null) {
+                            F_mass[this.state.DeVal.values[0].typ] = TextValue + ' [' + this.state.DeVal.values[0].val + '] ';
+                        }
+                        else {
+                            for (const iterator of this.state.DeVal.values) {
+                                if (iterator.comment != null && iterator.comment != undefined) {
+                                    F_mass[iterator.typ] = iterator.comment + ' [' + iterator.val + '] ';
+                                } else {
+                                    F_mass[iterator.typ] = iterator.val;
+                                }
+                            }
                         }
                     }
                     this.setState({ TCO: this.state.TCO });
                 }
-                /*                
-                                
-                                                if (this.state.TCO[0] != null && this.state.TCO[0] != undefined) {
-                                                    let mass = Is_FindDEVICE(this.state.DeVal.id, this.state.TCO[0]);
-                                                    if (mass == null && this.state.TCO[1] != null && this.state.TCO[1] != undefined) {
-                                                        for (const iterator of this.state.TCO[1]) {
-                                                            mass = Is_FindDEVICE(this.state.DeVal.id, iterator);
-                                                            if (mass != null) {
-                                                                let r = 0;
-                                                                break;
-                                                            }
-                                                        }
-                                                    }
-                                                    if (mass != null) {
-                                                        for (const iterator of this.state.DeVal.values) {
-                                                            mass[iterator.typ] = iterator.val;
-                                                        }
-                                                       this.setState({ TCO: this.state.TCO }); 
-                                                    }
-                                                }
-                                                */
             }
         }
     }
     render() {
         if (this.state.TCO != null) {
-
             let V_ID = Get_Val(this.state.TCO[0], "id")
-
             let _height = 60;
             let _width = (V_ID == 6) ? 110 : 110;
             let _dX = 2;
@@ -174,7 +219,6 @@ export default class tcoTree extends Component {
                     <table
                         id={(V_ID != 6) ? 'Li_Level' : 'li_Level'}>
                         <tbody>
-
                             {Is_View_Row(this.props.View_Fields, 'icon_alarm') &&
                                 <tr>
                                     <td colSpan='2'>
@@ -219,7 +263,6 @@ export default class tcoTree extends Component {
                                     ))
                                 ))
                             }
-
                         </tbody>
                     </table>
                 </div>

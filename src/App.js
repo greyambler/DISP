@@ -5,27 +5,27 @@ import 'react-app-polyfill/stable';
 
 import React, { Component, PropTypes } from 'react';
 import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
-
-
 import { Link as S_Link, DirectLink, Element, Events, animateScroll as scroll, scrollSpy, scroller } from 'react-scroll'
-
 import { RSS_Type_List } from './core/core_Function.jsx';
 
-import MainWindow from './MainWindow.jsx';
-import W_LEVEL from './w_LEVEL.jsx';
-
-import W_AZK from './w_AZK.jsx';
-import W_NOZZLE from './w_NOZZLE.jsx';
-
-import W_TRK from './w_TRK.jsx';
-
-import W_SharedFilter from './w_SharedFilter.jsx';
 import W_AZS from './w_AZS.jsx';
-import W_TestPOST from './w_TestPOST.jsx';
-import W_TestTree from './w_TestTree.jsx';
 
 
-import W_Test from './w_Test.jsx';
+import W_NOZZLE from './SAVE_ENTERPOINT/w_NOZZLE.jsx';
+import W_AZK from './SAVE_ENTERPOINT/w_AZK.jsx';
+import W_Test from './SAVE_ENTERPOINT/w_Test.jsx';
+import W_TestPOST from './SAVE_ENTERPOINT/w_TestPOST.jsx';
+import W_TestTree from './SAVE_ENTERPOINT/w_TestTree.jsx';
+import W_SharedFilter from './SAVE_ENTERPOINT/w_SharedFilter.jsx';
+import W_TRK from './SAVE_ENTERPOINT/w_TRK.jsx';
+import W_LEVEL from './SAVE_ENTERPOINT/w_LEVEL.jsx';
+/*
+
+import MainWindow from './SAVE_ENTERPOINT/MainWindow.jsx';
+
+*/
+
+
 
 const _Debuge = true;
 
@@ -60,30 +60,21 @@ class Main extends Component {
 
   }
 }
-class SharedFilter extends Component {
+
+class AZS extends Component {
   render() {
-    return (<W_SharedFilter w_Height={this.props.w_Height} w_Width={this.props.w_Width} />);
+    return (<W_AZS w_Height={this.props.w_Height} w_Width={this.props.w_Width} _List_Objs={this.props._List_Objs} />);
   }
 }
+
 class TestPOST extends Component {
   render() {
     return (<W_TestPOST w_Height={this.props.w_Height} w_Width={this.props.w_Width} />);
   }
-}//
-class TestTree extends Component {
-  render() {
-    return (<W_TestTree w_Height={this.props.w_Height} w_Width={this.props.w_Width} />);
-  }
-}//TestTree
-
-class AZS extends Component {
-  render() {
-    return (<W_AZS w_Height={this.props.w_Height} w_Width={this.props.w_Width} _List_Objs={this.props._List_Objs}/>);
-  }
 }
-class Test extends Component {
+class SharedFilter extends Component {
   render() {
-    return (<W_Test w_Height={this.props.w_Height} w_Width={this.props.w_Width} />);
+    return (<W_SharedFilter w_Height={this.props.w_Height} w_Width={this.props.w_Width} />);
   }
 }
 class LEVEL_Main extends Component {
@@ -96,9 +87,15 @@ class TRK_Main extends Component {
     return (<W_TRK w_Height={this.props.w_Height} w_Width={this.props.w_Width} />);
   }
 }
-class NOZZLE_Main extends Component {
+
+class TestTree extends Component {
   render() {
-    return (<W_NOZZLE w_Height={this.props.w_Height} w_Width={this.props.w_Width} />);
+    return (<W_TestTree w_Height={this.props.w_Height} w_Width={this.props.w_Width} />);
+  }
+}
+class Test extends Component {
+  render() {
+    return (<W_Test w_Height={this.props.w_Height} w_Width={this.props.w_Width} />);
   }
 }
 class AZK_Main extends Component {
@@ -106,21 +103,31 @@ class AZK_Main extends Component {
     return (<W_AZK w_Height={this.props.w_Height} w_Width={this.props.w_Width} _List_Objs={this.props._List_Objs} />);
   }
 }
-class Help extends Component {
+class NOZZLE_Main extends Component {
   render() {
-    return <center><h2>Помощь</h2></center>;
+    return (<W_NOZZLE w_Height={this.props.w_Height} w_Width={this.props.w_Width} />);
   }
 }
+
+
 class Settings extends Component {
   render() {
     return <center><h2>Настройки</h2></center>;
   }
 }
+class Help extends Component {
+  render() {
+    return <center><h2>Помощь</h2></center>;
+  }
+}
+
 class NotFound extends Component {
   render() {
     return <center><h2>Ресурс не найден</h2></center>;
   }
 }
+
+
 
 
 class Nav extends Component {
@@ -187,7 +194,7 @@ class Nav extends Component {
               {_Debuge &&
                 <li><Link to="/"><center>Технические &gt;&gt;</center></Link>
                   <ul className="submenu">
-                    <li><Link to="/Table" >Таблица</Link></li>
+                    {/*<li><Link to="/Table" >Таблица</Link></li>*/}
 
                     <li><Link to="/AZK_Main" >АЗК</Link></li>
                     <li><Link to="/Test" >Тестовый</Link></li>
@@ -197,6 +204,12 @@ class Nav extends Component {
                     <li><Link to="/TestPOST" >Тест POST </Link></li>
 
                     <li><Link to="/TestTree" >Тест TREE </Link></li>
+
+
+                    <li><Link to="/SharedFilter" >Общий фильтр</Link></li>
+                    <li><Link to="/LEVEL_Main" >АСИ</Link></li>
+                    <li><Link to="/TRK_Main" >ТРК</Link></li>
+
                   </ul>
                 </li>
 
@@ -204,13 +217,6 @@ class Nav extends Component {
               }
               <li><Link to="/" >Главная</Link></li>
               <li><Link to="/AZS" >Начальная</Link></li>
-              <li><Link to="/SharedFilter" >Общий фильтр</Link></li>
-
-
-
-              <li><Link to="/LEVEL_Main" >АСИ</Link></li>
-              <li><Link to="/TRK_Main" >ТРК</Link></li>
-
 
               <li><Link to="/settings">Настройки</Link></li>
               <li><Link to="/help">Помощь</Link></li>
@@ -284,29 +290,20 @@ export default class App extends Component {
               _List_Objs={this.state._List_Objs}
             />} />
 
-            <Route exact path="/AZS" render={() => <AZS w_Height={this.state.W_Height} w_Width={this.state.W_Width} 
+            <Route exact path="/AZS" render={() => <AZS w_Height={this.state.W_Height} w_Width={this.state.W_Width}
               _List_Objs={this.state._List_Objs}
             />} />
 
             <Route exact path="/Test" render={() => <Test w_Height={this.state.W_Height} w_Width={this.state.W_Width} />} />
 
-            <Route exact path="/SharedFilter" render={() => <SharedFilter w_Height={this.state.W_Height} w_Width={this.state.W_Width} />} />
-
             <Route exact path="/TestPOST" render={() => <TestPOST w_Height={this.state.W_Height} w_Width={this.state.W_Width} />} />
-
             <Route exact path="/TestTree" render={() => <TestTree w_Height={this.state.W_Height} w_Width={this.state.W_Width} />} />
-
+            <Route exact path="/SharedFilter" render={() => <SharedFilter w_Height={this.state.W_Height} w_Width={this.state.W_Width} />} />
             <Route exact path="/LEVEL_Main" render={() => <LEVEL_Main w_Height={this.state.W_Height} w_Width={this.state.W_Width} />} />
-
             <Route exact path="/TRK_Main" render={() => <TRK_Main w_Height={this.state.W_Height} w_Width={this.state.W_Width} />} />
-
-            <Route exact path="/NOZZLE_Main" render={() => <NOZZLE_Main w_Height={this.state.W_Height} w_Width={this.state.W_Width} />} />
-
             <Route exact path="/AZK_Main" render={() => <AZK_Main w_Height={this.state.W_Height} w_Width={this.state.W_Width}
-
-              _List_Objs={this.state._List_Objs}
-            />} />
-
+              _List_Objs={this.state._List_Objs} />} />
+            <Route exact path="/NOZZLE_Main" render={() => <NOZZLE_Main w_Height={this.state.W_Height} w_Width={this.state.W_Width} />} />
             <Route exact path="/settings" component={Settings} />
             <Route exact path="/help" component={Help} />
             <Route exact component={NotFound} />

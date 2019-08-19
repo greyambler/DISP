@@ -3,8 +3,6 @@ import OL_List from '../core/OL_List.jsx'
 import { Stage, Layer, Rect, Text, Circle, Shape, Image } from 'react-konva';
 import { WS, compare_azs } from '../core/core_Function.jsx';
 import AZS from './azs.jsx'
-import FILTER_F from './filtersF.jsx'
-import FILTER_FF from './filtersFF.jsx'
 
 import { Link, DirectLink, Element, Events, animateScroll as scroll, scrollSpy, scroller } from 'react-scroll'
 
@@ -28,11 +26,15 @@ function get_Json_String(mstring) {
 
 }
 
-function get_Mass_View(mas_Vidg) {
+function get_Mass_View(mas_Vidg, ASZ_M) {
     let View_Fields = new Array();
     for (const nameView of mas_Vidg) {
+
         if (nameView.value == 'selectAll') {
             View_Fields.push('vidget');
+
+            View_Fields.push("azs");
+
             View_Fields.push('data');
 
             View_Fields.push('icon_alarm');
@@ -48,12 +50,15 @@ function get_Mass_View(mas_Vidg) {
             View_Fields.push('status');
             View_Fields.push('state');
         }
+
         if (nameView.value == 'vidget') {
             View_Fields.push('vidget');
             View_Fields.push('icon_alarm');
             View_Fields.push('status_alarm');
             View_Fields.push('state_alarm');
         }
+
+
         if (nameView.value == 'data') {
             View_Fields.push('data');
             View_Fields.push('pump');
@@ -65,6 +70,7 @@ function get_Mass_View(mas_Vidg) {
             View_Fields.push('status');
             View_Fields.push('state');
         }
+
         if (nameView.value == 'icon_alarm') { View_Fields.push('icon_alarm'); }
         if (nameView.value == 'status_alarm') { View_Fields.push('status_alarm'); }
         if (nameView.value == 'state_alarm') { View_Fields.push('state_alarm'); }
@@ -77,9 +83,40 @@ function get_Mass_View(mas_Vidg) {
         if (nameView.value == 'status') { View_Fields.push('status'); }
         if (nameView.value == 'state') { View_Fields.push('state'); }
     }
+
     return View_Fields;
 }
 
+function Is_View_Row(Data, Name_Row) {
+    let row = false;
+    if (Data != undefined) {
+        for (const iterator of Data) {
+            if (iterator == Name_Row) {
+                row = true;
+                break;
+            }
+        }
+        let r = 0;
+    }
+
+    return row;
+}
+
+function Delete_Azs(data, dataF) {
+    var indices = [];
+    if (data != null && dataF != null) {
+        var indices = [];
+        let t = 0;
+        for (let index = 0; index < data.length; index++) {
+
+            if (dataF.indexOf(data[index].azs.toUpperCase()) == -1) {
+                indices[t] = data[index];
+                t++;
+            }
+        }
+    }
+    return indices;
+}
 
 
 const _Debuge = false;
@@ -88,7 +125,6 @@ const _Debuge_Filter = true;
 export default class list_azs extends Component {
     constructor(props) {
         super(props);
-        this.update_VV_TREE = this.update_VV_TREE.bind(this);
 
         this.Get_Id_Devices = this.Get_Id_Devices.bind(this);
         this.Get_All_Dev = this.Get_All_Dev.bind(this);
@@ -109,12 +145,6 @@ export default class list_azs extends Component {
             messages: [],
             data: null,
             IsOpen: false,
-            /******** WS******************** */
-
-            _View_Icon: true,
-            _View_Data: true,
-
-            View_Fields: get_Mass_View([{ value: 'selectAll' }]),
         };
     }
     componentDidMount() {
@@ -238,180 +268,51 @@ export default class list_azs extends Component {
     }
     /******** WS******************** */
 
-    /********** ФИЛЬТРЫ ********/
-    update_VIEW_VIDG = (View_Vidg) => {
-        if (View_Vidg != null) {
-            let _view_Icon = true;
-            let _view_Data = true;
-            for (const iterator of View_Vidg) {
-                if (iterator == "виджет") {
-                    _view_Icon = false;
-                }
-                if (iterator == "данные") {
-                    _view_Data = false;
-                }
-            }
-            this.setState({ _View_Icon: _view_Icon, _View_Data: _view_Data });
-        } else {
-            this.setState({ _View_Icon: true, _View_Data: true });
-        }
-    }
-
-    update_VV_TREE = (View_Vidg) => {
-        let _View_Fields = new Array();
-        if (View_Vidg == undefined || View_Vidg.length == 0) {
-
-            this.setState({ View_Fields: _View_Fields });
-        } else {
-            let _view_Icon = false;
-            let _view_Data = false;
-            _View_Fields = get_Mass_View(View_Vidg);
-
-            this.setState({ View_Fields: _View_Fields });
-        }
-    }
-    /********** ФИЛЬТРЫ ********/
-
-
     render() {
         if (this.props.azs_Mass != null) {
             let tr_Style = {
                 'verticalAlign': 'top',
             }
-            if (_Debuge_Filter) {
-                let _TRK_Filter = null;//this.state._Trk.sort(compare_azs);
-                if(this.state.data != null){
-                    let r=0;
-                }
-                return (
-                    <div>
-                        <table className="tableDevice">
-                            <tbody>
-                                <tr>
-                                    <td >
-                                        <center>
-                                            <FILTER_FF
-                                                update_VV_TREE={this.update_VV_TREE}
-                                                update_VIEW_VIDG={this.update_VIEW_VIDG}
+            return (
+                <div>
+                    <table className="tableDevice">
+                        <tbody>
+                            <tr>
+                                {
+                                    this.props.azs_Mass.map(el => (
 
-                                                trk={_TRK_Filter}
+                                        <td key={'li ' + el.id} style={tr_Style}>
+                                            <AZS
+                                                _List_Objs={this.props._List_Objs}
+                                                w_Height={this.props.w_Height}
 
+                                                AZS={el}
+                                                RSS={this.props.RSS + '/' + el.id}
+                                                key={'AZS ' + el.id}
+                                                id={el.id}
+
+                                                View_Icon={this.state._View_Icon}
+                                                View_Data={this.state._View_Data}
+
+                                                PL_0={this.props.PL_0} PL_Col={this.props.PL_Col}
+                                                TRK_0={this.props.TRK_0} TRK_Col={this.props.TRK_Col}
+                                                TCO_0={this.props.TCO_0} TCO_Col={this.props.TCO_Col}
+
+                                                NOZZLE_0={this.props.NOZZLE_0} NOZZLE_Col={this.props.NOZZLE_Col}
+
+                                                data={this.state.data}
+
+                                                View_Fields={this.props.View_Fields}
+                                                
                                             />
-                                        </center>
-                                    </td>
-                                    <td colSpan={this.props.azs_Mass.length - 1}>
-                                        <center ><h4>АЗК</h4></center>
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    {
-                                        this.props.azs_Mass.map(el => (
-
-                                            <td key={'li ' + el.id} style={tr_Style}>
-                                                <AZS
-                                                    _List_Objs={this.props._List_Objs}
-                                                    w_Height={this.props.w_Height}
-
-                                                    AZS={el}
-                                                    RSS={this.props.RSS + '/' + el.id}
-                                                    key={'AZS ' + el.id}
-                                                    id={el.id}
-
-                                                    View_Icon={this.state._View_Icon}
-                                                    View_Data={this.state._View_Data}
-
-                                                    PL_0={this.props.PL_0} PL_Col={this.props.PL_Col}
-                                                    TRK_0={this.props.TRK_0} TRK_Col={this.props.TRK_Col}
-                                                    TCO_0={this.props.TCO_0} TCO_Col={this.props.TCO_Col}
-
-                                                    NOZZLE_0={this.props.NOZZLE_0} NOZZLE_Col={this.props.NOZZLE_Col}
-
-                                                    data={this.state.data}
-
-                                                    View_Fields={this.state.View_Fields}
-
-                                                // update_List_ID={this.update_List_ID}
-                                                //_M_ID={this.state._M_ID}
-                                                />
-                                            </td>
-
-                                        ))
-                                    }
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                );
-
-            } else {
-                /*
-                                <Link activeClass="active" className="test1" to="test1" spy={true} smooth={true} duration={500} >Test 2</Link>
-                                <Link activeClass="active" className="test1" to="test1" spy={true} smooth={true} duration={500} >Test 3</Link>
-                */
-                return (
-                    <div>
-
-
-                        <table className="tableDevice">
-                            <tbody>
-
-                                <tr>
-                                    <td >
-                                        <center>
-                                            <FILTER_F
-                                                fuels={this.props._List_Objs.fuel}
-                                                update_Fuels={this.update_Fuels}
-                                                update_VIEW_VIDG={this.update_VIEW_VIDG}
-                                            />
-                                        </center>
-                                    </td>
-                                    <td colSpan={this.props.azs_Mass.length - 1}>
-                                        <center ><h4>АЗК</h4></center>
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    {
-                                        this.props.azs_Mass.map(el => (
-
-                                            <td key={'li ' + el.id} style={tr_Style}>
-                                                <AZS
-                                                    _List_Objs={this.props._List_Objs}
-                                                    w_Height={this.props.w_Height}
-
-                                                    AZS={el}
-                                                    RSS={this.props.RSS + '/' + el.id}
-                                                    key={'AZS ' + el.id}
-                                                    id={el.id}
-
-                                                    View_Icon={this.state._View_Icon}
-                                                    View_Data={this.state._View_Data}
-
-                                                    PL_0={this.props.PL_0} PL_Col={this.props.PL_Col}
-                                                    TRK_0={this.props.TRK_0} TRK_Col={this.props.TRK_Col}
-
-                                                    TCO_0={this.props.TCO_0} TCO_Col={this.props.TCO_Col}
-
-                                                    NOZZLE_0={this.props.NOZZLE_0} NOZZLE_Col={this.props.NOZZLE_Col}
-
-                                                    data={this.state.data}
-
-                                                    View_Fields={this.props.View_Fields}
-
-                                                // update_List_ID={this.update_List_ID}
-                                                //_M_ID={this.state._M_ID}
-                                                />
-                                            </td>
-
-                                        ))
-                                    }
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                );
-            }
+                                        </td>
+                                    ))
+                                }
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            );
         } else {
             return (
                 <div>

@@ -6,9 +6,11 @@ import 'react-dropdown-tree-select/dist/styles.css'
 export default class Container extends Component {
     constructor(props) {
         super(props)
-        this.state = { data: props.data }
+        this.state = {
+            data: this.props.data,
+        }
     }
-
+    
     componentWillReceiveProps = (nextProps) => {
         if (!isEqual(nextProps.data, this.state.data)) {
             this.setState({ data: nextProps.data })
@@ -20,11 +22,13 @@ export default class Container extends Component {
     }
 
     render() {
-       const { data, ...rest } = this.props
+
+        const { data, ...rest } = this.props;
+
         return (
             <DropdownTreeSelect id='DropdownTreeSelect'
                 data={this.state.data}
-                showPartiallySelected={true} 
+                showPartiallySelected={true}
                 {...rest}
             />
         );

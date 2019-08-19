@@ -1,17 +1,25 @@
 //справочники tpList, obList, fuel
 
-export const RSS = "http://172.23.16.18:8080/dprest-1.0-SNAPSHOT/webresources/ru.expertek.dp.dpfacade.dvc/";
-export const MARK = "http://172.23.16.18:8080/dpmark-1.0-SNAPSHOT/webresources/ru.expertek.dp.dpinside.mark";
+// нужные адреса
 
 export const RSS_Type_List = "http://172.23.16.18:8080/dprest-1.0-SNAPSHOT/webresources/ru.expertek.dp.dpfacade.dic"
+//export const RSS_Type_List = "http://172.23.16.125:8000/dprest-1.0-SNAPSHOT/webresources/ru.expertek.dp.dpfacade.dic"
 
-//export const AZS_s = "http://172.23.16.18:8020/dprest-1.0-SNAPSHOT/webresources/ru.expertek.dp.dpfacade.azk";
 
-export const AZS_s = "http://172.23.16.18:8080/dprest-1.0-SNAPSHOT/webresources/ru.expertek.dp.dpfacade.azk";
+export const WS = "ws://172.23.16.18:8080/dpsock-1.0-SNAPSHOT/alwsc";
+
+// нужные адреса
+
+
+export const RSS = "http://172.23.16.18:8080/dprest-1.0-SNAPSHOT/webresources/ru.expertek.dp.dpfacade.dvc/";
+
+export const MARK = "http://172.23.16.18:8080/dpmark-1.0-SNAPSHOT/webresources/ru.expertek.dp.dpinside.mark";
+
+export const AZS_s = "http://172.23.16.18:8020/dprest-1.0-SNAPSHOT/webresources/ru.expertek.dp.dpfacade.azk";
 
 export const RSS_AZS = "http://172.23.16.18:8080/dprest-1.0-SNAPSHOT/webresources/ru.expertek.dp.dpfacade.azk";
 
-export const WS = "ws://172.23.16.18:8080/dpsock-1.0-SNAPSHOT/alwsc";
+
 
 //export const WS = "ws://172.23.16.18:8080/dpsock-1.0-SNAPSHOT/alws";
 
@@ -25,6 +33,12 @@ export const RSS_Tanks = "http://172.23.16.18:8080/dpmark-1.0-SNAPSHOT/webresour
 //- обращение через nginx
 //http://172.23.16.18:8080/dpmark-1.0-SNAPSHOT/webresources/ru.expertek.dp.dpinside.tank
 
+export function createGuid() {
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+      var r = Math.random() * 16 | 0, v = c === 'x' ? r : (r & 0x3 | 0x8);
+      return v.toString(16);
+  });
+}
 
 export function get_NameFuel(_id, ListType) {
   let t = _id;

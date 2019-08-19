@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import OL_List from '../core/OL_List.jsx'
 import { Stage, Layer, Rect, Text, Circle, Shape, Image } from 'react-konva';
-import { WS } from '../core/core_Function.jsx';
+
+import { WS, createGuid } from '../core/core_Function.jsx';
 
 import { Array } from 'core-js';
 
@@ -10,9 +11,9 @@ import TRK from './device/trk.jsx'
 import TCO_Tee from './device/tcoTree.jsx'
 
 
-import TCO from './device/tco.jsx'
-import NOZZLE from './device/nozzle.jsx'
-import FILTER_F from './filtersF.jsx'
+//import TCO from './device/tco.jsx'
+//import NOZZLE from './device/nozzle.jsx'
+//import FILTER_F from './filtersF.jsx'
 
 
 import { Link, DirectLink, Element, Events, animateScroll as scroll, scrollSpy, scroller } from 'react-scroll'
@@ -28,13 +29,14 @@ function get_ZeroColumn_0(ValF) {
     }
     return M;
 }
-
+/*
 function createGuid() {
     return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
         var r = Math.random() * 16 | 0, v = c === 'x' ? r : (r & 0x3 | 0x8);
         return v.toString(16);
     });
 }
+*/
 
 export default class devices extends Component {
     constructor(props) {
@@ -327,6 +329,13 @@ export default class devices extends Component {
                                                         DeVal={this.props.DeVal}
 
                                                         View_Fields={this.props.View_Fields}
+                                                        dataFilter={this.props.dataFilter}
+
+
+                                                        
+                                                        _List_Objs={this.props._List_Objs}
+                                                        
+                                                        devices={this.props.devices}
                                                     />
                                                 </td>
                                             ))

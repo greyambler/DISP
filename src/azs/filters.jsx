@@ -1,13 +1,9 @@
 import React, { Component } from 'react';
-import { get_FUEL, get_Objs, get_Status, get_State, get_StateGun, get_Pump, get_VIEW_VIDGs } from '../core/core_Function.jsx';
-
-import W_CheckBox from '../control/w_List_ChBox.jsx';
-
 import W_List_ChBoxTree from '../control/w_List_ChBoxTree.jsx';
 
 const _Debuge = false;
 
-//const data = get_VTree_LEVEL();
+/*const data = get_VTree_LEVEL();
 function get_VTree_LEVEL() {
 
     let _Data = {
@@ -25,21 +21,21 @@ function get_VTree_LEVEL() {
                         label: 'Иконка',
                         value: 'icon_alarm'
                     },
-                    /*{
+                    {
                         label: 'Статус',
                         value: 'status_alarm'
                     },
                     {
                         label: 'Состояние',
                         value: 'state_alarm'
-                    }*/
+                    }
                 ]
             },
-            /*{
+            {
                 label: 'объекты',
                 value: 'azs',
                 children: []
-            },*/
+            },
             {
                 label: 'данные',
                 value: 'data'
@@ -60,7 +56,7 @@ function get_VTree_LEVEL() {
         ]
     }
     return _Data;
-    /*,
+    
 children: [
     {
         label: 'ТРК',
@@ -95,46 +91,39 @@ children: [
         value: 'state'
     }
 ]
-*/
+
 
 }
 
 let T = true;
+*/
 
 export default class filters extends Component {
     constructor(props) {
         super(props);
-        this.fullFilter = this.fullFilter.bind(this);
+        /*
         this.state = {
             all_azs: this.props.all_azs,
-            azs: null,
         }
+        */
     }
+    /*
     componentDidMount() {
-        this.setState({ all_azs: this.props.all_azs }, this.fullFilter);
+        this.setState({ all_azs: this.props.all_azs });
     }
     componentDidUpdate(prevProps) {
         if (this.props.all_azs != prevProps.all_azs) {
-            this.setState({ all_azs: this.props.all_azs }, this.fullFilter);
+            this.setState({ all_azs: this.props.all_azs });
         }
     }
-
-    fullFilter() {
-        let _AZS = new Array();
-        if (this.state.all_azs != null) {
-            for (let item_azs of this.state.all_azs) {
-                if (item_azs.id != 0) {
-                    _AZS.push({ value: item_azs.id, label: item_azs.nm, code: item_azs.ob });
-                }
-            }
-        }
-        this.setState({ azs: _AZS });
-    }
+    */
     render() {
         let r1 = {
             width: 30,
-            paddingLeft: 20,
+            paddingRight: 10,
+            paddingLeft: 10,
             textAlign: 'left',
+            fontSize:'12px',
         }
         let r2 = {
             minWidth: 160,
@@ -144,23 +133,15 @@ export default class filters extends Component {
             <center>
                 <table >
                     <tbody>
-                        {/*
                         <tr>
-                            <td style={r1}>Вид</td>
-                        </tr>
-                        */}
-                        <tr>
+                            <td style={r1}>
+                                {this.props.text_head}
+                            </td>
                             <td style={r2}>
                                 <W_List_ChBoxTree data={this.props.dataFilter}
-                                    onChange={(currentNode, selectedNodes) => { this.props.update_VV_TREE(selectedNodes) }}
+                                    onChange={(currentNode, selectedNodes) => { this.props.update_VIEW(selectedNodes) }}
                                 />
                             </td>
-                            {/*
-                            <td style={r1}>АЗК</td>
-                            <td style={r2}><W_CheckBox list={this.state.azs}
-                                update_Azs={this.props.update_Azs} type='azs' /></td>
-
-*/}
                         </tr>
                     </tbody>
                 </table>

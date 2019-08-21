@@ -1,7 +1,4 @@
-rsrc
+msrc
 msrc/azs
 msrc/azs/device
-msrc/control
-rsrc/level
-rsrc/level/svae
-msrc/tco
+msrc/core

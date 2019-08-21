@@ -16,7 +16,7 @@ import TCO from './device/tco.jsx'
 
 const _Debuge = false;
 
-
+/*
 
 function IsExistID(id, mass) {
     for (const iterator of mass) {
@@ -33,6 +33,26 @@ function get_Json_String(mstring) {
     const T_Json = JSON.stringify(mstring);
     return T_Json;
 
+}
+
+*/
+
+function Get_Key_View_PL(_Data, PLS, View_Filter_PL) {
+
+    if (PLS != null) {
+        for (const item of PLS) {
+            _Data.push(item.id);
+        }
+
+        for (const iterator of View_Filter_PL.children) {
+            if (iterator.value == 'PL') {
+                for (const item of PLS) {
+                    iterator.children.push({ label: item.nm, value: item.id });
+                }
+            }
+        }
+    }
+    return _Data;
 }
 
 export default class azs extends Component {
@@ -53,6 +73,7 @@ export default class azs extends Component {
             _devices: null,
 
             PLs: null,
+
             Trk: null,
             Tco: null,
             Nozzle: null,
@@ -61,13 +82,16 @@ export default class azs extends Component {
             TRK: null,
             TCO: null,
 
-            
+
+
+            //List_Fields_Main: this.props.List_Fields_Main,
+            //List_Fields_PL: this.props.List_Fields_PL,
+
         }
     }
     componentDidMount() {
         this.tick();
     }
-
     update_Dev() {
         try {
             if (this.state.data != null) {
@@ -106,7 +130,6 @@ export default class azs extends Component {
             }
         }
     }
-
     Full_Dev() {
         if (this.state._dvc != null) {
             let _PLs = new Array();
@@ -160,6 +183,7 @@ export default class azs extends Component {
 
                 }
             }
+
             this.setState({
                 PLs: _PLs, Trk: _Trk,
                 Tco: _Tco,
@@ -237,7 +261,7 @@ export default class azs extends Component {
         let TSO_Val = new Array();
         for (const key of TCO_0) {
             if (!Array.isArray(key)) {
-                
+
                 TSO_Val[key] = (iterator[key] != undefined) ? iterator[key] : '-----';
             }
         }
@@ -252,8 +276,6 @@ export default class azs extends Component {
         /** Массив 0 - TCO */
         return TSO_Item;
     }
-
-
     Get_Mass_Devices(iterator, TCO_1) {
         let DEV_Mass_Val = new Array();
         for (const deviceS of TCO_1) {
@@ -276,9 +298,9 @@ export default class azs extends Component {
                         M[3]['id'] = "a12";
                         DEV_Mass_Val.push(M);
                     }
-                    if(iterator == undefined){
+                    if (iterator == undefined) {
                         let M = this.Get_Mass("zero", deviceS);
-                        
+
                         DEV_Mass_Val.push(M);
                     }
 
@@ -288,8 +310,8 @@ export default class azs extends Component {
         }
         return DEV_Mass_Val;
     }
-
     Get_TCO_TREE() {
+
         let All_TSO = null;
 
         if (this.state._devices != undefined && this.state._devices != null && this.props.TCO_0 != null) {
@@ -319,46 +341,49 @@ export default class azs extends Component {
 
     }
 
-    render(d) {
+    render() {
         let _height = this.props.w_Height - 150 + "px";
+
+        //Get_Key_View_PL(this.state.List_Fields_PL, this.state.PLs, this.props.View_Filter_PL);
+        
         return (
-            
-                <Devices
-                    _List_Objs={this.props._List_Objs}
-                    AZS={this.state.AZS}
+            <Devices
+                _List_Objs={this.props._List_Objs}
+                w_Height={_height}
 
-                    View_Icon={this.props.View_Icon}
-                    View_Data={this.props.View_Data}
+                AZS={this.state.AZS}
 
-                    id={this.props.id}
+                //                    View_Icon={this.props.View_Icon}
+                //                    View_Data={this.props.View_Data}
 
-                    DeVal={this.props.data}
+                id={this.props.id}
 
-                    devices={this.state._devices}
+                DeVal={this.props.data}
 
-                    PL_0={this.props.PL_0} PL_Col={this.props.PL_Col}
+                devices={this.state._devices}
 
-                    TRK_0={this.props.TRK_0} TRK_Col={this.props.TRK_Col}
+                PL_0={this.props.PL_0} PL_Col={this.props.PL_Col}
 
-                    TCO_0={this.props.TCO_0} TCO_Col={this.props.TCO_Col}
+                TRK_0={this.props.TRK_0} TRK_Col={this.props.TRK_Col}
 
-                    NOZZLE_0={this.props.NOZZLE_0} NOZZLE_Col={this.props.NOZZLE_Col}
+                TCO_0={this.props.TCO_0} TCO_Col={this.props.TCO_Col}
 
-                    PLs={this.state.PLs}
-                    Trk={this.state.Trk}
+                NOZZLE_0={this.props.NOZZLE_0} NOZZLE_Col={this.props.NOZZLE_Col}
 
-                    Tco={this.state.TCO}
+                PLs={this.state.PLs}
 
-                    Nozzle={this.state.Nozzle}
+                Trk={this.state.Trk}
 
-                    w_Height={_height}
+                Tco={this.state.TCO}
 
-                    TCO={this.state.TCO}
-                    
-                    View_Fields={this.props.View_Fields}
-                    
-                />
-            
+                Nozzle={this.state.Nozzle}
+
+                TCO={this.state.TCO}
+
+                List_Fields_Main={this.props.List_Fields_Main}
+                List_Fields_PL={this.props.List_Fields_PL}
+
+            />
         );
     }
 }

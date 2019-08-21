@@ -15,8 +15,8 @@
  td, th, tr {
     /*background: maroon;  Цвет фона ячеек */
     padding: 0px;
-    /* Поля вокруг текста 
-    border: 1px solid black;  */
+    /* Поля вокруг текста
+    border: 1px solid black;   */
     /*min-width: 20px;*/
  }
 
@@ -28,10 +28,20 @@
     border: 3px solid red;   */
     align-content: center;
  }
+ #td_Full{
+    width: 90%;
+    text-align: center;
+    
+ }
+ #td_Left{
+   min-width: 290px;
+   height: 40px;
+ }
 
  .Dev_TBL {
     margin-right: 0px;
     border: 3px ridge rgb(250, 246, 246);
+    /*min-height: 2600px;*/
  }
 
  .DevS_TBL {
@@ -40,6 +50,7 @@
      Цвет текста   
    border: 4px ridge rgb(0, 141, 141); */
     border: 3px ridge rgb(250, 246, 246);
+    /*min-height: 2510px;*/
  }
 
  /*
@@ -110,3 +121,4 @@
     /*border: 3px ridge rgb(250, 246, 246);
     border: 1px ridge rgb(0, 0, 0);*/
  }
+ 

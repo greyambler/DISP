@@ -138,10 +138,63 @@ function isOpExist_TSO_DVC(dvctyptree, typ_key_val) {
     return TextValue;
 }
 
+function get_ICON_Lock(val) {
+
+    let col = '/images/Unlocked.png';
+
+
+    switch (val) {
+        case 0:
+        case 1:
+        case 2:
+        case 3:
+        case 4:
+        case 5:col = '/images/Unlocked.png'; break;
+        case 6:
+        case 7:
+        case 8:
+        case 9:
+        case 10:
+        case 11:
+        case 12:
+        case 13: col = '/images/Locked.png'; break;
+        default: col = '/images/Unlocked.png'; break;
+    }
+    return col;
+}
+
+function get_ICON_Refr(val) {
+
+    let col = '/images/Recycle.png';
+    switch (val) {
+        case 0:
+        case 1:
+        case 2:
+        case 3:
+        case 4:
+        case 5:
+        case 6:
+        case 7:
+        case 9:
+        case 10:
+        case 11:
+        case 12:
+        case 13:
+        case 14:
+        case 15:
+        case 16: col = '/images/Recycle1.png'; break;
+        default: col = '/images/Recycle.png'; break;
+    }
+    return col;
+}
+
+
+let r = 0;
 
 export default class tcoTree extends Component {
     constructor(props) {
         super(props);
+        this.Test_Onclick = this.Test_Onclick.bind(this);
         this.state = {
             TCO: null,
             DeVal: null,
@@ -190,6 +243,11 @@ export default class tcoTree extends Component {
             }
         }
     }
+    Test_Onclick(text) {
+        alert("Тест = " + text);
+    }
+
+
     render() {
         if (this.state.TCO != null) {
             let V_ID = Get_Val(this.state.TCO[0], "id")
@@ -208,18 +266,18 @@ export default class tcoTree extends Component {
             }
             let F = 2;
             let isKeyShow = false;
-            //View_Fields={this.props.View_Fields}
+            //List_Fields_Main={this.props.List_Fields_Main}
 
             //{this.props.View_Icon &&
-            //let r = Is_View_Row(this.props.View_Fields, 'icon_alarm');
-            //{ Is_View_Row(this.props.View_Fields, 'icon_alarm') &&
+            //let r = Is_View_Row(this.props.List_Fields_Main, 'icon_alarm');
+            //{ Is_View_Row(this.props.List_Fields_Main, 'icon_alarm') &&
             //id={(V_ID != 6) ? 'Li_Level_tco' : 'li_Level'}>
             return (
                 <div>
                     <table
                         id={(V_ID != 6) ? 'Li_Level' : 'li_Level'}>
                         <tbody>
-                            {Is_View_Row(this.props.View_Fields, 'icon_alarm') &&
+                            {Is_View_Row(this.props.List_Fields_Main, 'icon_alarm') &&
                                 <tr>
                                     <td colSpan='2'>
                                         <Stage width={PL_width} height={_height + 30} x={_dX} y={0}>
@@ -240,6 +298,123 @@ export default class tcoTree extends Component {
                                     <hr />
                                 </td>
                             </tr>
+                            {Is_View_Row(this.props.List_Fields_Main, 'icon_alarm') &&
+                                <tr>
+                                    <td colSpan='2'>
+                                        {V_ID == 6 ? (
+                                            <Stage width={PL_width} height={_height + 9} x={_dX} y={0}>
+                                                <Layer key='1'>
+                                                    <Text Text='блокировка'
+                                                        x='24' y='20' fill='black'
+                                                        fontSize='12' fontFamily='Calibri' />
+                                                </Layer>
+                                            </Stage>
+                                        ) : (
+                                                <button onClick={() => this.Test_Onclick("this.Test_Onclick")}>
+                                                    <Stage width={PL_width} height={_height + 3} x={_dX} y={0}>
+                                                        <Layer key='1'>
+                                                            <AZS_Image Image={get_ICON_Lock(++r)} _W='55' _H='55' _X={21} _Y={ 6} />
+                                                        </Layer>
+                                                    </Stage>
+                                                </button>
+                                            )
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                            <tr>
+                                <td colSpan='2'>
+                                    <hr />
+                                </td>
+                            </tr>
+                            {Is_View_Row(this.props.List_Fields_Main, 'icon_alarm') &&
+                                <tr>
+                                    <td colSpan='2'>
+                                        {V_ID == 6 ? (
+                                            <Stage width={PL_width} height={_height + 9} x={_dX} y={0}>
+                                                <Layer key='1'>
+                                                    <Text Text='Перезагрузка ФР'
+                                                        x='24' y='20' fill='black'
+                                                        fontSize='12' fontFamily='Calibri' />
+                                                </Layer>
+                                            </Stage>
+                                        ) : (
+                                                <button onClick={() => this.Test_Onclick("this.state.TCO.nm")}>
+                                                    <Stage width={PL_width} height={_height + 3} x={_dX} y={0}>
+                                                        <Layer key='1'>
+                                                            <AZS_Image Image={get_ICON_Refr(++r)} _W='55' _H='55' _X={21} _Y={ 6} />
+                                                        </Layer>
+                                                    </Stage>
+                                                </button>
+                                            )
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                            <tr>
+                                <td colSpan='2'>
+                                    <hr />
+                                </td>
+                            </tr>
+                            {Is_View_Row(this.props.List_Fields_Main, 'icon_alarm') &&
+                                <tr>
+                                    <td colSpan='2'>
+                                        {V_ID == 6 ? (
+                                            <Stage width={PL_width} height={_height + 9} x={_dX} y={0}>
+                                                <Layer key='1'>
+                                                    <Text Text='Перезагрузка Валидатор'
+                                                        x='24' y='20' fill='black'
+                                                        fontSize='12' fontFamily='Calibri' />
+                                                </Layer>
+                                            </Stage>
+                                        ) : (
+                                                <button onClick={() => this.Test_Onclick(this.state.TCO.nm)}>
+                                                    <Stage width={PL_width} height={_height + 3} x={_dX} y={0}>
+                                                        <Layer key='1'>
+                                                            <AZS_Image Image={get_ICON_Refr(++r)} _W='55' _H='55' _X={21} _Y={ 6} />
+                                                        </Layer>
+                                                    </Stage>
+                                                </button>
+                                            )
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                            <tr>
+                                <td colSpan='2'>
+                                    <hr />
+                                </td>
+                            </tr>
+                            {Is_View_Row(this.props.List_Fields_Main, 'icon_alarm') &&
+                                <tr>
+                                    <td colSpan='2'>
+                                        {V_ID == 6 ? (
+                                            <Stage width={PL_width} height={_height + 9} x={_dX} y={0}>
+                                                <Layer key='1'>
+                                                    <Text Text='Перезагрузка ПК'
+                                                        x='24' y='20' fill='black'
+                                                        fontSize='12' fontFamily='Calibri' />
+                                                </Layer>
+                                            </Stage>
+                                        ) : (
+                                                <button onClick={() => this.Test_Onclick(this.state.TCO.nm)}>
+                                                    <Stage width={PL_width} height={_height + 3} x={_dX} y={0}>
+                                                        <Layer key='1'>
+                                                            <AZS_Image Image={get_ICON_Refr(++r)} _W='55' _H='55' _X={21} _Y={ 6} />
+                                                        </Layer>
+                                                    </Stage>
+                                                </button>
+                                            )
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                            <tr>
+                                <td colSpan='2'>
+                                    <hr />
+                                </td>
+                            </tr>
+
                             <tr>
                                 <td colSpan='2'>
                                     <hr />
@@ -247,7 +422,7 @@ export default class tcoTree extends Component {
                             </tr>
                             {
                                 MASS.map((main, p) => (
-                                    (Is_View_Row(this.props.View_Fields, 'data') || main == 'nm') &&
+                                    (Is_View_Row(this.props.List_Fields_Main, 'data') || main == 'nm') &&
                                     <Tco_Item_Tree PROPERTYS={main} MASS_LIBRR={MASS} isKeyShow={isKeyShow} FirstPROPS={F} N={p}
                                     />
                                 ))
@@ -256,7 +431,7 @@ export default class tcoTree extends Component {
                             {DEVICES != null &&
                                 DEVICES.map(m_MASS => (
                                     m_MASS.map((main, p) => (
-                                        (Is_View_Row(this.props.View_Fields, 'data')) &&
+                                        (Is_View_Row(this.props.List_Fields_Main, 'data')) &&
                                         <Tco_Dvc_Item_Tree PROPERTYS={main} MASS_LIBRR={m_MASS} isKeyShow={isKeyShow} FirstPROPS={F} N={p}
                                             IsHead={this.props.IsHead}
                                         />

@@ -1,26 +1,10 @@
 import React, { Component, PropTypes } from 'react';
-
-import {
-    RSS_AZS,
-    get_DateRSS, get_Rss_ID, get_PL,
-    IsExistAZS, get_ETALON_AZS, get_Mas_MAS_S,
-    compare_storage_space, compare_azs
-} from '../core/core_Function.jsx';
-
-import { Link, DirectLink, Element, Events, animateScroll as scroll, scrollSpy, scroller } from 'react-scroll'
-
-import Header from '../control/header.jsx';
-import TreeDevice from '../control/treeDevice.jsx';
-
+import { RSS_AZS, getDVC_Tree } from '../core/core_Function.jsx';
 import List_azs from './list_azs.jsx'
-
-import moment from 'moment';
-//import FILTER_AF from './filtersAF.jsx'
 
 import FILTER from './filters.jsx'
 
 const _Debuge = false;
-
 
 function get_ZeroColumn(Mass) {
     var col = {
@@ -38,7 +22,7 @@ function get_ZeroColumn(Mass) {
     }
     return AZS;
 }
-function get_Mass_View(mas_Vidg, ASZ_M) {
+function get_Mass_View_Save(mas_Vidg, ASZ_M) {
     let View_Fields = new Array();
     for (const nameView of mas_Vidg) {
         if (nameView.value == 'selectAll') {
@@ -55,96 +39,127 @@ function get_Mass_View(mas_Vidg, ASZ_M) {
         if (nameView.value == 'data') {
             View_Fields.push('data');
         }
-        /*
-        if (nameView.value == 'azs') {
-            View_Fields.push('azs');
-            if (ASZ_M != null) {
-                for (const iterator of ASZ_M) {
-                    View_Fields.push(iterator.id);
-                }
-            }
-        }
-        if (ASZ_M != null) {
-            for (const iterator of ASZ_M) {
-                View_Fields.push(iterator.id);
-            }
-        }*/
-
-       /* if (nameView.value == 'selectAll') {
-            View_Fields.push('vidget');
-
-            View_Fields.push("azs");
-
-            View_Fields.push('data');
-
-            View_Fields.push('icon_alarm');
-            View_Fields.push('status_alarm');
-            View_Fields.push('state_alarm');
-
-            View_Fields.push('pump');
-            View_Fields.push('Counter_Curent');
-            View_Fields.push('fuel');
-            View_Fields.push('nozzle');
-            View_Fields.push('date');
-            View_Fields.push('time');
-            View_Fields.push('status');
-            View_Fields.push('state');
-        }
-
-        if (nameView.value == 'vidget') {
-            View_Fields.push('vidget');
-            View_Fields.push('icon_alarm');
-            View_Fields.push('status_alarm');
-            View_Fields.push('state_alarm');
-        }
-
-
-        if (nameView.value == 'data') {
-            View_Fields.push('data');
-            View_Fields.push('pump');
-            View_Fields.push('Counter_Curent');
-            View_Fields.push('fuel');
-            View_Fields.push('nozzle');
-            View_Fields.push('date');
-            View_Fields.push('time');
-            View_Fields.push('status');
-            View_Fields.push('state');
-        }
-
-        if (nameView.value == 'icon_alarm') { View_Fields.push('icon_alarm'); }
-        if (nameView.value == 'status_alarm') { View_Fields.push('status_alarm'); }
-        if (nameView.value == 'state_alarm') { View_Fields.push('state_alarm'); }
-        if (nameView.value == 'pump') { View_Fields.push('pump'); }
-        if (nameView.value == 'Counter_Curent') { View_Fields.push('Counter_Curent'); }
-        if (nameView.value == 'fuel') { View_Fields.push('fuel'); }
-        if (nameView.value == 'nozzle') { View_Fields.push('nozzle'); }
-        if (nameView.value == 'date') { View_Fields.push('date'); }
-        if (nameView.value == 'time') { View_Fields.push('time'); }
-        if (nameView.value == 'status') { View_Fields.push('status'); }
-        if (nameView.value == 'state') { View_Fields.push('state'); }
-    */}
+        View_Fields.push(nameView.value);
+    }
 
     return View_Fields;
 }
-function Delete_Azs(data, dataF) {
-    var indices = [];
-    if (data != null && dataF != null) {
-        var indices = [];
-        let t = 0;
-        for (let index = 0; index < data.length; index++) {
 
-            if (dataF.indexOf(data[index].azs.toUpperCase()) == -1) {
-                indices[t] = data[index];
-                t++;
+function Get_Key_View_Main(mas_Vidg, AZS) {
+    let View_Fields = new Array();
+    for (const nameView of mas_Vidg) {
+        if (nameView.value == 'selectAll') {
+            View_Fields.push('selectAll');
+            View_Fields.push('vidget');
+            View_Fields.push('azs');
+            //            View_Fields.push('AI');
+            View_Fields.push('data');
+
+            View_Fields.push('icon_alarm');
+        }
+        if (nameView.value == 'vidget') {
+            View_Fields.push('vidget');
+            View_Fields.push('icon_alarm');
+        }
+        if (nameView.value == 'icon_alarm') {
+            View_Fields.push('icon_alarm');
+        }
+
+        View_Fields.push('0');
+
+        if (nameView.value == 'azs' || nameView.value == 'selectAll') {
+            View_Fields.push('azs');
+            if (AZS != null) {
+                for (const azs of AZS) {
+                    View_Fields.push(azs.id);
+                }
+            }
+        }
+        /*
+                if (nameView.value == 'AI' || nameView.value == 'selectAll') {
+                    View_Fields.push("fuel_all");
+                    if (AI != null) {
+                        for (const ai of AI) {
+                            View_Fields.push("fuel_" + ai.id);
+                        }
+                    }
+                }
+        */
+        if (nameView.value == 'data') {
+            View_Fields.push('data');
+        }
+        View_Fields.push(nameView.value);
+
+    }
+
+    return View_Fields;
+}
+function Get_Key_View_PL(mas_Vidg, AI, PL_Counter) {
+    let View_Fields = new Array();
+    for (const nameView of mas_Vidg) {
+        if (nameView.value == 'selectAll') {
+            View_Fields.push('selectAll');
+            View_Fields.push('AI');
+        }
+        View_Fields.push('0');
+        if (nameView.value == 'AI' || nameView.value == 'selectAll') {
+            View_Fields.push("fuel_all");
+            if (AI != null) {
+                for (const ai of AI) {
+                    View_Fields.push("fuel_" + ai.id);
+                }
+            }
+        }
+        if (nameView.value == 'AI_COUNTER' || nameView.value == 'selectAll') {
+            if (PL_Counter != null && PL_Counter.cntyp != null) {
+                for (const item of PL_Counter.cntyp) {
+                    View_Fields.push(item.typ);
+                }
+            }
+        }
+        View_Fields.push(nameView.value);
+    }
+    return View_Fields;
+}
+
+
+
+function GetAZS_FILTER(azs) {
+    let M_AZS = new Array();
+    if (azs != null) {
+        for (const item_AZS of azs) {
+            if (item_AZS.id != 0) {
+                M_AZS.push({ label: item_AZS.nm, value: item_AZS.id, code: item_AZS.ob });
             }
         }
     }
-    return indices;
+
+    return M_AZS;
 }
-function get_VTree_LEVEL(azs) {
+function Get_AI_FILTER(AIs) {
+    let M_AI = new Array();
+    if (AIs != null) {
+        for (const item_AI of AIs) {
+            M_AI.push({ label: item_AI.nm, value: "fuel_" + item_AI.id, code: item_AI.fu });
+        }
+    }
+
+    return M_AI;
+}
+function Get_Counters_FILTER(PL_Counter) {
+    let M_Counter = new Array();
+    if (PL_Counter != null && PL_Counter.cntyp != null) {
+        for (const item of PL_Counter.cntyp) {
+            M_Counter.push({ label: item.def.nm, value: item.typ });
+        }
+    }
+    return M_Counter;
+}
+
+function CreatViewFILTER_Main(azs, AIs) {
 
     let _Data = {
-        label: 'Выбрать все',
+        label: 'Все',
         value: 'selectAll',
         checked: true,
         expanded: true,
@@ -152,7 +167,7 @@ function get_VTree_LEVEL(azs) {
             {
                 label: 'виджет',
                 value: 'vidget',
-                expanded: true,
+                expanded: false,
                 children: [
                     {
                         label: 'Иконка',
@@ -163,18 +178,24 @@ function get_VTree_LEVEL(azs) {
             {
                 label: 'объекты',
                 value: 'azs',
-                expanded: true,
-                children: []
+                expanded: false,
+                children: GetAZS_FILTER(azs)
             },
+            /*{
+                label: 'Вид НП',
+                value: 'AI',
+                checked: true,
+                expanded: false,
+                children: Get_AI_FILTER(AIs)
+            },*/
             {
                 label: 'данные',
                 value: 'data'
-            }
-            /*,
+            },
             {
                 label: 'Функции кнопки',
                 value: 'F_button',
-                expanded: true,
+                expanded: false,
                 children: [{
                     label: 'блокировка',
                     value: 'lock'
@@ -183,22 +204,38 @@ function get_VTree_LEVEL(azs) {
                     label: 'управление',
                     value: 'management'
                 }]
-            }*/
-        ]
-    }
-    if (azs != null) {
-        for (const item_Filter of _Data.children) {
-            if (item_Filter.value == 'azs') {
-                for (const iterator of azs) {
-                    if (iterator.id != 0) {
-                        item_Filter.children.push({ label: iterator.nm, value: iterator.id, code: iterator.ob });
-                    }
-                }
             }
-        }
+        ]
     }
     return _Data;
 }
+function CreatViewFILTER_PL(AIs, pl_Counter, PLS) {
+
+    let _Data = {
+        label: 'Все',
+        value: 'selectAll',
+        checked: true,
+        expanded: true,
+        children: [
+            {
+                label: 'Вид НП',
+                value: 'AI',
+                checked: true,
+                expanded: false,
+                children: Get_AI_FILTER(AIs)
+            },
+            {
+                label: 'данные',
+                value: 'AI_COUNTER',
+                checked: true,
+                expanded: false,
+                children: Get_Counters_FILTER(pl_Counter)
+            }
+        ]
+    }
+    return _Data;
+}
+
 
 
 export default class w_main_azs extends React.Component {
@@ -208,24 +245,22 @@ export default class w_main_azs extends React.Component {
         this.state = {
             Rss: RSS_AZS,
             _Objects: null,
+
             _Azs: null,
             _Azs_Mass: null,
-            View_Fields: get_Mass_View([{ value: 'selectAll' }]),
-            _Azs_Mass_Filter: null,
+
+            List_Fields_Main: Get_Key_View_Main([{ value: 'selectAll' }]),
+
+            List_Fields_PL: Get_Key_View_PL([{ value: 'selectAll' }], this.props._List_Objs.fuel, getDVC_Tree(this.props._List_Objs.dvctyptree, 'pl')),
         }
     }
-    componentDidMount() {
-        this.tick();
+    async componentDidMount() {
+        let r = await this.tick();
+        this.setState({ List_Fields_Main: Get_Key_View_Main([{ value: 'selectAll' }], this.state._Azs) });
     }
     componentDidUpdate(prevProps) {
         if (this.props.Rss != prevProps.Rss) {
             this.setState({ Rss: this.props.Rss }, this.tick);
-        }
-        if (this.props.azs != prevProps.azs) {
-            this.setState({ _Azs: this.props.azs }, this.SetFilters);
-        }
-        if (this.props.fuels != prevProps.fuels) {
-            this.setState({ _Fuels: this.props.fuels }, this.SetFilters);
         }
     }
     async tick() {
@@ -249,8 +284,9 @@ export default class w_main_azs extends React.Component {
                     _Objects: Jsons,
                     _Azs: Jsons.obList,
                     _Azs_Mass: azs,
-                    _Azs_Mass_Filter: azs,
+                    //_Azs_Mass_Filter: azs,
                 });
+                return Jsons;
             }
             else {
                 throw Error(response.statusText);
@@ -264,101 +300,65 @@ export default class w_main_azs extends React.Component {
     }
     /********** ФИЛЬТРЫ ********/
 
-    update_VV_TREE = (View_Vidg) => {
+    update_VIEW_Main = (View_Vidg) => {
         let _View_Fields = new Array();
         if (View_Vidg == undefined || View_Vidg.length == 0) {
-            this.setState({ View_Fields: _View_Fields });
+            this.setState({ List_Fields_Main: _View_Fields });
         } else {
-            let _view_Icon = false;
-            let _view_Data = false;
-            _View_Fields = get_Mass_View(View_Vidg, this.state._Azs_Mass);
-            this.setState({ View_Fields: _View_Fields });
-        }
-        let _AZS = new Array();
-        let isAzs = false;
-
-        for (const it_View_Vidg of View_Vidg) {
-            if (it_View_Vidg.value == 'azs') {
-                isAzs = true;
-                this.setState({ _Azs_Mass_Filter: this.state._Azs_Mass });
-            } else if (it_View_Vidg.value == "selectAll") {
-                isAzs = true;
-                this.setState({ _Azs_Mass_Filter: this.state._Azs_Mass });
-            } else {
-                for (const azs of this.state._Azs_Mass) {
-                    if (azs.id == it_View_Vidg.value) {
-                        if (_AZS.length == 0) {
-                            for (const azs of this.state._Azs_Mass) {
-                                if (azs.id == 0) {
-                                    isAzs = true;
-                                    _AZS.push(azs);
-                                    break;
-                                }
-                            }
-                        }
-                        _AZS.push(azs);
-                    }
-                }
-                if (_AZS.length > 0) {
-                    this.setState({ _Azs_Mass_Filter: _AZS });
-                }
-            }
-        }
-        if (!isAzs) {
-            for (const azs of this.state._Azs_Mass) {
-                if (azs.id == 0) {
-                    isAzs = true;
-                    _AZS.push(azs);
-                    this.setState({ _Azs_Mass_Filter: _AZS });
-                    break;
-                }
-            }
+            _View_Fields = Get_Key_View_Main(View_Vidg, this.state._Azs_Mass);
+            this.setState({ List_Fields_Main: _View_Fields });
         }
     }
 
-    update_Azs = (Azs) => {
-        this.setState({ _Azs: Azs }, this.SetFilters);
-    }
-    SetFilters() {
-        this.setState({ _Trk: null });
-        let _trk;
-
-        if (this.state._Azs != null) {
-            _trk = Delete_Azs(_trk, this.state._Azs);
+    update_VIEW_PL = (View_Vidg) => {
+        let _View_Fields = new Array();
+        if (View_Vidg == undefined || View_Vidg.length == 0) {
+            this.setState({ List_Fields_PL: _View_Fields });
+        } else {
+            _View_Fields = Get_Key_View_PL(View_Vidg, this.props._List_Objs.fuel, getDVC_Tree(this.props._List_Objs.dvctyptree, 'pl'));
+            this.setState({ List_Fields_PL: _View_Fields });
         }
-        this.setState({ _Trk: _trk });
     }
-
+    update_Create_PL = (View_Vidg) => {
+        CreatViewFILTER_PL(this.props._List_Objs.fuel, getDVC_Tree(this.props._List_Objs.dvctyptree, 'pl'), View_Vidg);
+    }
     /********** ФИЛЬТРЫ ********/
 
     render() {
         if (this.state._Azs != null) {
+            let View_Filter_Main = CreatViewFILTER_Main(this.state._Azs_Mass, this.props._List_Objs.fuel);
+            let View_Filter_PL = CreatViewFILTER_PL(this.props._List_Objs.fuel, getDVC_Tree(this.props._List_Objs.dvctyptree, 'pl'));
 
-            let _TRK_Filter = null;//this.state._Trk.sort(compare_azs);
-
-            let dataFilter = get_VTree_LEVEL(this.state._Azs_Mass);
             return (
                 <div>
                     <center >{this.props.header}</center>
-
                     <hr /><hr />
                     <table className="tableDevice">
                         <tbody>
                             <tr>
-                                <td >
-                                    <center>
-                                        <FILTER
-                                            update_VV_TREE={this.update_VV_TREE}
-                                            //trk={_TRK_Filter}
-                                            //all_azs={this.state._Azs_Mass}
-                                            //update_Azs={this.update_Azs}
-
-                                            dataFilter={dataFilter}
-                                        />
-                                    </center>
+                                <td id='td_Left'>
+                                    <FILTER text_head='Общий фильтр'
+                                        update_VIEW={this.update_VIEW_Main}
+                                        dataFilter={View_Filter_Main}
+                                    />
                                 </td>
-                                <td >
-                                    <center ><h4>АЗК</h4></center>
+                                <td id='td_Left'>
+                                    <FILTER text_head='Резервуары'
+                                        update_VIEW={this.update_VIEW_PL}
+                                        dataFilter={View_Filter_PL}
+                                    />
+                                </td>
+                                <td id='td_Left'>
+                                    <FILTER text_head='ТРК'
+                                        update_VIEW={this.update_VIEW_Main}
+                                        dataFilter={View_Filter_Main}
+                                    />
+                                </td>
+                                <td id='td_Left'>
+                                    <FILTER text_head='ТСО'
+                                        update_VIEW={this.update_VIEW_Main}
+                                        dataFilter={View_Filter_Main}
+                                    />
                                 </td>
                             </tr>
                         </tbody>
@@ -368,23 +368,22 @@ export default class w_main_azs extends React.Component {
 
                     {this.state._Azs != null &&
                         <List_azs
-
                             _List_Objs={this.props._List_Objs}
                             w_Height={this.props.w_Height}
                             RSS={this.state.Rss}
+
                             azs={this.state._Azs}
-                            azs_Mass={this.state._Azs_Mass_Filter}
+                            azs_Mass={this.state._Azs_Mass}//{this.state._Azs_Mass_Filter}
 
                             PL_0={this.props.PL_0} PL_Col={this.props.PL_Col}
                             TRK_0={this.props.TRK_0} TRK_Col={this.props.TRK_Col}
-
                             TCO_0={this.props.TCO_0} TCO_Col={this.props.TCO_Col}
 
-                            NOZZLE_0={this.props.NOZZLE_0} NOZZLE_Col={this.props.NOZZLE_Col}
-
-
-
-                            View_Fields={this.state.View_Fields}
+                            /* NOZZLE_0={this.props.NOZZLE_0} NOZZLE_Col={this.props.NOZZLE_Col}
+                           */
+                            List_Fields_Main={this.state.List_Fields_Main}
+                            List_Fields_PL={this.state.List_Fields_PL}
+                            View_Filter_PL={View_Filter_PL}
 
                         />
                     }
@@ -402,12 +401,3 @@ export default class w_main_azs extends React.Component {
         }
     }
 }
-
-/*
-<FILTER_AF
-                        fuels={this.props._List_Objs.fuel}
-                        azs={this.state._Azs}
-                        update_Fuels={this.update_Fuels}
-                        update_Azs={this.update_Azs}
-                    />
-*/

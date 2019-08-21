@@ -1,90 +1,14 @@
 import React, { Component, PropTypes } from 'react';
-import OL_List from '../core/OL_List.jsx'
-import { Stage, Layer, Rect, Text, Circle, Shape, Image } from 'react-konva';
-import { WS, compare_azs } from '../core/core_Function.jsx';
+import { WS } from '../core/core_Function.jsx';
 import AZS from './azs.jsx'
-
-import { Link, DirectLink, Element, Events, animateScroll as scroll, scrollSpy, scroller } from 'react-scroll'
-
-
 import { Array } from 'core-js';
-import moment from 'moment';
 
-function IsExistID(id, mass) {
-    for (const iterator of mass) {
-        if (iterator == id) {
-            return true;
-        }
-    }
-    return false;
-}
 function get_Json_String(mstring) {
     var mS = [];
     mS[0] = mstring;
     const T_Json = JSON.stringify(mstring);
     return T_Json;
 
-}
-
-function get_Mass_View(mas_Vidg, ASZ_M) {
-    let View_Fields = new Array();
-    for (const nameView of mas_Vidg) {
-
-        if (nameView.value == 'selectAll') {
-            View_Fields.push('vidget');
-
-            View_Fields.push("azs");
-
-            View_Fields.push('data');
-
-            View_Fields.push('icon_alarm');
-            View_Fields.push('status_alarm');
-            View_Fields.push('state_alarm');
-
-            View_Fields.push('pump');
-            View_Fields.push('Counter_Curent');
-            View_Fields.push('fuel');
-            View_Fields.push('nozzle');
-            View_Fields.push('date');
-            View_Fields.push('time');
-            View_Fields.push('status');
-            View_Fields.push('state');
-        }
-
-        if (nameView.value == 'vidget') {
-            View_Fields.push('vidget');
-            View_Fields.push('icon_alarm');
-            View_Fields.push('status_alarm');
-            View_Fields.push('state_alarm');
-        }
-
-
-        if (nameView.value == 'data') {
-            View_Fields.push('data');
-            View_Fields.push('pump');
-            View_Fields.push('Counter_Curent');
-            View_Fields.push('fuel');
-            View_Fields.push('nozzle');
-            View_Fields.push('date');
-            View_Fields.push('time');
-            View_Fields.push('status');
-            View_Fields.push('state');
-        }
-
-        if (nameView.value == 'icon_alarm') { View_Fields.push('icon_alarm'); }
-        if (nameView.value == 'status_alarm') { View_Fields.push('status_alarm'); }
-        if (nameView.value == 'state_alarm') { View_Fields.push('state_alarm'); }
-        if (nameView.value == 'pump') { View_Fields.push('pump'); }
-        if (nameView.value == 'Counter_Curent') { View_Fields.push('Counter_Curent'); }
-        if (nameView.value == 'fuel') { View_Fields.push('fuel'); }
-        if (nameView.value == 'nozzle') { View_Fields.push('nozzle'); }
-        if (nameView.value == 'date') { View_Fields.push('date'); }
-        if (nameView.value == 'time') { View_Fields.push('time'); }
-        if (nameView.value == 'status') { View_Fields.push('status'); }
-        if (nameView.value == 'state') { View_Fields.push('state'); }
-    }
-
-    return View_Fields;
 }
 
 function Is_View_Row(Data, Name_Row) {
@@ -102,25 +26,10 @@ function Is_View_Row(Data, Name_Row) {
     return row;
 }
 
-function Delete_Azs(data, dataF) {
-    var indices = [];
-    if (data != null && dataF != null) {
-        var indices = [];
-        let t = 0;
-        for (let index = 0; index < data.length; index++) {
-
-            if (dataF.indexOf(data[index].azs.toUpperCase()) == -1) {
-                indices[t] = data[index];
-                t++;
-            }
-        }
-    }
-    return indices;
-}
-
-
 const _Debuge = false;
 const _Debuge_Filter = true;
+
+let timerId;
 
 export default class list_azs extends Component {
     constructor(props) {
@@ -133,6 +42,8 @@ export default class list_azs extends Component {
         this.start_ws = this.start_ws.bind(this);
         this.stop_ws = this.stop_ws.bind(this);
         this.OnOpen = this.OnOpen.bind(this);
+        this.restart = this.restart.bind(this);
+        //        this.test = this.test.bind(this);
         /******** WS******************** */
 
         this.state = {
@@ -145,6 +56,9 @@ export default class list_azs extends Component {
             messages: [],
             data: null,
             IsOpen: false,
+            /******** WS******************** */
+           // List_Fields_Main: this.props.List_Fields_Main,
+            //List_Fields_PL: this.props.List_Fields_PL,
         };
     }
     componentDidMount() {
@@ -153,6 +67,12 @@ export default class list_azs extends Component {
     componentDidUpdate(prevProps) {
         if (this.props.azs != prevProps.azs) {
             this.setState({ _Azs: this.props.azs }, this.Get_Id_Devices());
+        }
+        if (this.props.List_Fields_Main != prevProps.List_Fields_Main) {
+            this.setState({ List_Fields_Main: this.props.List_Fields_Main }, this.restart());
+        }
+        if (this.props.List_Fields_PL != prevProps.List_Fields_PL) {
+            this.setState({ List_Fields_PL: this.props.List_Fields_PL });
         }
     }
     componentWillUnmount() {
@@ -243,6 +163,22 @@ export default class list_azs extends Component {
             }
         }
     }
+
+
+    restart() {
+        if (this.state.connection != null && this.state.IsOpen) {
+            this.state.connection.close(1000, "Hello Web Sockets!");
+            this.setState({ IsOpen: false, connection: null, data: null });
+            timerId = setInterval(() => this.start_ws(), 10000);
+            //if (this.state.connection != null && this.state.IsOpen) {
+            //clearInterval(timerId);
+            //}
+        }
+        /*
+        if (!this.state.IsOpen) {
+            this.start_ws();
+        }*/
+    }
     OnOpen(e) {
         if (this.state._m_ID.length > 0 && !this.state.IsOpen) {
             let MS = get_Json_String(this.state._m_ID);
@@ -254,10 +190,11 @@ export default class list_azs extends Component {
     stop_ws(e) {
         if (this.state.IsOpen) {//(this.state.connection.readyState == 1) {
             this.state.connection.close(1000, "Hello Web Sockets!");
-            this.setState({ data: null, IsOpen: false });
+            this.setState({ connection: null, data: null, IsOpen: false });
             //this.add_messages("\n\tstop_ws(e)");
         }
     }
+
     add_messages(e) {
         if (e != null) {
             this.setState({
@@ -267,6 +204,8 @@ export default class list_azs extends Component {
         }
     }
     /******** WS******************** */
+
+
 
     render() {
         if (this.props.azs_Mass != null) {
@@ -280,7 +219,7 @@ export default class list_azs extends Component {
                             <tr>
                                 {
                                     this.props.azs_Mass.map(el => (
-
+                                        (Is_View_Row(this.props.List_Fields_Main, el.id)) &&
                                         <td key={'li ' + el.id} style={tr_Style}>
                                             <AZS
                                                 _List_Objs={this.props._List_Objs}
@@ -291,8 +230,8 @@ export default class list_azs extends Component {
                                                 key={'AZS ' + el.id}
                                                 id={el.id}
 
-                                                View_Icon={this.state._View_Icon}
-                                                View_Data={this.state._View_Data}
+                                                //                                                View_Icon={this.state._View_Icon}
+                                                //                                                View_Data={this.state._View_Data}
 
                                                 PL_0={this.props.PL_0} PL_Col={this.props.PL_Col}
                                                 TRK_0={this.props.TRK_0} TRK_Col={this.props.TRK_Col}
@@ -302,8 +241,9 @@ export default class list_azs extends Component {
 
                                                 data={this.state.data}
 
-                                                View_Fields={this.props.View_Fields}
-                                                
+                                                List_Fields_Main={this.props.List_Fields_Main}
+                                                List_Fields_PL={this.props.List_Fields_PL}
+                                                View_Filter_PL={this.props.View_Filter_PL}
                                             />
                                         </td>
                                     ))

@@ -52,6 +52,13 @@ export function get_NameFuel(_id, ListType) {
   return t;
 }
 
+export function getDVC_Tree(dvctyptree, type) {
+  for (const iterator of dvctyptree) {
+      if (iterator.typ == type) {
+          return iterator;
+      }
+  }
+}
 
 
 export function Get_RSS(Rss, startDate, endDate) {
@@ -1354,3 +1361,237 @@ export function get_DVC_TREE() {
     }
   );
 }
+
+
+
+
+/*
+function get_Mass_View(mas_Vidg, ASZ_M) {
+    let View_Fields = new Array();
+    for (const nameView of mas_Vidg) {
+        if (nameView.value == 'selectAll') {
+            View_Fields.push('icon_alarm');
+            View_Fields.push('data');
+        }
+        if (nameView.value == 'vidget') {
+            View_Fields.push('vidget');
+            View_Fields.push('icon_alarm');
+        }
+        if (nameView.value == 'icon_alarm') {
+            View_Fields.push('icon_alarm');
+        }
+        if (nameView.value == 'data') {
+            View_Fields.push('data');
+        }
+        if (nameView.value == 'azs') {
+            View_Fields.push('azs');
+            if (ASZ_M != null) {
+                for (const iterator of ASZ_M) {
+                    View_Fields.push(iterator.id);
+                }
+            }
+        }
+        if (ASZ_M != null) {
+            for (const iterator of ASZ_M) {
+                View_Fields.push(iterator.id);
+            }
+        }
+
+        if (nameView.value == 'selectAll') {
+            View_Fields.push('vidget');
+
+            View_Fields.push("azs");
+
+            View_Fields.push('data');
+
+            View_Fields.push('icon_alarm');
+            View_Fields.push('status_alarm');
+            View_Fields.push('state_alarm');
+
+            View_Fields.push('pump');
+            View_Fields.push('Counter_Curent');
+            View_Fields.push('fuel');
+            View_Fields.push('nozzle');
+            View_Fields.push('date');
+            View_Fields.push('time');
+            View_Fields.push('status');
+            View_Fields.push('state');
+        }
+
+        if (nameView.value == 'vidget') {
+            View_Fields.push('vidget');
+            View_Fields.push('icon_alarm');
+            View_Fields.push('status_alarm');
+            View_Fields.push('state_alarm');
+        }
+
+
+        if (nameView.value == 'data') {
+            View_Fields.push('data');
+            View_Fields.push('pump');
+            View_Fields.push('Counter_Curent');
+            View_Fields.push('fuel');
+            View_Fields.push('nozzle');
+            View_Fields.push('date');
+            View_Fields.push('time');
+            View_Fields.push('status');
+            View_Fields.push('state');
+        }
+
+        if (nameView.value == 'icon_alarm') { View_Fields.push('icon_alarm'); }
+        if (nameView.value == 'status_alarm') { View_Fields.push('status_alarm'); }
+        if (nameView.value == 'state_alarm') { View_Fields.push('state_alarm'); }
+        if (nameView.value == 'pump') { View_Fields.push('pump'); }
+        if (nameView.value == 'Counter_Curent') { View_Fields.push('Counter_Curent'); }
+        if (nameView.value == 'fuel') { View_Fields.push('fuel'); }
+        if (nameView.value == 'nozzle') { View_Fields.push('nozzle'); }
+        if (nameView.value == 'date') { View_Fields.push('date'); }
+        if (nameView.value == 'time') { View_Fields.push('time'); }
+        if (nameView.value == 'status') { View_Fields.push('status'); }
+        if (nameView.value == 'state') { View_Fields.push('state'); }
+    }
+
+    return View_Fields;
+}
+*/
+
+
+
+/*
+function get_Mass_View(mas_Vidg, ASZ_M) {
+    let View_Fields = new Array();
+    for (const nameView of mas_Vidg) {
+
+        if (nameView.value == 'selectAll') {
+            View_Fields.push('vidget');
+
+            View_Fields.push("azs");
+
+            View_Fields.push('data');
+
+            View_Fields.push('icon_alarm');
+            View_Fields.push('status_alarm');
+            View_Fields.push('state_alarm');
+
+            View_Fields.push('pump');
+            View_Fields.push('Counter_Curent');
+            View_Fields.push('fuel');
+            View_Fields.push('nozzle');
+            View_Fields.push('date');
+            View_Fields.push('time');
+            View_Fields.push('status');
+            View_Fields.push('state');
+        }
+
+        if (nameView.value == 'vidget') {
+            View_Fields.push('vidget');
+            View_Fields.push('icon_alarm');
+            View_Fields.push('status_alarm');
+            View_Fields.push('state_alarm');
+        }
+
+
+        if (nameView.value == 'data') {
+            View_Fields.push('data');
+            View_Fields.push('pump');
+            View_Fields.push('Counter_Curent');
+            View_Fields.push('fuel');
+            View_Fields.push('nozzle');
+            View_Fields.push('date');
+            View_Fields.push('time');
+            View_Fields.push('status');
+            View_Fields.push('state');
+        }
+
+        if (nameView.value == 'icon_alarm') { View_Fields.push('icon_alarm'); }
+        if (nameView.value == 'status_alarm') { View_Fields.push('status_alarm'); }
+        if (nameView.value == 'state_alarm') { View_Fields.push('state_alarm'); }
+        if (nameView.value == 'pump') { View_Fields.push('pump'); }
+        if (nameView.value == 'Counter_Curent') { View_Fields.push('Counter_Curent'); }
+        if (nameView.value == 'fuel') { View_Fields.push('fuel'); }
+        if (nameView.value == 'nozzle') { View_Fields.push('nozzle'); }
+        if (nameView.value == 'date') { View_Fields.push('date'); }
+        if (nameView.value == 'time') { View_Fields.push('time'); }
+        if (nameView.value == 'status') { View_Fields.push('status'); }
+        if (nameView.value == 'state') { View_Fields.push('state'); }
+    }
+
+    return View_Fields;
+}
+
+function Is_View_Row(Data, Name_Row) {
+    let row = false;
+    if (Data != undefined) {
+        for (const iterator of Data) {
+            if (iterator == Name_Row) {
+                row = true;
+                break;
+            }
+        }
+        let r = 0;
+    }
+
+    return row;
+}
+
+function Delete_Azs(data, dataF) {
+    var indices = [];
+    if (data != null && dataF != null) {
+        var indices = [];
+        let t = 0;
+        for (let index = 0; index < data.length; index++) {
+
+            if (dataF.indexOf(data[index].azs.toUpperCase()) == -1) {
+                indices[t] = data[index];
+                t++;
+            }
+        }
+    }
+    return indices;
+}
+*/
+
+
+
+        /*
+        
+                let _AZS = new Array();
+                let isAzs = false;
+                for (const it_View_Vidg of View_Vidg) {
+                    if (it_View_Vidg.value == 'azs') {
+                        isAzs = true;
+                        this.setState({ _Azs_Mass_Filter: this.state._Azs_Mass });
+                    } else if (it_View_Vidg.value == "selectAll") {
+                        isAzs = true;
+                        this.setState({ _Azs_Mass_Filter: this.state._Azs_Mass });
+                    } else {
+                        for (const azs of this.state._Azs_Mass) {
+                            if (azs.id == it_View_Vidg.value) {
+                                if (_AZS.length == 0) {
+                                    for (const azs of this.state._Azs_Mass) {
+                                        if (azs.id == 0) {
+                                            isAzs = true;
+                                            _AZS.push(azs);
+                                            break;
+                                        }
+                                    }
+                                }
+                                _AZS.push(azs);
+                            }
+                        }
+                        if (_AZS.length > 0) {
+                            this.setState({ _Azs_Mass_Filter: _AZS });
+                        }
+                    }
+                }
+                if (!isAzs) {
+                    for (const azs of this.state._Azs_Mass) {
+                        if (azs.id == 0) {
+                            isAzs = true;
+                            _AZS.push(azs);
+                            this.setState({ _Azs_Mass_Filter: _AZS });
+                            break;
+                        }
+                    }
+                }
+        */

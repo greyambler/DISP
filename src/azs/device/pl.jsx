@@ -9,6 +9,7 @@ import AZS_Image from '../../control/AZS_Image.jsx'
 import moment from 'moment';
 
 const _Debuge = false;
+const _Debuge_Key = false;
 
 let TRK_Text = 'white';
 function get_ICON_Fuel(TP_STATUS, Full_V, Curent_V) {
@@ -34,16 +35,44 @@ function get_ICON_Fuel(TP_STATUS, Full_V, Curent_V) {
     }
 }
 
+function get_ICON_Lock(val) {
+
+    let col = '/images/Locked.png';
+
+
+    switch (val) {
+        case 0: col = '/images/Locked.png'; break;
+        case 1: col = '/images/Unlocked.png'; break;
+        case 2: col = '/images/Locked.png'; break;
+        case 3: col = '/images/Unlocked.png'; break;
+        case 4: col = '/images/Locked.png'; break;
+        case 5: col = '/images/Unlocked.png'; break;
+        case 6: col = '/images/Locked.png'; break;
+        case 7: col = '/images/Unlocked.png'; break;
+        case 8: col = '/images/Locked.png'; break;
+        case 9: col = '/images/Unlocked.png'; break;
+        case 10: col = '/images/Locked.png'; break;
+        case 11: col = '/images/Unlocked.png'; break;
+        case 12: col = '/images/Locked.png'; break;
+        case 13: col = '/images/Unlocked.png'; break;
+        default: col = '/images/Unlocked.png'; break;
+    }
+    return col;
+}
+
+
 function get_TextFirstCol(nameCol, PL_0, isFull) {
     let r = 0;
     let text = isFull ? PL_0[nameCol] : PL_0[nameCol].substr(0, 36);
+    if (_Debuge_Key) {
+        text = text + " [" + nameCol + "]";
+    }
     //let text = PL_0[nameCol];
-/**/
+    /**/
     if (text != "0" && text != "---" && nameCol == "PRODUCT_LEVEL" && PL_0.id != 0) {
         try {
             let NUM_Text = Number(text);
-            if (!isNaN(NUM_Text)) 
-            {
+            if (!isNaN(NUM_Text)) {
                 text = NUM_Text.toFixed(2);
             }
         } catch (error) {
@@ -64,7 +93,6 @@ function get_NameFuel(_id, ListType) {
 }
 
 */
-
 function Is_View_Row(Data, Name_Row) {
     let row = false;
     if (Data != undefined) {
@@ -80,10 +108,28 @@ function Is_View_Row(Data, Name_Row) {
     return row;
 }
 
+function Is_View_Row_11(Data, Name_Row) {
+    let row = false;
+    if (Data != null && Data != undefined && Data.children != null) {
+        for (const iterator of Data.children) {
+            if (iterator.value == Name_Row) {
+                row = true;
+                break;
+            }
+        }
+        let r = 0;
+    }
+
+    return row;
+}
+
+
+let r = 0;
 
 export default class pl extends Component {
     constructor(props) {
         super(props);
+        this.Test_Onclick = this.Test_Onclick.bind(this);
         this.state = {
             PL: null,
             DeVal: null,
@@ -103,6 +149,8 @@ export default class pl extends Component {
             if (this.props.DeVal != null) {
                 console.log('************************' + this.props.DeVal.id + '  ' + this.props.DeVal.values.length + '  ' + this.props.DeVal.values[0].typ + '  ' + this.props.DeVal.values[0].val);
             }
+
+            onclick={Test_Onclick()}
              */
         }
     }
@@ -117,14 +165,20 @@ export default class pl extends Component {
         }
     }
 
-    render() {
+    Test_Onclick(text) {
+        alert("Тест = " + text);
+    }
+    //test = () => Test_Onclick();
 
+
+
+    render() {
         if (this.state.PL != null) {
             let _height = 60;
             let _width = (this.state.PL.id == 0) ? 110 : 110;
             let _dX = 2;
             let PL_width = _width + _dX + 0.4;
-            let Icon_Tank = get_ICON_Fuel(this.state.PL.TP_STATUS, "TOTAL_VOLUME", this.state.PL.CURENT_VOLUME);
+            let Icon_Tank = (this.state.PL == 'ZERO') ? "" : get_ICON_Fuel(this.state.PL.TP_STATUS, "TOTAL_VOLUME", this.state.PL.CURENT_VOLUME);
 
             return (
                 <div>
@@ -132,8 +186,8 @@ export default class pl extends Component {
                         <table
                             id={(this.state.PL.id != 0) ? 'Li_Level' : 'li_Level'}>
                             <tbody>
-                                {//this.props.View_Icon &&
-                                    Is_View_Row(this.props.View_Fields, 'icon_alarm') &&
+                                {
+                                    Is_View_Row(this.props.List_Fields_Main, 'icon_alarm') &&
                                     <tr>
                                         <td colSpan='1'>
 
@@ -153,6 +207,38 @@ export default class pl extends Component {
                                         </td>
                                     </tr>
                                 }
+                                <tr>
+                                    <td colSpan='2'>
+                                        <hr />
+                                    </td>
+                                </tr>
+                                {
+                                    Is_View_Row(this.props.List_Fields_Main, 'icon_alarm') &&
+                                    <tr>
+                                        <td colSpan='1'>
+                                            {this.state.PL.id == 0 ? (
+                                                
+                                                    <Stage width={PL_width} height={_height + 12} x={_dX} y={0}>
+                                                        <Layer key='1' background='red' >
+                                                        <Text Text='блокировка'
+                                                            x='24' y='20' fill='black'
+                                                            fontSize='12' fontFamily='Calibri' />
+                                                        </Layer>
+                                                    </Stage>
+                                                
+                                            ) : (
+                                                    <button onClick={() => this.Test_Onclick(this.state.PL.nm)}>
+                                                        <Stage width={PL_width} height={_height + 3} x={_dX} y={0}>
+                                                            <Layer key='1' background='red' >
+                                                                <AZS_Image Image={get_ICON_Lock(++r)} _W='55' _H='55' _X={21} _Y={ 6} />
+                                                            </Layer>
+                                                        </Stage>
+                                                    </button>
+                                                )
+                                            }
+                                        </td>
+                                    </tr>
+                                }
 
                                 <tr>
                                     <td colSpan='2'>
@@ -161,13 +247,11 @@ export default class pl extends Component {
                                 </tr>
                                 {
                                     this.props.PL_Col.map(el => (
-                                        //(this.props.View_Data || el == 'nm') &&
-                                        (Is_View_Row(this.props.View_Fields, 'data') || el == 'nm') &&
+                                        // (Is_View_Row(this.props.List_Fields_Main, 'data') || el == 'nm') &&
+
+                                        (Is_View_Row(this.props.List_Fields_PL, el) || el == 'nm') &&
                                         <>
-
                                             <tr>
-                                                
-
                                                 <td colSpan='2'>
                                                     <hr />
                                                 </td>

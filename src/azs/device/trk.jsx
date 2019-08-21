@@ -37,6 +37,33 @@ function get_ICON_Fuel(_STATUS) {
     }
     return col;
 }
+
+function get_ICON_Lock(val) {
+
+    let col = '/images/Unlocked.png';
+
+
+    switch (val) {
+        case 0:
+        case 1:col = '/images/Unlocked.png'; break;
+        case 2:
+        case 3:
+        case 4:
+        case 5:
+        case 6:
+        case 7:
+        case 8:
+        case 9:
+        case 10:
+        case 11:
+        case 12:
+        case 13:col = '/images/Locked.png'; break; 
+        default: col = '/images/Unlocked.png'; break;
+    }
+    return col;
+}
+
+
 function get_TextFirstCol(nameCol, TRK_0, _List_Objs) {
     let text = nameCol;
     try {
@@ -86,8 +113,7 @@ function get_TextFirstCol(nameCol, TRK_0, _List_Objs) {
 function get_Nozzle_Fuel(nameCol, TRK_0, _Devices, _List_Objs) {
     let text = TRK_0[nameCol];
     let FUEL_NAME = "";
-    if (text != "0" && text != "---" && TRK_0.id != 0 && _Devices != undefined && _List_Objs != undefined && _List_Objs.fuel != undefined)
-    {
+    if (text != "0" && text != "---" && TRK_0.id != 0 && _Devices != undefined && _List_Objs != undefined && _List_Objs.fuel != undefined) {
 
         for (const dev_A of _Devices) {
             if (dev_A.id == TRK_0.id && dev_A.prop != undefined) {
@@ -97,7 +123,7 @@ function get_Nozzle_Fuel(nameCol, TRK_0, _Devices, _List_Objs) {
                         for (const item_prop of item_devices.prop) {
                             if (item_prop.typ == 'NUM' && item_prop.capacity.toString() == text) {
                                 let fuels_Code = item_devices.fuel;
-                                
+
                                 for (const item_fuel of _List_Objs.fuel) {
                                     if (item_fuel.id == fuels_Code) {
                                         FUEL_NAME = item_fuel.fu;
@@ -127,10 +153,11 @@ function Is_View_Row(Data, Name_Row) {
 
     return row;
 }
-
+let r = 0;
 export default class trk extends Component {
     constructor(props) {
         super(props);
+        this.Test_Onclick = this.Test_Onclick.bind(this);
         this.state = {
             TRK: null,
             DeVal: null,
@@ -158,6 +185,11 @@ export default class trk extends Component {
             }
         }
     }
+
+    Test_Onclick(text) {
+        alert("Тест = " + text);
+    }
+
     render() {
         if (this.state.TRK != null) {
             let _height = 60;
@@ -172,7 +204,7 @@ export default class trk extends Component {
                             id={(this.state.TRK.id != 0) ? 'Li_Level' : 'li_Level'}>
                             <tbody>
                                 {//this.props.View_Icon &&
-                                    Is_View_Row(this.props.View_Fields, 'icon_alarm') &&
+                                    Is_View_Row(this.props.List_Fields_Main, 'icon_alarm') &&
                                     <tr>
                                         <td colSpan='1'>
                                             <Stage width={PL_width} height={_height + 30} x={_dX} y={0}>
@@ -198,6 +230,38 @@ export default class trk extends Component {
                                         </td>
                                     </tr>
                                 }
+                                <tr>
+                                    <td colSpan='2'>
+                                        <hr />
+                                    </td>
+                                </tr>
+
+                                {//this.props.View_Icon &&
+                                    Is_View_Row(this.props.List_Fields_Main, 'icon_alarm') &&
+                                    <tr>
+                                        <td colSpan='1'>
+                                            {this.state.TRK.id == 0 ? (
+                                                <Stage width={PL_width} height={_height + 9} x={_dX} y={0}>
+                                                    <Layer key='1'>
+                                                        <Text Text='блокировка'
+                                                            x='24' y='20' fill='black'
+                                                            fontSize='12' fontFamily='Calibri' />
+                                                    </Layer>
+                                                </Stage>
+                                            ) : (
+                                                    <button onClick={() => this.Test_Onclick(this.state.TRK.nm)}>
+                                                        <Stage width={PL_width} height={_height + 3} x={_dX} y={0}>
+                                                            <Layer key='1'>
+                                                                <AZS_Image Image={get_ICON_Lock(++r)} _W='55' _H='55' _X={21} _Y={ 6} />
+                                                            </Layer>
+                                                        </Stage>
+                                                    </button>
+                                                )
+                                            }
+                                        </td>
+                                    </tr>
+                                }
+
 
                                 <tr>
                                     <td colSpan='2'>
@@ -207,7 +271,7 @@ export default class trk extends Component {
                                 {
                                     this.props.TRK_Col.map(el => (
                                         //(this.props.View_Data || el == 'nm') &&
-                                        (Is_View_Row(this.props.View_Fields, 'data') || el == 'nm') &&
+                                        (Is_View_Row(this.props.List_Fields_Main, 'data') || el == 'nm') &&
                                         <>
                                             <tr>
                                                 <td colSpan='2'>

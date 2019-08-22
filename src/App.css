@@ -35,7 +35,8 @@
  }
  #td_Left{
    min-width: 290px;
-   height: 40px;
+   height: 80px;
+   max-height: 80px;
  }
 
  .Dev_TBL {

@@ -68,12 +68,14 @@ export default class list_azs extends Component {
         if (this.props.azs != prevProps.azs) {
             this.setState({ _Azs: this.props.azs }, this.Get_Id_Devices());
         }
-        if (this.props.List_Fields_Main != prevProps.List_Fields_Main) {
+       /*  if (this.props.List_Fields_Main != prevProps.List_Fields_Main) {
             this.setState({ List_Fields_Main: this.props.List_Fields_Main }, this.restart());
         }
+       
         if (this.props.List_Fields_PL != prevProps.List_Fields_PL) {
             this.setState({ List_Fields_PL: this.props.List_Fields_PL });
         }
+        */
     }
     componentWillUnmount() {
         this.stop_ws();
@@ -243,7 +245,7 @@ export default class list_azs extends Component {
 
                                                 List_Fields_Main={this.props.List_Fields_Main}
                                                 List_Fields_PL={this.props.List_Fields_PL}
-                                                View_Filter_PL={this.props.View_Filter_PL}
+                                                
                                             />
                                         </td>
                                     ))

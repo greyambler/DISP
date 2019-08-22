@@ -101,6 +101,7 @@ function Get_Key_View_PL(mas_Vidg, AI, PL_Counter) {
             View_Fields.push('selectAll');
             View_Fields.push('AI');
         }
+        /*
         View_Fields.push('0');
         if (nameView.value == 'AI' || nameView.value == 'selectAll') {
             View_Fields.push("fuel_all");
@@ -109,7 +110,9 @@ function Get_Key_View_PL(mas_Vidg, AI, PL_Counter) {
                     View_Fields.push("fuel_" + ai.id);
                 }
             }
+            
         }
+        */
         if (nameView.value == 'AI_COUNTER' || nameView.value == 'selectAll') {
             if (PL_Counter != null && PL_Counter.cntyp != null) {
                 for (const item of PL_Counter.cntyp) {
@@ -121,8 +124,6 @@ function Get_Key_View_PL(mas_Vidg, AI, PL_Counter) {
     }
     return View_Fields;
 }
-
-
 
 function GetAZS_FILTER(azs) {
     let M_AZS = new Array();
@@ -209,7 +210,7 @@ function CreatViewFILTER_Main(azs, AIs) {
     }
     return _Data;
 }
-function CreatViewFILTER_PL(AIs, pl_Counter, PLS) {
+function CreatViewFILTER_PL(AIs, pl_Counter) {
 
     let _Data = {
         label: 'Все',
@@ -217,13 +218,13 @@ function CreatViewFILTER_PL(AIs, pl_Counter, PLS) {
         checked: true,
         expanded: true,
         children: [
-            {
+           /* {
                 label: 'Вид НП',
                 value: 'AI',
                 checked: true,
                 expanded: false,
                 children: Get_AI_FILTER(AIs)
-            },
+            },*/
             {
                 label: 'данные',
                 value: 'AI_COUNTER',
@@ -238,10 +239,11 @@ function CreatViewFILTER_PL(AIs, pl_Counter, PLS) {
 
 
 
+
 export default class w_main_azs extends React.Component {
     constructor(props) {
         super(props);
-
+        //this.IsCheckData = this.IsCheckData.bind(this);
         this.state = {
             Rss: RSS_AZS,
             _Objects: null,
@@ -303,12 +305,44 @@ export default class w_main_azs extends React.Component {
     update_VIEW_Main = (View_Vidg) => {
         let _View_Fields = new Array();
         if (View_Vidg == undefined || View_Vidg.length == 0) {
-            this.setState({ List_Fields_Main: _View_Fields });
+            this.setState({ List_Fields_Main: _View_Fields });//, this.IsCheckData(this.state.List_Fields_PL, this.state.List_Fields_Main));
         } else {
             _View_Fields = Get_Key_View_Main(View_Vidg, this.state._Azs_Mass);
-            this.setState({ List_Fields_Main: _View_Fields });
+            this.setState({ List_Fields_Main: _View_Fields });//, this.IsCheckData(this.state.List_Fields_PL, this.state.List_Fields_Main));
         }
+
     }
+/**
+    IsCheckData(_View_Filter_PL, List_Fields_Main, M_PL_Counter) {
+        let isDATA = false;
+        if (_View_Filter_PL != null && List_Fields_Main != null) {
+            for (const iterator of List_Fields_Main) {
+                if (iterator == 'data') {
+                    isDATA = true;
+                    break;
+                }
+            }
+            for (const iterator of _View_Filter_PL.children) {
+                if (iterator.value == 'AI_COUNTER') {
+                    iterator.checked = isDATA;
+                }
+            }
+        }
+        if (this.state.List_Fields_PL != null) {
+            for (const item of M_PL_Counter) {
+                if (isDATA) {
+                    this.state.List_Fields_PL.push(item);
+                } else {
+                    this.state.List_Fields_PL.pop(item);
+                }
+            }
+            ///this.setState({ List_Fields_PL: this.state.List_Fields_PL });
+        }
+
+        return _View_Filter_PL;
+    }
+    */
+ 
 
     update_VIEW_PL = (View_Vidg) => {
         let _View_Fields = new Array();
@@ -319,16 +353,26 @@ export default class w_main_azs extends React.Component {
             this.setState({ List_Fields_PL: _View_Fields });
         }
     }
+
+    /*
     update_Create_PL = (View_Vidg) => {
         CreatViewFILTER_PL(this.props._List_Objs.fuel, getDVC_Tree(this.props._List_Objs.dvctyptree, 'pl'), View_Vidg);
     }
+    */
     /********** ФИЛЬТРЫ ********/
 
     render() {
         if (this.state._Azs != null) {
             let View_Filter_Main = CreatViewFILTER_Main(this.state._Azs_Mass, this.props._List_Objs.fuel);
-            let View_Filter_PL = CreatViewFILTER_PL(this.props._List_Objs.fuel, getDVC_Tree(this.props._List_Objs.dvctyptree, 'pl'));
+            
+            let PL_Counter = getDVC_Tree(this.props._List_Objs.dvctyptree, 'pl');
 
+            let View_Filter_PL = CreatViewFILTER_PL(this.props._List_Objs.fuel, PL_Counter);
+/*
+            let View_Filter_PL = this.IsCheckData(
+                CreatViewFILTER_PL(this.props._List_Objs.fuel, PL_Counter),
+                this.state.List_Fields_Main, Get_Counters_FILTER(PL_Counter));
+*/
             return (
                 <div>
                     <center >{this.props.header}</center>
@@ -342,12 +386,14 @@ export default class w_main_azs extends React.Component {
                                         dataFilter={View_Filter_Main}
                                     />
                                 </td>
+                                
                                 <td id='td_Left'>
                                     <FILTER text_head='Резервуары'
                                         update_VIEW={this.update_VIEW_PL}
                                         dataFilter={View_Filter_PL}
                                     />
                                 </td>
+                                {/*
                                 <td id='td_Left'>
                                     <FILTER text_head='ТРК'
                                         update_VIEW={this.update_VIEW_Main}
@@ -360,6 +406,7 @@ export default class w_main_azs extends React.Component {
                                         dataFilter={View_Filter_Main}
                                     />
                                 </td>
+                                */}
                             </tr>
                         </tbody>
                     </table>
@@ -382,8 +429,8 @@ export default class w_main_azs extends React.Component {
                             /* NOZZLE_0={this.props.NOZZLE_0} NOZZLE_Col={this.props.NOZZLE_Col}
                            */
                             List_Fields_Main={this.state.List_Fields_Main}
-                            List_Fields_PL={this.state.List_Fields_PL}
-                            View_Filter_PL={View_Filter_PL}
+                           List_Fields_PL={this.state.List_Fields_PL}
+
 
                         />
                     }

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Stage, Layer, Rect, Text, Circle, Shape, Image } from 'react-konva';
-import { RSS_Type_List, get_DVC_TREE, Get_Device, Get_MainHead, Get_Val, get_NameFuel } from '../../core/core_Function.jsx';
+import { RSS_Type_List, get_DVC_TREE, Get_Device, Get_MainHead, Get_Val, get_NameFuel, POST } from '../../core/core_Function.jsx';
 import AZS_Image from '../../control/AZS_Image.jsx'
 
 import Tco_Item_Tree from '../../control/tco_Item_Tree.jsx';
@@ -149,7 +149,7 @@ function get_ICON_Lock(val) {
         case 2:
         case 3:
         case 4:
-        case 5:col = '/images/Unlocked.png'; break;
+        case 5: col = '/images/Unlocked.png'; break;
         case 6:
         case 7:
         case 8:
@@ -188,16 +188,31 @@ function get_ICON_Refr(val) {
     return col;
 }
 
-
+function get_Json_TEST(id) {
+    let T_Json =
+    '{'+
+     '   "type": "cmd_mfc",'+
+     '   "obj": {'+
+     '     "dev_id": "'+ id +'",'+
+     '     "action": "restart_pc"'+
+     '   }'+
+     ' }'
+     let y = JSON.parse(T_Json);
+     let t_Json = JSON.stringify(y);
+    return t_Json;
+  
+  }
 let r = 0;
 
 export default class tcoTree extends Component {
     constructor(props) {
         super(props);
+        this.toock = this.toock.bind(this);
         this.Test_Onclick = this.Test_Onclick.bind(this);
         this.state = {
             TCO: null,
             DeVal: null,
+            _ANS: null,
         }
     }
     componentDidMount() {
@@ -247,6 +262,37 @@ export default class tcoTree extends Component {
         alert("Тест = " + text);
     }
 
+    async toock(text, id) {///Отправка команды
+        let rss = POST;
+        var myRequest = new Request(rss);
+        let _body = get_Json_TEST(id);
+        try {
+            var response = await fetch(myRequest,
+                {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        // 'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: _body,
+                }
+            );
+            if (response.ok) {
+                const Jsons = await response.json();
+                this.setState({ _ANS: Jsons });
+                alert("Команда получила ответ - " + Jsons.status);
+            }
+            else {
+                throw Error(response.statusText);
+            }
+        }
+        catch (error) {
+            console.log(error);
+            alert(error);
+        }
+    }
+
+
 
     render() {
         if (this.state.TCO != null) {
@@ -264,8 +310,8 @@ export default class tcoTree extends Component {
             if (this.state.TCO[1] != null) {
                 DEVICES = this.state.TCO[1];
             }
-            let F = 2;
-            let isKeyShow = false;
+            let F = 0;
+            let isKeyShow = true;
             //List_Fields_Main={this.props.List_Fields_Main}
 
             //{this.props.View_Icon &&
@@ -313,7 +359,7 @@ export default class tcoTree extends Component {
                                                 <button onClick={() => this.Test_Onclick("this.Test_Onclick")}>
                                                     <Stage width={PL_width} height={_height + 3} x={_dX} y={0}>
                                                         <Layer key='1'>
-                                                            <AZS_Image Image={get_ICON_Lock(++r)} _W='55' _H='55' _X={21} _Y={ 6} />
+                                                            <AZS_Image Image={get_ICON_Lock(++r)} _W='55' _H='55' _X={21} _Y={6} />
                                                         </Layer>
                                                     </Stage>
                                                 </button>
@@ -339,10 +385,10 @@ export default class tcoTree extends Component {
                                                 </Layer>
                                             </Stage>
                                         ) : (
-                                                <button onClick={() => this.Test_Onclick("this.state.TCO.nm")}>
+                                                <button onClick={() => this.Test_Onclick('Перезагрузка ФР' + V_ID)}>
                                                     <Stage width={PL_width} height={_height + 3} x={_dX} y={0}>
                                                         <Layer key='1'>
-                                                            <AZS_Image Image={get_ICON_Refr(++r)} _W='55' _H='55' _X={21} _Y={ 6} />
+                                                            <AZS_Image Image={get_ICON_Refr(++r)} _W='55' _H='55' _X={21} _Y={6} />
                                                         </Layer>
                                                     </Stage>
                                                 </button>
@@ -368,10 +414,10 @@ export default class tcoTree extends Component {
                                                 </Layer>
                                             </Stage>
                                         ) : (
-                                                <button onClick={() => this.Test_Onclick(this.state.TCO.nm)}>
+                                                <button onClick={() => this.Test_Onclick('Перезагрузка Валидатор' + V_ID)}>
                                                     <Stage width={PL_width} height={_height + 3} x={_dX} y={0}>
                                                         <Layer key='1'>
-                                                            <AZS_Image Image={get_ICON_Refr(++r)} _W='55' _H='55' _X={21} _Y={ 6} />
+                                                            <AZS_Image Image={get_ICON_Refr(++r)} _W='55' _H='55' _X={21} _Y={6} />
                                                         </Layer>
                                                     </Stage>
                                                 </button>
@@ -397,10 +443,10 @@ export default class tcoTree extends Component {
                                                 </Layer>
                                             </Stage>
                                         ) : (
-                                                <button onClick={() => this.Test_Onclick(this.state.TCO.nm)}>
+                                                <button onClick={() => this.toock("Перезагрузка ПК", V_ID)}>
                                                     <Stage width={PL_width} height={_height + 3} x={_dX} y={0}>
                                                         <Layer key='1'>
-                                                            <AZS_Image Image={get_ICON_Refr(++r)} _W='55' _H='55' _X={21} _Y={ 6} />
+                                                            <AZS_Image Image={get_ICON_Refr(++r)} _W='55' _H='55' _X={21} _Y={6} />
                                                         </Layer>
                                                     </Stage>
                                                 </button>
@@ -435,6 +481,7 @@ export default class tcoTree extends Component {
                                         <Tco_Dvc_Item_Tree PROPERTYS={main} MASS_LIBRR={m_MASS} isKeyShow={isKeyShow} FirstPROPS={F} N={p}
                                             IsHead={this.props.IsHead}
                                         />
+
                                     ))
                                 ))
                             }

@@ -8,6 +8,8 @@ export const RSS_Type_List = "http://172.23.16.18:8080/dprest-1.0-SNAPSHOT/webre
 
 export const WS = "ws://172.23.16.18:8080/dpsock-1.0-SNAPSHOT/alwsc";
 
+export const POST = "http://172.23.16.18:8080/dprest-1.0-SNAPSHOT/webresources/ru.expertek.dp.dpfacade.com";
+
 // нужные адреса
 
 

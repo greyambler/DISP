@@ -25,47 +25,97 @@ function get_ZeroColumn_0(ValF) {
     }
     return M;
 }
-/*
-function CreatFILTER(pl_key, pl_text) {
+function CreatViewFILTER_ID_PL(pls) {
+
     let _Data = {
-        label: 'Все',
+        label: 'Резервуары',
         value: 'selectAll',
         checked: true,
         expanded: true,
-        children: [
-            {
-                label: 'Название',
-                value: 'nm',
-                children: []
+        children: Get_PLs_FILTER(pls),
+    }
+    return _Data;
+}
+function Get_PLs_FILTER(pls) {
+    let M_PL = new Array();
+    if (pls != null) {
+        for (const item_PL of pls) {
+            M_PL.push({ label: item_PL.nm, value: item_PL.id });
+        }
+    }
+    return M_PL;
+}
+function Get_Key_View_ID_PL(mas_Vidg, _Fields_PL, PLs) {
+    let View_Fields = new Array();
+    let Is_selectAll_mas_Vidg = true;
+    if (mas_Vidg != null) {
+        Is_selectAll_mas_Vidg = false;
+        for (const nameView of mas_Vidg) {
+            if (nameView.value == 'selectAll') {
+                Is_selectAll_mas_Vidg = true;
+                break;
             }
-        ]
+        }
+    }
+
+    if (PLs != null) {
+        if (_Fields_PL != null) {
+            for (const iterator of _Fields_PL) {
+                View_Fields.push(iterator);
+            }
+        }
+        if (Is_selectAll_mas_Vidg) {
+            for (const iterator of PLs) {
+                View_Fields.push(iterator.id);
+            }
+        }else{
+            for (const iterator of mas_Vidg) {
+                View_Fields.push(iterator.value);
+            }
+        }
+        return View_Fields;
+    } else {
+        return _Fields_PL;
     }
 
     /*
-    if (pl_key != null && pl_text != null) {
-        for (const item_key of pl_key) {
-            //if(item_key != nm)
-            _Data.children.push({ label: pl_text[item_key], value: item_key });
+    if (_Fields_PL != null) {
+        for (const iterator of _Fields_PL) {
+            View_Fields.push(iterator);
         }
-
+        for (const nameView of mas_Vidg) {
+            if (nameView.value == 'selectAll') {
+                if (PLs != null) {
+                    for (const item of PLs) {
+                        View_Fields.push(item.id);
+                    }
+                }
+                break;
+            } else {
+                View_Fields.push(nameView.value);
+            }
+        }
     }
-    *//*
-return _Data;
-}
-function get_Mass_View(mas_Vidg, PL_M) {
-let View_Fields = new Array();
-for (const nameView of mas_Vidg) {
-if (nameView.value == 'selectAll') {
-View_Fields.push('selectAll');
-View_Fields.push('nm');
-}
-View_Fields.push('nm');
-}
-return View_Fields;
-}
-*/
+    else {/*
+        for (const nameView of mas_Vidg) {
+            if (nameView.value == 'selectAll') {
+                View_Fields.push('selectAll');
+            }
+            View_Fields.push('0');
+            if (nameView.value == 'AI_COUNTER' || nameView.value == 'selectAll') {
+                if (PL_Counter != null && PL_Counter.cntyp != null) {
+                    for (const item of PL_Counter.cntyp) {
+                        View_Fields.push(item.typ);
+                    }
+                }
+            }
 
-
+            View_Fields.push(nameView.value);
+        }
+        */
+    //}
+    //return View_Fields;
+}
 function Is_View_Row(Data, Name_Row) {
     let row = false;
     if (Data != undefined) {
@@ -106,6 +156,9 @@ export default class devices extends Component {
 
 
             TCO: null,
+
+            //_Fields_PL: this.props.List_Fields_PL,
+            List_Fields_ID_PL: Get_Key_View_ID_PL([{ value: 'selectAll' }], this.props.List_Fields_PL, this.props.PLs),
         }
     }
 
@@ -147,7 +200,15 @@ export default class devices extends Component {
         }
         if (this.props.PLs != prevProps.PLs) {
             this.setState({ PLs: this.props.PLs });
+            this.setState({ List_Fields_ID_PL: Get_Key_View_ID_PL([{ value: 'selectAll' }], this.props.List_Fields_PL, this.props.PLs), })
         }
+        /*
+        if (this.props.PLs != prevProps.PLs) {
+            this.setState({ List_Fields_PL: this.props.List_Fields_PL });
+            this.setState({ List_Fields_ID_PL: Get_Key_View_ID_PL([{ value: 'selectAll' }], this.props.List_Fields_PL, this.props.PLs) })
+        }
+        */
+
         if (this.props.Trk != prevProps.Trk) {
             this.setState({ Trk: this.props.Trk });
         }
@@ -170,13 +231,13 @@ export default class devices extends Component {
     }
     /********** ФИЛЬТРЫ ********/
 
-    update_VIEW_PL = (View_Vidg) => {
+    update_VIEW_ID_PL = (View_Vidg) => {
         let _View_Fields = new Array();
         if (View_Vidg == undefined || View_Vidg.length == 0) {
-            this.setState({ List_Fields_PL: _View_Fields });
+            this.setState({ List_Fields_ID_PL: _View_Fields });
         } else {
-            //_View_Fields = Get_Key_View_PL(View_Vidg, this.props._List_Objs.fuel, getDVC_Tree(this.props._List_Objs.dvctyptree, 'pl'));
-            this.setState({ List_Fields_PL: _View_Fields });
+            _View_Fields = Get_Key_View_ID_PL(View_Vidg, this.props.List_Fields_PL, this.state.PLs);
+            this.setState({ List_Fields_ID_PL: _View_Fields });
         }
     }
 
@@ -184,25 +245,8 @@ export default class devices extends Component {
 
 
     render() {
-        //let e_Guid = createGuid();
-        /*
-        let _IsShoZeroPL = false;
 
-        if (this.state.PLs != null) {
-            for (const pl of this.state.PLs) {
-                for (const filter of this.props.List_Fields_Main) {
-                    if ("fuel_" + pl.fuel == filter) {
-                        _IsShoZeroPL = true;
-                        
-                        break;
-                    }
-                }
-                if (_IsShoZeroPL)
-                    break;
-            }
-        }*/
 
-        let View_Filter_Main = new Array();
 
 
         if (this.state.AZS != null && this.state.id == 0) {
@@ -218,45 +262,30 @@ export default class devices extends Component {
                             </tr>
                             {
                                 this.state._pl != null &&
-                                <tr>
-                                    <td>
-                                        <center><Element name="test1" className="element" >Резервуары</Element></center>
-                                        {
-                                            <td key={'pl_' + createGuid()}>
-                                                <Pl PL={this.state._pl[0]}
-                                                    key={'PL_' + createGuid()}
-                                                    id={this.state._pl[0].id}
-                                                    PL_Col={this.props.PL_Col}
-                                                    List_Fields_Main={this.props.List_Fields_Main}
+                                <>
+                                    <tr>
+                                        <td id='td_Left'>
+                                            <center><Element name="test1" className="element" >Резервуары</Element></center>
+                                        </td>
+                                    </tr>
 
-                                                    List_Fields_PL={this.props.List_Fields_PL}
-                                                />
-                                            </td>
+                                    <tr>
+                                        <td>
 
-
-
-                                            /*
-                                                                                        this.state._pl.map(el => (
-                                                                                            
-                                                                                            <td key={'pl_' + createGuid()}>
-                                                                                                <Pl PL={el}
-                                                                                                    key={'PL_' + createGuid()}
-                                                                                                    id={el.id}
-                                            
-                                                                                                    PL_Col={this.props.PL_Col}
-                                            
-                                                                                                    //View_Icon={this.props.View_Icon}
-                                                                                                    //View_Data={this.props.View_Data}
-                                            
-                                                                                                    List_Fields_Main={this.props.List_Fields_Main}
-                                                                                                />
-                                            
-                                                                                            </td>
-                                                                                        ))
-                                            */
-                                        }
-                                    </td>
-                                </tr>
+                                            {
+                                                <td key={'pl_' + createGuid()}>
+                                                    <Pl PL={this.state._pl[0]}
+                                                        key={'PL_' + createGuid()}
+                                                        id={this.state._pl[0].id}
+                                                        PL_Col={this.props.PL_Col}
+                                                        List_Fields_Main={this.props.List_Fields_Main}
+                                                        List_Fields_PL={this.props.List_Fields_PL}
+                                                    />
+                                                </td>
+                                            }
+                                        </td>
+                                    </tr>
+                                </>
                             }
 
                             {
@@ -336,6 +365,9 @@ export default class devices extends Component {
         }
         else if (this.state.AZS != null && this.state.id != 0) {
             //let r = 0;
+
+
+            let View_Filter_id_pl = CreatViewFILTER_ID_PL(this.state.PLs);
             return (
                 <div >
                     <table className="DevS_TBL">
@@ -355,8 +387,8 @@ export default class devices extends Component {
                                     <tr>
                                         <td id='td_Left'>
                                             <FILTER text_head='резервуары'
-                                                update_VIEW={this.update_VIEW_Main}
-                                                dataFilter={View_Filter_Main}
+                                                update_VIEW={this.update_VIEW_ID_PL}
+                                                dataFilter={View_Filter_id_pl}
                                             />
                                         </td>
                                         {/*<td>
@@ -369,8 +401,15 @@ export default class devices extends Component {
                                             {
                                                 this.state.PLs.map((el, r) => (
                                                     //List_Fields_PL={this.props.List_Fields_PL}
-                                                    (Is_View_Row(this.props.List_Fields_PL, "fuel_" + el.fuel) ||
-                                                        Is_View_Row(this.props.List_Fields_PL, "fuel_all")) ? (
+
+
+                                                    (
+                                                        Is_View_Row(this.state.List_Fields_ID_PL, el.id)
+                                                        //|| Is_View_Row(this.props.List_Fields_PL, "fuel_all")
+
+                                                        //&& Is_View_Row(this.props.List_Fields_PL, el.id)
+
+                                                    ) ? (
                                                             <td key={'li ' + el.id}>
                                                                 <Pl PL={el}
                                                                     fuels={this.props._List_Objs.fuel}

@@ -12,48 +12,101 @@ import Pl from './device/pl.jsx'
 import TRK from './device/trk.jsx'
 import TCO from './device/tco.jsx'
 
-
-
 const _Debuge = false;
 
-/*
-
-function IsExistID(id, mass) {
-    for (const iterator of mass) {
-        if (iterator == id) {
-            return true;
-        }
-    }
-    return false;
-}
-
-function get_Json_String(mstring) {
-    var mS = [];
-    mS[0] = mstring;
-    const T_Json = JSON.stringify(mstring);
-    return T_Json;
-
-}
-
-*/
-
-function Get_Key_View_PL(_Data, PLS, View_Filter_PL) {
-
-    if (PLS != null) {
-        for (const item of PLS) {
-            _Data.push(item.id);
-        }
-
-        for (const iterator of View_Filter_PL.children) {
-            if (iterator.value == 'PL') {
-                for (const item of PLS) {
-                    iterator.children.push({ label: item.nm, value: item.id });
-                }
+function Get_Key_View_ID_PL(mas_Vidg, _Fields_PL, PLs) {
+    let Is_selectAll_mas_Vidg = true;
+    if (mas_Vidg != null) {
+        Is_selectAll_mas_Vidg = false;
+        for (const nameView of mas_Vidg) {
+            if (nameView.value == 'selectAll') {
+                Is_selectAll_mas_Vidg = true;
+                break;
             }
         }
     }
-    return _Data;
+
+    let Is_selectAll_Fields_PL = false;
+
+    for (const nameView of _Fields_PL) {
+        if (nameView == 'selectAll') {
+            Is_selectAll_Fields_PL = true;
+            break;
+        }
+    }
+
+
+    let View_Fields = new Array();
+
+    if ((Is_selectAll_mas_Vidg && Is_selectAll_Fields_PL) || PLs == null) {
+        return _Fields_PL
+    } else {
+
+        let onlyPL = new Array();
+        let Del_onlyPL = new Array();
+        let EXIST_ID = false;
+
+
+        if (Is_selectAll_mas_Vidg && !Is_selectAll_Fields_PL) {
+            for (const iterator of PLs) {
+                View_Fields.push(iterator.id);
+            }
+            for (const iterator of _Fields_PL) {
+                if (iterator.startsWith("fuel_")) {
+                    if (iterator == "fuel_all") {
+
+                    }
+                } else {
+                    View_Fields.push(iterator);
+                }
+            }
+        } 
+        if(!Is_selectAll_mas_Vidg && Is_selectAll_Fields_PL) {
+
+
+            let r =0;
+        }
+        
+        if(!Is_selectAll_mas_Vidg && !Is_selectAll_Fields_PL) {
+
+            for (const iterator of PLs) {
+                EXIST_ID = false;
+                for (const nameView of mas_Vidg) {
+                    //iterator.fuel = код топлива ->  "fuel_"+ iterator.fuel
+                    if (nameView.value == iterator.id) {
+                        onlyPL.push({ fuel: "fuel_" + iterator.fuel, id: iterator.id });
+                        EXIST_ID = true;
+                        
+                    }
+                }
+                if (!EXIST_ID) {
+                    Del_onlyPL.push({ fuel: "fuel_" + iterator.fuel, id: iterator.id });
+
+                }
+            }
+
+            for (const item of onlyPL) {
+                View_Fields.push(item.id);
+            }
+
+            for (const iterator of _Fields_PL) {
+                if (iterator.startsWith("fuel_")) {
+                    if (iterator == "fuel_all") {
+
+                    }
+
+                    let r = 0;
+                } else {
+                    View_Fields.push(iterator);
+                }
+            }
+        }
+
+        return View_Fields;
+    }
+
 }
+
 
 export default class azs extends Component {
     constructor(props) {
@@ -87,11 +140,20 @@ export default class azs extends Component {
             //List_Fields_Main: this.props.List_Fields_Main,
             //List_Fields_PL: this.props.List_Fields_PL,
 
+            //List_Fields_ID_PL: this.props.List_Fields_PL,
+
         }
     }
     componentDidMount() {
         this.tick();
     }
+    /*
+    componentDidUpdate(prevProps) {
+        if (this.props.List_Fields_PL != prevProps.List_Fields_PL) {
+            this.setState({ List_Fields_ID_PL: Get_Key_View_ID_PL([{ value: 'selectAll' }], this.props.List_Fields_PL, this.state.PLs) });
+        }
+    }
+    */
     update_Dev() {
         try {
             if (this.state.data != null) {
@@ -183,7 +245,7 @@ export default class azs extends Component {
 
                 }
             }
-
+           //Get_Key_View_ID_PL([{ value: 'selectAll' }], this.props.List_Fields_PL, _PLs);
             this.setState({
                 PLs: _PLs, Trk: _Trk,
                 Tco: _Tco,
@@ -191,70 +253,6 @@ export default class azs extends Component {
             }, this.Get_TCO_TREE());
         }
 
-        /*
-        if (this.state._devices != null && this.state._devices != undefined) {
-            //let _PLS = new Array();
-            //let _TRK = new Array();
-            let _TCO = new Array();
-
-            if (this.props.id != 0) {
-
-
-                for (const iterator of this.state._devices) {
-                    //if (iterator.typ == 'tso') {
-                    //    _TCO.push(iterator);
-                    //}
-
-                    if (iterator.typ == 'tso') {
-                        let t_TCO_0 = new Array();
-                        for (const Item in iterator) {
-                            if (Item == 'id') {
-                                t_TCO_0[Item] = iterator[Item];
-                            }
-                            if (Item == 'nm' || Item == 'typ') {
-                                t_TCO_0[Item] = iterator[Item];
-
-                            }
-                            //if (Item != 'cntyp' && Item != 'id' && Item != 'typ' && Item != 'dvctyptree')
-                            //    t_TCO_Val_0.push(Item);
-                        }
-                        if (iterator.cntyp != undefined) {
-                            for (const key of iterator.cntyp) {
-                                t_TCO_0[key.typ] = key.def.nm;
-                                //t_TCO_Val_0.push(key.typ);
-                            }
-                        }
-
-                        for (const Item_DVC of iterator.devices) {
-                            for (const item in Item_DVC) {
-                                if (item == 'id') {
-                                    t_TCO_0[item + '_' + Item_DVC['typ']] = Item_DVC[item];//'001';//
-                                } else {
-
-                                    t_TCO_0[item + '_' + Item_DVC['typ']] = Item_DVC[item];
-                                }
-                                //if (item != 'cntyp')//  && item != 'typ' && item != 'id')
-                                //    t_TCO_Val_0.push(item + '_' + Item_DVC['typ']);
-                            }
-                        }
-                        let r = 0;
-                        _TCO.push(t_TCO_0);
-                    }
-                    //if (prop_dev.typ == 'pl') {
-                    //    _PLS.push(prop_dev);
-                    //}
-                    //if (prop_dev.typ == 'pump') {
-                    //    _TRK.push(prop_dev);
-                    //}
-                }
-            }
-
-
-            //this.setState({ PLS: _PLS, TRK: _TRK, TCO: _TCO });
-            //this.setState({ TCO: _TCO });
-
-        }
-        */
     }
     Get_Mass(iterator, TCO_0) {
         /** Массив 0 - TCO */
@@ -341,11 +339,26 @@ export default class azs extends Component {
 
     }
 
+    /********** ФИЛЬТРЫ ********
+
+    update_VIEW_ID_PL = (View_Vidg) => {
+        let _View_Fields = new Array();
+        if (View_Vidg == undefined || View_Vidg.length == 0) {
+            _View_Fields = Get_Key_View_ID_PL(View_Vidg, this.props.List_Fields_PL, this.state.PLs);
+            this.setState({ List_Fields_ID_PL: _View_Fields });
+        } else {
+            _View_Fields = Get_Key_View_ID_PL(View_Vidg, this.props.List_Fields_PL, this.state.PLs);
+            this.setState({ List_Fields_ID_PL: _View_Fields });
+        }
+    }
+
+    ********** ФИЛЬТРЫ ********/
+
     render() {
         let _height = this.props.w_Height - 150 + "px";
 
         //Get_Key_View_PL(this.state.List_Fields_PL, this.state.PLs, this.props.View_Filter_PL);
-        
+
         return (
             <Devices
                 _List_Objs={this.props._List_Objs}
@@ -382,6 +395,7 @@ export default class azs extends Component {
 
                 List_Fields_Main={this.props.List_Fields_Main}
                 List_Fields_PL={this.props.List_Fields_PL}
+                //update_VIEW_ID_PL={this.update_VIEW_ID_PL}
 
             />
         );

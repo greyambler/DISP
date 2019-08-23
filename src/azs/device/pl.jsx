@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import OL_List from '../../core/OL_List.jsx'
 import { Stage, Layer, Rect, Text, Circle, Shape, Image, Ellipse } from 'react-konva';
 
-import { get_PL, get_Text_Status_PL, get_Color_Status_PL, get_NameFuel } from '../../core/core_Function.jsx';
+import { get_PL, get_Text_Status_PL, get_Color_Status_PL, get_NameFuel , Is_View_Row} from '../../core/core_Function.jsx';
 
 import AZS_Image from '../../control/AZS_Image.jsx'
 
@@ -93,20 +93,6 @@ function get_NameFuel(_id, ListType) {
 }
 
 */
-function Is_View_Row(Data, Name_Row) {
-    let row = false;
-    if (Data != undefined) {
-        for (const iterator of Data) {
-            if (iterator == Name_Row) {
-                row = true;
-                break;
-            }
-        }
-        let r = 0;
-    }
-
-    return row;
-}
 
 function Is_View_Row_11(Data, Name_Row) {
     let row = false;

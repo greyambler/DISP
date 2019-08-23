@@ -231,3 +231,6 @@ data/src/SAVE_ENTERPOINT/trk/list_trk.jsx.i
 data/src/SAVE_ENTERPOINT/save/devices_N.jsx.i
 data/src/SAVE_ENTERPOINT/Test/POST/filters.jsx.i
 data/src/SAVE_ENTERPOINT/tco/w_main_tco.jsx.i
+data/public/images/Locked.png.i
+data/public/images/Unlocked.png.i
+data/public/images/Recycle.png.i

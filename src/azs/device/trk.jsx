@@ -4,7 +4,7 @@ import { Stage, Layer, Rect, Text, Circle, Shape, Image } from 'react-konva';
 
 //import Field from '../../control/Field.jsx'
 
-import { get_PL, get_NameFuel } from '../../core/core_Function.jsx';
+import { get_PL, get_NameFuel, Is_View_Row } from '../../core/core_Function.jsx';
 
 import AZS_Image from '../../control/AZS_Image.jsx'
 
@@ -45,7 +45,7 @@ function get_ICON_Lock(val) {
 
     switch (val) {
         case 0:
-        case 1:col = '/images/Unlocked.png'; break;
+        case 1: col = '/images/Unlocked.png'; break;
         case 2:
         case 3:
         case 4:
@@ -57,7 +57,7 @@ function get_ICON_Lock(val) {
         case 10:
         case 11:
         case 12:
-        case 13:col = '/images/Locked.png'; break; 
+        case 13: col = '/images/Locked.png'; break;
         default: col = '/images/Unlocked.png'; break;
     }
     return col;
@@ -84,18 +84,16 @@ function get_TextFirstCol(nameCol, TRK_0, _List_Objs) {
         }
     }
     */
-    if (text != "0" && text != "---" && nameCol == "STATUS_TRK" && TRK_0.id != 0 && _List_Objs != undefined) {
-        if (_List_Objs.tpList != undefined) {
-            for (const devType of _List_Objs.tpList) {
-                if (devType.typ == "pump") {
-                    for (const typeCheck of devType.cntyp) {
-                        if (typeCheck.typ == "STATUS_TRK") {
-                            for (const defType of typeCheck.def.op) {
-                                if (defType.val == text.toString()) {
-                                    //text = text + " " + defType.text;
-                                    text = defType.text + " [" + defType.val + "]";
-                                    break;
-                                }
+    if (text != 0 && text != "---" && _List_Objs != undefined && nameCol == "STATUS_TRK") {
+        for (const devType of _List_Objs.tpList) {
+            if (devType.typ == "pump") {
+                for (const typeCheck of devType.cntyp) {
+                    if (typeCheck.typ == "STATUS_TRK") {
+                        for (const defType of typeCheck.def.op) {
+                            let code = Number(defType.val);
+                            if (text == code) {
+                                text = defType.text + " [" + defType.val + "]";
+                                break;
                             }
                         }
                     }
@@ -103,6 +101,27 @@ function get_TextFirstCol(nameCol, TRK_0, _List_Objs) {
             }
         }
     }
+    /*
+     if (text != "0" && text != "---" && nameCol == "STATUS_TRK" && TRK_0.id != 0 && _List_Objs != undefined) {
+         if (_List_Objs.tpList != undefined) {
+             for (const devType of _List_Objs.tpList) {
+                 if (devType.typ == "pump") {
+                     for (const typeCheck of devType.cntyp) {
+                         if (typeCheck.typ == "STATUS_TRK") {
+                             for (const defType of typeCheck.def.op) {
+                                 if (defType.val == text.toString()) {
+                                     //text = text + " " + defType.text;
+                                     text = defType.text + " [" + defType.val + "]";
+                                     break;
+                                 }
+                             }
+                         }
+                     }
+                 }
+             }
+         }
+     }
+     */
     return text;
     /*
     for (const iterator of PL_0) {
@@ -139,20 +158,8 @@ function get_Nozzle_Fuel(nameCol, TRK_0, _Devices, _List_Objs) {
     }
     return FUEL_NAME;
 }
-function Is_View_Row(Data, Name_Row) {
-    let row = false;
-    if (Data != undefined) {
-        for (const iterator of Data) {
-            if (iterator == Name_Row) {
-                row = true;
-                break;
-            }
-        }
-        let r = 0;
-    }
 
-    return row;
-}
+
 let r = 0;
 export default class trk extends Component {
     constructor(props) {
@@ -252,7 +259,7 @@ export default class trk extends Component {
                                                     <button onClick={() => this.Test_Onclick(this.state.TRK.nm)}>
                                                         <Stage width={PL_width} height={_height + 3} x={_dX} y={0}>
                                                             <Layer key='1'>
-                                                                <AZS_Image Image={get_ICON_Lock(++r)} _W='55' _H='55' _X={21} _Y={ 6} />
+                                                                <AZS_Image Image={get_ICON_Lock(++r)} _W='55' _H='55' _X={21} _Y={6} />
                                                             </Layer>
                                                         </Stage>
                                                     </button>
@@ -271,7 +278,7 @@ export default class trk extends Component {
                                 {
                                     this.props.TRK_Col.map(el => (
                                         //(this.props.View_Data || el == 'nm') &&
-                                        (Is_View_Row(this.props.List_Fields_Main, 'data') || el == 'nm') &&
+                                        (Is_View_Row(this.props.List_Fields_TRK, el) || el == 'nm') &&
                                         <>
                                             <tr>
                                                 <td colSpan='2'>

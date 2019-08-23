@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { WS } from '../core/core_Function.jsx';
+import { WS, Is_View_Row } from '../core/core_Function.jsx';
 import AZS from './azs.jsx'
 import { Array } from 'core-js';
 
@@ -9,21 +9,6 @@ function get_Json_String(mstring) {
     const T_Json = JSON.stringify(mstring);
     return T_Json;
 
-}
-
-function Is_View_Row(Data, Name_Row) {
-    let row = false;
-    if (Data != undefined) {
-        for (const iterator of Data) {
-            if (iterator == Name_Row) {
-                row = true;
-                break;
-            }
-        }
-        let r = 0;
-    }
-
-    return row;
 }
 
 const _Debuge = false;
@@ -57,7 +42,7 @@ export default class list_azs extends Component {
             data: null,
             IsOpen: false,
             /******** WS******************** */
-           // List_Fields_Main: this.props.List_Fields_Main,
+            // List_Fields_Main: this.props.List_Fields_Main,
             //List_Fields_PL: this.props.List_Fields_PL,
         };
     }
@@ -68,14 +53,14 @@ export default class list_azs extends Component {
         if (this.props.azs != prevProps.azs) {
             this.setState({ _Azs: this.props.azs }, this.Get_Id_Devices());
         }
-       /*  if (this.props.List_Fields_Main != prevProps.List_Fields_Main) {
-            this.setState({ List_Fields_Main: this.props.List_Fields_Main }, this.restart());
-        }
-       
-        if (this.props.List_Fields_PL != prevProps.List_Fields_PL) {
-            this.setState({ List_Fields_PL: this.props.List_Fields_PL });
-        }
-        */
+        /*  if (this.props.List_Fields_Main != prevProps.List_Fields_Main) {
+             this.setState({ List_Fields_Main: this.props.List_Fields_Main }, this.restart());
+         }
+        
+         if (this.props.List_Fields_PL != prevProps.List_Fields_PL) {
+             this.setState({ List_Fields_PL: this.props.List_Fields_PL });
+         }
+         */
     }
     componentWillUnmount() {
         this.stop_ws();
@@ -89,8 +74,10 @@ export default class list_azs extends Component {
             }
             //this.setState({ _M_ID: this.state._m_ID });            
             //his.props.update_ID_DevS(this.state._m_ID);
-
+            
+            /********************* *
             this.start_ws();
+            ********************* */
         }
     }
     Get_All_Dev(dvc) {
@@ -171,7 +158,11 @@ export default class list_azs extends Component {
         if (this.state.connection != null && this.state.IsOpen) {
             this.state.connection.close(1000, "Hello Web Sockets!");
             this.setState({ IsOpen: false, connection: null, data: null });
+            /************************ *
             timerId = setInterval(() => this.start_ws(), 10000);
+            ************************ */
+
+
             //if (this.state.connection != null && this.state.IsOpen) {
             //clearInterval(timerId);
             //}
@@ -245,7 +236,8 @@ export default class list_azs extends Component {
 
                                                 List_Fields_Main={this.props.List_Fields_Main}
                                                 List_Fields_PL={this.props.List_Fields_PL}
-                                                
+                                                List_Fields_TRK={this.props.List_Fields_TRK}
+                                                List_Fields_TCO={this.props.List_Fields_TCO}
                                             />
                                         </td>
                                     ))

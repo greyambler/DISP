@@ -94,12 +94,12 @@ function Get_Key_View_Main(mas_Vidg, AZS) {
 
     return View_Fields;
 }
-function Get_Key_View_PL(mas_Vidg, AI, PL_Counter) {
+function Get_Key_View_PL(mas_Vidg, AI, PL_Counter, IsCheckCounter) {
     let View_Fields = new Array();
     for (const nameView of mas_Vidg) {
         if (nameView.value == 'selectAll') {
             View_Fields.push('selectAll');
-            View_Fields.push('AI');
+            //View_Fields.push('AI');
         }
         /*
         View_Fields.push('0');
@@ -113,17 +113,111 @@ function Get_Key_View_PL(mas_Vidg, AI, PL_Counter) {
             
         }
         */
-        if (nameView.value == 'AI_COUNTER' || nameView.value == 'selectAll') {
-            if (PL_Counter != null && PL_Counter.cntyp != null) {
-                for (const item of PL_Counter.cntyp) {
-                    View_Fields.push(item.typ);
+        if (IsCheckCounter) {
+            if (nameView.value == 'AI_COUNTER' || nameView.value == 'selectAll') {
+                if (PL_Counter != null && PL_Counter.cntyp != null) {
+                    for (const item of PL_Counter.cntyp) {
+                        View_Fields.push(item.typ);
+                    }
                 }
             }
+
+            View_Fields.push(nameView.value);
         }
-        View_Fields.push(nameView.value);
     }
     return View_Fields;
 }
+function Get_Key_View_TRK(mas_Vidg, AI, _Counter, IsCheckCounter) {
+    let View_Fields = new Array();
+    for (const nameView of mas_Vidg) {
+        if (nameView.value == 'selectAll') {
+            View_Fields.push('selectAll');
+            //View_Fields.push('AI');
+        }
+        /*
+        View_Fields.push('0');
+        if (nameView.value == 'AI' || nameView.value == 'selectAll') {
+            View_Fields.push("fuel_all");
+            if (AI != null) {
+                for (const ai of AI) {
+                    View_Fields.push("fuel_" + ai.id);
+                }
+            }
+            
+        }
+        */
+        if (IsCheckCounter) {
+            if (nameView.value == 'TRK_COUNTER' || nameView.value == 'selectAll') {
+                if (_Counter != null && _Counter.cntyp != null) {
+                    for (const item of _Counter.cntyp) {
+                        View_Fields.push(item.typ);
+                    }
+                }
+            }
+            View_Fields.push(nameView.value);
+        }
+    }
+    return View_Fields;
+}
+function Get_Key_View_TCO(mas_Vidg, AI, _Counter, IsCheckCounter) {
+    let View_Fields = new Array();
+    for (const nameView of mas_Vidg) {
+        if (nameView.value == 'selectAll') {
+            View_Fields.push('selectAll');
+            //View_Fields.push('AI');
+        }
+        /*
+        View_Fields.push('0');
+        if (nameView.value == 'AI' || nameView.value == 'selectAll') {
+            View_Fields.push("fuel_all");
+            if (AI != null) {
+                for (const ai of AI) {
+                    View_Fields.push("fuel_" + ai.id);
+                }
+            }
+            
+        }
+        */
+        if (IsCheckCounter) {
+            if (nameView.value == 'TCO_COUNTER' || nameView.value == 'selectAll') {
+                if (_Counter != null && _Counter.cntyp != null) {
+
+                    for (const item of _Counter.cntyp) {
+                        View_Fields.push(item.typ);
+                    }
+
+
+                    for (const item_DVC of _Counter.dvctyptree) {
+                        //View_Fields.push(item_DVC.typ + "_id");
+                        View_Fields.push(item_DVC.typ + "_nm");
+                        //View_Fields.push(item_DVC.typ + "_typ");
+
+                        if (item_DVC.cntyp != null) {
+                            for (const item of item_DVC.cntyp) {
+
+                                View_Fields.push(item_DVC.typ + "_" + item.typ);
+                            }
+                        }
+                    }
+
+                }
+            }
+            View_Fields.push(nameView.value);
+        }
+    }
+    /*
+    View_Fields.push('0');
+    View_Fields.push('vidget');
+    View_Fields.push('icon_alarm');
+    View_Fields.push('azs');
+    View_Fields.push('data');
+    View_Fields.push('id');
+    View_Fields.push('typ');
+    View_Fields.push('nm');
+    */
+    return View_Fields;
+}
+
 
 function GetAZS_FILTER(azs) {
     let M_AZS = new Array();
@@ -147,11 +241,58 @@ function Get_AI_FILTER(AIs) {
 
     return M_AI;
 }
-function Get_Counters_FILTER(PL_Counter) {
+function Get_Counters_PL(PL_Counter) {
     let M_Counter = new Array();
     if (PL_Counter != null && PL_Counter.cntyp != null) {
         for (const item of PL_Counter.cntyp) {
             M_Counter.push({ label: item.def.nm, value: item.typ });
+        }
+    }
+    return M_Counter;
+}
+function Get_Counters_TRK(TRK_Counter) {
+    let M_Counter = new Array();
+    if (TRK_Counter != null && TRK_Counter.cntyp != null) {
+        for (const item of TRK_Counter.cntyp) {
+            M_Counter.push({ label: item.def.nm, value: item.typ });
+        }
+    }
+    return M_Counter;
+}
+function Get_Counters_TCO_Main(TCO_Counter) {
+    let M_Counter = new Array();
+    if (TCO_Counter != null && TCO_Counter.cntyp != null) {
+        for (const item of TCO_Counter.cntyp) {
+            M_Counter.push({ label: item.def.nm, value: item.typ });
+        }
+    }
+    if (TCO_Counter != null && TCO_Counter.dvctyptree != null) {
+        M_Counter.push({
+            label: 'устройства',
+            value: 'TCO_DEVICES',
+            checked: true,
+            expanded: true,
+            children: Get_Counters_TCO_DVC(TCO_Counter),
+        })
+    }
+    return M_Counter;
+}
+function Get_Counters_TCO_DVC(TCO_Counter) {
+    let M_Counter = new Array();
+    if (TCO_Counter != null && TCO_Counter.dvctyptree != null) {
+        for (const item of TCO_Counter.dvctyptree) {
+
+            if (item.cntyp != null) {
+                M_Counter.push({
+                    label: item.nm,
+                    value: item.typ,
+                    checked: true,
+                    expanded: false,
+                    children: Get_Counters_TCO_Main(item),
+                })
+            } else {
+                M_Counter.push({ label: item.nm, value: item.typ });
+            }
         }
     }
     return M_Counter;
@@ -188,11 +329,11 @@ function CreatViewFILTER_Main(azs, AIs) {
                 checked: true,
                 expanded: false,
                 children: Get_AI_FILTER(AIs)
-            },*/
+            },
             {
                 label: 'данные',
                 value: 'data'
-            },
+            },*/
             {
                 label: 'Функции кнопки',
                 value: 'F_button',
@@ -210,7 +351,7 @@ function CreatViewFILTER_Main(azs, AIs) {
     }
     return _Data;
 }
-function CreatViewFILTER_PL(AIs, pl_Counter) {
+function CreatViewFILTER_PL(AIs, _Counter) {
 
     let _Data = {
         label: 'Все',
@@ -218,25 +359,62 @@ function CreatViewFILTER_PL(AIs, pl_Counter) {
         checked: true,
         expanded: true,
         children: [
-           /* {
-                label: 'Вид НП',
-                value: 'AI',
-                checked: true,
-                expanded: false,
-                children: Get_AI_FILTER(AIs)
-            },*/
+            /* {
+                 label: 'Вид НП',
+                 value: 'AI',
+                 checked: true,
+                 expanded: false,
+                 children: Get_AI_FILTER(AIs)
+             },*/
             {
                 label: 'данные',
                 value: 'AI_COUNTER',
                 checked: true,
                 expanded: false,
-                children: Get_Counters_FILTER(pl_Counter)
+                children: Get_Counters_PL(_Counter)
             }
         ]
     }
     return _Data;
 }
+function CreatViewFILTER_TRK(_Counter) {
 
+    let _Data = {
+        label: 'Все',
+        value: 'selectAll',
+        checked: true,
+        expanded: true,
+        children: [
+            {
+                label: 'данные',
+                value: 'TRK_COUNTER',
+                checked: true,
+                expanded: false,
+                children: Get_Counters_TRK(_Counter)
+            }
+        ]
+    }
+    return _Data;
+}
+function CreatViewFILTER_TCO(_Counter) {
+
+    let _Data = {
+        label: 'Все',
+        value: 'selectAll',
+        checked: true,
+        expanded: true,
+        children: [
+            {
+                label: 'данные',
+                value: 'TCO_COUNTER',
+                checked: true,
+                expanded: true,
+                children: Get_Counters_TCO_Main(_Counter),
+            }
+        ]
+    }
+    return _Data;
+}
 
 
 
@@ -253,7 +431,10 @@ export default class w_main_azs extends React.Component {
 
             List_Fields_Main: Get_Key_View_Main([{ value: 'selectAll' }]),
 
-            List_Fields_PL: Get_Key_View_PL([{ value: 'selectAll' }], this.props._List_Objs.fuel, getDVC_Tree(this.props._List_Objs.dvctyptree, 'pl')),
+            List_Fields_PL: Get_Key_View_PL([{ value: 'selectAll' }], this.props._List_Objs.fuel, getDVC_Tree(this.props._List_Objs.dvctyptree, 'pl'), true),
+            List_Fields_TRK: Get_Key_View_TRK([{ value: 'selectAll' }], this.props._List_Objs.fuel, getDVC_Tree(this.props._List_Objs.dvctyptree, 'pump'), true),
+
+            List_Fields_TCO: Get_Key_View_TCO([{ value: 'selectAll' }], this.props._List_Objs.fuel, getDVC_Tree(this.props._List_Objs.dvctyptree, 'tso'), true),
         }
     }
     async componentDidMount() {
@@ -312,45 +493,64 @@ export default class w_main_azs extends React.Component {
         }
 
     }
-/**
-    IsCheckData(_View_Filter_PL, List_Fields_Main, M_PL_Counter) {
-        let isDATA = false;
-        if (_View_Filter_PL != null && List_Fields_Main != null) {
-            for (const iterator of List_Fields_Main) {
-                if (iterator == 'data') {
-                    isDATA = true;
-                    break;
+    /**
+        IsCheckData(_View_Filter_PL, List_Fields_Main, M_PL_Counter) {
+            let isDATA = false;
+            if (_View_Filter_PL != null && List_Fields_Main != null) {
+                for (const iterator of List_Fields_Main) {
+                    if (iterator == 'data') {
+                        isDATA = true;
+                        break;
+                    }
+                }
+                for (const iterator of _View_Filter_PL.children) {
+                    if (iterator.value == 'AI_COUNTER') {
+                        iterator.checked = isDATA;
+                    }
                 }
             }
-            for (const iterator of _View_Filter_PL.children) {
-                if (iterator.value == 'AI_COUNTER') {
-                    iterator.checked = isDATA;
+            if (this.state.List_Fields_PL != null) {
+                for (const item of M_PL_Counter) {
+                    if (isDATA) {
+                        this.state.List_Fields_PL.push(item);
+                    } else {
+                        this.state.List_Fields_PL.pop(item);
+                    }
                 }
+                ///this.setState({ List_Fields_PL: this.state.List_Fields_PL });
             }
+    
+            return _View_Filter_PL;
         }
-        if (this.state.List_Fields_PL != null) {
-            for (const item of M_PL_Counter) {
-                if (isDATA) {
-                    this.state.List_Fields_PL.push(item);
-                } else {
-                    this.state.List_Fields_PL.pop(item);
-                }
-            }
-            ///this.setState({ List_Fields_PL: this.state.List_Fields_PL });
-        }
+        */
 
-        return _View_Filter_PL;
-    }
-    */
- 
 
     update_VIEW_PL = (View_Vidg) => {
         let _View_Fields = new Array();
         if (View_Vidg == undefined || View_Vidg.length == 0) {
             this.setState({ List_Fields_PL: _View_Fields });
         } else {
-            _View_Fields = Get_Key_View_PL(View_Vidg, this.props._List_Objs.fuel, getDVC_Tree(this.props._List_Objs.dvctyptree, 'pl'));
+            _View_Fields = Get_Key_View_PL(View_Vidg, this.props._List_Objs.fuel, getDVC_Tree(this.props._List_Objs.dvctyptree, 'pl'), true);
             this.setState({ List_Fields_PL: _View_Fields });
+        }
+    }
+    update_VIEW_TRK = (View_Vidg) => {
+        let _View_Fields = new Array();
+        if (View_Vidg == undefined || View_Vidg.length == 0) {
+            this.setState({ List_Fields_TRK: _View_Fields });
+        } else {
+            _View_Fields = Get_Key_View_TRK(View_Vidg, this.props._List_Objs.fuel, getDVC_Tree(this.props._List_Objs.dvctyptree, 'pump'), true);
+            this.setState({ List_Fields_TRK: _View_Fields });
+        }
+    }
+
+    update_VIEW_TCO = (View_Vidg) => {
+        let _View_Fields = new Array();
+        if (View_Vidg == undefined || View_Vidg.length == 0) {
+            this.setState({ List_Fields_TCO: _View_Fields });
+        } else {
+            _View_Fields = Get_Key_View_TCO(View_Vidg, this.props._List_Objs.fuel, getDVC_Tree(this.props._List_Objs.dvctyptree, 'tso'), true);
+            this.setState({ List_Fields_TCO: _View_Fields });
         }
     }
 
@@ -364,15 +564,19 @@ export default class w_main_azs extends React.Component {
     render() {
         if (this.state._Azs != null) {
             let View_Filter_Main = CreatViewFILTER_Main(this.state._Azs_Mass, this.props._List_Objs.fuel);
-            
+
             let PL_Counter = getDVC_Tree(this.props._List_Objs.dvctyptree, 'pl');
+            let TRK_Counter = getDVC_Tree(this.props._List_Objs.dvctyptree, 'pump');
+            let TCO_Counter = getDVC_Tree(this.props._List_Objs.dvctyptree, 'tso');
 
             let View_Filter_PL = CreatViewFILTER_PL(this.props._List_Objs.fuel, PL_Counter);
-/*
-            let View_Filter_PL = this.IsCheckData(
-                CreatViewFILTER_PL(this.props._List_Objs.fuel, PL_Counter),
-                this.state.List_Fields_Main, Get_Counters_FILTER(PL_Counter));
-*/
+            let View_Filter_TRK = CreatViewFILTER_TRK(TRK_Counter);
+            let View_Filter_TCO = CreatViewFILTER_TCO(TCO_Counter);
+            /*
+                        let View_Filter_PL = this.IsCheckData(
+                            CreatViewFILTER_PL(this.props._List_Objs.fuel, PL_Counter),
+                            this.state.List_Fields_Main, Get_Counters_PL(PL_Counter));
+            */
             return (
                 <div>
                     <center >{this.props.header}</center>
@@ -386,27 +590,28 @@ export default class w_main_azs extends React.Component {
                                         dataFilter={View_Filter_Main}
                                     />
                                 </td>
-                                
+
                                 <td id='td_Left'>
                                     <FILTER text_head='Резервуары'
                                         update_VIEW={this.update_VIEW_PL}
                                         dataFilter={View_Filter_PL}
                                     />
                                 </td>
-                                {/*
+
                                 <td id='td_Left'>
                                     <FILTER text_head='ТРК'
-                                        update_VIEW={this.update_VIEW_Main}
-                                        dataFilter={View_Filter_Main}
+                                        update_VIEW={this.update_VIEW_TRK}
+                                        dataFilter={View_Filter_TRK}
                                     />
                                 </td>
+                                {/*
                                 <td id='td_Left'>
                                     <FILTER text_head='ТСО'
-                                        update_VIEW={this.update_VIEW_Main}
-                                        dataFilter={View_Filter_Main}
+                                        update_VIEW={this.update_VIEW_TCO}
+                                        dataFilter={View_Filter_TCO}
                                     />
                                 </td>
-                                */}
+ */}
                             </tr>
                         </tbody>
                     </table>
@@ -429,8 +634,9 @@ export default class w_main_azs extends React.Component {
                             /* NOZZLE_0={this.props.NOZZLE_0} NOZZLE_Col={this.props.NOZZLE_Col}
                            */
                             List_Fields_Main={this.state.List_Fields_Main}
-                           List_Fields_PL={this.state.List_Fields_PL}
-
+                            List_Fields_PL={this.state.List_Fields_PL}
+                            List_Fields_TRK={this.state.List_Fields_TRK}
+                            List_Fields_TCO={this.state.List_Fields_TCO}
 
                         />
                     }

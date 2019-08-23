@@ -35,6 +35,22 @@ export const RSS_Tanks = "http://172.23.16.18:8080/dpmark-1.0-SNAPSHOT/webresour
 //- обращение через nginx
 //http://172.23.16.18:8080/dpmark-1.0-SNAPSHOT/webresources/ru.expertek.dp.dpinside.tank
 
+export function Is_View_Row(Data, Name_Row) {
+  let row = false;
+  if (Data != undefined) {
+      for (const iterator of Data) {
+          if (iterator == Name_Row) {
+              row = true;
+              break;
+          }
+      }
+      let r = 0;
+  }
+
+  return row;
+}
+
+
 export function createGuid() {
   return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
       var r = Math.random() * 16 | 0, v = c === 'x' ? r : (r & 0x3 | 0x8);

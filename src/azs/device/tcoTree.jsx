@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Stage, Layer, Rect, Text, Circle, Shape, Image } from 'react-konva';
-import { RSS_Type_List, get_DVC_TREE, Get_Device, Get_MainHead, Get_Val, get_NameFuel, POST } from '../../core/core_Function.jsx';
+import { RSS_Type_List, get_DVC_TREE, Get_Device, Get_MainHead, Get_Val, get_NameFuel, POST , Is_View_Row} from '../../core/core_Function.jsx';
 import AZS_Image from '../../control/AZS_Image.jsx'
 
 import Tco_Item_Tree from '../../control/tco_Item_Tree.jsx';
@@ -63,20 +63,7 @@ function Get_Device_ID_WS(id, TCO) {
     }
     return mass;
 }
-function Is_View_Row(Data, Name_Row) {
-    let row = false;
-    if (Data != undefined) {
-        for (const iterator of Data) {
-            if (iterator == Name_Row) {
-                row = true;
-                break;
-            }
-        }
-        let r = 0;
-    }
 
-    return row;
-}
 
 function isOpExist_TSO(dvctyptree, typ_key_val) {
     let TextValue = null;
@@ -190,18 +177,18 @@ function get_ICON_Refr(val) {
 
 function get_Json_TEST(id) {
     let T_Json =
-    '{'+
-     '   "type": "cmd_mfc",'+
-     '   "obj": {'+
-     '     "dev_id": "'+ id +'",'+
-     '     "action": "restart_pc"'+
-     '   }'+
-     ' }'
-     let y = JSON.parse(T_Json);
-     let t_Json = JSON.stringify(y);
+        '{' +
+        '   "type": "cmd_mfc",' +
+        '   "obj": {' +
+        '     "dev_id": "' + id + '",' +
+        '     "action": "restart_pc"' +
+        '   }' +
+        ' }'
+    let y = JSON.parse(T_Json);
+    let t_Json = JSON.stringify(y);
     return t_Json;
-  
-  }
+
+}
 let r = 0;
 
 export default class tcoTree extends Component {
@@ -272,7 +259,6 @@ export default class tcoTree extends Component {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
-                        // 'Content-Type': 'application/x-www-form-urlencoded',
                     },
                     body: _body,
                 }
@@ -310,8 +296,8 @@ export default class tcoTree extends Component {
             if (this.state.TCO[1] != null) {
                 DEVICES = this.state.TCO[1];
             }
-            let F = 0;
-            let isKeyShow = true;
+            let F = 2;
+            let isKeyShow = false;
             //List_Fields_Main={this.props.List_Fields_Main}
 
             //{this.props.View_Icon &&
@@ -330,7 +316,7 @@ export default class tcoTree extends Component {
                                             <Layer key='1'>
                                                 <AZS_Image Image={Icon_TCO} _W='65' _H='55' _X={0 + 4} _Y={0 + 14} />
 
-                                                {this.state.TCO.id != 0 && /*this.state.TRK.status == 1 &&*/
+                                                {this.state.TCO.id != 0 &&
                                                     <Text Text={get_NameFuel(this.state.TCO.fuel, this.props.fuels)} x='2' y='75' fill='black'
                                                         fontSize='14' fontFamily='Calibri' />
                                                 }
@@ -344,7 +330,7 @@ export default class tcoTree extends Component {
                                     <hr />
                                 </td>
                             </tr>
-                            {Is_View_Row(this.props.List_Fields_Main, 'icon_alarm') &&
+                            {/*Is_View_Row(this.props.List_Fields_Main, 'icon_alarm') &&
                                 <tr>
                                     <td colSpan='2'>
                                         {V_ID == 6 ? (
@@ -466,9 +452,9 @@ export default class tcoTree extends Component {
                                     <hr />
                                 </td>
                             </tr>
-                            {
+                            {*/
                                 MASS.map((main, p) => (
-                                    (Is_View_Row(this.props.List_Fields_Main, 'data') || main == 'nm') &&
+                                    (Is_View_Row(this.props.List_Fields_TCO, main) || main == 'nm') &&
                                     <Tco_Item_Tree PROPERTYS={main} MASS_LIBRR={MASS} isKeyShow={isKeyShow} FirstPROPS={F} N={p}
                                     />
                                 ))
@@ -477,11 +463,11 @@ export default class tcoTree extends Component {
                             {DEVICES != null &&
                                 DEVICES.map(m_MASS => (
                                     m_MASS.map((main, p) => (
-                                        (Is_View_Row(this.props.List_Fields_Main, 'data')) &&
+                                        //Is_View_Row(this.props.List_Fields_Main, 'data') &&
+                                        //Is_View_Row(this.props.List_Fields_TCO, m_MASS[m_MASS.length -1].typ +"_"+ main) &&
                                         <Tco_Dvc_Item_Tree PROPERTYS={main} MASS_LIBRR={m_MASS} isKeyShow={isKeyShow} FirstPROPS={F} N={p}
                                             IsHead={this.props.IsHead}
                                         />
-
                                     ))
                                 ))
                             }

@@ -395,6 +395,9 @@ export default class azs extends Component {
 
                 List_Fields_Main={this.props.List_Fields_Main}
                 List_Fields_PL={this.props.List_Fields_PL}
+                List_Fields_TRK={this.props.List_Fields_TRK}
+                List_Fields_TCO={this.props.List_Fields_TCO}
+                
                 //update_VIEW_ID_PL={this.update_VIEW_ID_PL}
 
             />

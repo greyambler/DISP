@@ -1,5 +1,16 @@
 import React, { Component, PropTypes } from 'react';
-import { Get_Val } from '../core/core_Function.jsx';
+//import { Get_Val } from '../core/core_Function.jsx';
+
+
+function Get_Val(mas, key) {
+    let R = "";
+    let len = mas.length;
+    if (len > 0) {
+        R = mas[len - 1][key];
+    }
+    return R;
+}
+
 
 function Is_Text_MORE(MASS, main) {
     let text = Get_Val(MASS, main);
@@ -34,6 +45,7 @@ export default class tco_Dvc_Item_Tree extends Component {
                                     }
                                 </td>
                             }
+
                             {
                                 this.props.IsHead &&
                                 p == F && MASS.length - (1 + p) > 1 &&

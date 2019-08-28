@@ -199,7 +199,7 @@ export default class pl extends Component {
                                     </td>
                                 </tr>
                                 {
-                                    Is_View_Row(this.props.List_Fields_Main, 'icon_alarm') &&
+                                    Is_View_Row(this.props.List_Fields_Main, 'lock') &&
                                     <tr>
                                         <td colSpan='1'>
                                             {this.state.PL.id == 0 ? (

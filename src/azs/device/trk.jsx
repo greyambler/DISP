@@ -244,7 +244,7 @@ export default class trk extends Component {
                                 </tr>
 
                                 {//this.props.View_Icon &&
-                                    Is_View_Row(this.props.List_Fields_Main, 'icon_alarm') &&
+                                    Is_View_Row(this.props.List_Fields_Main, 'lock') &&
                                     <tr>
                                         <td colSpan='1'>
                                             {this.state.TRK.id == 0 ? (

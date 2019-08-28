@@ -15,8 +15,8 @@
  td, th, tr {
     /*background: maroon;  Цвет фона ячеек */
     padding: 0px;
-    /* Поля вокруг текста
-    border: 1px solid black;   */
+    /* Поля вокруг текста 
+    border: 1px solid black;  */
     /*min-width: 20px;*/
  }
 
@@ -88,7 +88,9 @@
  #Li_Level_tco {
     font-size: 10px;
  }
-
+ #td_top{
+   vertical-align:top;
+}
 
  #td_ID {
     vertical-align: text-top;

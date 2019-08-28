@@ -56,6 +56,9 @@ function Get_Key_View_Main(mas_Vidg, AZS) {
             View_Fields.push('data');
 
             View_Fields.push('icon_alarm');
+            View_Fields.push('lock');
+            View_Fields.push('management');
+
         }
         if (nameView.value == 'vidget') {
             View_Fields.push('vidget');
@@ -74,6 +77,11 @@ function Get_Key_View_Main(mas_Vidg, AZS) {
                     View_Fields.push(azs.id);
                 }
             }
+        }
+        if (nameView.value == 'F_button') {
+            View_Fields.push('lock');
+            View_Fields.push('management');
+
         }
         /*
                 if (nameView.value == 'AI' || nameView.value == 'selectAll') {
@@ -161,60 +169,84 @@ function Get_Key_View_TRK(mas_Vidg, AI, _Counter, IsCheckCounter) {
 }
 function Get_Key_View_TCO(mas_Vidg, AI, _Counter, IsCheckCounter) {
     let View_Fields = new Array();
+    let row = 0;
     for (const nameView of mas_Vidg) {
         if (nameView.value == 'selectAll') {
             View_Fields.push('selectAll');
-            //View_Fields.push('AI');
-        }
-        /*
-        View_Fields.push('0');
-        if (nameView.value == 'AI' || nameView.value == 'selectAll') {
-            View_Fields.push("fuel_all");
-            if (AI != null) {
-                for (const ai of AI) {
-                    View_Fields.push("fuel_" + ai.id);
+            View_Fields.push('id');
+            View_Fields.push('nm');
+            View_Fields.push('typ');
+
+            if (_Counter != null && _Counter.cntyp != null) {
+                for (const item of _Counter.cntyp) {
+                    View_Fields.push(item.typ);
                 }
             }
-            
-        }
-        */
-        if (IsCheckCounter) {
-            if (nameView.value == 'TCO_COUNTER' || nameView.value == 'selectAll') {
-                if (_Counter != null && _Counter.cntyp != null) {
+            for (const item_DVC of _Counter.dvctyptree) {
+                View_Fields.push(item_DVC.typ + "_id");
+                View_Fields.push(item_DVC.typ + "_nm");
+                View_Fields.push(item_DVC.typ + "_typ");
+                if (item_DVC.cntyp != null) {
+                    for (const item of item_DVC.cntyp) {
 
-                    for (const item of _Counter.cntyp) {
-                        View_Fields.push(item.typ);
+                        View_Fields.push(item_DVC.typ + "_" + item.typ);
                     }
+                }
+            }
+        } else {
+            if (row == 0) {
+                View_Fields.push('id');
+                View_Fields.push('nm');
+                View_Fields.push('typ');
+            }
+        }
+        if (nameView.value == 'TCO_DEVICES') {
+            if (_Counter != null && _Counter.cntyp != null) {
+                for (const item_DVC of _Counter.dvctyptree) {
+                    View_Fields.push(item_DVC.typ + "_id");
+                    View_Fields.push(item_DVC.typ + "_nm");
+                    View_Fields.push(item_DVC.typ + "_typ");
 
+                    if (item_DVC.cntyp != null) {
+                        for (const item of item_DVC.cntyp) {
 
+                            View_Fields.push(item_DVC.typ + "_" + item.typ);
+                        }
+                    }
+                }
+            }
+        }
+        if (nameView.value != 'TCO_DEVICES' && nameView.value != 'selectAll') {
+            for (const nameView of mas_Vidg) {
+                if (_Counter != null && _Counter.dvctyptree != null) {
                     for (const item_DVC of _Counter.dvctyptree) {
-                        //View_Fields.push(item_DVC.typ + "_id");
-                        View_Fields.push(item_DVC.typ + "_nm");
-                        //View_Fields.push(item_DVC.typ + "_typ");
+                        if (item_DVC.typ == nameView.value) {
+                            View_Fields.push(item_DVC.typ + "_id");
+                            View_Fields.push(item_DVC.typ + "_nm");
+                            View_Fields.push(item_DVC.typ + "_typ");
+                            if (item_DVC.cntyp != null) {
+                                for (const item of item_DVC.cntyp) {
+                                    View_Fields.push(item_DVC.typ + "_" + item.typ);
+                                }
+                            }
+                        } else {
+                            if (item_DVC.cntyp != null) {
 
-                        if (item_DVC.cntyp != null) {
-                            for (const item of item_DVC.cntyp) {
-
-                                View_Fields.push(item_DVC.typ + "_" + item.typ);
+                                for (const item of item_DVC.cntyp) {
+                                    if (item.typ == nameView.value) {
+                                        View_Fields.push(item_DVC.typ + "_" + item.typ);
+                                    }
+                                }
                             }
                         }
                     }
-
                 }
             }
-            View_Fields.push(nameView.value);
         }
+        View_Fields.push(nameView.value);
+        row++;
     }
-    /*
-    View_Fields.push('0');
-    View_Fields.push('vidget');
-    View_Fields.push('icon_alarm');
-    View_Fields.push('azs');
-    View_Fields.push('data');
-    View_Fields.push('id');
-    View_Fields.push('typ');
-    View_Fields.push('nm');
-    */
+
     return View_Fields;
 }
 
@@ -604,14 +636,14 @@ export default class w_main_azs extends React.Component {
                                         dataFilter={View_Filter_TRK}
                                     />
                                 </td>
-                                {/*
-                                <td id='td_Left'>
-                                    <FILTER text_head='ТСО'
-                                        update_VIEW={this.update_VIEW_TCO}
-                                        dataFilter={View_Filter_TCO}
-                                    />
-                                </td>
- */}
+                                {
+                                    <td id='td_Left'>
+                                        <FILTER text_head='ТСО'
+                                            update_VIEW={this.update_VIEW_TCO}
+                                            dataFilter={View_Filter_TCO}
+                                        />
+                                    </td>
+                                }
                             </tr>
                         </tbody>
                     </table>

@@ -336,7 +336,7 @@ export default class azs extends Component {
 
             }
         }
-
+let r=0;
     }
 
     /********** ФИЛЬТРЫ ********
@@ -366,8 +366,6 @@ export default class azs extends Component {
 
                 AZS={this.state.AZS}
 
-                //                    View_Icon={this.props.View_Icon}
-                //                    View_Data={this.props.View_Data}
 
                 id={this.props.id}
 
@@ -378,19 +376,21 @@ export default class azs extends Component {
                 PL_0={this.props.PL_0} PL_Col={this.props.PL_Col}
 
                 TRK_0={this.props.TRK_0} TRK_Col={this.props.TRK_Col}
+                
+                //TCO_Col={this.props.TCO_Col}
 
-                TCO_0={this.props.TCO_0} TCO_Col={this.props.TCO_Col}
-
-                NOZZLE_0={this.props.NOZZLE_0} NOZZLE_Col={this.props.NOZZLE_Col}
+                //NOZZLE_0={this.props.NOZZLE_0} NOZZLE_Col={this.props.NOZZLE_Col}
 
                 PLs={this.state.PLs}
 
                 Trk={this.state.Trk}
 
-                Tco={this.state.TCO}
+                //Tco={this.state.TCO}
 
-                Nozzle={this.state.Nozzle}
+                //Nozzle={this.state.Nozzle}
 
+
+                TCO_0={this.props.TCO_0} 
                 TCO={this.state.TCO}
 
                 List_Fields_Main={this.props.List_Fields_Main}

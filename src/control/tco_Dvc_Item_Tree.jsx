@@ -31,6 +31,9 @@ export default class tco_Dvc_Item_Tree extends Component {
         let isKeyShow = this.props.isKeyShow;
         let p = this.props.N;
         let F = this.props.FirstPROPS;
+        if(MASS[MASS.length -1].id == "-----"){
+            let r=0;
+        }
         return (
             <>
                 {(!Array.isArray(main) && p >= F) &&
@@ -75,7 +78,7 @@ export default class tco_Dvc_Item_Tree extends Component {
                             }
                         </tr>
 
-                        {/**/
+                        {
                             MASS.length - (1 + p) == 1 &&
                             <tr>
                                 <td colSpan='2' >

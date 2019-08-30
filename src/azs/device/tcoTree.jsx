@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Stage, Layer, Rect, Text, Circle, Shape, Image } from 'react-konva';
-import { RSS_Type_List, get_DVC_TREE, Get_Device, Get_MainHead, Get_Val, get_NameFuel, POST, Is_View_Row } from '../../core/core_Function.jsx';
+import { RSS_Type_List, get_DVC_TREE, Get_Device, Get_MainHead, Get_Val, get_NameFuel, POST, Is_View_Row_1 } from '../../core/core_Function.jsx';
 import AZS_Image from '../../control/AZS_Image.jsx'
 
 import Tco_Item_Tree from '../../control/tco_Item_Tree.jsx';
@@ -8,6 +8,22 @@ import Tco_Dvc_Item_Tree from '../../control/tco_Dvc_Item_Tree.jsx';
 
 
 const _Debuge = false;
+
+function Is_View_Row(Data, Name_Row) {
+    let row = false;
+    if (Data != undefined) {
+        for (const iterator of Data) {
+            if (iterator == Name_Row) {
+                row = true;
+                break;
+            }
+        }
+        let r = 0;
+    }
+
+    return row;
+}
+
 
 function get_ICON_Fuel(TCO_0) {
     let NUM_STATE_TSO = Number(TCO_0[TCO_0.length - 1]['STATE_TSO']);
@@ -298,6 +314,7 @@ export default class tcoTree extends Component {
             }
             let F = 2;
             let isKeyShow = false;
+            let Item = 0;
             //List_Fields_Main={this.props.List_Fields_Main}
 
             //{this.props.View_Icon &&
@@ -379,10 +396,34 @@ export default class tcoTree extends Component {
                                     m_MASS.map((main, p) => (
                                         //Is_View_Row(this.props.List_Fields_Main, 'data') &&
                                         <>
-                                            {Is_View_Row(this.props.List_Fields_TCO, m_MASS[m_MASS.length - 1].typ + "_" + main) &&
+                                            {(Is_View_Row(this.props.List_Fields_TCO, m_MASS[m_MASS.length - 1].typ + "_" + main)
+                                            //|| "-----" == m_MASS[m_MASS.length - 1].typ 
+                                            ) &&
                                                 <Tco_Dvc_Item_Tree PROPERTYS={main} MASS_LIBRR={m_MASS} isKeyShow={isKeyShow} FirstPROPS={F} N={p}
                                                     IsHead={this.props.IsHead} IsZERO={this.props.IsZERO} />
                                             }
+                                            {/*("-----_id" == m_MASS[m_MASS.length - 1].typ + "_" + main && Item++ != 1 ) &&
+                                                Is_View_Row(this.props.List_Fields_Main, 'management') &&
+                                                <>
+                                                    <tr>
+                                                        <td colSpan='2'>
+                                                            <Stage width={PL_width} height={_height + 9} x={_dX} y={0}>
+                                                                <Layer key='1'>
+                                                                    <Text Text=''
+                                                                        x='24' y='20' fill='black'
+                                                                        fontSize='12' fontFamily='Calibri' />
+                                                                </Layer>
+                                                            </Stage>
+                                                        </td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td colSpan='2'>
+                                                            <hr />
+                                                        </td>
+                                                    </tr>
+                                                </>
+                                            */}
 
                                             {("fr_id" == m_MASS[m_MASS.length - 1].typ + "_" + main) &&
                                                 Is_View_Row(this.props.List_Fields_Main, 'management') &&
@@ -464,7 +505,7 @@ export default class tcoTree extends Component {
                                                                     </Layer>
                                                                 </Stage>
                                                             ) : (
-                                                                
+
                                                                     <button onClick={() => this.toock('Перезагрузка Валидатора', m_MASS[m_MASS.length - 1].id)}>
                                                                         <Stage width={PL_width} height={_height + 3} x={_dX} y={0}>
                                                                             <Layer key='1'>

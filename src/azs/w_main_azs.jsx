@@ -59,6 +59,17 @@ function Get_Key_View_Main(mas_Vidg, AZS) {
             View_Fields.push('lock');
             View_Fields.push('management');
 
+            View_Fields.push('dvc');
+            View_Fields.push('pl');
+            View_Fields.push('trk');
+            View_Fields.push('tco');
+
+        }
+        if (nameView.value == 'dvc') {
+            View_Fields.push('dvc');
+            View_Fields.push('pl');
+            View_Fields.push('trk');
+            View_Fields.push('tco');
         }
         if (nameView.value == 'vidget') {
             View_Fields.push('vidget');
@@ -355,6 +366,24 @@ function CreatViewFILTER_Main(azs, AIs) {
                 expanded: false,
                 children: GetAZS_FILTER(azs)
             },
+            {
+                label: 'Виды устройств',
+                value: 'dvc',
+                expanded: true,
+                children: [{
+                    label: 'Резервуары',
+                    value: 'pl'
+                },
+                {
+                    label: 'ТРК',
+                    value: 'trk'
+                },
+                {
+                    label: 'ТСО',
+                    value: 'tco'
+                }]
+            },
+
             /*{
                 label: 'Вид НП',
                 value: 'AI',

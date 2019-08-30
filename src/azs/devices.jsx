@@ -363,6 +363,7 @@ export default class devices extends Component {
                                 </td>
                             </tr>
                             {
+                                Is_View_Row(this.props.List_Fields_Main, 'pl') &&
                                 this.state._pl != null &&
                                 <>
                                     <tr>
@@ -391,6 +392,7 @@ export default class devices extends Component {
                             }
 
                             {
+                                Is_View_Row(this.props.List_Fields_Main, 'trk') &&
                                 this.state._trk != null &&
                                 <>
                                     <tr>
@@ -445,6 +447,7 @@ export default class devices extends Component {
                             }
 
                             {
+                                Is_View_Row(this.props.List_Fields_Main, 'tco') &&
                                 this.state.Tree_TCO != null &&
                                 <>
                                     <tr>
@@ -499,7 +502,7 @@ export default class devices extends Component {
                             }
 
 
-                            {
+                            {Is_View_Row(this.props.List_Fields_Main, 'pl') &&
                                 (this.state.PLs != null && this.state.PLs.length > 0) &&
                                 <>
                                     <tr>
@@ -556,7 +559,7 @@ export default class devices extends Component {
                                 </>
                             }
 
-                            {
+                            {Is_View_Row(this.props.List_Fields_Main, 'trk') &&
                                 (this.state.Trk != null && this.state.Trk.length > 0) &&
                                 <>
                                     <tr>
@@ -615,7 +618,7 @@ export default class devices extends Component {
                             }
 
                             {
-
+                                Is_View_Row(this.props.List_Fields_Main, 'tco') &&
                                 (this.state.TCO != null && this.state.TCO.length > 0) &&
                                 <>
                                     <tr>

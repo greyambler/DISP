@@ -119,11 +119,16 @@ export default class filters extends Component {
     */
     render() {
         let r1 = {
-            width: 30,
-            paddingRight: 10,
-            paddingLeft: 10,
-            textAlign: 'left',
-            fontSize:'12px',
+            width: 0,
+        }
+        if (this.props.text_head != "") {
+            r1 = {
+                width: 30,
+                paddingRight: 10,
+                paddingLeft: 10,
+                textAlign: 'left',
+                fontSize: '12px',
+            }
         }
         let r2 = {
             minWidth: 160,
@@ -142,6 +147,7 @@ export default class filters extends Component {
                                     onChange={(currentNode, selectedNodes) => { this.props.update_VIEW(selectedNodes) }}
                                 />
                             </td>
+                            
                         </tr>
                     </tbody>
                 </table>

@@ -16,8 +16,24 @@ import TCO_Tree from './device/tcoTree.jsx'
 import { Link, DirectLink, Element, Events, animateScroll as scroll, scrollSpy, scroller } from 'react-scroll'
 
 import FILTER from './filters.jsx'
+import { write } from 'fs';
 
 const _Debuge = false;
+
+function Is_View_Row_Fuels(Data, Name_Row) {
+    let row = false;
+    if (Data != undefined) {
+        for (const iterator of Data) {
+            if (iterator == Name_Row) {
+                row = true;
+                break;
+            }
+        }
+        let r = 0;
+    }
+
+    return row;
+}
 
 function get_ZeroColumn_0(ValF) {
     let M = null;
@@ -27,6 +43,20 @@ function get_ZeroColumn_0(ValF) {
     }
     return M;
 }
+
+function CreatViewFILTER_FUELS(_List_Objs) {
+
+
+    let _Data = {
+        label: 'Вид НП',
+        value: 'selectAll',
+        checked: true,
+        expanded: true,
+        children: Get_AI_FILTER(_List_Objs.fuel),
+    }
+    return _Data;
+}
+
 function CreatViewFILTER_ID_PL(pls) {
 
     let _Data = {
@@ -51,8 +81,6 @@ function CreatViewFILTER_ID_TRK(trk) {
     return _Data;
 }
 function CreatViewFILTER_ID_TCO(TCO) {
-
-
     let _Data = {
         label: 'ТСО',
         value: 'selectAll',
@@ -61,6 +89,15 @@ function CreatViewFILTER_ID_TCO(TCO) {
         children: Get_Tco_FILTER(TCO),
     }
     return _Data;
+}
+function Get_AI_FILTER(AIs) {
+    let M_AI = new Array();
+    if (AIs != null) {
+        for (const item_AI of AIs) {
+            M_AI.push({ label: item_AI.nm, value: "fuel_" + item_AI.id, code: item_AI.fu });
+        }
+    }
+    return M_AI;
 }
 
 
@@ -132,6 +169,26 @@ function Get_Key_View_ID_PL(mas_Vidg, _Fields_PL, PLs) {
     }
 }
 
+function Get_Key_View_FUELS(mas_Vidg, _List_Objs) {
+    let View_Fields = new Array();
+    if (mas_Vidg != null) {
+        for (const nameView of mas_Vidg) {
+            if (nameView.value == 'selectAll') {
+                if (nameView.value == 'selectAll') {
+                    if (_List_Objs != null && _List_Objs.fuel != null) {
+                        for (const iterator of _List_Objs.fuel) {
+                            View_Fields.push("fuel_" + iterator.id);
+                        }
+                    }
+                }
+            } else {
+                View_Fields.push(nameView.value);
+            }
+        }
+    }
+    return View_Fields;
+}
+
 function Get_Key_View_ID_TRK(mas_Vidg, _Fields_TRK, Trk) {
     let View_Fields = new Array();
     let Is_selectAll_mas_Vidg = true;
@@ -186,7 +243,6 @@ function Get_Key_View_ID_TCO(mas_Vidg, _Fields_TCO, TCO) {
         }
         if (Is_selectAll_mas_Vidg) {
             for (const item_TCO of TCO) {
-
                 for (const iterator of item_TCO) {
                     if (iterator[iterator.length - 1].typ == 'tso') {
                         let tso = iterator[iterator.length - 1];
@@ -232,6 +288,9 @@ export default class devices extends Component {
 
             List_Fields_ID_PL: Get_Key_View_ID_PL([{ value: 'selectAll' }], this.props.List_Fields_PL, this.props.PLs),
             LineZeroPL: false,
+
+            List_Fields_FUELS: Get_Key_View_FUELS([{ value: 'selectAll' }], this.props._List_Objs),
+
 
             List_Fieldss_ID_TRK: Get_Key_View_ID_TRK([{ value: 'selectAll' }], this.props.List_Fields_TRK, this.props.Trk),
             LineZeroTRK: false,
@@ -316,11 +375,33 @@ export default class devices extends Component {
     update_VIEW_ID_PL = (View_Vidg) => {
         let _View_Fields = new Array();
         if (View_Vidg == undefined || View_Vidg.length == 0) {
-            this.setState({ List_Fields_ID_PL: _View_Fields, LineZeroPL: true });
+            this.setState({ List_Fields_ID_PL: _View_Fields });//, LineZeroPL: true });
         } else {
             _View_Fields = Get_Key_View_ID_PL(View_Vidg, this.props.List_Fields_PL, this.state.PLs);
-            this.setState({ List_Fields_ID_PL: _View_Fields, LineZeroPL: false });
+            this.setState({ List_Fields_ID_PL: _View_Fields });//, LineZeroPL: false });
         }
+
+        if (View_Vidg.length == 0 && this.state.List_Fields_FUELS.length == 0) {
+            this.setState({ LineZeroPL: true });
+        } else {
+            this.setState({ LineZeroPL: false });
+        }
+    }
+
+    update_VIEW_FUELS = (View_Vidg) => {
+        let _View_Fields = new Array();
+        if (View_Vidg == undefined || View_Vidg.length == 0) {
+            this.setState({ List_Fields_FUELS: _View_Fields });
+        } else {
+            _View_Fields = Get_Key_View_FUELS(View_Vidg, this.props._List_Objs);
+            this.setState({ List_Fields_FUELS: _View_Fields });
+        }
+        if (this.state.List_Fields_ID_PL.length == 0 && View_Vidg.length == 0) {
+            this.setState({ LineZeroPL: true });
+        } else {
+            this.setState({ LineZeroPL: false });
+        }
+
     }
 
     update_VIEW_ID_TRK = (View_Vidg) => {
@@ -337,7 +418,7 @@ export default class devices extends Component {
         if (View_Vidg == undefined || View_Vidg.length == 0) {
             this.setState({ List_Fieldss_ID_TCO: _View_Fields, LineZeroTCO: true });
         } else {
-            _View_Fields = Get_Key_View_ID_TCO(View_Vidg, this.props.List_Fields_TCO, this.state.Tco);
+            _View_Fields = Get_Key_View_ID_TCO(View_Vidg, this.props.List_Fields_TCO, this.props.TCO);
             this.setState({ List_Fieldss_ID_TCO: _View_Fields, LineZeroTCO: false });
         }
     }
@@ -352,6 +433,7 @@ export default class devices extends Component {
 
 
         if (this.state.AZS != null && this.state.id == 0) {
+            let Guid_T = createGuid();
             return (
                 <div >
                     <table className="Dev_TBL">
@@ -371,14 +453,13 @@ export default class devices extends Component {
                                             <center><Element name="test1" className="element" >Резервуары</Element></center>
                                         </td>
                                     </tr>
-
                                     <tr>
                                         <td>
 
                                             {
-                                                <td key={'pl_' + createGuid()}>
+                                                <td key={'pl_' + Guid_T}>
                                                     <Pl PL={this.state._pl[0]}
-                                                        key={'PL_' + createGuid()}
+                                                        key={'PL_' + Guid_T}
                                                         id={this.state._pl[0].id}
                                                         PL_Col={this.props.PL_Col}
                                                         List_Fields_Main={this.props.List_Fields_Main}
@@ -405,9 +486,9 @@ export default class devices extends Component {
                                         <td>
 
                                             {
-                                                <td key={'trk_' + createGuid()}>
+                                                <td key={'trk_' + Guid_T}>
                                                     <TRK TRK={this.state._trk[0]}
-                                                        key={'Trk ' + createGuid()}
+                                                        key={'Trk ' + Guid_T}
                                                         id={this.state._trk[0].id}
 
                                                         TRK_Col={this.props.TRK_Col}
@@ -459,7 +540,7 @@ export default class devices extends Component {
                                         <td>
 
                                             {
-                                                <td key={'tso_' + createGuid()}>
+                                                <td key={'tso_' + Guid_T}>
 
 
                                                     <TCO_Tree TCO={this.state.Tree_TCO}
@@ -487,6 +568,9 @@ export default class devices extends Component {
             let View_Filter_id_krk = CreatViewFILTER_ID_TRK(this.state.Trk);
             let View_Filter_id_tco = CreatViewFILTER_ID_TCO(this.props.TCO);
 
+
+            let View_Filter_fuels = CreatViewFILTER_FUELS(this.props._List_Objs);
+
             return (
                 <div >
                     <table className="DevS_TBL">
@@ -507,14 +591,30 @@ export default class devices extends Component {
                                 <>
                                     <tr>
                                         <td id='td_Left'>
-                                            <FILTER text_head=''
-                                                update_VIEW={this.update_VIEW_ID_PL}
-                                                dataFilter={View_Filter_id_pl}
-                                            />
+                                            <div>
+                                                <table>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>
+                                                                <FILTER text_head=''
+                                                                    update_VIEW={this.update_VIEW_ID_PL}
+                                                                    dataFilter={View_Filter_id_pl}
+                                                                />
+                                                            </td>
+                                                            <td>
+                                                                <FILTER text_head=''
+                                                                    update_VIEW={this.update_VIEW_FUELS}
+                                                                    dataFilter={View_Filter_fuels}
+                                                                />
+                                                            </td>
+                                                            <td></td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
                                         </td>
                                         {/*<td><h4>Резервуары</h4></td>*/}
                                     </tr>
-
                                     <tr>
                                         {this.state.LineZeroPL ?
                                             (
@@ -536,7 +636,8 @@ export default class devices extends Component {
                                                     {
                                                         this.state.PLs.map((el, r) => (
                                                             (
-                                                                Is_View_Row(this.state.List_Fields_ID_PL, el.id) &&
+                                                                (Is_View_Row(this.state.List_Fields_ID_PL, el.id)
+                                                                    || Is_View_Row_Fuels(this.state.List_Fields_FUELS, "fuel_" + el.fuel)) &&
 
                                                                 <td key={'li ' + el.id}>
                                                                     <Pl PL={el}
@@ -648,21 +749,21 @@ export default class devices extends Component {
                                                 <td>
                                                     {
                                                         this.state.TCO.map(el => (
-                                                            Is_View_Row(this.state.List_Fieldss_ID_TCO, el[0][el[0].length - 1].id) &&
-                                                            <td key={'tso_' + el.id} id='td_top'>
-                                                                <TCO_Tree TCO={el}
-                                                                    IsHead={false}
-                                                                    IsZERO={false}
-                                                                    DeVal={this.props.DeVal}
-                                                                    dataFilter={this.props.dataFilter}
-                                                                    _List_Objs={this.props._List_Objs}
-                                                                    devices={this.props.devices}
+                                                            (Is_View_Row(this.state.List_Fieldss_ID_TCO, el[0][el[0].length - 1].id) &&
+                                                                <td key={'tso_' + el[0][el[0].length - 1].id} id='td_top'>
+                                                                    <TCO_Tree TCO={el}
+                                                                        IsHead={false}
+                                                                        IsZERO={false}
+                                                                        DeVal={this.props.DeVal}
+                                                                        dataFilter={this.props.dataFilter}
+                                                                        _List_Objs={this.props._List_Objs}
+                                                                        devices={this.props.devices}
 
-                                                                    List_Fields_Main={this.props.List_Fields_Main}
-                                                                    List_Fields_TCO={this.props.List_Fields_TCO}
-                                                                />
-                                                            </td>
-                                                        ))
+                                                                        List_Fields_Main={this.props.List_Fields_Main}
+                                                                        List_Fields_TCO={this.props.List_Fields_TCO}
+                                                                    />
+                                                                </td>
+                                                            )))
                                                     }
                                                 </td>
                                             )

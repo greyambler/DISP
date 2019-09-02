@@ -298,6 +298,9 @@ export default class devices extends Component {
             List_Fieldss_ID_TCO: Get_Key_View_ID_TCO([{ value: 'selectAll' }], this.props.List_Fields_TCO, this.props.TCO),
             LineZeroTCO: false,
 
+
+            List_Fields_Main: this.props.List_Fields_Main,
+
         }
     }
 
@@ -366,6 +369,15 @@ export default class devices extends Component {
         if (this.props.TCO != prevProps.TCO) {
             this.setState({ TCO: this.props.TCO });
             this.setState({ List_Fieldss_ID_TCO: Get_Key_View_ID_TCO([{ value: 'selectAll' }], this.props.List_Fields_TCO, this.props.TCO) });
+        }
+
+
+        if (this.props.List_Fields_Main != prevProps.List_Fields_Main) {
+            this.setState({ List_Fields_Main: this.props.List_Fields_Main });
+            this.setState({ List_Fields_ID_PL: Get_Key_View_ID_PL([{ value: 'selectAll' }], this.props.List_Fields_PL, this.props.PLs), LineZeroPL: false });
+            this.setState({ List_Fieldss_ID_TCO: Get_Key_View_ID_TCO([{ value: 'selectAll' }], this.props.List_Fields_TCO, this.props.TCO), LineZeroTCO: false });
+            this.setState({ List_Fieldss_ID_TRK: Get_Key_View_ID_TRK([{ value: 'selectAll' }], this.props.List_Fields_TRK, this.props.Trk), LineZeroTRK: false });
+
         }
 
 
@@ -445,7 +457,7 @@ export default class devices extends Component {
                                 </td>
                             </tr>
                             {
-                                Is_View_Row(this.props.List_Fields_Main, 'pl') &&
+                                Is_View_Row(this.state.List_Fields_Main, 'pl') &&
                                 this.state._pl != null &&
                                 <>
                                     <tr>
@@ -462,7 +474,7 @@ export default class devices extends Component {
                                                         key={'PL_' + Guid_T}
                                                         id={this.state._pl[0].id}
                                                         PL_Col={this.props.PL_Col}
-                                                        List_Fields_Main={this.props.List_Fields_Main}
+                                                        List_Fields_Main={this.state.List_Fields_Main}
                                                         List_Fields_PL={this.props.List_Fields_PL}
                                                     />
                                                 </td>
@@ -473,7 +485,7 @@ export default class devices extends Component {
                             }
 
                             {
-                                Is_View_Row(this.props.List_Fields_Main, 'trk') &&
+                                Is_View_Row(this.state.List_Fields_Main, 'trk') &&
                                 this.state._trk != null &&
                                 <>
                                     <tr>
@@ -496,7 +508,7 @@ export default class devices extends Component {
                                                         //View_Icon={this.props.View_Icon}
                                                         //View_Data={this.props.View_Data}
 
-                                                        List_Fields_Main={this.props.List_Fields_Main}
+                                                        List_Fields_Main={this.state.List_Fields_Main}
                                                         List_Fields_TRK={this.props.List_Fields_TRK}
 
                                                     />
@@ -528,7 +540,7 @@ export default class devices extends Component {
                             }
 
                             {
-                                Is_View_Row(this.props.List_Fields_Main, 'tco') &&
+                                Is_View_Row(this.state.List_Fields_Main, 'tco') &&
                                 this.state.Tree_TCO != null &&
                                 <>
                                     <tr>
@@ -546,7 +558,7 @@ export default class devices extends Component {
                                                     <TCO_Tree TCO={this.state.Tree_TCO}
                                                         IsHead={true}
                                                         IsZERO={false}
-                                                        List_Fields_Main={this.props.List_Fields_Main}
+                                                        List_Fields_Main={this.state.List_Fields_Main}
                                                         List_Fields_TCO={this.props.List_Fields_TCO}
                                                     />
 
@@ -586,7 +598,7 @@ export default class devices extends Component {
                             }
 
 
-                            {Is_View_Row(this.props.List_Fields_Main, 'pl') &&
+                            {Is_View_Row(this.state.List_Fields_Main, 'pl') &&
                                 (this.state.PLs != null && this.state.PLs.length > 0) &&
                                 <>
                                     <tr>
@@ -625,7 +637,7 @@ export default class devices extends Component {
                                                         PL_Col={this.props.PL_Col}
                                                         DeVal={this.props.DeVal}
                                                         _List_Objs={this.props._List_Objs}
-                                                        List_Fields_Main={this.props.List_Fields_Main}
+                                                        List_Fields_Main={this.state.List_Fields_Main}
                                                         List_Fields_PL={this.props.List_Fields_PL}
                                                     />
                                                 </td>
@@ -647,7 +659,7 @@ export default class devices extends Component {
                                                                         PL_Col={this.props.PL_Col}
                                                                         DeVal={this.props.DeVal}
                                                                         _List_Objs={this.props._List_Objs}
-                                                                        List_Fields_Main={this.props.List_Fields_Main}
+                                                                        List_Fields_Main={this.state.List_Fields_Main}
                                                                         List_Fields_PL={this.props.List_Fields_PL}
                                                                     />
                                                                 </td>
@@ -660,7 +672,7 @@ export default class devices extends Component {
                                 </>
                             }
 
-                            {Is_View_Row(this.props.List_Fields_Main, 'trk') &&
+                            {Is_View_Row(this.state.List_Fields_Main, 'trk') &&
                                 (this.state.Trk != null && this.state.Trk.length > 0) &&
                                 <>
                                     <tr>
@@ -682,7 +694,7 @@ export default class devices extends Component {
                                                         TRK_Col={this.props.TRK_Col}
                                                         DeVal={this.props.DeVal}
                                                         _List_Objs={this.props._List_Objs}
-                                                        List_Fields_Main={this.props.List_Fields_Main}
+                                                        List_Fields_Main={this.state.List_Fields_Main}
                                                         List_Fields_TRK={this.props.List_Fields_TRK}
                                                     />
                                                 </td>
@@ -704,7 +716,7 @@ export default class devices extends Component {
                                                                         DeVal={this.props.DeVal}
                                                                         _List_Objs={this.props._List_Objs}
                                                                         devices={this.props.devices}
-                                                                        List_Fields_Main={this.props.List_Fields_Main}
+                                                                        List_Fields_Main={this.state.List_Fields_Main}
                                                                         List_Fields_TRK={this.props.List_Fields_TRK}
                                                                     />
                                                                 </td>
@@ -719,7 +731,7 @@ export default class devices extends Component {
                             }
 
                             {
-                                Is_View_Row(this.props.List_Fields_Main, 'tco') &&
+                                Is_View_Row(this.state.List_Fields_Main, 'tco') &&
                                 (this.state.TCO != null && this.state.TCO.length > 0) &&
                                 <>
                                     <tr>
@@ -738,7 +750,7 @@ export default class devices extends Component {
                                                         key={'tso_' + createGuid()}
                                                         IsHead={false}
                                                         IsZERO={true}
-                                                        List_Fields_Main={this.props.List_Fields_Main}
+                                                        List_Fields_Main={this.state.List_Fields_Main}
                                                         List_Fields_TCO={this.props.List_Fields_TCO}
                                                     />
                                                 </td>
@@ -759,7 +771,7 @@ export default class devices extends Component {
                                                                         _List_Objs={this.props._List_Objs}
                                                                         devices={this.props.devices}
 
-                                                                        List_Fields_Main={this.props.List_Fields_Main}
+                                                                        List_Fields_Main={this.state.List_Fields_Main}
                                                                         List_Fields_TCO={this.props.List_Fields_TCO}
                                                                     />
                                                                 </td>

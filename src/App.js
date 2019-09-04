@@ -19,13 +19,14 @@ import W_TestTree from './SAVE_ENTERPOINT/w_TestTree.jsx';
 import W_SharedFilter from './SAVE_ENTERPOINT/w_SharedFilter.jsx';
 import W_TRK from './SAVE_ENTERPOINT/w_TRK.jsx';
 import W_LEVEL from './SAVE_ENTERPOINT/w_LEVEL.jsx';
+
+
+import FILTER from './azs/filters.jsx'
 /*
 
 import MainWindow from './SAVE_ENTERPOINT/MainWindow.jsx';
 
 */
-
-
 
 const _Debuge = true;
 
@@ -135,6 +136,7 @@ class Nav extends Component {
     super(props);
 
   }
+
   render() {
     return (
       <nav>
@@ -168,21 +170,22 @@ class Nav extends Component {
                 </tbody>
               </table>
             </div>
-            <>
+           <>
               <div>
                 <table>
                   <tbody>
                     <tr className="header_Text_Table">
+
                       <td></td>
                       <td width='20%'>
                         <S_Link
-                          activeClass="active" className="test1" to="test1" spy={true} smooth={true} duration={500} offset={-60}>резервуары</S_Link>
+                          activeClass="active" className="test1" to="test1" spy={true} smooth={true} duration={500} offset={-80}>резервуары</S_Link>
                       </td>
                       <td width='20%'>
-                        <S_Link activeClass="active" className="test2" to="test2" spy={true} smooth={true} duration={500} offset={-60}>трк</S_Link>
+                        <S_Link activeClass="active" className="test2" to="test2" spy={true} smooth={true} duration={500} offset={-80}>трк</S_Link>
                       </td>
                       <td width='20%'>
-                        <S_Link activeClass="active" className="test3" to="test3" spy={true} smooth={true} duration={500} offset={-60}>тсо</S_Link>
+                        <S_Link activeClass="active" className="test3" to="test3" spy={true} smooth={true} duration={500} offset={-80}>тсо</S_Link>
                       </td>
                       <td></td>
                     </tr>

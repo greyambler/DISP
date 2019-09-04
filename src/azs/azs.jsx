@@ -60,14 +60,14 @@ function Get_Key_View_ID_PL(mas_Vidg, _Fields_PL, PLs) {
                     View_Fields.push(iterator);
                 }
             }
-        } 
-        if(!Is_selectAll_mas_Vidg && Is_selectAll_Fields_PL) {
-
-
-            let r =0;
         }
-        
-        if(!Is_selectAll_mas_Vidg && !Is_selectAll_Fields_PL) {
+        if (!Is_selectAll_mas_Vidg && Is_selectAll_Fields_PL) {
+
+
+            let r = 0;
+        }
+
+        if (!Is_selectAll_mas_Vidg && !Is_selectAll_Fields_PL) {
 
             for (const iterator of PLs) {
                 EXIST_ID = false;
@@ -76,7 +76,7 @@ function Get_Key_View_ID_PL(mas_Vidg, _Fields_PL, PLs) {
                     if (nameView.value == iterator.id) {
                         onlyPL.push({ fuel: "fuel_" + iterator.fuel, id: iterator.id });
                         EXIST_ID = true;
-                        
+
                     }
                 }
                 if (!EXIST_ID) {
@@ -245,7 +245,7 @@ export default class azs extends Component {
 
                 }
             }
-           //Get_Key_View_ID_PL([{ value: 'selectAll' }], this.props.List_Fields_PL, _PLs);
+            //Get_Key_View_ID_PL([{ value: 'selectAll' }], this.props.List_Fields_PL, _PLs);
             this.setState({
                 PLs: _PLs, Trk: _Trk,
                 Tco: _Tco,
@@ -254,13 +254,20 @@ export default class azs extends Component {
         }
 
     }
-    Get_Mass(iterator, TCO_0) {
+    Get_Mass(iterator, TCO_0, AGENT_ID) {
         /** Массив 0 - TCO */
         let TSO_Val = new Array();
         for (const key of TCO_0) {
             if (!Array.isArray(key)) {
-
-                TSO_Val[key] = (iterator[key] != undefined) ? iterator[key] : '-----';
+                if (iterator['typ'] == "tso" || AGENT_ID == null) {
+                    TSO_Val[key] = (iterator[key] != undefined) ? iterator[key] : '-----';
+                } else {
+                    if (key == 'id') {
+                        TSO_Val[key] = (iterator[key] != undefined) ? AGENT_ID : '-----';
+                    } else {
+                        TSO_Val[key] = (iterator[key] != undefined) ? iterator[key] : '-----';
+                    }
+                }
             }
         }
         let TSO_Item = new Array();
@@ -274,7 +281,8 @@ export default class azs extends Component {
         /** Массив 0 - TCO */
         return TSO_Item;
     }
-    Get_Mass_Devices(iterator, TCO_1) {
+    Get_Mass_Devices(iterator, TCO_1, prop) {
+        let AGENT_ID = null;
         let DEV_Mass_Val = new Array();
         for (const deviceS of TCO_1) {
             for (const device of deviceS) {
@@ -283,8 +291,16 @@ export default class azs extends Component {
                     if (iterator != undefined) {
                         for (const key of iterator) {
                             if (device['typ'] == key['typ']) {
+                                
+                                if (prop != null) {
+                                    for (const iterator of prop) {
+                                        if (iterator['typ'] == 'AGENT_ID') {
+                                            AGENT_ID = iterator['capacity'];
+                                        }
+                                    }
+                                }
 
-                                let M = this.Get_Mass(key, deviceS);
+                                let M = this.Get_Mass(key, deviceS, AGENT_ID);
                                 DEV_Mass_Val.push(M);
                                 Is_Exist = true;
                                 break;
@@ -293,7 +309,7 @@ export default class azs extends Component {
                     }
                     if (!Is_Exist && iterator != undefined) {
                         let M = this.Get_Mass(device, deviceS);
-                        M[3]['id'] = "a12";
+                        M[3]['id'] = (AGENT_ID != null) ? AGENT_ID : "a12";
                         DEV_Mass_Val.push(M);
                     }
                     if (iterator == undefined) {
@@ -324,7 +340,7 @@ export default class azs extends Component {
                     let TSO_Devices = null;
                     //if (this.props.TCO_0[1] != null && iterator.devices != null) 
                     {
-                        TSO_Devices = this.Get_Mass_Devices(iterator.devices, this.props.TCO_0[1]);
+                        TSO_Devices = this.Get_Mass_Devices(iterator.devices, this.props.TCO_0[1], iterator.prop);
                     }
                     let TSO_TWO_M = new Array();
                     TSO_TWO_M.push(TSO_Item);
@@ -336,7 +352,7 @@ export default class azs extends Component {
 
             }
         }
-let r=0;
+        let r = 0;
     }
 
     /********** ФИЛЬТРЫ ********
@@ -376,7 +392,7 @@ let r=0;
                 PL_0={this.props.PL_0} PL_Col={this.props.PL_Col}
 
                 TRK_0={this.props.TRK_0} TRK_Col={this.props.TRK_Col}
-                
+
                 //TCO_Col={this.props.TCO_Col}
 
                 //NOZZLE_0={this.props.NOZZLE_0} NOZZLE_Col={this.props.NOZZLE_Col}
@@ -390,15 +406,15 @@ let r=0;
                 //Nozzle={this.state.Nozzle}
 
 
-                TCO_0={this.props.TCO_0} 
+                TCO_0={this.props.TCO_0}
                 TCO={this.state.TCO}
 
                 List_Fields_Main={this.props.List_Fields_Main}
                 List_Fields_PL={this.props.List_Fields_PL}
                 List_Fields_TRK={this.props.List_Fields_TRK}
                 List_Fields_TCO={this.props.List_Fields_TCO}
-                
-                //update_VIEW_ID_PL={this.update_VIEW_ID_PL}
+
+            //update_VIEW_ID_PL={this.update_VIEW_ID_PL}
 
             />
         );

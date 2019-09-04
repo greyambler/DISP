@@ -10,7 +10,7 @@ export default class Container extends Component {
             data: this.props.data,
         }
     }
-    
+
     componentWillReceiveProps = (nextProps) => {
         if (!isEqual(nextProps.data, this.state.data)) {
             this.setState({ data: nextProps.data })
@@ -26,9 +26,13 @@ export default class Container extends Component {
         const { data, ...rest } = this.props;
 
         return (
-            <DropdownTreeSelect id='DropdownTreeSelect'
+            <DropdownTreeSelect
+
+                //simpleSelect={true}
+                
+                //showDropdown='initial'
                 data={this.state.data}
-                showPartiallySelected={true}
+                //showPartiallySelected={true}
                 {...rest}
             />
         );

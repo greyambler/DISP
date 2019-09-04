@@ -1,8 +1,14 @@
 import React, { Component, PropTypes } from 'react';
 import { RSS_AZS, getDVC_Tree } from '../core/core_Function.jsx';
+
+import { Link as S_Link, DirectLink, Element, Events, animateScroll as scroll, scrollSpy, scroller } from 'react-scroll'
+
+
 import List_azs from './list_azs.jsx'
 
 import FILTER from './filters.jsx'
+
+
 
 const _Debuge = false;
 
@@ -330,7 +336,7 @@ function Get_Counters_TCO_DVC(TCO_Counter) {
                     label: item.nm,
                     value: item.typ,
                     checked: true,
-                    expanded: false,
+                    expanded: true,
                     children: Get_Counters_TCO_Main(item),
                 })
             } else {
@@ -352,7 +358,7 @@ function CreatViewFILTER_Main(azs, AIs) {
             {
                 label: 'виджет',
                 value: 'vidget',
-                expanded: false,
+                expanded: true,
                 children: [
                     {
                         label: 'Иконка',
@@ -363,7 +369,7 @@ function CreatViewFILTER_Main(azs, AIs) {
             {
                 label: 'объекты',
                 value: 'azs',
-                expanded: false,
+                expanded: true,
                 children: GetAZS_FILTER(azs)
             },
             {
@@ -398,7 +404,7 @@ function CreatViewFILTER_Main(azs, AIs) {
             {
                 label: 'Функции кнопки',
                 value: 'F_button',
-                expanded: false,
+                expanded: true,
                 children: [{
                     label: 'блокировка',
                     value: 'lock'
@@ -431,7 +437,7 @@ function CreatViewFILTER_PL(AIs, _Counter) {
                 label: 'данные',
                 value: 'AI_COUNTER',
                 checked: true,
-                expanded: false,
+                expanded: true,
                 children: Get_Counters_PL(_Counter)
             }
         ]
@@ -450,7 +456,7 @@ function CreatViewFILTER_TRK(_Counter) {
                 label: 'данные',
                 value: 'TRK_COUNTER',
                 checked: true,
-                expanded: false,
+                expanded: true,
                 children: Get_Counters_TRK(_Counter)
             }
         ]
@@ -476,8 +482,6 @@ function CreatViewFILTER_TCO(_Counter) {
     }
     return _Data;
 }
-
-
 
 export default class w_main_azs extends React.Component {
     constructor(props) {
@@ -554,37 +558,7 @@ export default class w_main_azs extends React.Component {
         }
 
     }
-    /**
-        IsCheckData(_View_Filter_PL, List_Fields_Main, M_PL_Counter) {
-            let isDATA = false;
-            if (_View_Filter_PL != null && List_Fields_Main != null) {
-                for (const iterator of List_Fields_Main) {
-                    if (iterator == 'data') {
-                        isDATA = true;
-                        break;
-                    }
-                }
-                for (const iterator of _View_Filter_PL.children) {
-                    if (iterator.value == 'AI_COUNTER') {
-                        iterator.checked = isDATA;
-                    }
-                }
-            }
-            if (this.state.List_Fields_PL != null) {
-                for (const item of M_PL_Counter) {
-                    if (isDATA) {
-                        this.state.List_Fields_PL.push(item);
-                    } else {
-                        this.state.List_Fields_PL.pop(item);
-                    }
-                }
-                ///this.setState({ List_Fields_PL: this.state.List_Fields_PL });
-            }
     
-            return _View_Filter_PL;
-        }
-        */
-
 
     update_VIEW_PL = (View_Vidg) => {
         let _View_Fields = new Array();
@@ -640,6 +614,38 @@ export default class w_main_azs extends React.Component {
             */
             return (
                 <div>
+                    {/*<nav className='Nav1'>
+                        <ul>
+                            <li>
+                                <div>
+                                    <table>
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    {<FILTER text_head='' width='20px'
+                                                        update_VIEW={this.update_VIEW_Main}
+                                                        dataFilter={View_Filter_Main}
+                                                    />}
+                                                </td>
+
+                                                <td >
+                                                    <S_Link
+                                                        activeClass="active" className="test1" to="test1" spy={true} smooth={true} duration={500} offset={-80}>резервуары</S_Link>
+                                                </td>
+                                                <td>
+                                                    <S_Link activeClass="active" className="test2" to="test2" spy={true} smooth={true} duration={500} offset={-80}>трк</S_Link>
+                                                </td>
+                                                <td>
+                                                    <S_Link activeClass="active" className="test3" to="test3" spy={true} smooth={true} duration={500} offset={-80}>тсо</S_Link>
+                                                </td>
+                                                <td></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </li>
+                        </ul>
+                    </nav>*/}
                     <center >{this.props.header}</center>
                     <hr /><hr />
                     <table className="tableDevice">

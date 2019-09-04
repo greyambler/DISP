@@ -16,7 +16,7 @@
     /*background: maroon;  Цвет фона ячеек */
     padding: 0px;
     /* Поля вокруг текста  
-    border: 1px solid black;     */
+    border: 1px solid red;     */
     /*min-width: 20px;*/
  }
 
@@ -37,8 +37,8 @@
    min-width: 290px;
    height: 80px;
    max-height: 80px;
-   
  }
+ 
  #td_Left_PL{
    min-width: 290px;
    height: 74px;
@@ -120,11 +120,12 @@
     color: blue;
  }
 
- #DropdownTreeSelect {
+ /*DropdownTreeSelect {
     font-size: 10px;
     vertical-align: top;
     min-width: 200px;
- }
+    
+ }*/
 
  #TD_DEV {
     border: 3px ridge rgb(250, 246, 246);

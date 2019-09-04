@@ -8,6 +8,11 @@
     display: table;
     z-index: 1;
  }
+ .Nav1{
+   top: 38px;
+   margin-left: -2px;
+   
+ }
 
  .header_Inner {
     display: table;
@@ -154,3 +159,31 @@
     visibility: visible;
     opacity: 1;
  }
+
+
+ 
+
+ #td_Left_nav{
+   min-width: 90px;
+   height: 30px;
+   max-height: 30px;
+   
+ }
+ 
+ #filter_nav_Left{
+   width: 240px;
+   max-width: 240px;
+   min-width: 240px;
+
+   max-height: 20px;
+   min-height: 20px;
+   height: 20px;
+
+   color: white;
+   background: white;
+ }
+ .filter_main{
+    font-size: 7;
+    color: red;
+ }
+ 

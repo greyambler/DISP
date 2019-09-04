@@ -24,10 +24,11 @@
  .content {
     flex: 70 10 auto;
     min-height: 99%;
-    margin-top: 60px;
+/*  margin-top: 150px;  */
     margin-left: 2px;    
     
  }
+ 
  .WinNotTree{
    margin-left: 245px;
 }

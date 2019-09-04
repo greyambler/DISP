@@ -28,7 +28,7 @@ export default class filters extends Component {
         }
         return (
             <center>
-                <table >
+                <table>
                     <tbody>
                         <tr>
                             <td style={r1}>

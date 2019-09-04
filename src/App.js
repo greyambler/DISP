@@ -170,7 +170,7 @@ class Nav extends Component {
                 </tbody>
               </table>
             </div>
-           <>
+           {/*<>
               <div>
                 <table>
                   <tbody>
@@ -192,7 +192,7 @@ class Nav extends Component {
                   </tbody>
                 </table>
               </div>
-            </>
+            </>*/}
             <ul className="submenu">
               {_Debuge &&
                 <li><Link to="/"><center>Технические &gt;&gt;</center></Link>

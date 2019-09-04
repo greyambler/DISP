@@ -483,10 +483,16 @@ function CreatViewFILTER_TCO(_Counter) {
     return _Data;
 }
 
+let R1 = {
+    marginTop: '130px',
+    alignSelf: 'center',
+
+}
 export default class w_main_azs extends React.Component {
     constructor(props) {
         super(props);
         //this.IsCheckData = this.IsCheckData.bind(this);
+        this.ShowNav = this.ShowNav.bind(this);
         this.state = {
             Rss: RSS_AZS,
             _Objects: null,
@@ -558,7 +564,7 @@ export default class w_main_azs extends React.Component {
         }
 
     }
-    
+
 
     update_VIEW_PL = (View_Vidg) => {
         let _View_Fields = new Array();
@@ -595,7 +601,20 @@ export default class w_main_azs extends React.Component {
     }
     */
     /********** ФИЛЬТРЫ ********/
-
+    ShowNav(text) {
+        //alert("Тест = " + text);
+        let El = document.getElementById('tr_Nav');
+        let _content = document.getElementById('content');
+        if (El != null) {
+            El.hidden = !El.hidden;
+            let _div_M = document.getElementById('div_M');
+            if (El.hidden) {
+                _div_M.style.marginTop = "40px";
+            } else {
+                _div_M.style.marginTop = "120px";
+            }
+        }
+    }
     render() {
         if (this.state._Azs != null) {
             let View_Filter_Main = CreatViewFILTER_Main(this.state._Azs_Mass, this.props._List_Objs.fuel);
@@ -613,41 +632,73 @@ export default class w_main_azs extends React.Component {
                             this.state.List_Fields_Main, Get_Counters_PL(PL_Counter));
             */
             return (
-                <div>
-                    {/*<nav className='Nav1'>
-                        <ul>
-                            <li>
-                                <div>
-                                    <table>
-                                        <tbody>
-                                            <tr>
-                                                <td>
-                                                    {<FILTER text_head='' width='20px'
-                                                        update_VIEW={this.update_VIEW_Main}
-                                                        dataFilter={View_Filter_Main}
-                                                    />}
-                                                </td>
+                <div id='div_M' style={R1}>
+                    <button className='btn_nav' onClick={() => this.ShowNav("this.state.PL.nm")}>^</button>
+                    <nav className='Nav1'>
+                        <table className="tableDevice_nav">
+                            <tbody>
+                                
+                                <tr id="tr_Nav">
+                                    <td>
+                                        <div className='div_Region'>
+                                            <S_Link
+                                                activeClass="active" className="test0" to="test0" spy={true} smooth={true} duration={500} offset={-120}>общий</S_Link>
+                                        </div>
+                                    </td>
+                                    <td id='td_Left'>
+                                        <FILTER text_head=''
+                                            update_VIEW={this.update_VIEW_Main}
+                                            dataFilter={View_Filter_Main}
+                                        />
+                                    </td>
+                                    <td >
+                                        <div className='div_Region'>
+                                            <S_Link
+                                                activeClass="active" className="test1" to="test1" spy={true} smooth={true} duration={500} offset={-80}>резервуары</S_Link>
+                                        </div>
+                                    </td>
 
-                                                <td >
-                                                    <S_Link
-                                                        activeClass="active" className="test1" to="test1" spy={true} smooth={true} duration={500} offset={-80}>резервуары</S_Link>
-                                                </td>
-                                                <td>
-                                                    <S_Link activeClass="active" className="test2" to="test2" spy={true} smooth={true} duration={500} offset={-80}>трк</S_Link>
-                                                </td>
-                                                <td>
-                                                    <S_Link activeClass="active" className="test3" to="test3" spy={true} smooth={true} duration={500} offset={-80}>тсо</S_Link>
-                                                </td>
-                                                <td></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </li>
-                        </ul>
-                    </nav>*/}
-                    <center >{this.props.header}</center>
+                                    <td id='td_Left'>
+                                        <FILTER text_head=''
+                                            update_VIEW={this.update_VIEW_PL}
+                                            dataFilter={View_Filter_PL}
+                                        />
+                                    </td>
+                                    <td>
+                                        <div className='div_Region'>
+                                            <S_Link activeClass="active" className="test2" to="test2" spy={true} smooth={true} duration={500} offset={-80}>трк</S_Link>
+                                        </div>
+                                    </td>
+
+                                    <td id='td_Left'>
+                                        <FILTER text_head=''
+                                            update_VIEW={this.update_VIEW_TRK}
+                                            dataFilter={View_Filter_TRK}
+                                        />
+                                    </td>
+                                    <td>
+                                        <div className='div_Region'>
+                                            <S_Link activeClass="active" className="test3" to="test3" spy={true} smooth={true} duration={500} offset={-80}>тсо</S_Link>
+                                        </div>
+                                    </td>
+
+                                    <td id='td_Left'>
+                                        <FILTER text_head=''
+                                            update_VIEW={this.update_VIEW_TCO}
+                                            dataFilter={View_Filter_TCO}
+                                        />
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </nav>
+ 
+                    <center><Element name="test0" className="element" >{this.props.header}</Element></center>
+                    {/*<center >{this.props.header}</center>*/}
+
+                    {/*
                     <hr /><hr />
+                 
                     <table className="tableDevice">
                         <tbody>
                             <tr>
@@ -682,7 +733,7 @@ export default class w_main_azs extends React.Component {
                             </tr>
                         </tbody>
                     </table>
-
+*/}
                     <hr /><hr />
 
                     {this.state._Azs != null &&

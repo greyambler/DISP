@@ -28,11 +28,11 @@ export default class Container extends Component {
         return (
             <DropdownTreeSelect
 
-                //simpleSelect={true}
+                simpleSelect={true}
                 
                 //showDropdown='initial'
                 data={this.state.data}
-                //showPartiallySelected={true}
+                showPartiallySelected={true}
                 {...rest}
             />
         );

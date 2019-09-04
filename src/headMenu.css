@@ -3,15 +3,20 @@
     /* rgb(0, 21, 41);*/
     position: fixed;
     top: 0px;
-    
     width: 99.5%;
     display: table;
-    z-index: 1;
+    z-index: 1000;
  }
- .Nav1{
-   top: 38px;
-   margin-left: -2px;
-   
+
+ .Nav1 {
+    top: 30px;
+    margin-left: -2px;
+    background: white;
+    z-index: 10;
+    border-top: 1px solid #CBCBCC;
+    border-left: 1px solid #CBCBCC;
+    border-right: 1px solid #CBCBCC;
+    border-bottom: 1px solid #CBCBCC;
  }
 
  .header_Inner {
@@ -55,10 +60,13 @@
     display: table-cell;
     vertical-align: middle;
     width: 30%;
+    min-width: 170px;
  }
+
  .header_Text_Table {
-   color: rgb(235, 235, 235);
-}
+    color: rgb(235, 235, 235);
+ }
+
  .submenu {
     position: absolute;
     z-index: 5;
@@ -160,30 +168,76 @@
     opacity: 1;
  }
 
-
- 
-
- #td_Left_nav{
-   min-width: 90px;
-   height: 30px;
-   max-height: 30px;
-   
+ #td_Left_nav {
+    min-width: 90px;
+    height: 30px;
+    max-height: 30px;
  }
- 
- #filter_nav_Left{
-   width: 240px;
-   max-width: 240px;
-   min-width: 240px;
 
-   max-height: 20px;
-   min-height: 20px;
-   height: 20px;
-
-   color: white;
-   background: white;
+ #filter_nav_Left {
+    width: 240px;
+    max-width: 240px;
+    min-width: 240px;
+    max-height: 20px;
+    min-height: 20px;
+    height: 20px;
+    color: white;
+    background: white;
  }
- .filter_main{
+
+ .filter_main {
     font-size: 7;
     color: red;
  }
- 
+
+ .div_Region {
+    padding: 12px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 600;
+    width: 100%;
+    height: 40px;
+    /*Скругленные углы*/
+    -webkit-border-radius: 9px;
+    -moz-border-radius: 9px;
+    border-radius: 9px;
+    background: linear-gradient( rgb(4, 231, 231), rgb(1, 107, 107)) rgb(126, 255, 255);
+    transition: 0.2s;
+    /*Тень*/
+    -webkit-box-shadow: 0px 3px 1px rgba(0, 0, 0, 0.2);
+    -moz-box-shadow: 0px 3px 1px rgba(0, 0, 0, 0.2);
+    box-shadow: 0px 2px 1px rgba(0, 0, 0, 0.2);
+    min-width: 80px;
+    color: whitesmoke;
+ }
+
+ .btn_nav {
+    margin-top: 5px;
+    width: 20px;
+    left: 20px;
+    float: right;
+    padding: 2px;
+    text-align: center;
+    text-decoration: none;
+    /*display: inline-block;*/
+    font-size: 16px;
+    font-weight: 60;
+    width: 17px;
+    height: 17px;
+    /*Скругленные углы*/
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    border-radius: 2px;
+    background: linear-gradient(white, whitesmoke) rgb(126, 255, 255);
+    transition: 0.2s;
+    /*Тень
+    -webkit-box-shadow: 0px 3px 1px rgba(0, 0, 0, 0.2);
+    -moz-box-shadow: 0px 3px 1px rgba(0, 0, 0, 0.2);
+    box-shadow: 0px 2px 1px rgba(0, 0, 0, 0.2);*/
+    min-width: 17px;
+    color: black;
+
+    
+ }

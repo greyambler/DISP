@@ -80,6 +80,8 @@ function Get_Key_View_Main(mas_Vidg, AZS) {
         if (nameView.value == 'vidget') {
             View_Fields.push('vidget');
             View_Fields.push('icon_alarm');
+            View_Fields.push('lock');
+            View_Fields.push('management');
         }
         if (nameView.value == 'icon_alarm') {
             View_Fields.push('icon_alarm');
@@ -355,6 +357,7 @@ function CreatViewFILTER_Main(azs, AIs) {
         checked: true,
         expanded: true,
         children: [
+            /*
             {
                 label: 'виджет',
                 value: 'vidget',
@@ -365,7 +368,7 @@ function CreatViewFILTER_Main(azs, AIs) {
                         value: 'icon_alarm'
                     },
                 ]
-            },
+            },*/
             {
                 label: 'объекты',
                 value: 'azs',
@@ -400,7 +403,7 @@ function CreatViewFILTER_Main(azs, AIs) {
             {
                 label: 'данные',
                 value: 'data'
-            },*/
+            },
             {
                 label: 'Функции кнопки',
                 value: 'F_button',
@@ -413,6 +416,25 @@ function CreatViewFILTER_Main(azs, AIs) {
                     label: 'управление',
                     value: 'management'
                 }]
+            }*/
+
+            {
+                label: 'виджет',
+                value: 'vidget',
+                expanded: true,
+                children: [
+                    {
+                        label: 'Иконка',
+                        value: 'icon_alarm'
+                    },
+                    {
+                        label: 'сервисные команда',
+                        value: 'lock'
+                    },
+                    {
+                        label: 'управление',
+                        value: 'management'
+                    }]
             }
         ]
     }
@@ -484,7 +506,7 @@ function CreatViewFILTER_TCO(_Counter) {
 }
 
 let R1 = {
-    marginTop: '130px',
+    marginTop: '120px',
     alignSelf: 'center',
 
 }
@@ -609,7 +631,7 @@ export default class w_main_azs extends React.Component {
             El.hidden = !El.hidden;
             let _div_M = document.getElementById('div_M');
             if (El.hidden) {
-                _div_M.style.marginTop = "40px";
+                _div_M.style.marginTop = "0px";
             } else {
                 _div_M.style.marginTop = "120px";
             }
@@ -637,13 +659,13 @@ export default class w_main_azs extends React.Component {
                     <nav className='Nav1'>
                         <table className="tableDevice_nav">
                             <tbody>
-                                
+
                                 <tr id="tr_Nav">
                                     <td>
-                                        <div className='div_Region'>
+                                        {/*<div className='div_Region'>
                                             <S_Link
-                                                activeClass="active" className="test0" to="test0" spy={true} smooth={true} duration={500} offset={-120}>общий</S_Link>
-                                        </div>
+                                                activeClass="active" className="test0" to="test0" spy={true} smooth={true} duration={500} offset={-170}>Вверх</S_Link>
+                                        </div>*/}
                                     </td>
                                     <td id='td_Left'>
                                         <FILTER text_head=''
@@ -653,8 +675,8 @@ export default class w_main_azs extends React.Component {
                                     </td>
                                     <td >
                                         <div className='div_Region'>
-                                            <S_Link
-                                                activeClass="active" className="test1" to="test1" spy={true} smooth={true} duration={500} offset={-80}>резервуары</S_Link>
+                                            <S_Link 
+                                                activeClass="active" className="test1" to="test1" spy={true} smooth={true} duration={500} offset={-210}>резервуары</S_Link>
                                         </div>
                                     </td>
 
@@ -666,7 +688,7 @@ export default class w_main_azs extends React.Component {
                                     </td>
                                     <td>
                                         <div className='div_Region'>
-                                            <S_Link activeClass="active" className="test2" to="test2" spy={true} smooth={true} duration={500} offset={-80}>трк</S_Link>
+                                            <S_Link activeClass="active" className="test2" to="test2" spy={true} smooth={true} duration={500} offset={-150}>трк</S_Link>
                                         </div>
                                     </td>
 
@@ -678,7 +700,7 @@ export default class w_main_azs extends React.Component {
                                     </td>
                                     <td>
                                         <div className='div_Region'>
-                                            <S_Link activeClass="active" className="test3" to="test3" spy={true} smooth={true} duration={500} offset={-80}>тсо</S_Link>
+                                            <S_Link activeClass="active" className="test3" to="test3" spy={true} smooth={true} duration={500} offset={-150}>тсо</S_Link>
                                         </div>
                                     </td>
 
@@ -692,7 +714,7 @@ export default class w_main_azs extends React.Component {
                             </tbody>
                         </table>
                     </nav>
- 
+
                     <center><Element name="test0" className="element" >{this.props.header}</Element></center>
                     {/*<center >{this.props.header}</center>*/}
 
@@ -755,6 +777,7 @@ export default class w_main_azs extends React.Component {
                             List_Fields_PL={this.state.List_Fields_PL}
                             List_Fields_TRK={this.state.List_Fields_TRK}
                             List_Fields_TCO={this.state.List_Fields_TCO}
+
 
                         />
                     }

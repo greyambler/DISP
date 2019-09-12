@@ -22,7 +22,7 @@ export default class filters extends Component {
         }
         let r2 = {
             textAlign: 'left',
-            fontSize: '10px',
+            //fontSize: '14px',
             verticalAlign: 'top',
             minWidth: '240px',
         }

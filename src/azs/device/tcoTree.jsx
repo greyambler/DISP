@@ -42,9 +42,9 @@ function get_ICON_TCO_Lock(TCO_0) {
     if (TCO_0[TCO_0.length - 1].typ == 'tso') {
         let r = TCO_0[TCO_0.length - 1].STATE_TSO;
         if (r.includes("[") && r.includes("]")) {
-            let _start =r.indexOf("[")
-            let _end =r.indexOf("]")
-            let NUM_STATE_TSO = r.substr(_start+1, _end -(_start+1));
+            let _start = r.indexOf("[")
+            let _end = r.indexOf("]")
+            let NUM_STATE_TSO = r.substr(_start + 1, _end - (_start + 1));
 
             if (!isNaN(NUM_STATE_TSO)) {
                 switch (NUM_STATE_TSO) {
@@ -214,6 +214,47 @@ function get_Json_TEST(id) {
     return t_Json;
 
 }
+
+function get_LOCK_TCO(id) {
+    let r =
+        '{"ctrl": 2,' +
+        '"ctrl_type": "trkOperate",' +
+        '"ctrl_value": "pump_lock",' +
+        '"ctrl_number": 1,' +
+        '"cashier_code": 3}';
+
+    let rw = {
+        'ctrl': 2,
+        'ctrl_type': 'trkOperate',
+        'ctrl_value': 'pump_lock',
+        'ctrl_number': 1,
+        'cashier_code': 3
+    }
+
+    let rR = {
+        'type': "cmd_mfc",
+        'obj': {
+            'dev_id': id,
+            'action': r
+        }
+    };
+    let RR = JSON.stringify(rR);
+    let y1 = JSON.parse(RR);
+    let t_Json1 = JSON.stringify(y1);
+
+
+    let T_Json =
+        '{' +
+        '   "type": "cmd_mfc",' +
+        '   "obj": {' +
+        '     "dev_id": "' + id + '",' +
+        '     "action": "lock_tso"' +
+        '   }' +
+        ' }'
+    let y = JSON.parse(T_Json);
+    let t_Json = JSON.stringify(y);
+    return RR;
+}
 function get_restart_pc(id) {
     let T_Json =
         '{' +
@@ -256,6 +297,51 @@ function get_restart_cash(id) {
 
 }
 
+function get_AGENT_ID_cmd_mfc(TCO) {
+    let ID = null;
+    if (TCO != null) {
+
+        for (const item of TCO) {
+            if (item != null && item[item.length - 1].typ == "cmd_mfc") {
+                if (item[item.length - 1].prop != null) {
+                    for (const prop of item[item.length - 1].prop) {
+                        if (prop.typ == "AGENT_ID") {
+                            ID = prop.capacity;
+                            break;
+                        }
+                    }
+                }
+                break;
+            }
+        }
+    }
+    return ID;
+}
+function get_ID_cmd_TCO(TCO) {
+    let ID = null;
+    if (TCO != null && TCO[TCO.length - 1].prop != null) {
+        for (const prop of TCO[TCO.length - 1].prop) {
+            if (prop.typ == "AGENT_ID") {
+                ID = prop.capacity;
+                break;
+            }
+        }
+    }
+    return ID;
+}
+
+function get_cmd_mfc_ID(TCO) {
+    let ID = null;
+    if (TCO != null) {
+        for (const item of TCO) {
+            if (item != null && item[item.length - 1].typ == "cmd_mfc") {
+                ID = item[item.length - 1].id
+                break;
+            }
+        }
+    }
+    return ID;
+}
 let r = 0;
 
 export default class tcoTree extends Component {
@@ -263,6 +349,7 @@ export default class tcoTree extends Component {
         super(props);
         this.toock = this.toock.bind(this);
         this.Test_Onclick = this.Test_Onclick.bind(this);
+        this.Test_Maile_Onclick = this.Test_Maile_Onclick.bind(this);
         this.state = {
             TCO: null,
             DeVal: null,
@@ -316,8 +403,15 @@ export default class tcoTree extends Component {
         alert("Тест = " + text + ",  id = " + id);
     }
 
-    async toock(text, id, type_Body) {///Отправка команды
+    async toock(text, id, tco, type_Body) {///Отправка команды
         let rss = POST;
+
+        let ID = (type_Body == "lock_tso") ? get_ID_cmd_TCO(tco) : get_cmd_mfc_ID(tco);//get_AGENT_ID_cmd_mfc(tco);
+        if (ID != null) {
+            id = ID;
+        }
+
+
         var myRequest = new Request(rss);
         let _body = null;
 
@@ -325,6 +419,9 @@ export default class tcoTree extends Component {
             case 'restart_pc': _body = get_restart_pc(id); break;
             case 'restart_fr': _body = get_restart_fr(id); break;
             case 'restart_cash': _body = get_restart_cash(id); break;
+
+            case 'lock_tso': _body = get_LOCK_TCO(id); break;
+
             default: _body = get_Json_TEST(id); break;
         }
 
@@ -342,7 +439,7 @@ export default class tcoTree extends Component {
             if (response.ok) {
                 const Jsons = await response.json();
                 this.setState({ _ANS: Jsons });
-                alert("Команда получила ответ - " + Jsons.status + ",  id = " + id);
+                alert("Команда получила ответ - " + Jsons.status + ",\n АЗК = " + tco[tco.length - 1].nm + ",\n id = " + id + ",\n команда = " + type_Body + ",\n запрос =" + _body);
             }
             else {
                 throw Error(response.statusText);
@@ -353,13 +450,35 @@ export default class tcoTree extends Component {
             alert(error);
         }
     }
+    Test_Maile_Onclick(_object, message) {
 
+        let M = "Тест тело сообщения\n\r" + message;
+
+        var link = "mailto:me@example.ru"
+            //+ "?cc=myCCaddress@example.com"
+            + "&subject=" + _object
+            + "&body=" + M
+            /*    + "&body=" + message
+    
+               + "?cc=myCCaddress@example.com"
+               + "&subject=" + escape("This is my subject")
+               + "&body=" + escape(document.getElementById('myText').value)
+               */
+            ;
+        window.location.href = link;
+    }
 
 
     render() {
         if (this.state.TCO != null) {
+
+
             let V_ID = Get_Val(this.state.TCO[0], "id")
+
+
+
             let _height = 60;
+
             let _width = (V_ID == 6) ? 110 : 110;
             let _dX = 2;
             let PL_width = _width + _dX + 0.4;
@@ -383,6 +502,16 @@ export default class tcoTree extends Component {
             //let r = Is_View_Row(this.props.List_Fields_Main, 'icon_alarm');
             //{ Is_View_Row(this.props.List_Fields_Main, 'icon_alarm') &&
             //id={(V_ID != 6) ? 'Li_Level_tco' : 'li_Level'}>
+
+            let BTN_width = 20;
+            let BTN_height = 20;
+
+            let style_TD_BTN = {
+                verticalAlign: 'top',
+                height: '30px',
+                //background: 'rgb(0, 141, 141)',
+            }
+
             return (
                 <div>
                     <table
@@ -412,23 +541,40 @@ export default class tcoTree extends Component {
                             {
                                 Is_View_Row(this.props.List_Fields_Main, 'lock') &&
                                 <tr>
-                                    <td colSpan='2'>
+                                    <td colSpan='2' style={style_TD_BTN}>
                                         {V_ID == 6 ? (
-                                            <Stage width={PL_width} height={_height + 9} x={_dX} y={0}>
+                                            <Stage width={PL_width} height={BTN_height} x={0} y={0}>
                                                 <Layer key='1'>
-                                                    <Text Text='блокировка'
-                                                        x='0' y='20' fill='black'
+                                                    <Text Text='сервисные команда'
+                                                        x='1' y='5' fill='black'
                                                         fontSize='12' fontFamily='Calibri' />
                                                 </Layer>
                                             </Stage>
                                         ) : (
-                                                <button onClick={() => this.Test_Onclick("this.Test_Onclick")}>
-                                                    <Stage width={PL_width} height={_height + 3} x={_dX} y={0}>
-                                                        <Layer key='1'>
-                                                            <AZS_Image Image={Icon_TCO_Lock} _W='55' _H='55' _X={21} _Y={6} />
-                                                        </Layer>
-                                                    </Stage>
-                                                </button>
+                                                <>
+                                                    <button className='Min_button' title="блокировка"
+                                                        onClick={() => this.toock('Блокировка ТСО', V_ID, this.state.TCO[0], 'lock_tso')}>
+                                                        {/*<button onClick={() => this.Test_Onclick("this.Test_Onclick")}>*/}
+                                                        <Stage width={BTN_width} height={BTN_height} x={0} y={0}>
+                                                            <Layer key='1'>
+                                                                <AZS_Image Image={Icon_TCO_Lock}
+                                                                    _W='15' _H='15' _X={2} _Y={1} />
+                                                            </Layer>
+                                                        </Stage>
+                                                    </button>
+
+                                                    <button className='Min_button_EMAIL' title="письмо"
+                                                        onClick={() => this.Test_Maile_Onclick("ТСО", "this.props.TCO")}
+                                                    >
+                                                        <Stage width={BTN_width} height={BTN_height} x={0} y={0}>
+                                                            <Layer key='1' background='red' >
+                                                                <AZS_Image Image='/images/email.png'
+                                                                    _W='15' _H='15' _X={4} _Y={1} />
+                                                            </Layer>
+                                                        </Stage>
+                                                    </button>
+
+                                                </>
                                             )
                                         }
                                     </td>
@@ -493,7 +639,7 @@ export default class tcoTree extends Component {
                                                     <tr>
                                                         <td colSpan='2'>
                                                             {V_ID == 6 ? (
-                                                                <Stage width={PL_width} height={_height + 9} x={_dX} y={0}>
+                                                                <Stage width={PL_width} height={BTN_height} x={_dX} y={0}>
                                                                     <Layer key='1'>
                                                                         <Text Text='Перезагрузка ФР'
                                                                             x='24' y='20' fill='black'
@@ -501,10 +647,10 @@ export default class tcoTree extends Component {
                                                                     </Layer>
                                                                 </Stage>
                                                             ) : (
-                                                                    <button onClick={() => this.toock('Перезагрузка ФР', m_MASS[m_MASS.length - 1].id, 'restart_fr')}>
-                                                                        <Stage width={PL_width} height={_height + 3} x={_dX} y={0}>
+                                                                    <button onClick={() => this.toock('Перезагрузка ФР', m_MASS[m_MASS.length - 1].id, this.state.TCO[1], 'restart_fr')}>
+                                                                        <Stage width={PL_width} height={BTN_height} x={_dX} y={0}>
                                                                             <Layer key='1'>
-                                                                                <AZS_Image Image={get_ICON_Refr(++r)} _W='55' _H='55' _X={21} _Y={6} />
+                                                                                <AZS_Image Image={get_ICON_Refr(++r)} _W='23' _H='23' _X={41} _Y={0} />
                                                                             </Layer>
                                                                         </Stage>
                                                                     </button>
@@ -526,7 +672,7 @@ export default class tcoTree extends Component {
                                                     <tr>
                                                         <td colSpan='2'>
                                                             {V_ID == 6 ? (
-                                                                <Stage width={PL_width} height={_height + 9} x={_dX} y={0}>
+                                                                <Stage width={PL_width} height={BTN_height} x={_dX} y={0}>
                                                                     <Layer key='1'>
                                                                         <Text Text='Перезагрузка ПК'
                                                                             x='0' y='20' fill='black'
@@ -534,11 +680,11 @@ export default class tcoTree extends Component {
                                                                     </Layer>
                                                                 </Stage>
                                                             ) : (
-                                                                    <button onClick={() => this.toock("Перезагрузка ПК", m_MASS[m_MASS.length - 1].id, 'restart_pc')}>
+                                                                    <button onClick={() => this.toock("Перезагрузка ПК", m_MASS[m_MASS.length - 1].id, this.state.TCO[1], 'restart_pc')}>
                                                                         {/*</button><button onClick={() => this.Test_Onclick('Перезагрузка ПК', m_MASS[m_MASS.length - 1].id)}>*/}
-                                                                        <Stage width={PL_width} height={_height + 3} x={_dX} y={0}>
+                                                                        <Stage width={PL_width} height={BTN_height} x={_dX} y={0}>
                                                                             <Layer key='1'>
-                                                                                <AZS_Image Image={get_ICON_Refr(++r)} _W='55' _H='55' _X={21} _Y={6} />
+                                                                                <AZS_Image Image={get_ICON_Refr(++r)} _W='23' _H='23' _X={41} _Y={0} />
                                                                             </Layer>
                                                                         </Stage>
                                                                     </button>
@@ -559,7 +705,7 @@ export default class tcoTree extends Component {
                                                     <tr>
                                                         <td colSpan='2'>
                                                             {V_ID == 6 ? (
-                                                                <Stage width={PL_width} height={_height + 9} x={_dX} y={0}>
+                                                                <Stage width={PL_width} height={BTN_height} x={_dX} y={0}>
                                                                     <Layer key='1'>
                                                                         <Text Text='Перезагрузка Валидатора'
                                                                             x='0' y='20' fill='black'
@@ -568,10 +714,10 @@ export default class tcoTree extends Component {
                                                                 </Stage>
                                                             ) : (
 
-                                                                    <button onClick={() => this.toock('Перезагрузка Валидатора', m_MASS[m_MASS.length - 1].id, 'restart_cash')}>
-                                                                        <Stage width={PL_width} height={_height + 3} x={_dX} y={0}>
+                                                                    <button onClick={() => this.toock('Перезагрузка Валидатора', m_MASS[m_MASS.length - 1].id, this.state.TCO[1], 'restart_cash')}>
+                                                                        <Stage width={PL_width} height={BTN_height} x={_dX} y={0}>
                                                                             <Layer key='1'>
-                                                                                <AZS_Image Image={get_ICON_Refr(++r)} _W='55' _H='55' _X={21} _Y={6} />
+                                                                                <AZS_Image Image={get_ICON_Refr(++r)} _W='23' _H='23' _X={41} _Y={0} />
                                                                             </Layer>
                                                                         </Stage>
                                                                     </button>

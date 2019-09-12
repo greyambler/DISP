@@ -21,13 +21,14 @@ export const AZS_s = "http://172.23.16.18:8020/dprest-1.0-SNAPSHOT/webresources/
 
 export const RSS_AZS = "http://172.23.16.18:8080/dprest-1.0-SNAPSHOT/webresources/ru.expertek.dp.dpfacade.azk";
 
+export const RSS_AZS_EDIT = "http://172.23.16.18:8080/dprest-1.0-SNAPSHOT/webresources/ru.expertek.dp.dpfacade.dic.edit/azk";
 
 
 //export const WS = "ws://172.23.16.18:8080/dpsock-1.0-SNAPSHOT/alws";
 
 // pl
 export const RSS_Tanks = "http://172.23.16.18:8080/dpmark-1.0-SNAPSHOT/webresources/ru.expertek.dp.dpinside.tank";
-
+                         
 
 //- обращение напрямую к WildFly
 //http://172.23.16.18:8020/dpmark-1.0-SNAPSHOT/webresources/ru.expertek.dp.dpinside.tank
@@ -49,7 +50,6 @@ export function Is_View_Row(Data, Name_Row) {
 
   return row;
 }
-
 
 export function createGuid() {
   return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
@@ -935,7 +935,10 @@ export function Get_Val(mas, key) {
   let R = "";
   let len = mas.length;
   if (len > 0) {
-    R = mas[len - 1][key];
+    if(mas[len - 1][key] != null)
+    {
+      R = mas[len - 1][key];
+    }
   }
   return R;
 }

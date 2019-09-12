@@ -234,3 +234,10 @@ data/src/SAVE_ENTERPOINT/tco/w_main_tco.jsx.i
 data/public/images/Locked.png.i
 data/public/images/Unlocked.png.i
 data/public/images/Recycle.png.i
+data/public/images/email.png.i
+data/src/azs/edit/w_prop_OBJ.jsx.i
+data/src/SAVE_ENTERPOINT/w_AZK_Form_save.jsx.i
+data/src/azs/edit/w_lst_AZS.jsx.i
+data/src/azs/edit/w_lst_OBJ_table.jsx.i
+data/src/azs/edit/w_AZK_Form.jsx.i
+data/src/control/w_head_link.jsx.i

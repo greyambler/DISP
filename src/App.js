@@ -10,6 +10,9 @@ import { RSS_Type_List } from './core/core_Function.jsx';
 
 import W_AZS from './w_AZS.jsx';
 
+import W_AZK_Form from './azs/edit/w_AZK_Form.jsx';
+import W_lst_AZS from './azs/edit/w_lst_AZS.jsx';
+
 
 import W_NOZZLE from './SAVE_ENTERPOINT/w_NOZZLE.jsx';
 import W_AZK from './SAVE_ENTERPOINT/w_AZK.jsx';
@@ -59,6 +62,13 @@ class Main extends Component {
     return (<W_LEVEL w_Height={this.props.w_Height} w_Width={this.props.w_Width} />);
     return (<W_NOZZLE w_Height={this.props.w_Height} w_Width={this.props.w_Width} />);*/
 
+  }
+}
+
+class AZK_Form extends Component {
+  render() {
+    //return (<W_AZK_Form w_Height={this.props.w_Height} w_Width={this.props.w_Width} _List_Objs={this.props._List_Objs} />);
+    return (<W_lst_AZS header="Список АЗК" w_Height={this.props.w_Height} w_Width={this.props.w_Width} _List_Objs={this.props._List_Objs} />);
   }
 }
 
@@ -170,7 +180,7 @@ class Nav extends Component {
                 </tbody>
               </table>
             </div>
-           {/*<>
+            {/*<>
               <div>
                 <table>
                   <tbody>
@@ -199,6 +209,7 @@ class Nav extends Component {
                   <ul className="submenu">
                     {/*<li><Link to="/Table" >Таблица</Link></li>*/}
 
+                    <li><Link to="/AZK_Form" >Форма АЗК</Link></li>
                     <li><Link to="/AZK_Main" >АЗК</Link></li>
                     <li><Link to="/Test" >Тестовый</Link></li>
 
@@ -238,6 +249,8 @@ class Nav extends Component {
 function refreshPage() {
   window.location.reload();
 }
+
+
 export default class App extends Component {
   constructor(props) {
     super(props);
@@ -287,12 +300,16 @@ export default class App extends Component {
     return (
       <Router>
         <Nav />
-        <div className="content">
+        <div className="content">       
           <Switch>
             <Route exact path="/" render={() => <Main w_Height={this.state.W_Height} w_Width={this.state.W_Width}
               _List_Objs={this.state._List_Objs}
             />} />
 
+
+            <Route exact path="/AZK_Form" render={() => <AZK_Form w_Height={this.state.W_Height} w_Width={this.state.W_Width}
+              _List_Objs={this.state._List_Objs}
+            />} />
             <Route exact path="/AZS" render={() => <AZS w_Height={this.state.W_Height} w_Width={this.state.W_Width}
               _List_Objs={this.state._List_Objs}
             />} />

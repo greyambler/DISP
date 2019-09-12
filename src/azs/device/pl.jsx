@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import OL_List from '../../core/OL_List.jsx'
 import { Stage, Layer, Rect, Text, Circle, Shape, Image, Ellipse } from 'react-konva';
 
-import { get_PL, get_Text_Status_PL, get_Color_Status_PL, get_NameFuel , Is_View_Row} from '../../core/core_Function.jsx';
+import { get_PL, get_Text_Status_PL, get_Color_Status_PL, get_NameFuel, Is_View_Row } from '../../core/core_Function.jsx';
 
 import AZS_Image from '../../control/AZS_Image.jsx'
 
@@ -34,8 +34,13 @@ function get_ICON_Fuel(TP_STATUS, Full_V, Curent_V) {
         return col;
     }
 }
+function get_ICON_TCO_Lock(TCO_0) {
+    let col = '/images/Locked.png';
 
-function get_ICON_Lock(val) {
+    return col;
+}
+
+function get_ICON_Lock_2(val) {
 
     let col = '/images/Locked.png';
 
@@ -116,6 +121,7 @@ export default class pl extends Component {
     constructor(props) {
         super(props);
         this.Test_Onclick = this.Test_Onclick.bind(this);
+        this.Test_Maile_Onclick = this.Test_Maile_Onclick.bind(this);
         this.state = {
             PL: null,
             DeVal: null,
@@ -155,16 +161,43 @@ export default class pl extends Component {
         alert("Тест = " + text);
     }
     //test = () => Test_Onclick();
+    Test_Maile_Onclick(_object, message) {
 
+        let M = "Тест тело сообщения\n\r" + message;
 
+        var link = "mailto:me@example.ru"
+            //+ "?cc=myCCaddress@example.com"
+            + "&subject=" + _object
+            + "&body=" + M
+            /*    + "&body=" + message
+    
+               + "?cc=myCCaddress@example.com"
+               + "&subject=" + escape("This is my subject")
+               + "&body=" + escape(document.getElementById('myText').value)
+               */
+            ;
+        window.location.href = link;
+    }
 
     render() {
         if (this.state.PL != null) {
             let _height = 60;
             let _width = (this.state.PL.id == 0) ? 110 : 110;
             let _dX = 2;
-            let PL_width = _width + _dX + 0.4;
+            let PL_width = (_width + _dX + 0.4);
+
+            let BTN_width = 20;
+            let BTN_height = 20;
+
             let Icon_Tank = (this.state.PL == 'ZERO') ? "" : get_ICON_Fuel(this.state.PL.TP_STATUS, "TOTAL_VOLUME", this.state.PL.CURENT_VOLUME);
+
+            let Icon_TCO_Lock = get_ICON_TCO_Lock("status");
+
+            let style_TD_BTN = {
+                verticalAlign: 'top',
+                height: '30px',
+                //background: 'rgb(0, 141, 141)',
+            }
 
             return (
                 <div>
@@ -176,12 +209,9 @@ export default class pl extends Component {
                                     Is_View_Row(this.props.List_Fields_Main, 'icon_alarm') &&
                                     <tr>
                                         <td colSpan='1'>
-
                                             <Stage width={PL_width} height={_height + 3} x={_dX} y={0}>
                                                 <Layer key='1' background='red' >
-
                                                     <AZS_Image Image={Icon_Tank} _W='75' _H='60' _X={0 + 4} _Y={0 + 4} />
-
                                                     {this.state.PL.id != '0' &&
                                                         <Text Text={get_NameFuel(this.state.PL.fuel, this.props.fuels)}
                                                             x='24' y='20' fill='black'
@@ -189,7 +219,6 @@ export default class pl extends Component {
                                                     }
                                                 </Layer>
                                             </Stage>
-
                                         </td>
                                     </tr>
                                 }
@@ -201,27 +230,67 @@ export default class pl extends Component {
                                 {
                                     Is_View_Row(this.props.List_Fields_Main, 'lock') &&
                                     <tr>
-                                        <td colSpan='1'>
+                                        <td colSpan='1' style={style_TD_BTN}>
                                             {this.state.PL.id == 0 ? (
-                                                
-                                                    <Stage width={PL_width} height={_height + 12} x={_dX} y={0}>
-                                                        <Layer key='1' background='red' >
-                                                        <Text Text='блокировка'
-                                                            x='24' y='20' fill='black'
+                                                <Stage width={PL_width} height={BTN_height} x={0} y={0}>
+                                                    <Layer key='1' background='red' >
+                                                        <Text Text='сервисные команда'
+                                                            x='1' y='5' fill='black'
                                                             fontSize='12' fontFamily='Calibri' />
-                                                        </Layer>
-                                                    </Stage>
-                                                
+                                                    </Layer>
+                                                </Stage>
                                             ) : (
-                                                    <button onClick={() => this.Test_Onclick(this.state.PL.nm)}>
-                                                        <Stage width={PL_width} height={_height + 3} x={_dX} y={0}>
-                                                            <Layer key='1' background='red' >
-                                                                <AZS_Image Image={get_ICON_Lock(++r)} _W='55' _H='55' _X={21} _Y={ 6} />
-                                                            </Layer>
-                                                        </Stage>
-                                                    </button>
+                                                    <>
+                                                        <button className='Min_button' title="блокировка"
+                                                            onClick={() => this.Test_Onclick(this.state.PL.nm)}>
+                                                            <Stage width={BTN_width} height={BTN_height} x={0} y={0}>
+                                                                <Layer key='1' background='red' >
+                                                                    <AZS_Image Image={Icon_TCO_Lock}
+                                                                        _W='15' _H='15' _X={2} _Y={1} />
+                                                                </Layer>
+                                                            </Stage>
+                                                        </button>
+                                                        <button className='Min_button_EMAIL' title="письмо"
+                                                            onClick={() => this.Test_Maile_Onclick("Резервуары", "this.props.PLs")}
+                                                        >
+                                                            <Stage width={BTN_width} height={BTN_height} x={0} y={0}>
+                                                                <Layer key='1' background='red' >
+                                                                    <AZS_Image Image='/images/email.png'
+                                                                        _W='15' _H='15' _X={4} _Y={1} />
+                                                                </Layer>
+                                                            </Stage>
+                                                        </button>
+
+                                                    </>
                                                 )
                                             }
+                                            {/*                                         
+                                            {this.state.PL.id == 0 ? (
+
+                                                <Stage width={PL_width} height={BTN_height} x={0} y={0}>
+                                                    <Layer key='1' background='red' >
+                                                        <Text Text='блокировка'
+                                                            x='1' y='5' fill='black'
+                                                            fontSize='10' fontFamily='Calibri' />
+                                                    </Layer>
+                                                </Stage>
+
+                                            ) : (
+                                                
+                                                    <>
+                                                        <button onClick={() => this.Test_Onclick(this.state.PL.nm)}>
+                                                            <Stage width={BTN_width} height={BTN_height} x={0} y={0}>
+                                                                <Layer key='1' background='red' >
+                                                                    <AZS_Image Image={get_ICON_Lock(++r)}
+                                                                        _W='15' _H='15' _X={1} _Y={1} />
+                                                                </Layer>
+                                                            </Stage>
+                                                        </button>
+                                                    </>
+                                                
+                                                )
+                                            }
+*/ }
                                         </td>
                                     </tr>
                                 }

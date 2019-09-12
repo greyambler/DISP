@@ -13,6 +13,9 @@ import TCO_Tree from './device/tcoTree.jsx'
 
 
 
+
+
+
 import { Link, DirectLink, Element, Events, animateScroll as scroll, scrollSpy, scroller } from 'react-scroll'
 
 import FILTER from './filters.jsx'
@@ -265,6 +268,7 @@ function Get_Key_View_ID_TCO(mas_Vidg, _Fields_TCO, TCO) {
 export default class devices extends Component {
     constructor(props) {
         super(props);
+        this.Test_Maile_Onclick = this.Test_Maile_Onclick.bind(this);
 
         this.state = {
             AZS: this.props.AZS,
@@ -301,10 +305,13 @@ export default class devices extends Component {
 
             List_Fields_Main: this.props.List_Fields_Main,
 
+
         }
     }
 
     componentDidMount() {
+
+
         this.setState({ _pl: get_ZeroColumn_0(this.props.PL_0) });
         this.setState({ _trk: get_ZeroColumn_0(this.props.TRK_0) });
         this.setState({ _tco: get_ZeroColumn_0(this.props.TCO_0) });
@@ -320,6 +327,7 @@ export default class devices extends Component {
 
 
         this.setState({ Tree_TCO: this.props.TCO_0 });
+
 
     }
     componentDidUpdate(prevProps) {
@@ -437,15 +445,38 @@ export default class devices extends Component {
 
 
     /********** ФИЛЬТРЫ ********/
+    Test_Maile_Onclick(_object, message) {
 
+        let M = "Тест тело сообщения\n\r" + message;
 
+        var link = "mailto:me@example.ru"
+            //+ "?cc=myCCaddress@example.com"
+            + "&subject=" + _object
+            + "&body=" + M
+            /*    + "&body=" + message
+    
+               + "?cc=myCCaddress@example.com"
+               + "&subject=" + escape("This is my subject")
+               + "&body=" + escape(document.getElementById('myText').value)
+               */
+            ;
+        window.location.href = link;
+    }
     render() {
 
 
 
 
+        let Guid_T = createGuid();
+        let style_TD_BTN = {
+            verticalAlign: 'top',
+            height: '30px',
+            width: '355px',
+        }
+
+
         if (this.state.AZS != null && this.state.id == 0) {
-            let Guid_T = createGuid();
+
             return (
                 <div >
                     <table className="Dev_TBL">
@@ -457,12 +488,85 @@ export default class devices extends Component {
                                 </td>
                             </tr>
                             {
+                                <>
+                                    <tr>
+                                        <td id='td_Left'>
+                                            <center><Element name="test1" className="element" >Цены</Element></center>
+                                        </td>
+                                    </tr>
+                                    <tr>
+
+                                        <td colSpan='1'>
+                                            <>
+                                                <table id="Li_Level_Price_TD">
+                                                    <tbody>
+                                                        <tr>
+                                                            <td colSpan='2'>
+                                                                <hr />
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td style={style_TD_BTN}>
+                                                                Название топлива
+                                                        </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td colSpan='2'>
+                                                                <hr />
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td style={style_TD_BTN}>
+                                                                TH
+                                                        </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td colSpan='2'>
+                                                                <hr />
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td style={style_TD_BTN}>
+                                                                TH1
+                                                        </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td colSpan='2'>
+                                                                <hr />
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </>
+                                        </td>
+                                    </tr>
+                                </>
+                            }
+
+                            {
                                 Is_View_Row(this.state.List_Fields_Main, 'pl') &&
                                 this.state._pl != null &&
                                 <>
                                     <tr>
                                         <td id='td_Left'>
                                             <center><Element name="test1" className="element" >Резервуары</Element></center>
+                                            {/*<>
+                                                <table>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>
+                                                                <center><Element name="test1" className="element" >Резервуары</Element></center>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <center><button className='Def_button'
+                                                                    onClick={() => this.Test_Maile_Onclick("Резервуары", "this.props.PLs")}>Создать письмо</button></center>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </>*/}
                                         </td>
                                     </tr>
                                     <tr>
@@ -491,6 +595,23 @@ export default class devices extends Component {
                                     <tr>
                                         <td id='td_Left'>
                                             <center><Element name="test2" className="element" >ТРК</Element></center>
+                                            {/*    <>
+                                                <table>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>
+                                                                <center><Element name="test2" className="element" >ТРК</Element></center>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <center><button className='Def_button' onClick={() => this.Test_Maile_Onclick("ТРК")}>Создать письмо</button></center>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </>
+                                            */}
                                         </td>
                                     </tr>
 
@@ -520,16 +641,16 @@ export default class devices extends Component {
                                                     <TRK TRK={el}
                                                         key={'Trk ' + createGuid()}
                                                         id={el.id}
-     
+         
                                                         TRK_Col={this.props.TRK_Col}
-     
+         
                                                         View_Icon={this.props.View_Icon}
                                                         View_Data={this.props.View_Data}
-     
+         
                                                         List_Fields_Main={this.props.List_Fields_Main}
-     
+         
                                                     />
-     
+         
                                                 </td>
                                                 
                                             ))*/
@@ -546,6 +667,23 @@ export default class devices extends Component {
                                     <tr>
                                         <td id='td_Left'>
                                             <center ><Element name="test3" className="element" >ТСО</Element></center>
+                                            {/*<>
+                                                <table>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>
+                                                                <center ><Element name="test3" className="element" >ТСО</Element></center>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <center><button className='Def_button' onClick={() => this.Test_Maile_Onclick("ТСО")}>Создать письмо</button></center>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </>
+                                            */}
                                         </td>
                                     </tr>
                                     <tr>
@@ -579,8 +717,6 @@ export default class devices extends Component {
             let View_Filter_id_pl = CreatViewFILTER_ID_PL(this.state.PLs);
             let View_Filter_id_krk = CreatViewFILTER_ID_TRK(this.state.Trk);
             let View_Filter_id_tco = CreatViewFILTER_ID_TCO(this.props.TCO);
-
-
             let View_Filter_fuels = CreatViewFILTER_FUELS(this.props._List_Objs);
 
             return (
@@ -596,6 +732,267 @@ export default class devices extends Component {
                                     </td>
                                 </tr>
                             }
+
+                            {(this.state.PLs != null && this.state.PLs.length > 0) &&
+                                <tr>
+                                    <td id='td_Left' colSpan='5'>
+                                        <center><Element name="test1" className="element" >Цены</Element></center>
+                                    </td>
+                                </tr>
+                            }
+                            <tr>
+                                {(this.state.PLs != null && this.state.PLs.length > 0) &&
+                                    <td>
+                                        <td>
+                                            <table id='Li_Level_Price'>
+                                                <tbody>
+                                                    <tr>
+                                                        <td colSpan='2'>
+                                                            <hr />
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style={style_TD_BTN}>
+                                                            Аи-95
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colSpan='2'>
+                                                            <hr />
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style={style_TD_BTN}>
+                                                            28.38
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colSpan='2'>
+                                                            <hr />
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style={style_TD_BTN}>
+                                                            29
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colSpan='2'>
+                                                            <hr />
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </td>
+                                        <td>
+                                            <table id='Li_Level_Price'>
+                                                <tbody>
+                                                    <tr>
+                                                        <td colSpan='2'>
+                                                            <hr />
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style={style_TD_BTN}>
+                                                            Аи-95
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colSpan='2'>
+                                                            <hr />
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style={style_TD_BTN}>
+                                                            28.38
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colSpan='2'>
+                                                            <hr />
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style={style_TD_BTN}>
+                                                            29
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colSpan='2'>
+                                                            <hr />
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </td>
+                                        <td>
+                                            <table id='Li_Level_Price'>
+                                                <tbody>
+                                                    <tr>
+                                                        <td colSpan='2'>
+                                                            <hr />
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style={style_TD_BTN}>
+                                                            Аи-95
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colSpan='2'>
+                                                            <hr />
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style={style_TD_BTN}>
+                                                            28.38
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colSpan='2'>
+                                                            <hr />
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style={style_TD_BTN}>
+                                                            29
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colSpan='2'>
+                                                            <hr />
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </td>
+                                        <td>
+                                            <table id='Li_Level_Price'>
+                                                <tbody>
+                                                    <tr>
+                                                        <td colSpan='2'>
+                                                            <hr />
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style={style_TD_BTN}>
+                                                            Аи-95
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colSpan='2'>
+                                                            <hr />
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style={style_TD_BTN}>
+                                                            28.38
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colSpan='2'>
+                                                            <hr />
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style={style_TD_BTN}>
+                                                            29
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colSpan='2'>
+                                                            <hr />
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </td>
+                                        <td>
+                                            <table id='Li_Level_Price'>
+                                                <tbody>
+                                                    <tr>
+                                                        <td colSpan='2'>
+                                                            <hr />
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style={style_TD_BTN}>
+                                                            Аи-95
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colSpan='2'>
+                                                            <hr />
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style={style_TD_BTN}>
+                                                            28.38
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colSpan='2'>
+                                                            <hr />
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style={style_TD_BTN}>
+                                                            29
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colSpan='2'>
+                                                            <hr />
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </td>
+                                        <td>
+                                            <table id='Li_Level_Price'>
+                                                <tbody>
+                                                    <tr>
+                                                        <td colSpan='2'>
+                                                            <hr />
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style={style_TD_BTN}>
+                                                            Аи-95
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colSpan='2'>
+                                                            <hr />
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style={style_TD_BTN}>
+                                                            28.38
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colSpan='2'>
+                                                            <hr />
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style={style_TD_BTN}>
+                                                            29
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colSpan='2'>
+                                                            <hr />
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </td>
+
+                                    </td>
+                                }
+                            </tr>
 
 
                             {Is_View_Row(this.state.List_Fields_Main, 'pl') &&
@@ -625,7 +1022,6 @@ export default class devices extends Component {
                                                 </table>
                                             </div>
                                         </td>
-                                        {/*<td><h4>Резервуары</h4></td>*/}
                                     </tr>
                                     <tr>
                                         {this.state.LineZeroPL ?
@@ -682,7 +1078,6 @@ export default class devices extends Component {
                                                 dataFilter={View_Filter_id_krk}
                                             />
                                         </td>
-                                        {/*<center ><h4>ТРК</h4></center>*/}
                                     </tr>
                                     <tr>
                                         {this.state.LineZeroTRK ?
@@ -709,6 +1104,9 @@ export default class devices extends Component {
 
                                                                 <td key={'li ' + el.id} >
                                                                     <TRK TRK={el}
+
+                                                                        TCO={this.state.TCO[0]}
+
                                                                         fuels={this.props._List_Objs.fuel}
                                                                         key={'Trk ' + el.id}
                                                                         id={el.id}
@@ -783,9 +1181,12 @@ export default class devices extends Component {
                                     </tr>
                                 </>
                             }
+
+
+
                         </tbody>
                     </table>
-                </div>
+                </div >
             );
         } else {
             return <br />;

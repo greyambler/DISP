@@ -1,56 +1,69 @@
 * {
-    margin: 0;
-    padding: 0;
- }
- h3{
-    color: white;
- }
- .TBL{
-  /* background: rgb(0, 141, 141);
+   margin: 0;
+   padding: 0;
+}
+
+h3 {
+   color: white;
+}
+
+.TBL {
+   /* background: rgb(0, 141, 141);
    color: white;*/
    color: black;
 }
-#hid{
-   color:white;
+
+#hid {
+   color: white;
 }
 
- html, body {
-    margin-left: 2px;
-    margin-right: 5px;
-    height: 96.5%;
-    
- }
- 
- .content {
-    flex: 70 10 auto;
-    min-height: 99%;
-/*  margin-top: 150px;  */
-    margin-left: 2px;    
-    
- }
- 
- .WinNotTree{
+html, body {
+   margin-left: 2px;
+   margin-right: 5px;
+   height: 96.5%;
+
+   overflow-x: visible;
+}
+
+/*.Div_content
+{
+   flex: 70 10 auto;
+   min-height: 99%;
+   margin-top: 130px;
+   margin-left: 2px;
+}
+*/
+
+.content {
+   flex: 70 10 auto;
+   min-height: 99%;
+   margin-top: 40px;
+   margin-left: 2px;
+
+}
+
+.WinNotTree {
    margin-left: 245px;
 }
- /*****footer****/
- 
- footer {
-    flex: 0 0 auto;
-    padding-right: 1px;
-    
- }
- 
- .f_table1 {
-    background:rgb(0, 141, 141);/* rgb(0, 21, 41);*/
-    border: 0px solid rgb(0, 141, 141);
-    width: 100%;
-    
- }
- 
- .f_table2 {
-    border: 0px solid rgb(0, 141, 141);
-    text-align: right;
-    font-size: 9px;
- }
- 
- /*****footer****/
+
+/*****footer****/
+
+footer {
+   flex: 0 0 auto;
+   padding-right: 1px;
+}
+
+.f_table1 {
+   background: rgb(0, 141, 141);
+   /* rgb(0, 21, 41);*/
+   border: 0px solid rgb(0, 141, 141);
+   width: 100%;
+}
+
+.f_table2 {
+   border: 0px solid rgb(0, 141, 141);
+   text-align: right;
+   font-size: 9px;
+}
+
+/*****footer****/

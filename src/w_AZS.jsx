@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { RSS_Tanks, Get_RSS, RSS, ETALON_AZS, RSS_AZS, RSS_Type_List ,Get_Device, Get_MainHead, Get_Val} from './core/core_Function.jsx';
+import { RSS_Tanks, Get_RSS, RSS, ETALON_AZS, RSS_AZS, RSS_Type_List, Get_Device, Get_MainHead, Get_Val } from './core/core_Function.jsx';
 //import W_main_AZS from './shared_FilterAZS/w_main_AZS.jsx';
 
 import W_main_azs from './azs/w_main_azs.jsx';
@@ -30,10 +30,10 @@ export default class w_AZS extends React.Component {
 
             NOZZLE_0: null,
             NOZZLE_Col: null,
-
         }
     }
     componentDidMount() {
+
         this.setState({ _List_Objs: this.props._List_Objs }, this.Get_FieldsPL);
         //this.tick();
 
@@ -209,6 +209,26 @@ export default class w_AZS extends React.Component {
     }
 
 
+    get_Mass_Fuel(Fuel, Price_Col, I) {
+        let prices = new Array();
+        for (const item_AI in Fuel) {
+            prices = new Array();
+            for (const key in Price_Col) {
+                if (!Array.isArray(Price_Col[key])) {
+                    prices[key] = Price_Col[key];
+                }
+            }
+            let _Prices = new Array();
+            _Prices["nm_fuel"] = Fuel["nm"];
+            _Prices["price_BD1"] = 24 + I;
+            _Prices["price_BD2"] = 25 + I;
+
+            prices.push(_Prices);
+        }
+        return prices;
+    }
+    /*Price_ColVal*/
+
     render() {
         if (this.state._List_Objs != null) {
             return (
@@ -224,6 +244,8 @@ export default class w_AZS extends React.Component {
                     //NOZZLE_0={this.state.NOZZLE_0} NOZZLE_Col={this.state.NOZZLE_Col}
 
                     _List_Objs={this.props._List_Objs}
+
+                   
                 />
             );
         } else {

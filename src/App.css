@@ -15,8 +15,8 @@
  td, th, tr {
     /*background: maroon;  Цвет фона ячеек */
     padding: 0px;
-    /* Поля вокруг текста  
-    border: 1px solid red;     */
+    /* Поля вокруг текста     
+    border: 1px solid red;         */
     /*min-width: 20px;*/
  }
 
@@ -28,26 +28,28 @@
     border: 3px solid red;   */
     align-content: center;
  }
- .tableDevice_nav{
-   width: 100%;
-   height: 30px;
+
+ .tableDevice_nav {
+    width: 100%;
+    height: 30px;
  }
- #td_Full{
+
+ #td_Full {
     width: 90%;
     text-align: center;
-    
  }
- #td_Left{
-   min-width: 290px;
-   height: 80px;
-   max-height: 80px;
+
+ #td_Left {
+    min-width: 290px;
+    height: 80px;
+    max-height: 80px;
  }
- 
- #td_Left_PL{
-   min-width: 290px;
-   height: 74px;
-   max-height: 74px;
-   min-height: 74px;
+
+ #td_Left_PL {
+    min-width: 290px;
+    height: 74px;
+    max-height: 74px;
+    min-height: 74px;
  }
 
  .Dev_TBL {
@@ -85,7 +87,6 @@
  }
 
  #Li_Level, #Li_Level_tco {
-
     text-align: center;
     width: 30px;
     min-width: 110px;
@@ -96,12 +97,28 @@
     margin-bottom: 6px;
  }
 
+ #Li_Level_Price {
+   text-align: center;
+   width: 30px;
+   min-width: 110px;
+   background: white;
+   border: 0px ridge rgb(250, 246, 246);
+   vertical-align: top;
+   margin-top: 0px;
+   margin-bottom: 0px;
+}
+#Li_Level_Price_TD {
+   margin-top: 3px;
+   margin-bottom: 3px;
+}
+
  #Li_Level_tco {
     font-size: 10px;
  }
- #td_top{
-   vertical-align:top;
-}
+
+ #td_top {
+    vertical-align: top;
+ }
 
  #td_ID {
     vertical-align: text-top;
@@ -109,23 +126,21 @@
  }
 
  #td_ID_MinFont {
-   vertical-align: text-top;
-   height: 49px;
-   font-size: 10px;
-}
+    vertical-align: text-top;
+    height: 49px;
+    font-size: 10px;
+ }
 
  #td_ID_Filter {
     vertical-align: text-top;
     height: 28px;
  }
 
-
- .test0:hover,.test1:hover, .test2:hover, .test3:hover {
- /*    font-size: 20.5px;*/
+ .test0:hover, .test1:hover, .test2:hover, .test3:hover {
+    /*    font-size: 20.5px;*/
     color: blue;
     cursor: pointer;
  }
-
 
  /*DropdownTreeSelect {
     font-size: 10px;
@@ -139,4 +154,3 @@
     /*border: 3px ridge rgb(250, 246, 246);
     border: 1px ridge rgb(0, 0, 0);*/
  }
- 

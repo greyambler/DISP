@@ -42,7 +42,7 @@ export default class list_azs extends Component {
             data: null,
             IsOpen: false,
             /******** WS******************** */
-             List_Fields_Main: this.props.List_Fields_Main,
+            List_Fields_Main: this.props.List_Fields_Main,
             List_Fields_PL: this.props.List_Fields_PL,
         };
     }
@@ -54,13 +54,13 @@ export default class list_azs extends Component {
             this.setState({ _Azs: this.props.azs }, this.Get_Id_Devices());
         }
         /**/  if (this.props.List_Fields_Main != prevProps.List_Fields_Main) {
-             this.setState({ List_Fields_Main: this.props.List_Fields_Main }, this.restart());
-         }
-        
-         if (this.props.List_Fields_PL != prevProps.List_Fields_PL) {
-             this.setState({ List_Fields_PL: this.props.List_Fields_PL });
-         }
-         
+            this.setState({ List_Fields_Main: this.props.List_Fields_Main }, this.restart());
+        }
+
+        if (this.props.List_Fields_PL != prevProps.List_Fields_PL) {
+            this.setState({ List_Fields_PL: this.props.List_Fields_PL });
+        }
+
     }
     componentWillUnmount() {
         this.stop_ws();
@@ -74,7 +74,7 @@ export default class list_azs extends Component {
             }
             //this.setState({ _M_ID: this.state._m_ID });            
             //his.props.update_ID_DevS(this.state._m_ID);
-            
+
             /********************* */
             this.start_ws();
             /********************* */
@@ -238,6 +238,10 @@ export default class list_azs extends Component {
                                                 List_Fields_PL={this.props.List_Fields_PL}
                                                 List_Fields_TRK={this.props.List_Fields_TRK}
                                                 List_Fields_TCO={this.props.List_Fields_TCO}
+
+
+
+
                                             />
                                         </td>
                                     ))

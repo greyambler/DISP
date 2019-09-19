@@ -17,11 +17,15 @@ export const RSS = "http://172.23.16.18:8080/dprest-1.0-SNAPSHOT/webresources/ru
 
 export const MARK = "http://172.23.16.18:8080/dpmark-1.0-SNAPSHOT/webresources/ru.expertek.dp.dpinside.mark";
 
+export const AZS_List_Error = "http://172.23.16.18:8080/dpmark-1.0-SNAPSHOT/webresources/ru.expertek.dp.dpinside.mark";
+
 export const AZS_s = "http://172.23.16.18:8020/dprest-1.0-SNAPSHOT/webresources/ru.expertek.dp.dpfacade.azk";
 
 export const RSS_AZS = "http://172.23.16.18:8080/dprest-1.0-SNAPSHOT/webresources/ru.expertek.dp.dpfacade.azk";
 
 export const RSS_AZS_EDIT = "http://172.23.16.18:8080/dprest-1.0-SNAPSHOT/webresources/ru.expertek.dp.dpfacade.dic.edit/azk";
+
+export const RSS_LOGIN = "http://172.23.16.18:8080/dprest-1.0-SNAPSHOT/webresources/ru.expertek.dp.dpfacade.dic.edit/user/login";
 
 
 //export const WS = "ws://172.23.16.18:8080/dpsock-1.0-SNAPSHOT/alws";
@@ -29,6 +33,8 @@ export const RSS_AZS_EDIT = "http://172.23.16.18:8080/dprest-1.0-SNAPSHOT/webres
 // pl
 export const RSS_Tanks = "http://172.23.16.18:8080/dpmark-1.0-SNAPSHOT/webresources/ru.expertek.dp.dpinside.tank";
                          
+
+export let TOKEN ="";
 
 //- обращение напрямую к WildFly
 //http://172.23.16.18:8020/dpmark-1.0-SNAPSHOT/webresources/ru.expertek.dp.dpinside.tank
@@ -931,7 +937,8 @@ export function Get_MainHead(TCO) {
   Tso.push(TsoVal);
   return Tso;
 }
-export function Get_Val(mas, key) {
+
+export function Get_Val(mas, key, isFull) {
   let R = "";
   let len = mas.length;
   if (len > 0) {
@@ -940,9 +947,22 @@ export function Get_Val(mas, key) {
       R = mas[len - 1][key];
     }
   }
+  R = isFull 
+    ? R 
+    : (R.length > 36)? R.substr(0, 36): R; 
   return R;
 }
-
+export function Is_Text_MORE(MASS, main) {
+  let text = Get_Val(MASS, main,true);
+  let n = Number(MASS[MASS.length - 1][main]);
+  if (MASS != null && MASS != undefined && isNaN(n))// && MASS[MASS.length - 1]['id'].length > 10) 
+  {
+      if (text.length > 10) {
+          return false;
+      }
+  }
+  return true;
+}
 
 /******** ТCO ************************* */
 

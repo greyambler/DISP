@@ -68,7 +68,8 @@ function get_ICON_Lock_2(val) {
 
 function get_TextFirstCol(nameCol, PL_0, isFull) {
     let r = 0;
-    let text = isFull ? PL_0[nameCol] : PL_0[nameCol].substr(0, 36);
+    let text = isFull ? PL_0[nameCol]
+        : (PL_0[nameCol].length > 36) ? PL_0[nameCol].substr(0, 36) : PL_0[nameCol];
     if (_Debuge_Key) {
         text = text + " [" + nameCol + "]";
     }
@@ -313,7 +314,7 @@ export default class pl extends Component {
                                             </tr>
                                             <tr>
                                                 <td id='td_ID' title={get_TextFirstCol(el, this.state.PL, true)}>
-                                                    {get_TextFirstCol(el, this.state.PL, true)}
+                                                    {get_TextFirstCol(el, this.state.PL, false)}
                                                 </td>
                                             </tr>
                                         </>

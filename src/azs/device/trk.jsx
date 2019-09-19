@@ -192,6 +192,20 @@ function get_ID_cmd_TCO(TCO) {
     return ID;
 }
 
+function get_TRK(id) {
+    let T_Json =
+        '{"type": "cmd_trk",' +
+        '"dev_id": "' + id + '",' +
+        '"obj": {' +
+        '           "ctrl_value": "pump_lock",' +
+        '           "cashier_code": 1' +
+        '       }' +
+        ' }'
+    let y = JSON.parse(T_Json);
+    let t_Json = JSON.stringify(y);
+    return t_Json;
+}
+
 function get_LOCK_TRK(id, ctrl_number_capacity) {
     let r =
         '{"ctrl": 2,' +
@@ -285,12 +299,21 @@ export default class trk extends Component {
 
         let ID = get_ID_cmd_TCO(tco);
         if (ID != null) {
-            id = ID;
+            //id = ID;
         }
 
         var myRequest = new Request(rss);
-        let _body = get_LOCK_TRK(id, ctrl_number_capacity);
+        //let _body = get_LOCK_TRK(id, ctrl_number_capacity);
+        let _body = get_TRK(id);
+/*
+        •	pump_lock - заблокировать ТРК
+        •	pump_unlock - разблокировать ТРК
+        •	tank_lock - заблокировать резервуар
+        •	tank_unlock - разблокировать резервуар
+*/        
 
+
+        alert("Команда " + "запроса =" + _body);
         try {
             var response = await fetch(myRequest,
                 {

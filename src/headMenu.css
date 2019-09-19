@@ -238,61 +238,77 @@
     box-shadow: 0px 2px 1px rgba(0, 0, 0, 0.2);*/
     min-width: 17px;
     color: black;
-
-    
  }
 
  .Def_button {
-   padding: 1px;
-   text-align: center;
-   text-decoration: none;
-   display: inline-block;
-   font-size: 12px;
-   font-weight: 600;
-   width: 90%;
-   height: 27px;
-   /*Скругленные углы*/
-   -webkit-border-radius: 9px;
-   -moz-border-radius: 9px;
-   border-radius: 9px;
-   background: linear-gradient( rgb(4, 231, 231), rgb(1, 107, 107)) rgb(126, 255, 255);
-   transition: 0.2s;
-   color: white;
+    padding: 1px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 600;
+    width: 90%;
+    height: 27px;
+    /*Скругленные углы*/
+    -webkit-border-radius: 9px;
+    -moz-border-radius: 9px;
+    border-radius: 9px;
+    background: linear-gradient( rgb(4, 231, 231), rgb(1, 107, 107)) rgb(126, 255, 255);
+    transition: 0.2s;
+    color: white;
+ }
 
-}
-.Min_button {
-   padding: 1px;
-   text-align: center;
-   text-decoration: none;
-   display: inline-block;
-   font-size: 12px;
-   font-weight: 600;
-   width: 27px;
-   height: 27px;
-   /*Скругленные углы*/
-   -webkit-border-radius: 9px;
-   -moz-border-radius: 9px;
-   border-radius: 9px;
-   background: linear-gradient( rgb(4, 231, 231), rgb(1, 107, 107)) rgb(126, 255, 255);
-   transition: 0.2s;
-   color: white;
+ .Min_button {
+    padding: 1px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 600;
+    width: 27px;
+    height: 27px;
+    /*Скругленные углы*/
+    -webkit-border-radius: 9px;
+    -moz-border-radius: 9px;
+    border-radius: 9px;
+    background: linear-gradient( rgb(4, 231, 231), rgb(1, 107, 107)) rgb(126, 255, 255);
+    transition: 0.2s;
+    color: white;
+ }
 
-}
-.Min_button_EMAIL {
-   padding: 1px;
-   text-align: center;
-   text-decoration: none;
-   display: inline-block;
-   font-size: 12px;
-   font-weight: 600;
-   width: 27px;
-   height: 27px;
-   /*Скругленные углы*/
-   -webkit-border-radius: 9px;
-   -moz-border-radius: 9px;
-   border-radius: 9px;
-   background: linear-gradient( rgb(255, 239, 18), rgb(145, 135, 0)) rgb(255, 245, 108);
-   transition: 0.2s;
-   color: white;
+ .Min_button_EMAIL {
+    padding: 1px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 600;
+    width: 27px;
+    height: 27px;
+    /*Скругленные углы*/
+    -webkit-border-radius: 9px;
+    -moz-border-radius: 9px;
+    border-radius: 9px;
+    background: linear-gradient( rgb(255, 239, 18), rgb(145, 135, 0)) rgb(255, 245, 108);
+    transition: 0.2s;
+    color: white;
+ }
 
-}
+ .Min_button_White {
+    padding: 1px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 600;
+    width: 27px;
+    height: 27px;
+    /*Скругленные углы*/
+    -webkit-border-radius: 9px;
+    -moz-border-radius: 9px;
+    border-radius: 9px;
+    background: linear-gradient(white, whitesmoke) rgb(126, 255, 255);
+    transition: 0.2s;
+    color: white;
+    margin-left: 20px;
+ }

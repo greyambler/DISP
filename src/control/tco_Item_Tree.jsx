@@ -1,17 +1,18 @@
 import React, { Component, PropTypes } from 'react';
-import { Get_Val } from '../core/core_Function.jsx';
-
+import { Get_Val, Is_Text_MORE } from '../core/core_Function.jsx';
+/*
 function Is_Text_MORE(MASS, main) {
-    let text = Get_Val(MASS, main);
+    let text = Get_Val(MASS, main,true);
     let n = Number(MASS[MASS.length - 1]['id']);
     if (MASS != null && MASS != undefined && isNaN(n))// && MASS[MASS.length - 1]['id'].length > 10) 
     {
-        if (text.length > 12) {
+        if (text.length > 10) {
             return false;
         }
     }
     return true;
 }
+*/
 
 
 export default class tco_Item_Tree extends Component {
@@ -33,8 +34,8 @@ export default class tco_Item_Tree extends Component {
                                 </td>
                             }
                             {MASS.length - (1 + F) > 1 &&
-                                <td colSpan='3' id={Is_Text_MORE(MASS, main) ? 'td_ID' : 'td_ID_MinFont'}>
-                                    {Get_Val(MASS, main)}
+                                <td colSpan='3' id={Is_Text_MORE(MASS, main) ? 'td_ID' : 'td_ID_MinFont'} title={Get_Val(MASS, main,true)}>
+                                    {Get_Val(MASS, main,false)}
                                 </td>
                             }
                         </tr>

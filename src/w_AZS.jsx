@@ -244,7 +244,7 @@ export default class w_AZS extends React.Component {
                     //NOZZLE_0={this.state.NOZZLE_0} NOZZLE_Col={this.state.NOZZLE_Col}
 
                     _List_Objs={this.props._List_Objs}
-
+                    history={this.props.history}
                    
                 />
             );

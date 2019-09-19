@@ -326,7 +326,7 @@ export default class azs extends Component {
                     }
                     if (!Is_Exist && iterator != undefined) {
                         let M = this.Get_Mass(device, deviceS);
-                        M[3]['id'] = "a12";
+                        //M[3]['id'] = "a12";
                         DEV_Mass_Val.push(M);
                     }
                     if (iterator == undefined) {
@@ -403,7 +403,7 @@ export default class azs extends Component {
 
                 //update_VIEW_ID_PL={this.update_VIEW_ID_PL}
 
-
+                history={this.props.history}
             />
         );
     }

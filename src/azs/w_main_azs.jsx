@@ -778,7 +778,7 @@ export default class w_main_azs extends React.Component {
                             List_Fields_TRK={this.state.List_Fields_TRK}
                             List_Fields_TCO={this.state.List_Fields_TCO}
 
-
+                            history={this.props.history}
                         />
                     }
                 </div>

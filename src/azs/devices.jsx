@@ -8,7 +8,7 @@ import { Array } from 'core-js';
 
 import Pl from './device/pl.jsx'
 import TRK from './device/trk.jsx'
-
+import AZS_Image from '../control/AZS_Image.jsx'
 import TCO_Tree from './device/tcoTree.jsx'
 
 
@@ -269,7 +269,7 @@ export default class devices extends Component {
     constructor(props) {
         super(props);
         this.Test_Maile_Onclick = this.Test_Maile_Onclick.bind(this);
-
+        this.AZS_ERROR_Onclick = this.AZS_ERROR_Onclick.bind(this);
         this.state = {
             AZS: this.props.AZS,
             id: this.props.id,
@@ -462,6 +462,12 @@ export default class devices extends Component {
             ;
         window.location.href = link;
     }
+
+    AZS_ERROR_Onclick(id_azs) {
+        //alert("Тест = " + id_azs);
+        //history={this.props.history}
+        this.props.history.push('/azs_listerror&' +id_azs);
+    }
     render() {
 
 
@@ -573,7 +579,8 @@ export default class devices extends Component {
                                         <td>
 
                                             {
-                                                <td key={'pl_' + Guid_T}>
+
+                                                <div key={'pl_' + Guid_T}>
                                                     <Pl PL={this.state._pl[0]}
                                                         key={'PL_' + Guid_T}
                                                         id={this.state._pl[0].id}
@@ -581,7 +588,8 @@ export default class devices extends Component {
                                                         List_Fields_Main={this.state.List_Fields_Main}
                                                         List_Fields_PL={this.props.List_Fields_PL}
                                                     />
-                                                </td>
+                                                </div>
+
                                             }
                                         </td>
                                     </tr>
@@ -619,7 +627,7 @@ export default class devices extends Component {
                                         <td>
 
                                             {
-                                                <td key={'trk_' + Guid_T}>
+                                                <div key={'trk_' + Guid_T}>
                                                     <TRK TRK={this.state._trk[0]}
                                                         key={'Trk ' + Guid_T}
                                                         id={this.state._trk[0].id}
@@ -634,7 +642,7 @@ export default class devices extends Component {
 
                                                     />
 
-                                                </td>
+                                                </div>
                                                 /*
                                             this.state._trk.map(el => (
                                                 <td key={'trk_' + createGuid()}>
@@ -690,7 +698,7 @@ export default class devices extends Component {
                                         <td>
 
                                             {
-                                                <td key={'tso_' + Guid_T}>
+                                                <div key={'tso_' + Guid_T}>
 
 
                                                     <TCO_Tree TCO={this.state.Tree_TCO}
@@ -700,7 +708,7 @@ export default class devices extends Component {
                                                         List_Fields_TCO={this.props.List_Fields_TCO}
                                                     />
 
-                                                </td>
+                                                </div>
 
                                             }
                                         </td>
@@ -719,6 +727,21 @@ export default class devices extends Component {
             let View_Filter_id_tco = CreatViewFILTER_ID_TCO(this.props.TCO);
             let View_Filter_fuels = CreatViewFILTER_FUELS(this.props._List_Objs);
 
+
+            let _height = 60;
+            let _width = 110;
+            let _dX = 2;
+            let PL_width = (_width + _dX + 0.4);
+
+            let BTN_width = 20;
+            let BTN_height = 20;
+
+            let style_TD_BTN = {
+                verticalAlign: 'top',
+                height: '30px',
+                //background: 'rgb(0, 141, 141)',
+            }
+
             return (
                 <div >
                     <table className="DevS_TBL">
@@ -727,7 +750,20 @@ export default class devices extends Component {
                             {(this.state.PLs != null && this.state.PLs.length > 0) &&
                                 <tr>
                                     <td>
-                                        <center>{this.state.AZS.nm}</center>
+
+                                        <center>
+                                            {this.state.AZS.nm}
+
+                                            <button className='Min_button_White' title="Журнал ошибок" 
+                                                onClick={() => this.AZS_ERROR_Onclick(this.state.AZS.id)}>
+                                                <Stage width={BTN_width} height={BTN_height} x={0} y={0}>
+                                                    <Layer key='1' background='red' >
+                                                        <AZS_Image Image='/images/anim_engine.gif'
+                                                            _W='15' _H='15' _X={2} _Y={1} />
+                                                    </Layer>
+                                                </Stage>
+                                            </button>
+                                        </center>
                                         <hr /><hr />
                                     </td>
                                 </tr>
@@ -1186,7 +1222,7 @@ export default class devices extends Component {
 
                         </tbody>
                     </table>
-                </div >
+                </div>
             );
         } else {
             return <br />;

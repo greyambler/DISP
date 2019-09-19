@@ -8,6 +8,7 @@ import Tco_Dvc_Item_Tree from '../../control/tco_Dvc_Item_Tree.jsx';
 
 
 const _Debuge = false;
+const _Debuge_Message = true;
 
 function Is_View_Row(Data, Name_Row) {
     let row = false;
@@ -215,7 +216,7 @@ function get_Json_TEST(id) {
 
 }
 
-function get_LOCK_TCO(id) {
+function get_LOCK_TCO_Old_Save(id) {
     let r =
         '{"ctrl": 2,' +
         '"ctrl_type": "trkOperate",' +
@@ -255,7 +256,7 @@ function get_LOCK_TCO(id) {
     let t_Json = JSON.stringify(y);
     return RR;
 }
-function get_restart_pc(id) {
+function get_restart_pc_Old_Save(id) {
     let T_Json =
         '{' +
         '   "type": "cmd_mfc",' +
@@ -268,7 +269,7 @@ function get_restart_pc(id) {
     let t_Json = JSON.stringify(y);
     return t_Json;
 }
-function get_restart_fr(id) {
+function get_restart_fr_Old_Save(id) {
     let T_Json =
         '{' +
         '   "type": "cmd_mfc",' +
@@ -282,7 +283,7 @@ function get_restart_fr(id) {
     return t_Json;
 
 }
-function get_restart_cash(id) {
+function get_restart_cash_Old_Save(id) {
     let T_Json =
         '{' +
         '   "type": "cmd_mfc",' +
@@ -342,6 +343,51 @@ function get_cmd_mfc_ID(TCO) {
     }
     return ID;
 }
+
+
+function get_restart(id, nameCommand) {
+    let T_Json =
+        '{' +
+        '   "type": "cmd_mfc",' +
+        '   "dev_id": "' + id + '",' +
+        '   "obj": {' +
+        '     "action": "' + nameCommand + '"' +
+        '   }' +
+        ' }'
+    let y = JSON.parse(T_Json);
+    let t_Json = JSON.stringify(y);
+    return t_Json;
+}
+
+function get_TCO_1(id, nameCommand) {
+    let T_Json =
+        '{' +
+        '   "type": "cmd_tso",' +
+        '   "dev_id": "' + id + '",' +
+        '   "obj": {' +
+        '           "ctrl_value": "' + nameCommand + '",' +
+        '           "shift_number": 1,' +
+        '           "cashier_code": 1' +
+        '       }' +
+        ' }'
+    let y = JSON.parse(T_Json);
+    let t_Json = JSON.stringify(y);
+    return t_Json;
+}
+/*
+function get_TCO_EXE1() {
+    if (!document.all) {
+        alert("Available only with Internet Explorer.");
+        return;
+    }
+    var ws = new ActiveXObject("WScript.Shell");
+    ws.Exec("C:\\Windows\\notepad.exe");
+}
+*/
+function get_TCO() {
+
+}
+
 let r = 0;
 
 export default class tcoTree extends Component {
@@ -405,26 +451,32 @@ export default class tcoTree extends Component {
 
     async toock(text, id, tco, type_Body) {///Отправка команды
         let rss = POST;
-
-        let ID = (type_Body == "lock_tso") ? get_ID_cmd_TCO(tco) : get_cmd_mfc_ID(tco);//get_AGENT_ID_cmd_mfc(tco);
+        let ID = (type_Body == "shift_close") ? get_ID_cmd_TCO(tco) : get_cmd_mfc_ID(tco);//get_AGENT_ID_cmd_mfc(tco);
         if (ID != null) {
             id = ID;
         }
-
-
         var myRequest = new Request(rss);
         let _body = null;
-
         switch (type_Body) {
-            case 'restart_pc': _body = get_restart_pc(id); break;
-            case 'restart_fr': _body = get_restart_fr(id); break;
-            case 'restart_cash': _body = get_restart_cash(id); break;
+            case 'restart_pc': _body = get_restart(id, "restart_pc"); break;
+            case 'restart_fr': _body = get_restart(id, "restart_fr"); break;
+            case 'restart_cash': _body = get_restart(id, "restart_cash"); break;
+            case 'shift_close': _body = get_TCO(id, "shift_close"); break;
 
-            case 'lock_tso': _body = get_LOCK_TCO(id); break;
+            /*
+            •	shift_open - открыть смену
+            •	shift_close - закрыть смену
+            •	shift_stop - остановить смену
+            •	shift_start - запустить смену
+            •	print_z_report - закрыть фискальную смену (с закрытием смены на ТУ 3в1)
+            •	print_fin_report - печать финансового отчета
+            */
 
             default: _body = get_Json_TEST(id); break;
         }
-
+        if (_Debuge_Message) {
+            alert("Команда " + "запроса =" + _body);
+        }
 
         try {
             var response = await fetch(myRequest,
@@ -439,11 +491,21 @@ export default class tcoTree extends Component {
             if (response.ok) {
                 const Jsons = await response.json();
                 this.setState({ _ANS: Jsons });
-                alert("Команда получила ответ - " + Jsons.status + ",\n АЗК = " + tco[tco.length - 1].nm + ",\n id = " + id + ",\n команда = " + type_Body + ",\n запрос =" + _body);
+                if (_Debuge_Message) {
+                alert("Команда получила ответ - " + Jsons.status + ",\n АЗК = " +
+                    tco[tco.length - 1].nm + ",\n id = " + id + ",\n команда = " +
+                    type_Body + ",\n запрос =" + _body);
+                }else{
+                    alert("Команда ушла на сервер");
+                }
             }
             else {
-                throw Error(response.statusText);
+                const mess = await response.json();
+                //const mess = await response.text();
+                //alert("Ответ - " + mess.message);
+                throw Error(mess.message);
             }
+
         }
         catch (error) {
             console.log(error);
@@ -459,7 +521,7 @@ export default class tcoTree extends Component {
             + "&subject=" + _object
             + "&body=" + M
             /*    + "&body=" + message
-    
+     
                + "?cc=myCCaddress@example.com"
                + "&subject=" + escape("This is my subject")
                + "&body=" + escape(document.getElementById('myText').value)
@@ -503,7 +565,7 @@ export default class tcoTree extends Component {
             //{ Is_View_Row(this.props.List_Fields_Main, 'icon_alarm') &&
             //id={(V_ID != 6) ? 'Li_Level_tco' : 'li_Level'}>
 
-            let BTN_width = 20;
+            let BTN_width = 60;
             let BTN_height = 20;
 
             let style_TD_BTN = {
@@ -553,7 +615,7 @@ export default class tcoTree extends Component {
                                         ) : (
                                                 <>
                                                     <button className='Min_button' title="блокировка"
-                                                        onClick={() => this.toock('Блокировка ТСО', V_ID, this.state.TCO[0], 'lock_tso')}>
+                                                        onClick={() => this.toock('Блокировка ТСО', V_ID, this.state.TCO[0], 'shift_close')}>
                                                         {/*<button onClick={() => this.Test_Onclick("this.Test_Onclick")}>*/}
                                                         <Stage width={BTN_width} height={BTN_height} x={0} y={0}>
                                                             <Layer key='1'>
@@ -639,15 +701,16 @@ export default class tcoTree extends Component {
                                                     <tr>
                                                         <td colSpan='2'>
                                                             {V_ID == 6 ? (
-                                                                <Stage width={PL_width} height={BTN_height} x={_dX} y={0}>
+                                                                <Stage width={PL_width} height={BTN_height + 4.5} x={_dX} y={0}>
                                                                     <Layer key='1'>
                                                                         <Text Text='Перезагрузка ФР'
-                                                                            x='24' y='20' fill='black'
+                                                                            x='2' y='2' fill='black'
                                                                             fontSize='12' fontFamily='Calibri' />
                                                                     </Layer>
                                                                 </Stage>
                                                             ) : (
-                                                                    <button onClick={() => this.toock('Перезагрузка ФР', m_MASS[m_MASS.length - 1].id, this.state.TCO[1], 'restart_fr')}>
+                                                                    <button onClick={() => this.toock('Перезагрузка ФР', m_MASS[m_MASS.length - 1].id, this.state.TCO[1], 'restart_fr')}
+                                                                        title="Перезагрузка ФР">
                                                                         <Stage width={PL_width} height={BTN_height} x={_dX} y={0}>
                                                                             <Layer key='1'>
                                                                                 <AZS_Image Image={get_ICON_Refr(++r)} _W='23' _H='23' _X={41} _Y={0} />
@@ -672,15 +735,16 @@ export default class tcoTree extends Component {
                                                     <tr>
                                                         <td colSpan='2'>
                                                             {V_ID == 6 ? (
-                                                                <Stage width={PL_width} height={BTN_height} x={_dX} y={0}>
+                                                                <Stage width={PL_width} height={BTN_height + 4.5} x={_dX} y={0}>
                                                                     <Layer key='1'>
                                                                         <Text Text='Перезагрузка ПК'
-                                                                            x='0' y='20' fill='black'
+                                                                            x='2' y='2' fill='black'
                                                                             fontSize='12' fontFamily='Calibri' />
                                                                     </Layer>
                                                                 </Stage>
                                                             ) : (
-                                                                    <button onClick={() => this.toock("Перезагрузка ПК", m_MASS[m_MASS.length - 1].id, this.state.TCO[1], 'restart_pc')}>
+                                                                    <button onClick={() => this.toock("Перезагрузка ПК", m_MASS[m_MASS.length - 1].id, this.state.TCO[1], 'restart_pc')}
+                                                                        title="Перезагрузка ПК">
                                                                         {/*</button><button onClick={() => this.Test_Onclick('Перезагрузка ПК', m_MASS[m_MASS.length - 1].id)}>*/}
                                                                         <Stage width={PL_width} height={BTN_height} x={_dX} y={0}>
                                                                             <Layer key='1'>
@@ -705,16 +769,17 @@ export default class tcoTree extends Component {
                                                     <tr>
                                                         <td colSpan='2'>
                                                             {V_ID == 6 ? (
-                                                                <Stage width={PL_width} height={BTN_height} x={_dX} y={0}>
+                                                                <Stage width={PL_width} height={BTN_height + 4.5} x={_dX} y={0}>
                                                                     <Layer key='1'>
                                                                         <Text Text='Перезагрузка Валидатора'
-                                                                            x='0' y='20' fill='black'
+                                                                            x='2' y='2' fill='black'
                                                                             fontSize='12' fontFamily='Calibri' />
                                                                     </Layer>
                                                                 </Stage>
                                                             ) : (
 
-                                                                    <button onClick={() => this.toock('Перезагрузка Валидатора', m_MASS[m_MASS.length - 1].id, this.state.TCO[1], 'restart_cash')}>
+                                                                    <button onClick={() => this.toock('Перезагрузка Валидатора', m_MASS[m_MASS.length - 1].id, this.state.TCO[1], 'restart_cash')}
+                                                                        title="Перезагрузка Валидатора">
                                                                         <Stage width={PL_width} height={BTN_height} x={_dX} y={0}>
                                                                             <Layer key='1'>
                                                                                 <AZS_Image Image={get_ICON_Refr(++r)} _W='23' _H='23' _X={41} _Y={0} />

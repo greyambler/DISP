@@ -241,3 +241,8 @@ data/src/azs/edit/w_lst_AZS.jsx.i
 data/src/azs/edit/w_lst_OBJ_table.jsx.i
 data/src/azs/edit/w_AZK_Form.jsx.i
 data/src/control/w_head_link.jsx.i
+data/src/w_Login.jsx.i
+data/src/azs/listErr_AZS.jsx.i
+data/src/Private/index.jsx.i
+data/src/Auth/index.jsx.i
+data/src/PrivateRoute.jsx.i

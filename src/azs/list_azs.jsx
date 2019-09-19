@@ -240,7 +240,7 @@ export default class list_azs extends Component {
                                                 List_Fields_TCO={this.props.List_Fields_TCO}
 
 
-
+                                                history={this.props.history}
 
                                             />
                                         </td>

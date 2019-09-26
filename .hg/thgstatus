@@ -1,5 +1,7 @@
-msrc
+rsrc
+rsrc/Auth
+rsrc/Private
 msrc/azs
 msrc/azs/device
-msrc/control
+msrc/azs/edit
 msrc/core

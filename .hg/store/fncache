@@ -246,3 +246,12 @@ data/src/azs/listErr_AZS.jsx.i
 data/src/Private/index.jsx.i
 data/src/Auth/index.jsx.i
 data/src/PrivateRoute.jsx.i
+data/src/Login/index.jsx.i
+data/src/azs/edit/w_main_edit.jsx.i
+data/src/azs/edit/f_azs_edit.jsx.i
+data/src/Auth/index.js.i
+data/src/azs/edit/w_FormaEditASZ.jsx.i
+data/src/Login/w_Login.jsx.i
+data/src/azs/edit/row_TR.jsx.i
+data/src/azs/edit/w_TableEditASZS.jsx.i
+data/src/control/history.js.i

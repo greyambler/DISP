@@ -35,9 +35,54 @@ export default class tco_Dvc_Item_Tree extends Component {
         let isKeyShow = this.props.isKeyShow;
         let p = this.props.N;
         let F = this.props.FirstPROPS;
+
         if (MASS[MASS.length - 1].id == "-----") {
             let r = 0;
         }
+
+        let style = {
+            background: 'white',
+        }
+
+        if(MASS[MASS.length - 1][main].crit != undefined){
+
+
+            let r = 0;
+        }
+        
+        
+        if (MASS[MASS.length - 1][main].crit != undefined) {
+            switch (MASS[MASS.length - 1][main].crit.toString()) {
+                case '0': {
+                    style = {
+                        background: 'white',
+                    }
+                    break;
+                }
+                case '1': {
+                    style = {
+                        background: 'white',
+                    }
+
+                    break;
+                }
+                case '2': {
+                    style = {
+                        background: 'yellow',
+                    }
+
+                    break;
+                }
+                case '3': {
+                    style = {
+                        background: 'hotpink',
+                    }
+
+                    break;
+                }
+            }
+        }
+
         return (
             <>
                 {(!Array.isArray(main) && p >= F) &&
@@ -57,7 +102,8 @@ export default class tco_Dvc_Item_Tree extends Component {
                                 this.props.IsHead &&
                                 p == F && MASS.length - (1 + p) > 1 &&
                                 <td rowSpan={MASS.length - (1 + p)} id={Is_Text_MORE(MASS, main) ? 'td_ID' : 'td_ID_MinFont'}
-                                //id='TD_DEV'
+                                    //id='TD_DEV'
+
                                     title={Get_Val(MASS, "nm", true)}>
 
                                     {Get_Val(MASS, "nm", false)}
@@ -69,6 +115,7 @@ export default class tco_Dvc_Item_Tree extends Component {
                                 MASS.length - (1 + F) > 1 ?
                                     (
                                         <td colSpan='2' id={Is_Text_MORE(MASS, main) ? 'td_ID' : 'td_ID_MinFont'}
+                                            style={style}
                                             title={Get_Val(MASS, main, true)}>
                                             {F < p &&
                                                 <hr />

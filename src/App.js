@@ -12,7 +12,9 @@ import W_AZS from './w_AZS.jsx';
 
 import W_AZK_Form from './azs/edit/w_AZK_Form.jsx';
 import W_lst_AZS from './azs/edit/w_lst_AZS.jsx';
+import W_main_edit from './azs/edit/w_main_edit.jsx';
 
+import { PrivateRoute } from "./PrivateRoute.jsx";
 
 import W_NOZZLE from './SAVE_ENTERPOINT/w_NOZZLE.jsx';
 import W_AZK from './SAVE_ENTERPOINT/w_AZK.jsx';
@@ -25,14 +27,12 @@ import W_LEVEL from './SAVE_ENTERPOINT/w_LEVEL.jsx';
 import W_ListErr_AZS from './azs/listErr_AZS.jsx';
 
 
+import { AuthProvider } from "./Auth";
+import Login from "./Login/index.jsx";
+
 import W_Login from './w_Login.jsx';
 
-import { AuthProvider } from './Auth';
-import { PrivateRoute } from './PrivateRoute.jsx';
-
-import W_Private from './Private/index.jsx';
-
-
+import history from "./control/history";
 
 import FILTER from './azs/filters.jsx'
 /*
@@ -78,8 +78,12 @@ class Main extends Component {
 
 class AZK_Form extends Component {
   render() {
+
+    return (<W_main_edit w_Height={this.props.w_Height} w_Width={this.props.w_Width}
+      history={this.props.history}
+    />);
     //return (<W_AZK_Form w_Height={this.props.w_Height} w_Width={this.props.w_Width} _List_Objs={this.props._List_Objs} />);
-    return (<W_lst_AZS header="Список АЗК" w_Height={this.props.w_Height} w_Width={this.props.w_Width} _List_Objs={this.props._List_Objs} />);
+    //return (<W_lst_AZS header="Список АЗК" w_Height={this.props.w_Height} w_Width={this.props.w_Width} _List_Objs={this.props._List_Objs} />);
   }
 }
 
@@ -158,16 +162,10 @@ class Test_File extends Component {
   }
 }
 
-
-class Login extends Component {
+class LoginTest extends Component {
   render() {
     return (<W_Login w_Height={this.props.w_Height} w_Width={this.props.w_Width} />);
     //history={this.props.history} />);
-  }
-}
-class Private extends Component {
-  render() {
-    return (<W_Private />);
   }
 }
 
@@ -176,8 +174,6 @@ class NotFound extends Component {
     return <center><h2>Ресурс не найден</h2></center>;
   }
 }
-
-
 
 
 class Nav extends Component {
@@ -243,41 +239,62 @@ class Nav extends Component {
               </div>
             </>*/}
             <ul className="submenu">
+              <li><Link to="/"><center>Справочники&gt;&gt;</center></Link>
+                <ul className="submenu">
+                  <li><Link to="/AZK_Form" >Справочник АЗК</Link></li>
+                  <li><Link to="/settings">Настройки</Link></li>
+                </ul>
+              </li>
+
               {_Debuge &&
-                <li><Link to="/"><center>Технические &gt;&gt;</center></Link>
-                  <ul className="submenu">
-                    {/*<li><Link to="/Table" >Таблица</Link></li>*/}
-
-                    <li><Link to="/AZK_Form" >Форма АЗК</Link></li>
-                    <li><Link to="/AZK_Main" >АЗК</Link></li>
-                    <li><Link to="/Test" >Тестовый</Link></li>
-
-                    <li><Link to="/NOZZLE_Main" >Счетчики</Link></li>
-
-                    <li><Link to="/TestPOST" >Тест POST </Link></li>
-
-                    <li><Link to="/TestTree" >Тест TREE </Link></li>
+                <>
+                  <li><Link to="/"><center>Дизайт Сферы&gt;&gt;</center></Link>
+                    <ul className="submenu">
+                      <li><Link to="/" >1</Link></li>
+                    </ul>
+                  </li>
 
 
-                    <li><Link to="/SharedFilter" >Общий фильтр</Link></li>
-                    <li><Link to="/LEVEL_Main" >АСИ</Link></li>
-                    <li><Link to="/TRK_Main" >ТРК</Link></li>
+                  <li><Link to="/"><center>Тестовая &gt;&gt;</center></Link>
+                    <ul className="submenu">
+                      <li><Link to="/loginTest" >test_login</Link></li>
 
-                    <li><Link to="/test1" >test_fileStart</Link></li>
-                    <li><Link to="/login" >test_login</Link></li>
-                    <li><Link to="/private" >test_private</Link></li>
-                    <li><Link to="/Open_priv" >test_private_Open</Link></li>
+                      {/*<li><Link to="/Table" >Таблица</Link></li>*/}
 
-                  </ul>
-                </li>
+                      <li><Link to="/AZK_Form" >Форма АЗК</Link></li>
+                      <li><Link to="/AZK_Main" >АЗК</Link></li>
+                      <li><Link to="/Test" >Тестовый</Link></li>
+
+                      <li><Link to="/NOZZLE_Main" >Счетчики</Link></li>
+
+                      <li><Link to="/TestPOST" >Тест POST </Link></li>
+
+                      <li><Link to="/TestTree" >Тест TREE </Link></li>
 
 
+                      <li><Link to="/SharedFilter" >Общий фильтр</Link></li>
+                      <li><Link to="/LEVEL_Main" >АСИ</Link></li>
+                      <li><Link to="/TRK_Main" >ТРК</Link></li>
+
+                      <li><Link to="/test1" >test_fileStart</Link></li>
+                      <li><Link to="/loginTest" >test_login</Link></li>
+
+                      <li><Link to="/private" >test_private</Link></li>
+
+                      {/*<li><Link to="/Open_priv" >test_private_Open</Link></li>*/}
+
+                    </ul>
+                  </li>
+                </>
               }
               <li><Link to="/" >Главная</Link></li>
-              <li><Link to="/AZS" >Начальная</Link></li>
 
-              <li><Link to="/settings">Настройки</Link></li>
+              {/*<li><Link to="/AZS" >Начальная</Link></li>*/}
+
               <li><Link to="/help">Помощь</Link></li>
+
+
+
             </ul>
           </li>
         </ul>
@@ -307,8 +324,6 @@ export default class App extends Component {
   handleResize(WindowSize, event) {
     this.setState({ W_Width: window.innerWidth, W_Height: window.innerHeight })
   }
-
-
   componentDidMount() {
     this.tick();
   }
@@ -339,26 +354,26 @@ export default class App extends Component {
       console.log(error);
     }
   }
-
   render() {
     return (
-      <AuthProvider>
-        <Router>
+      <AuthProvider history={history}>
+        <Router history={history}>
           <Nav />
           <div className="content">
             <Switch>
               <Route exact path="/" render={({ history }) => <Main w_Height={this.state.W_Height} w_Width={this.state.W_Width}
                 _List_Objs={this.state._List_Objs}
-                 history={history}
+                history={history}
               />} />
 
+              <PrivateRoute exact path="/AZK_Form" component={AZK_Form} render={({ history }) => <AZK_Form w_Height={this.state.W_Height} w_Width={this.state.W_Width}
 
-              <Route exact path="/AZK_Form" render={() => <AZK_Form w_Height={this.state.W_Height} w_Width={this.state.W_Width}
-                _List_Objs={this.state._List_Objs}
-              />} />
+                history={history} />} />
+
+
               <Route exact path="/AZS" render={({ history }) => <AZS w_Height={this.state.W_Height} w_Width={this.state.W_Width}
                 _List_Objs={this.state._List_Objs}
-                 history={history}
+                history={history}
               />} />
 
               <Route exact path="/Test" render={() => <Test w_Height={this.state.W_Height} w_Width={this.state.W_Width} />} />
@@ -376,10 +391,11 @@ export default class App extends Component {
               <Route exact path="/settings" component={Settings} />
 
               <Route exact path="/test1" component={Test_File} />
+              <Route path="/login" exact component={Login} />
 
-              <Route exact path="/help" component={Help} />
+              <PrivateRoute exact path="/help" component={Help} />
 
-              <Route exact path="/login" component={Login} />
+
               {/*render={({ history }) => 
               <Login history={history} />} />*/}
 
@@ -389,12 +405,8 @@ export default class App extends Component {
                 _List_Objs={this.state._List_Objs}
               />} />
 
+              <Route exact path="/loginTest" component={LoginTest} />
 
-{/* 
-              <Route to="/Open_priv" render={() => <Private/>}/>
-
-              <PrivateRoute to="/private" render={() => <Private/>}/>
-*/}
               <Route exact component={NotFound} />
             </Switch>
           </div>

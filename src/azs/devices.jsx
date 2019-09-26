@@ -488,7 +488,7 @@ export default class devices extends Component {
                     <table className="Dev_TBL">
                         <tbody>
                             <tr>
-                                <td>
+                                <td height="43">
                                     <center>{this.state.AZS.nm}</center>
                                     <hr /><hr />
                                 </td>
@@ -496,7 +496,7 @@ export default class devices extends Component {
                             {
                                 <>
                                     <tr>
-                                        <td id='td_Left'>
+                                        <td id='td_Left_Price_H'>
                                             <center><Element name="test1" className="element" >Цены</Element></center>
                                         </td>
                                     </tr>
@@ -735,7 +735,7 @@ export default class devices extends Component {
 
             let BTN_width = 20;
             let BTN_height = 20;
-
+/**/
             let style_TD_BTN = {
                 verticalAlign: 'top',
                 height: '30px',
@@ -771,7 +771,7 @@ export default class devices extends Component {
 
                             {(this.state.PLs != null && this.state.PLs.length > 0) &&
                                 <tr>
-                                    <td id='td_Left' colSpan='5'>
+                                    <td id='td_Left_Price' colSpan='5'>
                                         <center><Element name="test1" className="element" >Цены</Element></center>
                                     </td>
                                 </tr>
@@ -1108,7 +1108,7 @@ export default class devices extends Component {
                                 (this.state.Trk != null && this.state.Trk.length > 0) &&
                                 <>
                                     <tr>
-                                        <td id='td_Left'>
+                                        <td id='td_Left_TRK'>
                                             <FILTER text_head=''
                                                 update_VIEW={this.update_VIEW_ID_TRK}
                                                 dataFilter={View_Filter_id_krk}
@@ -1169,7 +1169,7 @@ export default class devices extends Component {
                                 (this.state.TCO != null && this.state.TCO.length > 0) &&
                                 <>
                                     <tr>
-                                        <td id='td_Left'>
+                                        <td id='td_Left_TCO'>
                                             <FILTER text_head=''
                                                 update_VIEW={this.update_VIEW_ID_TCO}
                                                 dataFilter={View_Filter_id_tco}

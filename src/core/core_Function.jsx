@@ -1,46 +1,62 @@
 //справочники tpList, obList, fuel
+import moment from 'moment';
 
 // нужные адреса
 
-export const RSS_Type_List = "http://172.23.16.18:8080/dprest-1.0-SNAPSHOT/webresources/ru.expertek.dp.dpfacade.dic"
+//http://172.23.16.18:8080/dprest-1.0-SNAPSHOT/webresources/ru.expertek.dp.dpfacade.dic
+
+const IP_Server = "http://172.23.16.18:8080";
+
+export const RSS_Type_List = IP_Server + "/dprest-1.0-SNAPSHOT/webresources/ru.expertek.dp.dpfacade.dic"
 //export const RSS_Type_List = "http://172.23.16.125:8000/dprest-1.0-SNAPSHOT/webresources/ru.expertek.dp.dpfacade.dic"
 
 
 export const WS = "ws://172.23.16.18:8080/dpsock-1.0-SNAPSHOT/alwsc";
 
-export const POST = "http://172.23.16.18:8080/dprest-1.0-SNAPSHOT/webresources/ru.expertek.dp.dpfacade.com";
+export const POST = IP_Server + "/dprest-1.0-SNAPSHOT/webresources/ru.expertek.dp.dpfacade.com";
 
 // нужные адреса
 
+export const RSS = IP_Server + "/dprest-1.0-SNAPSHOT/webresources/ru.expertek.dp.dpfacade.dvc/";
 
-export const RSS = "http://172.23.16.18:8080/dprest-1.0-SNAPSHOT/webresources/ru.expertek.dp.dpfacade.dvc/";
+export const MARK = IP_Server + "/dpmark-1.0-SNAPSHOT/webresources/ru.expertek.dp.dpinside.mark";
 
-export const MARK = "http://172.23.16.18:8080/dpmark-1.0-SNAPSHOT/webresources/ru.expertek.dp.dpinside.mark";
+export const AZS_List_Error = IP_Server + "/dpmark-1.0-SNAPSHOT/webresources/ru.expertek.dp.dpinside.mark";
 
-export const AZS_List_Error = "http://172.23.16.18:8080/dpmark-1.0-SNAPSHOT/webresources/ru.expertek.dp.dpinside.mark";
+export const AZS_s = IP_Server + "/dprest-1.0-SNAPSHOT/webresources/ru.expertek.dp.dpfacade.azk";
 
-export const AZS_s = "http://172.23.16.18:8020/dprest-1.0-SNAPSHOT/webresources/ru.expertek.dp.dpfacade.azk";
+export const RSS_AZS = IP_Server + "/dprest-1.0-SNAPSHOT/webresources/ru.expertek.dp.dpfacade.azk";
 
-export const RSS_AZS = "http://172.23.16.18:8080/dprest-1.0-SNAPSHOT/webresources/ru.expertek.dp.dpfacade.azk";
+export const RSS_AZS_EDIT = IP_Server + "/dprest-1.0-SNAPSHOT/webresources/ru.expertek.dp.dpfacade.dic.edit/azk";
 
-export const RSS_AZS_EDIT = "http://172.23.16.18:8080/dprest-1.0-SNAPSHOT/webresources/ru.expertek.dp.dpfacade.dic.edit/azk";
+export const RSS_LOGIN = IP_Server + "/dprest-1.0-SNAPSHOT/webresources/ru.expertek.dp.dpfacade.dic.edit/user/login";
 
-export const RSS_LOGIN = "http://172.23.16.18:8080/dprest-1.0-SNAPSHOT/webresources/ru.expertek.dp.dpfacade.dic.edit/user/login";
 
 
 //export const WS = "ws://172.23.16.18:8080/dpsock-1.0-SNAPSHOT/alws";
 
 // pl
-export const RSS_Tanks = "http://172.23.16.18:8080/dpmark-1.0-SNAPSHOT/webresources/ru.expertek.dp.dpinside.tank";
+export const RSS_Tanks = IP_Server + "/dpmark-1.0-SNAPSHOT/webresources/ru.expertek.dp.dpinside.tank";
                          
 
-export let TOKEN ="";
 
 //- обращение напрямую к WildFly
 //http://172.23.16.18:8020/dpmark-1.0-SNAPSHOT/webresources/ru.expertek.dp.dpinside.tank
 
 //- обращение через nginx
 //http://172.23.16.18:8080/dpmark-1.0-SNAPSHOT/webresources/ru.expertek.dp.dpinside.tank
+
+
+export function saveToken(token) {
+  if(token == null){
+    localStorage.removeItem('tokenData');
+    //localStorage.clear()
+    let wr= localStorage.tokenData;    
+let rrrr=0;
+  }else{
+  localStorage.setItem('tokenData', token);
+  }
+}
 
 export function Is_View_Row(Data, Name_Row) {
   let row = false;
@@ -87,8 +103,83 @@ export function getDVC_Tree(dvctyptree, type) {
 
 export function Get_RSS(Rss, startDate, endDate) {
   var rss = Rss;
+
+  if (startDate != null && endDate != null) {
+    let IsOne = D1_D1_Eq_moment(startDate, endDate);
+    if (IsOne) {
+       rss = rss + "?date=" + GetDateYMD_moment(startDate);
+    }
+    else {
+       rss = rss + "?from="
+          + GetDateYMD_moment(startDate)
+          + "&to="
+          + GetDateYMD_moment(endDate);
+    }
+ }
   return rss;
 }
+export function D1_D1_Eq_moment(_M1, _M2) {
+  if (_M1 != null && _M2 != null) {
+     try {
+        var d1 = _M1.date();
+        var m1 = _M1.month();
+        var y1 = _M1.year();
+
+        var d2 = _M2.date();
+        var m2 = _M2.month();
+        var y2 = _M2.year();
+
+        if ((y1 == y2) && (m1 == m2) && (d1 == d2)) {
+           return true;
+        }
+     }
+     catch{ }
+  }
+  return false;
+}
+export function GetDateYMD_moment(_moment) {
+  if (_moment != null) {
+     var day = _moment.date();
+     var month = _moment.month() + 1;
+     var year = _moment.year();
+     if (month < 10) month = "0" + month;
+     if (day < 10) day = "0" + day;
+     var today = year + "-" + month + "-" + day;
+
+     return today;
+  }
+  else {
+     return GetDateNow();
+  }
+}
+/*
+export function GetDateDMY_moment(_moment) {
+  if (_moment != null) {
+     var day = _moment.date();
+     var month = _moment.month();
+     var year = _moment.year();
+     if (month < 10) month = "0" + month;
+     if (day < 10) day = "0" + day;
+     var today = day + "/" + month + "/" + year;
+     return today;
+  }
+  else {
+     return GetDateNow();
+  }
+}
+*/
+export function GetDateNow() {
+  var date = new Date();
+  var day = date.getDate();
+  var month = date.getMonth() + 1;
+  var year = date.getFullYear();
+  if (month < 10) month = "0" + month;
+  if (day < 10) day = "0" + day;
+  var today = year + "-" + month + "-" + day;
+  return today;
+}
+
+
 
 export function IsExistAZS(mas, azs) {
   for (const iterator of mas) {
@@ -944,7 +1035,11 @@ export function Get_Val(mas, key, isFull) {
   if (len > 0) {
     if(mas[len - 1][key] != null)
     {
-      R = mas[len - 1][key];
+      if(mas[len - 1][key].text != undefined){
+        R = mas[len - 1][key].text;
+      }else{
+          R = mas[len - 1][key];
+      }
     }
   }
   R = isFull 
@@ -954,7 +1049,15 @@ export function Get_Val(mas, key, isFull) {
 }
 export function Is_Text_MORE(MASS, main) {
   let text = Get_Val(MASS, main,true);
-  let n = Number(MASS[MASS.length - 1][main]);
+  let n = null;
+  if(MASS[MASS.length - 1][main].text != undefined){    
+    n = Number(MASS[MASS.length - 1][main].text);
+  }else{
+    n = Number(MASS[MASS.length - 1][main]);
+  }
+
+
+  //let n = Number(MASS[MASS.length - 1][main]);
   if (MASS != null && MASS != undefined && isNaN(n))// && MASS[MASS.length - 1]['id'].length > 10) 
   {
       if (text.length > 10) {

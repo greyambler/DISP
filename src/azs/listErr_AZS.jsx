@@ -1,6 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import ReactTable from "react-table";
-import { AZS_List_Error } from '../core/core_Function.jsx';
+import { AZS_List_Error, Get_RSS } from '../core/core_Function.jsx';
+
+import moment from 'moment';
 
 
 
@@ -23,8 +25,11 @@ export default class listErr_AZS extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            isExistError: true,
             id: null,
             _MeasList: null,
+
+            err: 'Ошибка! Сервер не ответил!',
         }
     }
     componentDidMount() {
@@ -37,8 +42,21 @@ export default class listErr_AZS extends React.Component {
     }
     async tick() {///Получение устройств по ID AZS
         if (this.state.id != 0) {
-            let rss = AZS_List_Error + '/' + this.state.id;
-            var myRequest = new Request(rss);
+
+            let endDate = new Date();
+
+            let end = moment();
+            let start = moment().add(-14,"day");
+
+            //const startPast_Week = moment().startOf('week').isoWeekday(1).add(-7, 'day');
+            //const endPast_Week = moment().startOf('week').isoWeekday(0);
+
+
+            let rss_datу = Get_RSS(AZS_List_Error + '/' + this.state.id + '/meases', start, end);
+            rss_datу = rss_datу +'&crit=1';
+
+            let rss = AZS_List_Error + '/' + this.state.id + '/meases?from=2019-09-11T15:00:00&to=2019-09-13T16:00:00';
+            var myRequest = new Request(rss_datу);
             try {
                 var response = await fetch(myRequest,
                     {
@@ -66,9 +84,9 @@ export default class listErr_AZS extends React.Component {
     }
 
     render() {
-        
+
         let ArCol = new Array();
-        if (this.state._MeasList != null) {
+        if (!this.state.isExistError) {
             ArCol = Get_ColumnsForTable(this.state._MeasList[0])
             return (
                 <div>
@@ -105,8 +123,7 @@ export default class listErr_AZS extends React.Component {
                     </table>
                 </div>
             );
-        } else 
-        {
+        } else {
             return (<center><h1>Нет данных.</h1></center>);
         }
     }

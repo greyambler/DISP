@@ -2,11 +2,15 @@ import _ from 'lodash'
 import React, { Component, PropTypes } from 'react';
 import ReactTable from "react-table";
 
+import W_lst_AZS from './w_lst_AZS.jsx';
+
 import Moment from 'moment';
 import 'react-table/react-table.css'
 
 import { Get_RSS, RSS_AZS, RSS_AZS_EDIT, Get_Val, createGuid } from '../../core/core_Function.jsx';
 import { Button, Header, Image, Modal, Input, Container } from 'semantic-ui-react'
+import W_row_tr from './row_TR.jsx';
+import Wf_azs_edit from './f_azs_edit.jsx';
 
 //
 //import { thisExpression } from '@babel/types';
@@ -49,12 +53,14 @@ export default class w_AZK_Form extends React.Component {
     super(props);
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleInputChange = this.handleInputChange.bind(this);
 
     this.put_Data = this.put_Data.bind(this);
-    this.tick = this.tick.bind(this);
-    this.tick_AZS = this.tick_AZS.bind(this);
 
-    this.test_button = this.test_button.bind(this);
+    this.tick = this.tick.bind(this);
+    //this.tick_AZS = this.tick_AZS.bind(this);
+
+    //this.test_button = this.test_button.bind(this);
 
     this.state = {
       value: '',
@@ -69,8 +75,16 @@ export default class w_AZK_Form extends React.Component {
     };
 
   }
-  handleChange(event, nameField) {
+  handleInputChange(event) {
+    const target = event.target;
+    const value = target.type === 'checkbox' ? target.checked : target.value;
+    const name = target.name;
+    this.setState({
+      [name]: value
+    });
+  }
 
+  handleChange(event, nameField) {
     this.state.curentAZS_M[this.state.curentAZS_M.length - 1][nameField] = event.target.value;
     this.setState({ curentAZS_M: this.state.curentAZS_M });
     event.preventDefault();
@@ -167,37 +181,37 @@ export default class w_AZK_Form extends React.Component {
     }
     return "false";
   }
-
-  async tick_AZS(id) {
-    let rss = RSS_AZS_EDIT + "/" + id;//RSS_AZS;
-    var myRequest = new Request(rss);
-    try {
-      var response = await fetch(myRequest,
-        {
-          method: 'GET',
-          headers:
+  /*
+    async tick_AZS(id) {
+      let rss = RSS_AZS_EDIT + "/" + id;//RSS_AZS;
+      var myRequest = new Request(rss);
+      try {
+        var response = await fetch(myRequest,
           {
-            'Accept': 'application/json',
-          },
+            method: 'GET',
+            headers:
+            {
+              'Accept': 'application/json',
+            },
+          }
+        );
+        if (response.ok) {
+          const Jsons = await response.json();
+          this.setState({ _СurentAZS: Jsons.object });
+          return "Ok";
         }
-      );
-      if (response.ok) {
-        const Jsons = await response.json();
-        this.setState({ _СurentAZS: Jsons.object });
-        return "Ok";
+        else {
+          throw Error(response.statusText);
+        }
+        this.setState({ isExistError: false })
       }
-      else {
-        throw Error(response.statusText);
+      catch (error) {
+        this.setState({ isExistError: true })
+        console.log(error);
       }
-      this.setState({ isExistError: false })
+      return "false";
     }
-    catch (error) {
-      this.setState({ isExistError: true })
-      console.log(error);
-    }
-    return "false";
-  }
-
+  */
   ChooseAZS(rowInfo) {
     if (rowInfo != null) {
       let _Obj_T = new Array();
@@ -216,25 +230,6 @@ export default class w_AZK_Form extends React.Component {
       this.setState({ curentAZS: rowInfo.original, curentAZS_M: _Obj_T });
     }
   }
-
-
-  closeConfigShow = (closeOnEscape, closeOnDimmerClick) => () => {
-    this.setState({ closeOnEscape, closeOnDimmerClick, open: true })
-  }
-
-  test_button(el, main){
-    alert(main);
-  }
-  open(rowInfo) {
-    if (rowInfo != null) {
-      this.setState({ open: true });
-      //this.tick_AZS(rowInfo.original.id);
-    }
-    else {
-      this.setState({ open: false });
-    }
-  }
-  close = () => this.setState({ open: false });
 
   render() {
     let ArCol = new Array();
@@ -289,47 +284,52 @@ export default class w_AZK_Form extends React.Component {
                 </tr>
               </tbody>
             </table>
-            <Modal id="ModalTable" size={size} open={this.state.open} onClose={this.close} closeIcon>
-              <Modal.Header>Данные от строке id = this.state.IDCheck</Modal.Header>
-              <Container>
-              {/*<W_table_modal Data={data} ID_ROW={this.state.IDCheck} />*/}
-            </Container>
-            </Modal>
           </div>
 
           {this.state.curentAZS_M != null &&
             <>
-              <h4>Форма редактирования АЗС</h4>
-              <hr />
-              {/*<form onSubmit={this.handleSubmit} >*/}
               <table>
                 <tbody>
-                  {
-                    MASS.map((main, p) => (
-                      (main != "id" && main != "iid" && !Array.isArray(main)) &&
-                      <tr key={'tr_' + createGuid()}>
-                        <td key={'td_' + createGuid()}>{main}</td>
-                        <td>{Get_Val(MASS, main)}</td>
-                        {/*<button onClick={el => {this.test_button(el, main)}}>"Редактировать"</button>*/}
+                  <tr>
+                    <td>
+                      <div>
+                        <h4>Форма редактирования АЗС 2</h4>
+                        <hr />
+                        <Wf_azs_edit Data={this.state.curentAZS_M}/>
+                      </div>
+                    </td>
+                    <td><br/></td>
+                    <td>
+                      <h4>Форма редактирования АЗС 1</h4>
+                      <hr />
+                      <form onSubmit={this.handleSubmit} >
+                        <table>
+                          <tbody>
+                            {
+                              MASS.map((main, p) => (
+                                (main != "id" && main != "iid" && !Array.isArray(main)) &&
+                                <tr key={'tr_' + createGuid()}>
+                                  <td key={'td_' + createGuid()}>{main}</td>
+                                  <td key={'td_' + createGuid()}>
+                                    <input type="text"
+                                      value={Get_Val(MASS, main)}
+                                      onChange={el => { this.handleChange(el, main) }}
+                                      size='50' />
+                                  </td>
+                                </tr>
+                              ))
+                            }
+                          </tbody>
+                        </table>
+                        <br />
+                        <input type="submit" value="Отправить в БД" />
+                      </form>
+                      <hr /><hr />
 
-                        <input type="button" value="Редактировать" onClick={el => {this.open(el, Get_Val(MASS, main))}}></input>
-
-                        {/* <td key={'td_' + createGuid()}>
-                            <input type="text"
-                              value={Get_Val(MASS, main)}
-                              onChange={el => { this.handleChange(el, main) }}
-                              size='100' />
-                          </td>*/}
-                      </tr>
-                    ))
-                  }
+                    </td>
+                  </tr>
                 </tbody>
               </table>
-              <br />
-              {/*<input type="submit" value="Отправить в БД" />
-              </form>*/}
-
-              <hr /><hr />
             </>
           }
         </>

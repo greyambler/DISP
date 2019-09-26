@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import OL_List from '../../core/OL_List.jsx'
 import { Stage, Layer, Rect, Text, Circle, Shape, Image, Ellipse } from 'react-konva';
 
-import { get_PL, get_Text_Status_PL, get_Color_Status_PL, get_NameFuel, Is_View_Row } from '../../core/core_Function.jsx';
+import { get_Text_Status_PL, get_Color_Status_PL, get_NameFuel, Is_View_Row,POST } from '../../core/core_Function.jsx';
 
 import AZS_Image from '../../control/AZS_Image.jsx'
 
@@ -115,6 +115,19 @@ function Is_View_Row_11(Data, Name_Row) {
     return row;
 }
 
+function get_PL(id) {
+    let T_Json =
+        '{"type": "cmd_trk",' +
+        '"dev_id": "' + id + '",' +
+        '"obj": {' +
+        '           "ctrl_value": "tank_lock",' +
+        '           "cashier_code": 1' +
+        '       }' +
+        ' }'
+    let y = JSON.parse(T_Json);
+    let t_Json = JSON.stringify(y);
+    return t_Json;
+}
 
 let r = 0;
 
@@ -161,6 +174,43 @@ export default class pl extends Component {
     Test_Onclick(text) {
         alert("Тест = " + text);
     }
+    async toock(text, id, dev, type_Body){//, ctrl_number_capacity) {///Отправка команды
+        let rss = POST;
+        var myRequest = new Request(rss);
+        let _body = get_PL(id);
+/*
+        •	tank_lock - заблокировать резервуар
+        •	tank_unlock - разблокировать резервуар
+*/        
+
+
+        alert("Команда " + text + "запроса =" + _body);
+        try {
+            var response = await fetch(myRequest,
+                {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: _body,
+                }
+            );
+            const Jsons = await response.json();
+            if (response.ok) {
+                this.setState({ _ANS: Jsons });
+                alert("Команда получила ответ - " + Jsons.status + ",\n АЗК = " + dev.nm + ",\n id = " + id + ",\n команда = " + type_Body + ",\n запрос =" + _body);
+            }
+            else {
+                throw Error(Jsons.message);
+            }
+        }
+        catch (error) {
+            console.log(error);
+            alert(error);
+        }
+    }
+
+
     //test = () => Test_Onclick();
     Test_Maile_Onclick(_object, message) {
 
@@ -243,7 +293,8 @@ export default class pl extends Component {
                                             ) : (
                                                     <>
                                                         <button className='Min_button' title="блокировка"
-                                                            onClick={() => this.Test_Onclick(this.state.PL.nm)}>
+                                                        onClick={() => this.toock('Блокировка резервуара', this.state.PL.id, this.state.PL, 'pump_lock')}>
+                                                            {/*onClick={() => this.Test_Onclick(this.state.PL.nm)}>*/}
                                                             <Stage width={BTN_width} height={BTN_height} x={0} y={0}>
                                                                 <Layer key='1' background='red' >
                                                                     <AZS_Image Image={Icon_TCO_Lock}

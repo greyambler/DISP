@@ -22,6 +22,47 @@ export default class tco_Item_Tree extends Component {
         let isKeyShow = this.props.isKeyShow;
         let F = this.props.FirstPROPS;
         let p = this.props.N;
+
+        if(MASS[MASS.length - 1][main].crit != undefined){
+            let r = 0;
+        }
+        let style = {
+            background: 'white',
+        }
+        if (MASS[MASS.length - 1][main].crit != undefined) {
+            switch (MASS[MASS.length - 1][main].crit.toString()) {
+                case '0': {
+                    style = {
+                        background: 'white',
+                    }
+                    break;
+                }
+                case '1': {
+                    style = {
+                        background: 'white',
+                    }
+
+                    break;
+                }
+                case '2': {
+                    style = {
+                        background: 'yellow',
+                    }
+
+                    break;
+                }
+                case '3': {
+                    style = {
+                        background: 'hotpink',
+                    }
+
+                    break;
+                }
+            }
+        }
+
+
+
         return (
             <>
                 {
@@ -34,8 +75,10 @@ export default class tco_Item_Tree extends Component {
                                 </td>
                             }
                             {MASS.length - (1 + F) > 1 &&
-                                <td colSpan='3' id={Is_Text_MORE(MASS, main) ? 'td_ID' : 'td_ID_MinFont'} title={Get_Val(MASS, main,true)}>
-                                    {Get_Val(MASS, main,false)}
+                                <td colSpan='3' id={Is_Text_MORE(MASS, main) ? 'td_ID' : 'td_ID_MinFont'}
+                                    style={style}
+                                    title={Get_Val(MASS, main, true)}>
+                                    {Get_Val(MASS, main, false)}
                                 </td>
                             }
                         </tr>

@@ -1,7 +1,10 @@
 import React, { Component, PropTypes } from 'react';
-import { RSS_LOGIN, TOKEN } from './core/core_Function.jsx';
+import { RSS_LOGIN } from './core/core_Function.jsx';
 
 const _Debuge = false;
+
+//let TOKEN =null;
+
 
 export default class w_Login extends React.Component {
     constructor(props) {
@@ -30,8 +33,8 @@ export default class w_Login extends React.Component {
             "username": this.state.login,
             "password": this.state.password
         }
-        TOKEN = JSON.stringify(J_Post);
-        event.preventDefault();
+        //TOKEN = JSON.stringify(J_Post);
+        //event.preventDefault();
 
         /*    
             for (const key of this.state.curentAZS_M) {
@@ -43,29 +46,35 @@ export default class w_Login extends React.Component {
             }    
             */
     }
-
-
     async handleSubmit(event) {
         let _st = 0;
-        alert('Отправленное имя: ' + this.state.login + ', password: ' + this.state.password);
-        let _anser = await this.Post_Data(this.state.curentAZS_M);
+        //alert('Отправленное имя: ' + this.state.login + ', password: ' + this.state.password);
+        let _anser = await this.Post_Data(event);
 
         event.preventDefault();
         //this.props.history.push('/');
+
+        let r=0;
     }
-    async Post_Data(OB) {///Отправка формы
+    async Post_Data(event) {///Отправка формы
         //let _body1 = Get_Obj_AZS(OB);
-        alert("TOKEN - " + TOKEN);
+        //alert("TOKEN - " + TOKEN);
         let J_Post = {
             "username": this.state.login,
             "password": this.state.password
         }
+        /*
+        "username":"admin",
+        "password":"password"
+        */
 
         let _body = JSON.stringify(J_Post);//Get_AZS_Obj_AZS(this.state.curentAZS, OB);
         //alert('Отправленное имя: ' + _body);
-
+        
         let rss = RSS_LOGIN;
+        
         var myRequest = new Request(rss);
+        event.preventDefault();
         try {
             var response = await fetch(myRequest,
                 {
@@ -75,15 +84,18 @@ export default class w_Login extends React.Component {
                     },
                     body: _body,
                 }
+                
             );
+            
+            const Jsons = await response.json();
             if (response.ok) {
-                const Jsons = await response.json();
+                
                 this.setState({ _ANS: Jsons });
                 //return Jsons.status;
                 //alert("Команда получила ответ - " + Jsons.status);
             }
             else {
-                const Jsons = await response.json();
+                let r=0;
                 throw Error(Jsons.message);
             }
         }
@@ -103,18 +115,23 @@ export default class w_Login extends React.Component {
                 <form onSubmit={this.handleSubmit}>
                     <table>
                         <tr>
-                            <td><label for="loginField">Логин</label></td>
+                            <td width="70"><label for="loginField">Логин</label></td>
                             <td>
-                                <input id="loginField" type="text" name="login"
+                                <input id="loginField" type="text"
+                                    name="login"
                                     onChange={el => { this.handleChange(el, "login") }} />
                             </td>
                         </tr>
                         <tr>
                             <td><label for="passwordField">Пароль</label></td>
-                            <td><input id="passwordField" type="password" name="password" onChange={el => { this.handleChange(el, "password") }} /></td>
+                            <td>
+                                <input id="passwordField" type="password"
+                                    name="password"
+                                    onChange={el => { this.handleChange(el, "password") }} />
+                            </td>
                         </tr>
                         <tr>
-                            <td colspan="2"><input type="submit" value="Войти" /></td>
+                            <td colSpan="2"><input type="submit" value="Войти" /></td>
                         </tr>
                     </table>
                 </form>

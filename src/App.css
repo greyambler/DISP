@@ -45,6 +45,29 @@
     max-height: 80px;
  }
 
+ #td_Left_TRK {
+   min-width: 290px;
+   height: 74px;
+   max-height: 74px;
+}
+#td_Left_TCO {
+   min-width: 290px;
+   height: 75px;
+   max-height: 75px;
+}
+
+
+ #td_Left_Price {
+   min-width: 290px;
+   height: 32px;
+   max-height: 32px;
+}
+#td_Left_Price_H {
+   min-width: 290px;
+   height: 20px;
+   max-height: 20px;
+}
+
  #td_Left_PL {
     min-width: 290px;
     height: 74px;
@@ -118,6 +141,7 @@
 
  #td_top {
     vertical-align: top;
+    
  }
 
  #td_ID {
@@ -154,3 +178,11 @@
     /*border: 3px ridge rgb(250, 246, 246);
     border: 1px ridge rgb(0, 0, 0);*/
  }
+#td_button{
+   max-width: 120px;
+   min-width: 120px;
+   width: 120px;
+}
+#_button{
+   width: 100%;
+}

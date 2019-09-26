@@ -40,21 +40,31 @@ function get_ICON_TCO(TCO_0) {
 }
 function get_ICON_TCO_Lock(TCO_0) {
     let col = '/images/Locked.png';
-    if (TCO_0[TCO_0.length - 1].typ == 'tso') {
-        let r = TCO_0[TCO_0.length - 1].STATE_TSO;
-        if (r.includes("[") && r.includes("]")) {
-            let _start = r.indexOf("[")
-            let _end = r.indexOf("]")
-            let NUM_STATE_TSO = r.substr(_start + 1, _end - (_start + 1));
+    try {
 
-            if (!isNaN(NUM_STATE_TSO)) {
-                switch (NUM_STATE_TSO) {
-                    case 4:
-                    case 5: col = '/images/Locked.png'; break;
-                    default: col = '/images/Unlocked.png'; break;
+        if (TCO_0[TCO_0.length - 1].typ == 'tso') {
+
+            //let r = TCO_0[TCO_0.length - 1].STATE_TSO.code;//TCO_0[TCO_0.length - 1].STATE_TSO;
+            //if(TCO_0[TCO_0.length - 1].STATE_TSO.code != undefined){
+            //    r = TCO_0[TCO_0.length - 1].STATE_TSO.code;
+            //}
+
+            //if (r.includes("[") && r.includes("]")) {
+            if (TCO_0[TCO_0.length - 1].STATE_TSO.code != undefined) {
+                //let _start = r.indexOf("[")
+                //let _end = r.indexOf("]")
+                //let NUM_STATE_TSO = r.substr(_start + 1, _end - (_start + 1));
+                let NUM_STATE_TSO = TCO_0[TCO_0.length - 1].STATE_TSO.code;
+                if (!isNaN(NUM_STATE_TSO)) {
+                    switch (NUM_STATE_TSO) {
+                        case 4:
+                        case 5: col = '/images/Locked.png'; break;
+                        default: col = '/images/Unlocked.png'; break;
+                    }
                 }
             }
         }
+    } catch (error) {
     }
     return col;
 }
@@ -359,7 +369,7 @@ function get_restart(id, nameCommand) {
     return t_Json;
 }
 
-function get_TCO_1(id, nameCommand) {
+function get_TCO(id, nameCommand) {
     let T_Json =
         '{' +
         '   "type": "cmd_tso",' +
@@ -384,7 +394,8 @@ function get_TCO_EXE1() {
     ws.Exec("C:\\Windows\\notepad.exe");
 }
 */
-function get_TCO() {
+function get_q_TCO(id) {
+
 
 }
 
@@ -417,18 +428,36 @@ export default class tcoTree extends Component {
     }
     full_Value() {
         if (this.state.TCO != null) {
-
             if (this.state.DeVal != null && this.state.DeVal != undefined && this.state.DeVal.id != null) {
                 let F_mass = Get_Device_ID_WS(this.state.DeVal.id, this.state.TCO);
                 if (F_mass != null) {
-
                     let TextValue = isOpExist_TSO(this.props._List_Objs.dvctyptree, this.state.DeVal.values[0]);
+
                     if (TextValue != null) {
-                        F_mass[this.state.DeVal.values[0].typ] = TextValue + ' [' + this.state.DeVal.values[0].val + '] ';
+                        F_mass[this.state.DeVal.values[0].typ] =
+                            {
+                                text: TextValue + ' [' + this.state.DeVal.values[0].val + '] ' + "{" + this.state.DeVal.values[0].crit + "}",
+                                crit: this.state.DeVal.values[0].crit,
+                                code: this.state.DeVal.values[0].val
+                            };
+                        //+'{~'+ this.state.DeVal.values[0].crit +'}';
+                        //F_mass['crit'] = this.state.DeVal.values[0].crit;
+                        let r = 0;
                     } else {
                         TextValue = isOpExist_TSO_DVC(this.props._List_Objs.dvctyptree, this.state.DeVal.values[0]);
                         if (TextValue != null) {
-                            F_mass[this.state.DeVal.values[0].typ] = TextValue + ' [' + this.state.DeVal.values[0].val + '] ';
+                            F_mass[this.state.DeVal.values[0].typ] =
+                                {
+                                    text: TextValue + ' [' + this.state.DeVal.values[0].val + ']' + "{" + this.state.DeVal.values[0].crit + "}",
+                                    crit: this.state.DeVal.values[0].crit,
+                                    code: this.state.DeVal.values[0].val
+                                };
+                            //TextValue + ' [' + this.state.DeVal.values[0].val + ']';
+                            //+'{~'+ this.state.DeVal.values[0].crit +'}';
+
+                            //F_mass['crit'] = this.state.DeVal.values[0].crit;
+
+                            let r = 0;
                         }
                         else {
                             for (const iterator of this.state.DeVal.values) {
@@ -437,9 +466,23 @@ export default class tcoTree extends Component {
                                 } else {
                                     F_mass[iterator.typ] = iterator.val;
                                 }
+                                //F_mass['crit'] = iterator.crit;
                             }
                         }
                     }
+
+                    if (TextValue == null) {
+
+
+                        F_mass[this.state.DeVal.values[0].typ] =
+                            {
+                                text: this.state.DeVal.values[0].val + "{" + this.state.DeVal.values[0].crit + "}",
+                                crit: this.state.DeVal.values[0].crit,
+                                code: this.state.DeVal.values[0].val
+                            };
+                        let r = 0;
+                    }
+
                     this.setState({ TCO: this.state.TCO });
                 }
             }
@@ -451,7 +494,7 @@ export default class tcoTree extends Component {
 
     async toock(text, id, tco, type_Body) {///Отправка команды
         let rss = POST;
-        let ID = (type_Body == "shift_close") ? get_ID_cmd_TCO(tco) : get_cmd_mfc_ID(tco);//get_AGENT_ID_cmd_mfc(tco);
+        let ID = (type_Body != "shift_stop") ? get_cmd_mfc_ID(tco) : null;// get_ID_cmd_TCO(tco);//get_AGENT_ID_cmd_mfc(tco);
         if (ID != null) {
             id = ID;
         }
@@ -461,7 +504,32 @@ export default class tcoTree extends Component {
             case 'restart_pc': _body = get_restart(id, "restart_pc"); break;
             case 'restart_fr': _body = get_restart(id, "restart_fr"); break;
             case 'restart_cash': _body = get_restart(id, "restart_cash"); break;
-            case 'shift_close': _body = get_TCO(id, "shift_close"); break;
+
+            case 'shift_stop': {
+                let _code = Number(tco[tco.length - 1].STATE_SHIFT.code);
+                if (!isNaN(_code)) {
+                    switch (_code) {
+                        case 2: {
+                            _body = get_TCO(id, "shift_start");
+                            break;
+                        }
+                        case 3: {
+                            _body = get_TCO(id, "shift_stop");
+                            break;
+                        }
+                    }
+                }
+                /*
+                                if (tco[tco.length - 1].STATE_TSO.code == undefined || tco[tco.length - 1].STATE_TSO.code == 4 || tco[tco.length - 1].STATE_TSO.code == 5) {
+                                    _body = get_TCO(id, "shift_start");
+                                } else {
+                                    _body = get_TCO(id, "shift_stop");
+                                }
+                */
+                //TCO_0[TCO_0.length - 1].STATE_TSO.code
+                // _body = get_TCO(id, "shift_close");
+            }
+                break;
 
             /*
             •	shift_open - открыть смену
@@ -474,42 +542,46 @@ export default class tcoTree extends Component {
 
             default: _body = get_Json_TEST(id); break;
         }
+
         if (_Debuge_Message) {
-            alert("Команда " + "запроса =" + _body);
+            if (_body != null) {
+                alert("Команда " + text + "запроса =" + _body);
+            } else {
+                alert("Команда " + text + "запроса = null. Отмена");
+            }
         }
+        if (_body != null) {
 
-        try {
-            var response = await fetch(myRequest,
-                {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: _body,
-                }
-            );
-            if (response.ok) {
+            try {
+                var response = await fetch(myRequest,
+                    {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: _body,
+                    }
+                );
                 const Jsons = await response.json();
-                this.setState({ _ANS: Jsons });
-                if (_Debuge_Message) {
-                alert("Команда получила ответ - " + Jsons.status + ",\n АЗК = " +
-                    tco[tco.length - 1].nm + ",\n id = " + id + ",\n команда = " +
-                    type_Body + ",\n запрос =" + _body);
-                }else{
-                    alert("Команда ушла на сервер");
+                if (response.ok) {
+                    this.setState({ _ANS: Jsons });
+                    if (_Debuge_Message) {
+                        alert("Команда получила ответ - " + Jsons.status + ",\n АЗК = " +
+                            tco[tco.length - 1].nm + ",\n id = " + id + ",\n команда = " +
+                            type_Body + ",\n запрос =" + _body);
+                    } else {
+                        alert("Команда ушла на сервер");
+                    }
                 }
-            }
-            else {
-                const mess = await response.json();
-                //const mess = await response.text();
-                //alert("Ответ - " + mess.message);
-                throw Error(mess.message);
-            }
+                else {
+                    throw Error(Jsons.message);
+                }
 
-        }
-        catch (error) {
-            console.log(error);
-            alert(error);
+            }
+            catch (error) {
+                console.log(error);
+                alert(error);
+            }
         }
     }
     Test_Maile_Onclick(_object, message) {
@@ -614,8 +686,8 @@ export default class tcoTree extends Component {
                                             </Stage>
                                         ) : (
                                                 <>
-                                                    <button className='Min_button' title="блокировка"
-                                                        onClick={() => this.toock('Блокировка ТСО', V_ID, this.state.TCO[0], 'shift_close')}>
+                                                    <button className='Min_button' title="остановить/запустить смену"
+                                                        onClick={() => this.toock('остановить/запустить смену', V_ID, this.state.TCO[0], 'shift_stop')}>
                                                         {/*<button onClick={() => this.Test_Onclick("this.Test_Onclick")}>*/}
                                                         <Stage width={BTN_width} height={BTN_height} x={0} y={0}>
                                                             <Layer key='1'>
@@ -763,23 +835,23 @@ export default class tcoTree extends Component {
                                                     </tr>
                                                 </>
                                             }
-                                            {("td_id" == m_MASS[m_MASS.length - 1].typ + "_" + main) &&
+                                            {("cash_id" == m_MASS[m_MASS.length - 1].typ + "_" + main) &&
                                                 Is_View_Row(this.props.List_Fields_Main, 'management') &&
                                                 <>
                                                     <tr>
                                                         <td colSpan='2'>
                                                             {V_ID == 6 ? (
-                                                                <Stage width={PL_width} height={BTN_height + 4.5} x={_dX} y={0}>
+                                                                <Stage width={PL_width + 120} height={BTN_height + 4.5} x={_dX} y={0}>
                                                                     <Layer key='1'>
-                                                                        <Text Text='Перезагрузка Валидатора'
+                                                                        <Text Text='Перезагрузка Купюроприёмника'
                                                                             x='2' y='2' fill='black'
                                                                             fontSize='12' fontFamily='Calibri' />
                                                                     </Layer>
                                                                 </Stage>
                                                             ) : (
 
-                                                                    <button onClick={() => this.toock('Перезагрузка Валидатора', m_MASS[m_MASS.length - 1].id, this.state.TCO[1], 'restart_cash')}
-                                                                        title="Перезагрузка Валидатора">
+                                                                    <button onClick={() => this.toock('Перезагрузка Купюроприёмника', m_MASS[m_MASS.length - 1].id, this.state.TCO[1], 'restart_cash')}
+                                                                        title="Перезагрузка Купюроприёмника">
                                                                         <Stage width={PL_width} height={BTN_height} x={_dX} y={0}>
                                                                             <Layer key='1'>
                                                                                 <AZS_Image Image={get_ICON_Refr(++r)} _W='23' _H='23' _X={41} _Y={0} />

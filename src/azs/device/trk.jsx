@@ -73,10 +73,15 @@ function get_ICON_Lock_2(val) {
 function get_TextFirstCol(nameCol, TRK_0, _List_Objs) {
     let text = nameCol;
     try {
-        text = TRK_0[nameCol];
+        if (TRK_0[nameCol].code != undefined) {
+            text = TRK_0[nameCol].code;
+        } else {
+            text = TRK_0[nameCol];
+        }
     } catch (error) {
 
     }
+
 
     /*
     if (text != "0" && text != "---" && nameCol == "CURRENT_TRANSACTION" && TRK_0.id != 0) {
@@ -98,7 +103,11 @@ function get_TextFirstCol(nameCol, TRK_0, _List_Objs) {
                         for (const defType of typeCheck.def.op) {
                             let code = Number(defType.val);
                             if (text == code) {
-                                text = defType.text + " [" + defType.val + "]";
+                                if (TRK_0[nameCol].crit != undefined) {
+                                    text = defType.text + " [" + defType.val + "]" + "{" + TRK_0[nameCol].crit + "}";
+                                } else {
+                                    text = defType.text + " [" + defType.val + "]";
+                                }
                                 break;
                             }
                         }
@@ -128,6 +137,7 @@ function get_TextFirstCol(nameCol, TRK_0, _List_Objs) {
          }
      }
      */
+
     return text;
     /*
     for (const iterator of PL_0) {
@@ -136,13 +146,17 @@ function get_TextFirstCol(nameCol, TRK_0, _List_Objs) {
     */
 }
 function get_Nozzle_Fuel(nameCol, TRK_0, _Devices, _List_Objs) {
-    let text = TRK_0[nameCol];
+    let text = "";//TRK_0[nameCol];
+    if (TRK_0[nameCol].code != undefined) {
+        text = TRK_0[nameCol].code;
+    } else {
+        text = TRK_0[nameCol];
+    }
     let FUEL_NAME = "";
     if (text != "0" && text != "---" && TRK_0.id != 0 && _Devices != undefined && _List_Objs != undefined && _List_Objs.fuel != undefined) {
 
         for (const dev_A of _Devices) {
-            if (dev_A.id == TRK_0.id && dev_A.prop != undefined) {
-
+            if (dev_A.id == TRK_0.id && dev_A.prop != undefined && dev_A.devices != undefined) {
                 for (const item_devices of dev_A.devices) {
                     if (item_devices.prop != null && item_devices.prop != undefined) {
                         for (const item_prop of item_devices.prop) {
@@ -160,8 +174,8 @@ function get_Nozzle_Fuel(nameCol, TRK_0, _Devices, _List_Objs) {
                 }
             }
         }
-
     }
+
     return FUEL_NAME;
 }
 
@@ -283,10 +297,18 @@ export default class trk extends Component {
         if (this.state.TRK != null) {
             if (this.state.DeVal != null && this.state.TRK.id == this.state.DeVal.id) {
                 for (const iterator of this.state.DeVal.values) {
-                    this.state.TRK[iterator.typ] = iterator.val;
-                    this.setState({ TRK: this.state.TRK });
+                    if (iterator.crit != undefined) {
+                        this.state.TRK[iterator.typ] = { text: "", crit: iterator.crit, code: iterator.val };
+                        this.setState({ TRK: this.state.TRK });
+                    } else {
+                        this.state.TRK[iterator.typ] = iterator.val;
+                        this.setState({ TRK: this.state.TRK });
+                    }
                 }
             }
+            //text: 
+            //crit:
+            //code:
         }
     }
 
@@ -294,26 +316,29 @@ export default class trk extends Component {
         alert("Тест = " + text);
     }
 
-    async toock(text, id, tco, type_Body, ctrl_number_capacity) {///Отправка команды
+    async toock(text, id, dev, type_Body) {//, ctrl_number_capacity) {///Отправка команды
         let rss = POST;
-
-        let ID = get_ID_cmd_TCO(tco);
-        if (ID != null) {
-            //id = ID;
-        }
-
         var myRequest = new Request(rss);
-        //let _body = get_LOCK_TRK(id, ctrl_number_capacity);
         let _body = get_TRK(id);
-/*
-        •	pump_lock - заблокировать ТРК
-        •	pump_unlock - разблокировать ТРК
-        •	tank_lock - заблокировать резервуар
-        •	tank_unlock - разблокировать резервуар
-*/        
+
+        /*
+                let ID = get_ID_cmd_TCO(tco);
+                if (ID != null) {
+                    //id = ID;
+                }
+        
+                var myRequest = new Request(rss);
+                //let _body = get_LOCK_TRK(id, ctrl_number_capacity);
+        
+                */
+
+        /*
+                •	pump_lock - заблокировать ТРК
+                •	pump_unlock - разблокировать ТРК
+        */
 
 
-        alert("Команда " + "запроса =" + _body);
+        alert("Команда " + text + "запроса =" + _body);
         try {
             var response = await fetch(myRequest,
                 {
@@ -324,12 +349,13 @@ export default class trk extends Component {
                     body: _body,
                 }
             );
+            const Jsons = await response.json();
             if (response.ok) {
-                const Jsons = await response.json();
                 this.setState({ _ANS: Jsons });
-                alert("Команда получила ответ - " + Jsons.status + ",\n АЗК = " + tco[tco.length - 1].nm + ",\n id = " + id + ",\n команда = " + type_Body + ",\n запрос =" + _body);
+                alert("Команда получила ответ - " + Jsons.status + ",\n АЗК = " + dev.nm + ",\n id = " + id + ",\n команда = " + type_Body + ",\n запрос =" + _body);
             }
             else {
+                throw Error(Jsons.message);
                 throw Error(response.statusText);
             }
         }
@@ -356,6 +382,47 @@ export default class trk extends Component {
         window.location.href = link;
     }
 
+    getStyle(el, mass) {
+        let style = {
+            background: 'white',
+        }
+        if (mass[el].crit != undefined) {
+            switch (mass[el].crit.toString()) {
+                case '0': {
+                    style = {
+                        background: 'white',
+                        fontSize: 10,
+                    }
+                    break;
+                }
+                case '1': {
+                    style = {
+                        background: 'white',
+                        fontSize: 10,
+                    }
+
+                    break;
+                }
+                case '2': {
+                    style = {
+                        background: 'yellow',
+                        fontSize: 10,
+                    }
+
+                    break;
+                }
+                case '3': {
+                    style = {
+                        background: 'hotpink',
+                        fontSize: 10,
+                    }
+
+                    break;
+                }
+            }
+        }
+        return style;
+    }
 
     render() {
         if (this.state.TRK != null) {
@@ -385,6 +452,7 @@ export default class trk extends Component {
                     }
                 }
             }
+
             return (
                 <div>
                     {this.props.TRK_Col != null &&
@@ -439,7 +507,7 @@ export default class trk extends Component {
                                             ) : (
                                                     <>
                                                         <button className='Min_button' title="блокировка"
-                                                            onClick={() => this.toock('Блокировка TRK[ТСО]', V_ID, this.state.TCO[0], 'lock_tso', capacity)}>
+                                                            onClick={() => this.toock('Блокировка TRK', this.state.TRK.id, this.state.TRK, 'lock_tso')}>
                                                             {/*<button onClick={() => this.Test_Onclick(this.state.TRK.nm)}>*/}
                                                             <Stage width={BTN_width} height={BTN_height} x={_dX} y={0}>
                                                                 <Layer key='1'>
@@ -482,7 +550,8 @@ export default class trk extends Component {
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td id='td_ID'>
+                                                <td id='td_ID' style={this.getStyle(el, this.state.TRK)}
+                                                    title={get_TextFirstCol(el, this.state.TRK, this.props._List_Objs)}>
                                                     {get_TextFirstCol(el, this.state.TRK, this.props._List_Objs)}
                                                 </td>
                                             </tr>

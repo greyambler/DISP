@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { RSS_Tanks, Get_RSS, RSS, ETALON_AZS, RSS_AZS, RSS_Type_List, Get_Device, Get_MainHead, Get_Val } from './core/core_Function.jsx';
+import { RSS_Tanks, Get_RSS, RSS, ETALON_AZS, RSS_AZS, RSS_Type_List, Get_Device, Get_MainHead, Get_Val, saveToken } from './core/core_Function.jsx';
 //import W_main_AZS from './shared_FilterAZS/w_main_AZS.jsx';
 
 import W_main_azs from './azs/w_main_azs.jsx';
@@ -33,7 +33,8 @@ export default class w_AZS extends React.Component {
         }
     }
     componentDidMount() {
-
+        //saveToken(null);
+        let wr= localStorage.tokenData;    
         this.setState({ _List_Objs: this.props._List_Objs }, this.Get_FieldsPL);
         //this.tick();
 
@@ -197,7 +198,11 @@ export default class w_AZS extends React.Component {
                     let Tso_Main = Get_MainHead(TCO);
                     let DEVICES = new Array();
                     for (const item of TCO.dvctyptree) {
+
+                        let Mass_Dev = Get_MainHead(item);
                         DEVICES.push(Get_MainHead(item));
+
+                        let r = 0;
                     }
                     TSO_ALL.push(Tso_Main);
                     TSO_ALL.push(DEVICES);
@@ -245,7 +250,7 @@ export default class w_AZS extends React.Component {
 
                     _List_Objs={this.props._List_Objs}
                     history={this.props.history}
-                   
+
                 />
             );
         } else {

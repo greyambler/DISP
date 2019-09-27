@@ -43,17 +43,16 @@ function get_ICON_TCO_Lock(TCO_0) {
     try {
 
         if (TCO_0[TCO_0.length - 1].typ == 'tso') {
-
-            //let r = TCO_0[TCO_0.length - 1].STATE_TSO.code;//TCO_0[TCO_0.length - 1].STATE_TSO;
-            //if(TCO_0[TCO_0.length - 1].STATE_TSO.code != undefined){
-            //    r = TCO_0[TCO_0.length - 1].STATE_TSO.code;
-            //}
-
-            //if (r.includes("[") && r.includes("]")) {
+            let NUM_STATE_SHIFT = TCO_0[TCO_0.length - 1].STATE_SHIFT.code;
+            if (!isNaN(NUM_STATE_SHIFT)) {
+                switch (NUM_STATE_SHIFT) {
+                    case 2: col = '/images/Locked.png'; break;
+                    case 3: col = '/images/Unlocked.png'; break;
+                    default: col = '/images/Locked.png'; break;
+                }
+            }
+            /*
             if (TCO_0[TCO_0.length - 1].STATE_TSO.code != undefined) {
-                //let _start = r.indexOf("[")
-                //let _end = r.indexOf("]")
-                //let NUM_STATE_TSO = r.substr(_start + 1, _end - (_start + 1));
                 let NUM_STATE_TSO = TCO_0[TCO_0.length - 1].STATE_TSO.code;
                 if (!isNaN(NUM_STATE_TSO)) {
                     switch (NUM_STATE_TSO) {
@@ -63,6 +62,7 @@ function get_ICON_TCO_Lock(TCO_0) {
                     }
                 }
             }
+            */
         }
     } catch (error) {
     }
@@ -519,13 +519,6 @@ export default class tcoTree extends Component {
                         }
                     }
                 }
-                /*
-                                if (tco[tco.length - 1].STATE_TSO.code == undefined || tco[tco.length - 1].STATE_TSO.code == 4 || tco[tco.length - 1].STATE_TSO.code == 5) {
-                                    _body = get_TCO(id, "shift_start");
-                                } else {
-                                    _body = get_TCO(id, "shift_stop");
-                                }
-                */
                 //TCO_0[TCO_0.length - 1].STATE_TSO.code
                 // _body = get_TCO(id, "shift_close");
             }
@@ -604,6 +597,8 @@ export default class tcoTree extends Component {
 
 
     render() {
+        
+
         if (this.state.TCO != null) {
 
 
@@ -645,6 +640,8 @@ export default class tcoTree extends Component {
                 height: '30px',
                 //background: 'rgb(0, 141, 141)',
             }
+
+            
 
             return (
                 <div>

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import OL_List from '../../core/OL_List.jsx'
 import { Stage, Layer, Rect, Text, Circle, Shape, Image, Ellipse } from 'react-konva';
 
-import { get_Text_Status_PL, get_Color_Status_PL, get_NameFuel, Is_View_Row,POST } from '../../core/core_Function.jsx';
+import { get_Text_Status_PL, get_Color_Status_PL, get_NameFuel, Is_View_Row, POST } from '../../core/core_Function.jsx';
 
 import AZS_Image from '../../control/AZS_Image.jsx'
 
@@ -10,6 +10,7 @@ import moment from 'moment';
 
 const _Debuge = false;
 const _Debuge_Key = false;
+const _Debuge_Message = true;
 
 let TRK_Text = 'white';
 function get_ICON_Fuel(TP_STATUS, Full_V, Curent_V) {
@@ -36,7 +37,12 @@ function get_ICON_Fuel(TP_STATUS, Full_V, Curent_V) {
 }
 function get_ICON_TCO_Lock(TCO_0) {
     let col = '/images/Locked.png';
-
+    let _code = Number(TCO_0.code);
+    if (!isNaN(_code)) {
+        if (_code == 1) {
+            col = '/images/Unlocked.png';
+        }
+    }
     return col;
 }
 
@@ -68,21 +74,41 @@ function get_ICON_Lock_2(val) {
 
 function get_TextFirstCol(nameCol, PL_0, isFull) {
     let r = 0;
-    let text = isFull ? PL_0[nameCol]
-        : (PL_0[nameCol].length > 36) ? PL_0[nameCol].substr(0, 36) : PL_0[nameCol];
+    let text = "";
+
+    if (PL_0[nameCol].crit != undefined) {
+        let newText = PL_0[nameCol].text;
+
+        if ((nameCol == "TOTAL_OBSERVED_VOLUME" ||
+            nameCol == "PRODUCT_LEVEL")
+            && PL_0.id != 0) {
+            try {
+                let NUM_Text = Number(newText);
+                if (!isNaN(NUM_Text)) {
+                    newText = NUM_Text.toFixed(2);
+                }
+            } catch (error) {
+            }
+        }
+
+        newText = newText + " {" + PL_0[nameCol].crit + "}";
+
+        text = isFull
+            ? newText
+            : (newText.length > 36)
+                ? newText.substr(0, 36)
+                : newText;
+    } else {
+        text = isFull
+            ? PL_0[nameCol]
+            : (PL_0[nameCol].length > 36)
+                ? PL_0[nameCol].substr(0, 36)
+                : PL_0[nameCol];
+    }
+
+
     if (_Debuge_Key) {
         text = text + " [" + nameCol + "]";
-    }
-    //let text = PL_0[nameCol];
-    /**/
-    if (text != "0" && text != "---" && nameCol == "PRODUCT_LEVEL" && PL_0.id != 0) {
-        try {
-            let NUM_Text = Number(text);
-            if (!isNaN(NUM_Text)) {
-                text = NUM_Text.toFixed(2);
-            }
-        } catch (error) {
-        }
     }
 
     return text;
@@ -115,12 +141,12 @@ function Is_View_Row_11(Data, Name_Row) {
     return row;
 }
 
-function get_PL(id) {
+function get_PL(id, nameCommand) {
     let T_Json =
         '{"type": "cmd_trk",' +
         '"dev_id": "' + id + '",' +
         '"obj": {' +
-        '           "ctrl_value": "tank_lock",' +
+        '           "ctrl_value": "' + nameCommand + '",' +
         '           "cashier_code": 1' +
         '       }' +
         ' }'
@@ -164,8 +190,13 @@ export default class pl extends Component {
         if (this.state.PL != null) {
             if (this.state.DeVal != null && this.state.PL.id == this.state.DeVal.id) {
                 for (const iterator of this.state.DeVal.values) {
-                    this.state.PL[iterator.typ] = iterator.val;
-                    this.setState({ PL: this.state.PL });
+                    if (iterator.crit != undefined) {
+                        this.state.PL[iterator.typ] = { text: iterator.val, crit: iterator.crit, code: iterator.val };
+                        this.setState({ PL: this.state.PL });
+                    } else {
+                        this.state.PL[iterator.typ] = iterator.val;
+                        this.setState({ PL: this.state.PL });
+                    }
                 }
             }
         }
@@ -174,39 +205,57 @@ export default class pl extends Component {
     Test_Onclick(text) {
         alert("Тест = " + text);
     }
-    async toock(text, id, dev, type_Body){//, ctrl_number_capacity) {///Отправка команды
+    async toock(text, id, dev, type_Body) {//, ctrl_number_capacity) {///Отправка команды
         let rss = POST;
         var myRequest = new Request(rss);
-        let _body = get_PL(id);
-/*
-        •	tank_lock - заблокировать резервуар
-        •	tank_unlock - разблокировать резервуар
-*/        
+        let _body = null;
 
-
-        alert("Команда " + text + "запроса =" + _body);
-        try {
-            var response = await fetch(myRequest,
-                {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: _body,
-                }
-            );
-            const Jsons = await response.json();
-            if (response.ok) {
-                this.setState({ _ANS: Jsons });
-                alert("Команда получила ответ - " + Jsons.status + ",\n АЗК = " + dev.nm + ",\n id = " + id + ",\n команда = " + type_Body + ",\n запрос =" + _body);
-            }
-            else {
-                throw Error(Jsons.message);
+        let _code = Number(dev.STATE_PL.code);
+        if (!isNaN(_code)) {
+            if (_code == 1) {
+                _body = get_PL(id, 'tank_lock');
+            } else {
+                _body = get_PL(id, 'tank_unlock');
             }
         }
-        catch (error) {
-            console.log(error);
-            alert(error);
+
+        /*
+                •	tank_lock - заблокировать резервуар
+                •	tank_unlock - разблокировать резервуар
+        */
+
+
+        if (_Debuge_Message) {
+            if (_body != null) {
+                alert("Команда " + text + "запроса =" + _body);
+            } else {
+                alert("Команда " + text + "запроса = null. Отмена");
+            }
+        }
+        if (_body != null) {
+            try {
+                var response = await fetch(myRequest,
+                    {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: _body,
+                    }
+                );
+                const Jsons = await response.json();
+                if (response.ok) {
+                    this.setState({ _ANS: Jsons });
+                    alert("Команда получила ответ - " + Jsons.status + ",\n АЗК = " + dev.nm + ",\n id = " + id + ",\n команда = " + type_Body + ",\n запрос =" + _body);
+                }
+                else {
+                    throw Error(Jsons.message);
+                }
+            }
+            catch (error) {
+                console.log(error);
+                alert(error);
+            }
         }
     }
 
@@ -230,6 +279,48 @@ export default class pl extends Component {
         window.location.href = link;
     }
 
+    getStyle(el, mass) {
+        let style = {
+            background: 'white',
+        }
+        if (mass[el].crit != undefined) {
+            switch (mass[el].crit.toString()) {
+                case '0': {
+                    style = {
+                        background: 'white',
+                        fontSize: 14,
+                    }
+                    break;
+                }
+                case '1': {
+                    style = {
+                        background: 'white',
+                        fontSize: 14,
+                    }
+
+                    break;
+                }
+                case '2': {
+                    style = {
+                        background: 'yellow',
+                        fontSize: 14,
+                    }
+
+                    break;
+                }
+                case '3': {
+                    style = {
+                        background: 'hotpink',
+                        fontSize: 14,
+                    }
+
+                    break;
+                }
+            }
+        }
+        return style;
+    }
+
     render() {
         if (this.state.PL != null) {
             let _height = 60;
@@ -242,7 +333,7 @@ export default class pl extends Component {
 
             let Icon_Tank = (this.state.PL == 'ZERO') ? "" : get_ICON_Fuel(this.state.PL.TP_STATUS, "TOTAL_VOLUME", this.state.PL.CURENT_VOLUME);
 
-            let Icon_TCO_Lock = get_ICON_TCO_Lock("status");
+            let Icon_TCO_Lock = get_ICON_TCO_Lock(this.state.PL.STATE_PL);
 
             let style_TD_BTN = {
                 verticalAlign: 'top',
@@ -293,7 +384,7 @@ export default class pl extends Component {
                                             ) : (
                                                     <>
                                                         <button className='Min_button' title="блокировка"
-                                                        onClick={() => this.toock('Блокировка резервуара', this.state.PL.id, this.state.PL, 'pump_lock')}>
+                                                            onClick={() => this.toock('Блокировка резервуара', this.state.PL.id, this.state.PL, 'pump_lock')}>
                                                             {/*onClick={() => this.Test_Onclick(this.state.PL.nm)}>*/}
                                                             <Stage width={BTN_width} height={BTN_height} x={0} y={0}>
                                                                 <Layer key='1' background='red' >
@@ -364,7 +455,9 @@ export default class pl extends Component {
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td id='td_ID' title={get_TextFirstCol(el, this.state.PL, true)}>
+                                                <td id='td_ID' style={this.getStyle(el, this.state.PL)}
+                                                    title={get_TextFirstCol(el, this.state.PL, true)}
+                                                >
                                                     {get_TextFirstCol(el, this.state.PL, false)}
                                                 </td>
                                             </tr>

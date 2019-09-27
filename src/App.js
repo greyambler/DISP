@@ -35,6 +35,8 @@ import W_Login from './w_Login.jsx';
 import history from "./control/history";
 
 import FILTER from './azs/filters.jsx'
+
+
 /*
 
 import MainWindow from './SAVE_ENTERPOINT/MainWindow.jsx';
@@ -311,7 +313,6 @@ function refreshPage() {
   window.location.reload();
 }
 
-
 export default class App extends Component {
   constructor(props) {
     super(props);
@@ -321,6 +322,7 @@ export default class App extends Component {
       _List_Objs: null,
     }
   }
+  
   handleResize(WindowSize, event) {
     this.setState({ W_Width: window.innerWidth, W_Height: window.innerHeight })
   }
@@ -355,6 +357,7 @@ export default class App extends Component {
     }
   }
   render() {
+
     return (
       <AuthProvider history={history}>
         <Router history={history}>

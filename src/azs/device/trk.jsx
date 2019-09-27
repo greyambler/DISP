@@ -11,6 +11,7 @@ import AZS_Image from '../../control/AZS_Image.jsx'
 import moment from 'moment';
 
 const _Debuge = false;
+const _Debuge_Message = true;
 
 let TRK_Text = 'white';
 function get_ICON_Fuel(_STATUS) {
@@ -40,6 +41,12 @@ function get_ICON_Fuel(_STATUS) {
 function get_ICON_TCO_Lock(TCO_0) {
     let col = '/images/Locked.png';
 
+    let _code = Number(TCO_0.code);
+    if (!isNaN(_code)) {
+        if (_code != 2) {
+            col = '/images/Unlocked.png';
+        }
+    }
     return col;
 }
 
@@ -206,12 +213,12 @@ function get_ID_cmd_TCO(TCO) {
     return ID;
 }
 
-function get_TRK(id) {
+function get_TRK(id, nameCommand) {
     let T_Json =
         '{"type": "cmd_trk",' +
         '"dev_id": "' + id + '",' +
         '"obj": {' +
-        '           "ctrl_value": "pump_lock",' +
+        '           "ctrl_value": "' + nameCommand + '",' +
         '           "cashier_code": 1' +
         '       }' +
         ' }'
@@ -319,7 +326,17 @@ export default class trk extends Component {
     async toock(text, id, dev, type_Body) {//, ctrl_number_capacity) {///Отправка команды
         let rss = POST;
         var myRequest = new Request(rss);
-        let _body = get_TRK(id);
+        let _body = null;
+
+        let _code = Number(dev.STATUS_TRK.code);
+        if (!isNaN(_code)) {
+            if (_code == 2) {
+                _body = get_TRK(id, 'pump_unlock');
+            } else {
+                _body = get_TRK(id, 'pump_lock');
+            }
+        }
+
 
         /*
                 let ID = get_ID_cmd_TCO(tco);
@@ -337,31 +354,39 @@ export default class trk extends Component {
                 •	pump_unlock - разблокировать ТРК
         */
 
-
-        alert("Команда " + text + "запроса =" + _body);
-        try {
-            var response = await fetch(myRequest,
-                {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: _body,
-                }
-            );
-            const Jsons = await response.json();
-            if (response.ok) {
-                this.setState({ _ANS: Jsons });
-                alert("Команда получила ответ - " + Jsons.status + ",\n АЗК = " + dev.nm + ",\n id = " + id + ",\n команда = " + type_Body + ",\n запрос =" + _body);
-            }
-            else {
-                throw Error(Jsons.message);
-                throw Error(response.statusText);
+        if (_Debuge_Message) {
+            if (_body != null) {
+                alert("Команда " + text + "запроса =" + _body);
+            } else {
+                alert("Команда " + text + "запроса = null. Отмена");
             }
         }
-        catch (error) {
-            console.log(error);
-            alert(error);
+
+        if (_body != null) {
+            try {
+                var response = await fetch(myRequest,
+                    {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: _body,
+                    }
+                );
+                const Jsons = await response.json();
+                if (response.ok) {
+                    this.setState({ _ANS: Jsons });
+                    alert("Команда получила ответ - " + Jsons.status + ",\n АЗК = " + dev.nm + ",\n id = " + id + ",\n команда = " + type_Body + ",\n запрос =" + _body);
+                }
+                else {
+                    throw Error(Jsons.message);
+                    throw Error(response.statusText);
+                }
+            }
+            catch (error) {
+                console.log(error);
+                alert(error);
+            }
         }
     }
     Test_Maile_Onclick(_object, message) {
@@ -430,8 +455,9 @@ export default class trk extends Component {
             let _width = (this.state.TRK.id == 0) ? 110 : 110;
             let _dX = 2;
             let PL_width = _width + _dX + 0.4;
+
             let Icon_TRK = get_ICON_Fuel(this.state.TRK.STATUS_TRK);
-            let Icon_TCO_Lock = get_ICON_TCO_Lock("status");
+            let Icon_TCO_Lock = get_ICON_TCO_Lock(this.state.TRK.STATUS_TRK);
 
             let V_ID = this.state.TRK.id;//Get_Val(this.state.TCO[0], "id")
 
@@ -570,21 +596,3 @@ export default class trk extends Component {
         }
     }
 }
-/*
-
-
- <td id='td_ID'>
-                                                    {el}
-                                                </td>
-
-
-
-
-<tr>
-                                                <td id='td_ID'>
-                                                    {el}
-                                                </td>
-                                            </tr>
-
-
-*/

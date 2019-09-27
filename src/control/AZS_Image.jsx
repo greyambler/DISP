@@ -47,6 +47,7 @@ class AZS_Image extends React.Component {
             
          />
       );
+     
    }
 }
 

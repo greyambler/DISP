@@ -302,7 +302,7 @@
     font-size: 12px;
     font-weight: 600;
     width: 27px;
-    height: 27px;
+    height: 29px;
     /*Скругленные углы*/
     -webkit-border-radius: 9px;
     -moz-border-radius: 9px;
@@ -311,4 +311,5 @@
     transition: 0.2s;
     color: white;
     margin-left: 20px;
+    
  }

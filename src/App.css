@@ -16,7 +16,7 @@
     /*background: maroon;  Цвет фона ячеек */
     padding: 0px;
     /* Поля вокруг текста     
-    border: 1px solid red;         */
+    border: 1px solid hotpink;         */
     /*min-width: 20px;*/
  }
 
@@ -41,19 +41,19 @@
 
  #td_Left {
     min-width: 290px;
-    height: 80px;
-    max-height: 80px;
+    height: 70px;
+    max-height: 70px;
  }
 
  #td_Left_TRK {
    min-width: 290px;
-   height: 74px;
-   max-height: 74px;
+   height: 58px;
+   max-height: 58px;
 }
 #td_Left_TCO {
    min-width: 290px;
-   height: 75px;
-   max-height: 75px;
+   height: 58px;
+   max-height: 585px;
 }
 
 
@@ -116,7 +116,7 @@
     background: white;
     border: 3px ridge rgb(250, 246, 246);
     vertical-align: top;
-    margin-top: 6px;
+    margin-top: 14px;
     margin-bottom: 6px;
  }
 

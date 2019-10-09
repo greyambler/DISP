@@ -24,8 +24,13 @@ export default class w_Login extends React.Component {
         }
     }
     async handleSubmit(event) {
-        this.props.authorize(event, this.state.login, this.state.password);
+        event.preventDefault();
+        let isOk = await this.props.authorize(event, this.state.login, this.state.password);
+        if(isOk){            
+            this.props.history.push("/");            
+        }
     }
+    
 
     render() {
         return (

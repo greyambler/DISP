@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import W_AZK_Form from './w_AZK_Form.jsx';
 import W_lst_AZS from './w_lst_AZS.jsx';
 import W_head from '../../control/w_head_link.jsx';
-import { RSS_AZS_EDIT } from '../../core/core_Function.jsx';
+import { RSS_AZS_EDIT, saveToken } from '../../core/core_Function.jsx';
 import W_FormaEditASZ from './w_FormaEditASZ.jsx';
 
 const _Debuge = false;
@@ -16,25 +16,22 @@ export default class w_main_edit extends React.Component {
             isExistError: true,
             _L_AZS: null,
             err: 'Ошибка! Сервер не ответил!',
-            //token: localStorage.tokenData//Cookie.get('token'),
+            token: localStorage.tokenData//Cookie.get('token'),
         };
     }
     componentDidMount() {
-        if (localStorage.tokenData != null) {
-            this.tick();
-        } else {
-            this.props.history.push('/loginTest');
-        }
+        this.tick();
     }
-    /*
+/*
     componentDidUpdate(prevProps) {
         if (this.props._L_AZS != prevProps._L_AZS) {
             this.setState({ list_AZS: this.props._L_AZS });
         }
-    }*/
+    }
+*/
     async tick() {
         let rss = RSS_AZS_EDIT;//RSS_AZS;
-        let TTtokenData = localStorage.tokenData;
+        let token = localStorage.tokenData;
         var myRequest = new Request(rss);
         try {
             var response = await fetch(myRequest,
@@ -42,7 +39,7 @@ export default class w_main_edit extends React.Component {
                     method: 'GET',
                     headers:
                     {
-                        'Authorization': TTtokenData,
+                        'Authorization': "Bearer" + token,
                         'Accept': 'application/json'
                     },
                 }
@@ -50,11 +47,12 @@ export default class w_main_edit extends React.Component {
 
             if (response.ok) {
                 const Jsons = await response.json();
-                this.setState({ list_AZS: Jsons.object });
+                this.setState({ _L_AZS: Jsons.object });
                 this.setState({ isExistError: false })
             } else if (response.status == 401) {
                 let error = "Получен статус " + response.status + ".\nВы запросили страницу не будучи авторизованы!"
                 alert(error);
+                saveToken(null);
                 this.props.history.push('/loginTest');
                 throw Error(error);
             }

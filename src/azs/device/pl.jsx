@@ -37,10 +37,12 @@ function get_ICON_Fuel(TP_STATUS, Full_V, Curent_V) {
 }
 function get_ICON_TCO_Lock(TCO_0) {
     let col = '/images/Locked.png';
-    let _code = Number(TCO_0.code);
-    if (!isNaN(_code)) {
-        if (_code == 1) {
-            col = '/images/Unlocked.png';
+    if (TCO_0 != undefined) {
+        let _code = Number(TCO_0.code);
+        if (!isNaN(_code)) {
+            if (_code == 1) {
+                col = '/images/Unlocked.png';
+            }
         }
     }
     return col;
@@ -75,37 +77,37 @@ function get_ICON_Lock_2(val) {
 function get_TextFirstCol(nameCol, PL_0, isFull) {
     let r = 0;
     let text = "";
+    if (PL_0 != "ZERO") {
+        if (PL_0[nameCol].crit != undefined) {
+            let newText = PL_0[nameCol].text;
 
-    if (PL_0[nameCol].crit != undefined) {
-        let newText = PL_0[nameCol].text;
-
-        if ((nameCol == "TOTAL_OBSERVED_VOLUME" ||
-            nameCol == "PRODUCT_LEVEL")
-            && PL_0.id != 0) {
-            try {
-                let NUM_Text = Number(newText);
-                if (!isNaN(NUM_Text)) {
-                    newText = NUM_Text.toFixed(2);
+            if ((nameCol == "TOTAL_OBSERVED_VOLUME" ||
+                nameCol == "PRODUCT_LEVEL")
+                && PL_0.id != 0) {
+                try {
+                    let NUM_Text = Number(newText);
+                    if (!isNaN(NUM_Text)) {
+                        newText = NUM_Text.toFixed(2);
+                    }
+                } catch (error) {
                 }
-            } catch (error) {
             }
+
+            newText = newText + " {" + PL_0[nameCol].crit + "}";
+
+            text = isFull
+                ? newText
+                : (newText.length > 36)
+                    ? newText.substr(0, 36)
+                    : newText;
+        } else {
+            text = isFull
+                ? PL_0[nameCol]
+                : (PL_0[nameCol].length > 36)
+                    ? PL_0[nameCol].substr(0, 36)
+                    : PL_0[nameCol];
         }
-
-        newText = newText + " {" + PL_0[nameCol].crit + "}";
-
-        text = isFull
-            ? newText
-            : (newText.length > 36)
-                ? newText.substr(0, 36)
-                : newText;
-    } else {
-        text = isFull
-            ? PL_0[nameCol]
-            : (PL_0[nameCol].length > 36)
-                ? PL_0[nameCol].substr(0, 36)
-                : PL_0[nameCol];
     }
-
 
     if (_Debuge_Key) {
         text = text + " [" + nameCol + "]";
@@ -283,41 +285,44 @@ export default class pl extends Component {
         let style = {
             background: 'white',
         }
-        if (mass[el].crit != undefined) {
-            switch (mass[el].crit.toString()) {
-                case '0': {
-                    style = {
-                        background: 'white',
-                        fontSize: 14,
+        if (mass != "ZERO") {
+            if (mass[el].crit != undefined) {
+                switch (mass[el].crit.toString()) {
+                    case '0': {
+                        style = {
+                            background: 'white',
+                            fontSize: 14,
+                        }
+                        break;
                     }
-                    break;
-                }
-                case '1': {
-                    style = {
-                        background: 'white',
-                        fontSize: 14,
-                    }
+                    case '1': {
+                        style = {
+                            background: 'white',
+                            fontSize: 14,
+                        }
 
-                    break;
-                }
-                case '2': {
-                    style = {
-                        background: 'yellow',
-                        fontSize: 14,
+                        break;
                     }
+                    case '2': {
+                        style = {
+                            background: 'yellow',
+                            fontSize: 14,
+                        }
 
-                    break;
-                }
-                case '3': {
-                    style = {
-                        background: 'hotpink',
-                        fontSize: 14,
+                        break;
                     }
+                    case '3': {
+                        style = {
+                            background: 'hotpink',
+                            fontSize: 14,
+                        }
 
-                    break;
+                        break;
+                    }
                 }
             }
         }
+
         return style;
     }
 

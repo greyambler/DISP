@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
-import { RSS_LOGIN } from './core/core_Function.jsx';
+import { RSS_LOGIN, saveToken } from './core/core_Function.jsx';
+
 
 const _Debuge = false;
 
@@ -47,14 +48,10 @@ export default class w_Login extends React.Component {
             */
     }
     async handleSubmit(event) {
-        let _st = 0;
-        //alert('Отправленное имя: ' + this.state.login + ', password: ' + this.state.password);
         let _anser = await this.Post_Data(event);
-
-        event.preventDefault();
-        //this.props.history.push('/');
-
-        let r=0;
+        
+        this.props.history.push('/');
+        window.location.reload(true);
     }
     async Post_Data(event) {///Отправка формы
         //let _body1 = Get_Obj_AZS(OB);
@@ -67,12 +64,13 @@ export default class w_Login extends React.Component {
         "username":"admin",
         "password":"password"
         */
+        let token = localStorage.tokenData;
 
         let _body = JSON.stringify(J_Post);//Get_AZS_Obj_AZS(this.state.curentAZS, OB);
         //alert('Отправленное имя: ' + _body);
-        
+
         let rss = RSS_LOGIN;
-        
+
         var myRequest = new Request(rss);
         event.preventDefault();
         try {
@@ -84,18 +82,18 @@ export default class w_Login extends React.Component {
                     },
                     body: _body,
                 }
-                
+
             );
-            
+
             const Jsons = await response.json();
             if (response.ok) {
-                
+                saveToken(Jsons.token);
                 this.setState({ _ANS: Jsons });
                 //return Jsons.status;
                 //alert("Команда получила ответ - " + Jsons.status);
             }
             else {
-                let r=0;
+                let r = 0;
                 throw Error(Jsons.message);
             }
         }
@@ -114,25 +112,27 @@ export default class w_Login extends React.Component {
                 {/*<form method="post" action="http://172.23.16.18:8080/dprest-1.0-SNAPSHOT/webresources/ru.expertek.dp.dpfacade.dic.edit/user/login/">*/}
                 <form onSubmit={this.handleSubmit}>
                     <table>
-                        <tr>
-                            <td width="70"><label for="loginField">Логин</label></td>
-                            <td>
-                                <input id="loginField" type="text"
-                                    name="login"
-                                    onChange={el => { this.handleChange(el, "login") }} />
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><label for="passwordField">Пароль</label></td>
-                            <td>
-                                <input id="passwordField" type="password"
-                                    name="password"
-                                    onChange={el => { this.handleChange(el, "password") }} />
-                            </td>
-                        </tr>
-                        <tr>
-                            <td colSpan="2"><input type="submit" value="Войти" /></td>
-                        </tr>
+                        <tbody>
+                            <tr>
+                                <td width="70"><label htmlFor="loginField">Логин</label></td>
+                                <td>
+                                    <input id="loginField" type="text"
+                                        name="login"
+                                        onChange={el => { this.handleChange(el, "login") }} />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><label htmlFor="passwordField">Пароль</label></td>
+                                <td>
+                                    <input id="passwordField" type="password"
+                                        name="password"
+                                        onChange={el => { this.handleChange(el, "password") }} />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colSpan="2"><input type="submit" value="Войти" /></td>
+                            </tr>
+                        </tbody>
                     </table>
                 </form>
             </>

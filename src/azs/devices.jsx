@@ -468,19 +468,21 @@ export default class devices extends Component {
         //history={this.props.history}
         this.props.history.push('/azs_listerror&' + id_azs);
     }
+
+    Test_Onclick(text) {
+        //var link = 'yourprotocolname:text & "d:\b1.bat"';
+        //alert("Тест = " + text);
+        var link = 'yourprotocolname:' + text;
+        window.location.href = link;
+    }
+
     render() {
-
-
-
-
         let Guid_T = createGuid();
         let style_TD_BTN = {
             verticalAlign: 'top',
             height: '30px',
             width: '355px',
         }
-
-
         if (this.state.AZS != null && this.state.id == 0) {
 
             return (
@@ -599,6 +601,12 @@ export default class devices extends Component {
                                                 onClick={() => this.AZS_ERROR_Onclick(this.state.AZS.id)}>
                                                 <div align="center">
                                                     <img src='images/anim_engine.gif' width="15px" />
+                                                </div>
+                                            </button>
+                                            <button className='Min_button_White' title="TH"
+                                                onClick={() => this.Test_Onclick(this.state.AZS.ob)}>
+                                                <div align="center">
+                                                    <img src='images/favicon.ico' width="15px" />
                                                 </div>
                                             </button>
                                         </center>

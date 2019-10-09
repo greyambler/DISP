@@ -6,7 +6,7 @@ import 'react-app-polyfill/stable';
 import React, { Component, PropTypes } from 'react';
 import { BrowserRouter as Router, Route, Link, Switch, Redirect } from "react-router-dom";
 import { Link as S_Link, DirectLink, Element, Events, animateScroll as scroll, scrollSpy, scroller } from 'react-scroll'
-import { RSS_Type_List } from './core/core_Function.jsx';
+import { RSS_Type_List, saveToken } from './core/core_Function.jsx';
 
 import W_AZS from './w_AZS.jsx';
 
@@ -36,6 +36,8 @@ import history from "./control/history";
 
 import FILTER from './azs/filters.jsx'
 
+import W_AZS_SF from './w_AZS_SF.jsx'
+
 
 /*
 
@@ -47,12 +49,14 @@ const _Debuge = true;
 
 class Main extends Component {
   render() {
-    /*
+/*
     if (_Debuge) {
-      return (<W_TestTree w_Height={this.props.w_Height} w_Width={this.props.w_Width} _List_Objs={this.props._List_Objs}/>);
-    } else */
-    {
-      return (<W_AZS w_Height={this.props.w_Height} w_Width={this.props.w_Width} _List_Objs={this.props._List_Objs}
+      return (<W_AZS_SF w_Height={this.props.w_Height} w_Width={this.props.w_Width}
+        _List_Objs={this.props._List_Objs}
+        history={this.props.history} />);
+    } else */{
+      return (<W_AZS w_Height={this.props.w_Height} w_Width={this.props.w_Width}
+        _List_Objs={this.props._List_Objs}
         history={this.props.history} />);
     }
 
@@ -95,11 +99,25 @@ class AZS extends Component {
       history={this.props.history} />);
   }
 }
+
+
 class AZS_listerror extends Component {
   render() {
     return (<W_ListErr_AZS w_Height={this.props.w_Height} w_Width={this.props.w_Width} _List_Objs={this.props._List_Objs}
       azs_id={this.props.azs_id}
     />);
+  }
+}
+
+
+class AZS_SF extends Component {
+  render() {
+
+    return (<W_AZS_SF w_Height={this.props.w_Height} w_Width={this.props.w_Width}
+      history={this.props.history}
+    />);
+    //return (<W_AZK_Form w_Height={this.props.w_Height} w_Width={this.props.w_Width} _List_Objs={this.props._List_Objs} />);
+    //return (<W_lst_AZS header="Список АЗК" w_Height={this.props.w_Height} w_Width={this.props.w_Width} _List_Objs={this.props._List_Objs} />);
   }
 }
 
@@ -150,12 +168,17 @@ class NOZZLE_Main extends Component {
 
 class Settings extends Component {
   render() {
+    saveToken(null);
+    
     return <center><h2>Настройки</h2></center>;
   }
 }
 class Help extends Component {
   render() {
-    return <center><h2>Помощь</h2></center>;
+    
+    return (
+      <center><h2>Помощь</h2></center>
+    );
   }
 }
 class Test_File extends Component {
@@ -291,12 +314,11 @@ class Nav extends Component {
               }
               <li><Link to="/" >Главная</Link></li>
 
-              {/*<li><Link to="/AZS" >Начальная</Link></li>*/}
+              <li><Link to="/AZS_SF" >Главная(Сферы )</Link></li>
+
+              <li><Link to="/AZS" >Начальная</Link></li>
 
               <li><Link to="/help">Помощь</Link></li>
-
-
-
             </ul>
           </li>
         </ul>
@@ -322,7 +344,7 @@ export default class App extends Component {
       _List_Objs: null,
     }
   }
-  
+
   handleResize(WindowSize, event) {
     this.setState({ W_Width: window.innerWidth, W_Height: window.innerHeight })
   }
@@ -358,6 +380,7 @@ export default class App extends Component {
   }
   render() {
 
+
     return (
       <AuthProvider history={history}>
         <Router history={history}>
@@ -365,11 +388,21 @@ export default class App extends Component {
           <div className="content">
             <Switch>
               <Route exact path="/" render={({ history }) => <Main w_Height={this.state.W_Height} w_Width={this.state.W_Width}
+
                 _List_Objs={this.state._List_Objs}
+
+                history={history}
+              />} />
+              <Route exact path="/AZS_SF" render={({ history }) => <AZS_SF w_Height={this.state.W_Height} w_Width={this.state.W_Width}
+
+                _List_Objs={this.state._List_Objs}
+
                 history={history}
               />} />
 
-              <PrivateRoute exact path="/AZK_Form" component={AZK_Form} render={({ history }) => <AZK_Form w_Height={this.state.W_Height} w_Width={this.state.W_Width}
+
+
+              <Route exact path="/AZK_Form" component={AZK_Form} render={({ history }) => <AZK_Form w_Height={this.state.W_Height} w_Width={this.state.W_Width}
 
                 history={history} />} />
 
@@ -396,7 +429,7 @@ export default class App extends Component {
               <Route exact path="/test1" component={Test_File} />
               <Route path="/login" exact component={Login} />
 
-              <PrivateRoute exact path="/help" component={Help} />
+              <PrivateRoute exact path="/help" {...this.props} component={Help} />
 
 
               {/*render={({ history }) => 

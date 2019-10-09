@@ -6,12 +6,12 @@ import W_Login from "./w_Login.jsx";
 
 
 
-export default withAuth(({ isAuthorized, authorize, login, password }) =>
+export default withAuth(({ isAuthorized, authorize, login, password, history }) =>
     isAuthorized
         ?
         <Redirect to='/' />
         :
-        <W_Login authorize={authorize} login={login} password={password} />
+        <W_Login authorize={authorize} login={login} password={password} history={history} />
 );
 
 /*

@@ -5,7 +5,7 @@ import { RSS_LOGIN, saveToken } from '../core/core_Function.jsx';
 
 
 const { Provider, Consumer: AuthConsumer } = React.createContext({
-    isAuthorized: false
+    isAuthorized: localStorage.tokenData
 });
 
 
@@ -16,35 +16,33 @@ class AuthProvider extends Component {
         password: null,
         token: localStorage.tokenData,//Cookie.get('token'),
     };
-    authorize = (event, login, passw) => {
-        
-        this.setState({ login: login, password: passw });
-        
-        let r = this.Post_Data(event, login, passw);
 
-        //alert('AuthProvider ' + login + " " + passw);
-        
-        this.setState({ isAuthorized: (localStorage.tokenData) ? true : false}//true }
-            , () => {
-                this.props.history.push("/")
-            })
-            
+    componentDidUpdate(prevProps) {
+        if (this.props.password != prevProps.password) {
+            this.setState({ password: this.props.password });
+            this.setState({ token: localStorage.tokenData });
+        }
+        if (this.props.login != prevProps.login) {
+            this.setState({ login: this.props.login });
+            this.setState({ token: localStorage.tokenData });
+        }
+    }
+
+    authorize = (event, login, passw) => {
+        return this.Post_Data(event, login, passw);
     };
 
     async Post_Data(event, login, passw) {// Отправка формы
+        //this.props.history.push("/");        
 
         let J_Post = {
-            "username": "admin",//login,
-            "password": "password"//passw
+            "username": login,//"admin",//login,
+            "password": passw//"password"//passw
         }
-        /*
-        "username":"admin",
-        "password":"password"
-        */
         let _body = JSON.stringify(J_Post);
         //alert('Отправленное имя: ' + _body);
         let rss = RSS_LOGIN;
-        event.preventDefault();
+        //event.preventDefault();
         var myRequest = new Request(rss);
         try {
             var response = await fetch(myRequest,
@@ -59,23 +57,31 @@ class AuthProvider extends Component {
 
             const Jsons = await response.json();
             if (response.ok) {
-                let rrr = JSON.stringify(Jsons.token);
+                //event.preventDefault();
                 saveToken(Jsons.token);
-                let TTtokenData = localStorage.tokenData;
+                this.setState({ login: login, password: passw, token: localStorage.tokenData });
+                //let TTtokenData = localStorage.tokenData;
                 //this.setState({ token: Jsons.token });
-                return Jsons.token;
+                //event.preventDefault();
+                //event.stopPropagation()
+                //this.props.history.push("/");
+
+                //event.preventDefault()
+                //event.preventDefault();
                 //alert("Команда получила ответ - " + Jsons.status);
+                return true;
             }
             else {
+                saveToken(null);
                 throw Error(Jsons.message);
             }
         }
         catch (error) {
-            saveToken(null);
+            //this.props.history.push("/loginTest");
             console.log(error);
             alert(error);
         }
-        return "false";
+        return false;
     }
 
 
@@ -86,13 +92,12 @@ class AuthProvider extends Component {
             <Provider value={{
                 isAuthorized,
                 authorize: this.authorize,
-            }}>
+            }} history={this.props.history}>
                 {this.props.children}
             </Provider>
         );
     }
 }
-
 
 export function withAuth(WrappedComponent) {
     return class AuthHOC extends Component {
@@ -100,7 +105,7 @@ export function withAuth(WrappedComponent) {
             return (
                 <AuthConsumer>
                     {contextProps => (
-                        <WrappedComponent {...contextProps} {...this.props} />
+                        <WrappedComponent {...contextProps} {...this.props} history={this.props.history} />
                     )}
                 </AuthConsumer>
             );

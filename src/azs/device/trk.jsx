@@ -40,11 +40,12 @@ function get_ICON_Fuel(_STATUS) {
 }
 function get_ICON_TCO_Lock(TCO_0) {
     let col = '/images/Locked.png';
-
-    let _code = Number(TCO_0.code);
-    if (!isNaN(_code)) {
-        if (_code != 2) {
-            col = '/images/Unlocked.png';
+    if (TCO_0 != undefined) {
+        let _code = Number(TCO_0.code);
+        if (!isNaN(_code)) {
+            if (_code != 2) {
+                col = '/images/Unlocked.png';
+            }
         }
     }
     return col;
@@ -80,10 +81,12 @@ function get_ICON_Lock_2(val) {
 function get_TextFirstCol(nameCol, TRK_0, _List_Objs) {
     let text = nameCol;
     try {
-        if (TRK_0[nameCol].code != undefined) {
-            text = TRK_0[nameCol].code;
-        } else {
-            text = TRK_0[nameCol];
+        if (TRK_0 != "ZERO") {
+            if (TRK_0[nameCol].code != undefined) {
+                text = TRK_0[nameCol].code;
+            } else {
+                text = TRK_0[nameCol];
+            }
         }
     } catch (error) {
 
@@ -154,25 +157,28 @@ function get_TextFirstCol(nameCol, TRK_0, _List_Objs) {
 }
 function get_Nozzle_Fuel(nameCol, TRK_0, _Devices, _List_Objs) {
     let text = "";//TRK_0[nameCol];
-    if (TRK_0[nameCol].code != undefined) {
-        text = TRK_0[nameCol].code;
-    } else {
-        text = TRK_0[nameCol];
-    }
     let FUEL_NAME = "";
-    if (text != "0" && text != "---" && TRK_0.id != 0 && _Devices != undefined && _List_Objs != undefined && _List_Objs.fuel != undefined) {
+    if (TRK_0 != "ZERO") {
+        if (TRK_0[nameCol].code != undefined) {
+            text = TRK_0[nameCol].code;
+        } else {
+            text = TRK_0[nameCol];
+        }
 
-        for (const dev_A of _Devices) {
-            if (dev_A.id == TRK_0.id && dev_A.prop != undefined && dev_A.devices != undefined) {
-                for (const item_devices of dev_A.devices) {
-                    if (item_devices.prop != null && item_devices.prop != undefined) {
-                        for (const item_prop of item_devices.prop) {
-                            if (item_prop.typ == 'NUM' && item_prop.capacity.toString() == text) {
-                                let fuels_Code = item_devices.fuel;
+        if (text != "0" && text != "---" && TRK_0.id != 0 && _Devices != undefined && _List_Objs != undefined && _List_Objs.fuel != undefined) {
 
-                                for (const item_fuel of _List_Objs.fuel) {
-                                    if (item_fuel.id == fuels_Code) {
-                                        FUEL_NAME = item_fuel.fu;
+            for (const dev_A of _Devices) {
+                if (dev_A.id == TRK_0.id && dev_A.prop != undefined && dev_A.devices != undefined) {
+                    for (const item_devices of dev_A.devices) {
+                        if (item_devices.prop != null && item_devices.prop != undefined) {
+                            for (const item_prop of item_devices.prop) {
+                                if (item_prop.typ == 'NUM' && item_prop.capacity.toString() == text) {
+                                    let fuels_Code = item_devices.fuel;
+
+                                    for (const item_fuel of _List_Objs.fuel) {
+                                        if (item_fuel.id == fuels_Code) {
+                                            FUEL_NAME = item_fuel.fu;
+                                        }
                                     }
                                 }
                             }
@@ -182,7 +188,6 @@ function get_Nozzle_Fuel(nameCol, TRK_0, _Devices, _List_Objs) {
             }
         }
     }
-
     return FUEL_NAME;
 }
 
@@ -411,38 +416,40 @@ export default class trk extends Component {
         let style = {
             background: 'white',
         }
-        if (mass[el].crit != undefined) {
-            switch (mass[el].crit.toString()) {
-                case '0': {
-                    style = {
-                        background: 'white',
-                        fontSize: 10,
+        if (mass != "ZERO") {
+            if (mass[el].crit != undefined) {
+                switch (mass[el].crit.toString()) {
+                    case '0': {
+                        style = {
+                            background: 'white',
+                            fontSize: 10,
+                        }
+                        break;
                     }
-                    break;
-                }
-                case '1': {
-                    style = {
-                        background: 'white',
-                        fontSize: 10,
-                    }
+                    case '1': {
+                        style = {
+                            background: 'white',
+                            fontSize: 10,
+                        }
 
-                    break;
-                }
-                case '2': {
-                    style = {
-                        background: 'yellow',
-                        fontSize: 10,
+                        break;
                     }
+                    case '2': {
+                        style = {
+                            background: 'yellow',
+                            fontSize: 10,
+                        }
 
-                    break;
-                }
-                case '3': {
-                    style = {
-                        background: 'hotpink',
-                        fontSize: 10,
+                        break;
                     }
+                    case '3': {
+                        style = {
+                            background: 'hotpink',
+                            fontSize: 10,
+                        }
 
-                    break;
+                        break;
+                    }
                 }
             }
         }

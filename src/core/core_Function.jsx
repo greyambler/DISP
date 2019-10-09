@@ -4,6 +4,7 @@ import moment from 'moment';
 // нужные адреса
 
 //http://172.23.16.18:8080/dprest-1.0-SNAPSHOT/webresources/ru.expertek.dp.dpfacade.dic
+//http://172.23.16.18:8080/dprest-1.0-SNAPSHOT/webresources/ru.expertek.dp.dpfacade.azk
 
 const IP_Server = "http://172.23.16.18:8080";
 
@@ -1015,7 +1016,8 @@ export function Get_MainHead(TCO) {
   let TsoVal = new Array();
   for (const key in TCO) {
     if (key == "nm"  || key == "id" || key == "typ") 
-    {  Tso.push(key);
+    {  
+      Tso.push(key);
       TsoVal[key] = TCO[key];
     }
   }

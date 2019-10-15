@@ -429,11 +429,12 @@ export default class tcoTree extends Component {
     full_Value() {
         if (this.state.TCO != null) {
             if (this.state.DeVal != null && this.state.DeVal != undefined && this.state.DeVal.id != null) {
+
                 let F_mass = Get_Device_ID_WS(this.state.DeVal.id, this.state.TCO);
                 if (F_mass != null) {
                     let TextValue = isOpExist_TSO(this.props._List_Objs.dvctyptree, this.state.DeVal.values[0]);
-
                     if (TextValue != null) {
+
                         F_mass[this.state.DeVal.values[0].typ] =
                             {
                                 text: TextValue + ' [' + this.state.DeVal.values[0].val + '] ' + "{" + this.state.DeVal.values[0].crit + "}",

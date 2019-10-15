@@ -255,3 +255,12 @@ data/src/Login/w_Login.jsx.i
 data/src/azs/edit/row_TR.jsx.i
 data/src/azs/edit/w_TableEditASZS.jsx.i
 data/src/control/history.js.i
+data/src/azs_sf/Svae_Old/w_AZS_SF.jsx.i
+data/src/w_AZS_SF.jsx.i
+data/src/azs_sf/Svae_Old/FilePlayer.jsx.i
+data/src/control/w_ModalError.jsx.i
+data/public/images/24/Succes.png.i
+data/public/images/24/No connection.png.i
+data/src/azs_sf/w_main_azs.jsx.i
+data/src/control/w_ModalSucces.jsx.i
+data/src/azs_sf/Svae_Old/w_AZS_SF VideoTest.jsx.i

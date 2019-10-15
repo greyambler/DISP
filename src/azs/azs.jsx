@@ -359,6 +359,9 @@ export default class azs extends Component {
 
     render() {
         let _height = this.props.w_Height - 150 + "px";
+        if(this.props.data != null){
+            let r=0;
+        }
 
         //Get_Key_View_PL(this.state.List_Fields_PL, this.state.PLs, this.props.View_Filter_PL);
 

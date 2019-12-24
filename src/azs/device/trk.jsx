@@ -10,7 +10,7 @@ import AZS_Image from '../../control/AZS_Image.jsx'
 
 import moment from 'moment';
 
-const _Debuge = false;
+const _Debuge = true;
 const _Debuge_Message = true;
 
 let TRK_Text = 'white';

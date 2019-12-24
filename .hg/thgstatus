@@ -1,10 +1,5 @@
 m
 m.vscode
-mpublic
 msrc
-msrc/Auth
-msrc/Login
 msrc/azs
 msrc/azs/device
-msrc/azs/edit
-msrc/core

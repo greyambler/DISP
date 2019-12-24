@@ -675,7 +675,7 @@ export default class w_main_azs extends React.Component {
                                     </td>
                                     <td >
                                         <div className='div_Region'>
-                                            <S_Link 
+                                            <S_Link
                                                 activeClass="active" className="test1" to="test1" spy={true} smooth={true} duration={500} offset={-210}>резервуары</S_Link>
                                         </div>
                                     </td>

@@ -50,7 +50,7 @@ export default class w_Login extends React.Component {
     async handleSubmit(event) {
         let _anser = await this.Post_Data(event);
         
-        this.props.history.push('/');
+        //this.props.history.push('/');
         window.location.reload(true);
     }
     async Post_Data(event) {///Отправка формы

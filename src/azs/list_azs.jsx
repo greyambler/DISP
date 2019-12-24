@@ -7,6 +7,10 @@ function get_Json_String(mstring) {
     var mS = [];
     mS[0] = mstring;
     const T_Json = JSON.stringify(mstring);
+
+    let n = JSON.parse(T_Json);
+
+    
     return T_Json;
 
 }
